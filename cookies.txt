@@ -1,0 +1,11 @@
+# HTTrack Website Copier Cookie File
+# This file format is compatible with Netscape cookies
+www.cxmotor.com.tw	TRUE	/	FALSE	1999999999	AWSALBTG	wlPhLVh0bxJSoxCtb8BJNuoUTCRuEc9ZhX/hEa0ZZwECVYk27fY0K2SumsXKXhoJKHEnIC9gKp0BxQ0ROFLHx0d694uhjI54ZBTweGEEYOt8i0lw4i8MY3onA7O0Ns0jv0xW+tKZSzpzVmsum7LaE3y25Zs/hPSYNzT9GPE6pDBi
+www.cxmotor.com.tw	TRUE	/	FALSE	1999999999	AWSALBTGCORS	wlPhLVh0bxJSoxCtb8BJNuoUTCRuEc9ZhX/hEa0ZZwECVYk27fY0K2SumsXKXhoJKHEnIC9gKp0BxQ0ROFLHx0d694uhjI54ZBTweGEEYOt8i0lw4i8MY3onA7O0Ns0jv0xW+tKZSzpzVmsum7LaE3y25Zs/hPSYNzT9GPE6pDBi
+www.cxmotor.com.tw	TRUE	/	FALSE	1999999999	SameSite	None
+www.cxmotor.com.tw	TRUE	/	FALSE	1999999999	_spt	abfbb8361f5a43f3bc25f065411e3cae
+www.cxmotor.com.tw	TRUE	/	FALSE	1999999999	locale	en
+www.cxmotor.com.tw	TRUE	/	FALSE	1999999999	_csrf_token	SEZaUGVpbkVVUkdsSUFFR0xNbWYza2JmOGp2UUhDZmp4RDh2bC9FUjQyQm4wQjh2WkJBaTN2bkVmVXVNVE5RdS0tV3BGRzFJS2toa09iMVJoVkFOcDVRZz09--a4469916251fb188d41e83582756697cae7554bd
+www.cxmotor.com.tw	TRUE	/	FALSE	1999999999	XSRF-TOKEN	2nin00RCc0EMJ84XHj6vAKJX8AIli%2FEukw1PqR7dnlQkqgQZPs13wmNoVGkRvhzIlDMfT6RkxnghVzdiRgPBcw%3D%3D
+www.cxmotor.com.tw	TRUE	/	FALSE	1999999999	_shop_shopline_session_id_v3	50c23ddac810990cb8c420fbe5c554a1
+

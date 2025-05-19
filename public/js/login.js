@@ -175,6 +175,10 @@ function initFormSubmission() {
                 // 設置用戶登入狀態
                 localStorage.setItem('isLoggedIn', 'true');
                 
+                // 儲存用戶資訊
+                const username = emailInput.value.split('@')[0]; // 從電子郵件擷取用戶名
+                localStorage.setItem('username', username);
+                
                 // 模擬登入成功
                 showNotification('登入成功！即將跳轉到首頁...', 'success');
                 

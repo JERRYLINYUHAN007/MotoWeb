@@ -295,4 +295,88 @@ function initializeFilters() {
             filterForm.dispatchEvent(new Event('submit'));
         });
     });
-} 
+}
+
+// 展示案例資料
+const showcaseItems = [
+    {
+        id: 1,
+        title: 'SYM DRG 運動改裝',
+        image: 'images/bikes/drg.jpg',
+        author: {
+            name: '小志',
+            avatar: 'images/avatars/user1.jpg'
+        },
+        category: 'scooter',
+        style: 'street',
+        model: 'SYM DRG',
+        description: '升級LED大燈、運動型排氣管與懸吊，提升操控與外觀。',
+        date: '2025-04-10',
+        tags: ['LED大燈', '排氣管', '懸吊', 'SYM'],
+        stats: {
+            likes: 120,
+            comments: 8,
+            views: 500
+        }
+    },
+    {
+        id: 2,
+        title: 'SYM MMBCU 日常通勤改裝',
+        image: 'images/bikes/mmbcu.jpg',
+        author: {
+            name: '阿明',
+            avatar: 'images/avatars/user2.jpg'
+        },
+        category: 'scooter',
+        style: 'street',
+        model: 'SYM MMBCU',
+        description: '換裝LED方向燈與運動型後避震，兼顧安全與舒適。',
+        date: '2025-04-09',
+        tags: ['方向燈', '避震', 'SYM'],
+        stats: {
+            likes: 85,
+            comments: 5,
+            views: 320
+        }
+    },
+    {
+        id: 3,
+        title: 'SYM SL 街頭風格改裝',
+        image: 'images/bikes/sl.jpg',
+        author: {
+            name: '小美',
+            avatar: 'images/avatars/user3.jpg'
+        },
+        category: 'scooter',
+        style: 'street',
+        model: 'SYM SL',
+        description: '外觀升級與排氣管改裝，展現個人風格。',
+        date: '2025-04-08',
+        tags: ['外觀', '排氣管', 'SYM'],
+        stats: {
+            likes: 60,
+            comments: 3,
+            views: 210
+        }
+    },
+    {
+        id: 4,
+        title: 'SYM SR 都會通勤改裝',
+        image: 'images/bikes/sr.jpg',
+        author: {
+            name: '阿宏',
+            avatar: 'images/avatars/user4.jpg'
+        },
+        category: 'scooter',
+        style: 'street',
+        model: 'SYM SR',
+        description: '加裝LED大燈與避震，提升夜間安全與舒適性。',
+        date: '2025-04-07',
+        tags: ['LED大燈', '避震', 'SYM'],
+        stats: {
+            likes: 45,
+            comments: 2,
+            views: 150
+        }
+    }
+]; 

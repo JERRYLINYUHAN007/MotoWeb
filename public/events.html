@@ -11,14 +11,83 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* 用戶菜單樣式 */
+        .user-menu {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .user-avatar {
+            display: flex;
+            align-items: center;
+            padding: 5px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .user-avatar:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .user-avatar img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .user-avatar .username {
+            color: white;
+            font-weight: 500;
+            max-width: 120px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 180px;
+            background-color: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 8px 0;
+            z-index: 100;
+            display: none;
+        }
+        
+        .dropdown-menu.show {
+            display: block;
+        }
+        
+        .dropdown-menu a {
+            display: block;
+            padding: 8px 16px;
+            color: #333;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+        
+        .dropdown-menu a:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .dropdown-menu i {
+            width: 16px;
+            margin-right: 8px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body class="events-page">
     <nav class="navbar">
         <div class="container nav-container">
             <div class="logo">
-                <a href="index.html" aria-label="MotoMod首頁">
-                    <img src="images/logo.svg" alt="MotoMod Logo" class="logo-img">
-                    <h1>MotoMod</h1>
+                <a href="index.html" aria-label="motoweb首頁">
+                    <img src="images/motoweb-logo.svg" alt="motoweb Logo" class="logo-img">
                 </a>
             </div>
             <div class="nav-links" id="navLinks">
@@ -32,6 +101,18 @@
                 <div class="auth-buttons">
                     <a href="login.html" class="btn btn-secondary">登入</a>
                     <a href="register.html" class="btn btn-primary">註冊</a>
+                </div>
+                <div class="user-menu" style="display: none;">
+                    <div class="user-avatar">
+                        <img src="/images/default-avatar.svg" alt="用戶頭像" class="avatar">
+                        <span class="username">用戶名稱</span>
+                    </div>
+                    <div class="dropdown-menu">
+                        <a href="/profile.html"><i class="fas fa-user"></i> 個人資料</a>
+                        <a href="/garage.html"><i class="fas fa-motorcycle"></i> 我的車庫</a>
+                        <a href="/settings.html"><i class="fas fa-cog"></i> 帳號設定</a>
+                        <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> 登出</a>
+                    </div>
                 </div>
             </div>
             <button class="menu-toggle" aria-label="展開選單" aria-expanded="false" aria-controls="navLinks">
@@ -157,6 +238,7 @@
                         載入更多活動
                     </button>
                 </div>
+                <div id="errorLog" class="error-message" style="color: #999; font-size: 0.8rem; margin-top: 10px; text-align: center;"></div>
             </div>
         </section>
 
@@ -279,8 +361,7 @@
             <div class="footer-content">
                 <div class="footer-section about">
                     <div class="footer-logo">
-                        <img src="images/logo-white.svg" alt="MotoMod Logo" class="footer-logo-img">
-                        <h3>MotoMod</h3>
+                        <img src="MOTOWEB.png" alt="motoweb Logo" class="footer-logo-img">
                     </div>
                     <p>專業的摩托車改裝社群平台，為車友提供交流與分享的空間。</p>
                     <div class="social-links">
@@ -575,5 +656,63 @@
     <script src="js/main.js"></script>
     <script src="js/events.js"></script>
     <script src="js/auth-state.js"></script>
+    <script>
+        // 檢查用戶登入狀態
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            const authButtons = document.querySelector('.auth-buttons');
+            const userMenu = document.querySelector('.user-menu');
+            
+            if (isLoggedIn) {
+                // 用戶已登入，顯示用戶菜單，隱藏登入/註冊按鈕
+                if (authButtons) authButtons.style.display = 'none';
+                if (userMenu) {
+                    userMenu.style.display = 'block';
+                    
+                    // 從localStorage獲取用戶信息並顯示
+                    const username = localStorage.getItem('username') || '用戶';
+                    const usernameElement = userMenu.querySelector('.username');
+                    if (usernameElement) usernameElement.textContent = username;
+                    
+                    // 點擊頭像顯示下拉菜單
+                    const userAvatar = userMenu.querySelector('.user-avatar');
+                    const dropdownMenu = userMenu.querySelector('.dropdown-menu');
+                    
+                    if (userAvatar && dropdownMenu) {
+                        userAvatar.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            dropdownMenu.classList.toggle('show');
+                        });
+                        
+                        // 點擊其他地方關閉下拉菜單
+                        document.addEventListener('click', function() {
+                            dropdownMenu.classList.remove('show');
+                        });
+                        
+                        // 防止點擊下拉菜單本身導致關閉
+                        dropdownMenu.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                        });
+                    }
+                    
+                    // 登出功能
+                    const logoutBtn = document.getElementById('logout');
+                    if (logoutBtn) {
+                        logoutBtn.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            localStorage.removeItem('isLoggedIn');
+                            localStorage.removeItem('username');
+                            localStorage.removeItem('token');
+                            window.location.reload();
+                        });
+                    }
+                }
+            } else {
+                // 用戶未登入，顯示登入/註冊按鈕，隱藏用戶菜單
+                if (authButtons) authButtons.style.display = 'flex';
+                if (userMenu) userMenu.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="metalGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#888;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#ddd;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#888;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="redGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#cc0000;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#ff3333;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#cc0000;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <rect width="200" height="200" fill="#f0f0f0" />
+  
+  <!-- 煞車碟盤 -->
+  <circle cx="100" cy="100" r="70" fill="url(#metalGrad)" stroke="#444" stroke-width="1" />
+  <circle cx="100" cy="100" r="45" fill="#f0f0f0" stroke="#444" stroke-width="1" />
+  
+  <!-- 排氣孔 -->
+  <g>
+    <path d="M100,30 L100,45" stroke="#444" stroke-width="2" />
+    <path d="M65,65 L75,75" stroke="#444" stroke-width="2" />
+    <path d="M30,100 L45,100" stroke="#444" stroke-width="2" />
+    <path d="M65,135 L75,125" stroke="#444" stroke-width="2" />
+    <path d="M100,170 L100,155" stroke="#444" stroke-width="2" />
+    <path d="M135,135 L125,125" stroke="#444" stroke-width="2" />
+    <path d="M170,100 L155,100" stroke="#444" stroke-width="2" />
+    <path d="M135,65 L125,75" stroke="#444" stroke-width="2" />
+  </g>
+  
+  <!-- 煞車卡鉗 -->
+  <path d="M150,70 L170,70 Q180,85 180,100 Q180,115 170,130 L150,130 Z" fill="url(#redGrad)" stroke="#444" stroke-width="2" />
+  <rect x="150" y="70" width="5" height="60" fill="#222" />
+  <rect x="160" y="70" width="5" height="60" fill="#222" />
+</svg> 

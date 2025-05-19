@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>產品詳細資訊 - MotoWeb</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .product-detail-main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .breadcrumb {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .breadcrumb li {
+            display: inline;
+            font-size: 0.9rem;
+            color: var(--text-color-light);
+        }
+
+        .breadcrumb li a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .breadcrumb li a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb li::after {
+            content: '>';
+            margin: 0 0.5rem;
+        }
+
+        .breadcrumb li:last-child::after {
+            content: '';
+        }
+
+        .product-detail-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Two equal columns */
+            gap: 2.5rem;
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow-light);
+        }
+
+        .product-image-section img {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            object-fit: cover;
+        }
+        /* TODO: Add styles for image gallery if implemented */
+
+        .product-info-section .product-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 0.75rem;
+        }
+
+        .product-info-section .product-brand {
+            font-size: 1rem;
+            color: var(--text-color-light);
+            margin-bottom: 1rem;
+        }
+        
+        .product-info-section .product-brand a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        .product-info-section .product-brand a:hover {
+            text-decoration: underline;
+        }
+
+        .product-info-section .product-price {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .product-info-section .product-short-description {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .product-actions .quantity-selector {
+            margin-bottom: 1.5rem;
+        }
+
+        .product-actions label {
+            margin-right: 0.5rem;
+            font-weight: 500;
+        }
+
+        .product-actions input[type="number"] {
+            width: 60px;
+            padding: 0.5rem;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .product-actions .add-to-cart-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            text-align: center;
+        }
+
+        .product-actions .add-to-cart-btn:hover {
+            background-color: var(--primary-color-dark);
+        }
+        
+        .product-additional-details {
+            margin-top: 3rem;
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow-light);
+        }
+
+        .product-additional-details h3 {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .product-additional-details .description-content,
+        .product-additional-details .specs-content {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--text-color);
+        }
+        
+        .product-additional-details .specs-content ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .product-additional-details .specs-content li {
+            padding: 0.3rem 0;
+            border-bottom: 1px dashed #f0f0f0;
+        }
+        .product-additional-details .specs-content li:last-child {
+            border-bottom: none;
+        }
+        .product-additional-details .specs-content li strong {
+            color: var(--text-color-dark);
+            min-width: 120px;
+            display: inline-block;
+        }
+
+
+        @media (max-width: 992px) {
+            .product-detail-container {
+                grid-template-columns: 1fr; /* Stack columns on smaller screens */
+            }
+            .product-image-section img {
+                max-width: 100%;
+            }
+        }
+        @media (max-width: 768px) {
+             .product-info-section .product-title {
+                font-size: 1.6rem;
+            }
+            .product-info-section .product-price {
+                font-size: 1.5rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <!-- Navbar content will be inserted by common.js -->
+    </nav>
+
+    <main class="product-detail-main">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb" id="breadcrumb-container">
+                <!-- Breadcrumbs will be populated by JavaScript -->
+            </ol>
+        </nav>
+
+        <div id="product-not-found" style="display:none; text-align:center; padding: 2rem;">
+            <h2><i class="fas fa-exclamation-triangle"></i> 找不到產品</h2>
+            <p>抱歉，我們找不到您所選的產品。請返回<a href="products.html">產品列表</a>頁面。</p>
+        </div>
+
+        <section class="product-detail-container" id="product-detail-content">
+            <div class="product-image-section">
+                <img id="product-image" src="images/parts/placeholder-product.png" alt="產品圖片">
+                <!-- TODO: Image gallery thumbnails could go here -->
+            </div>
+
+            <div class="product-info-section">
+                <h1 id="product-name" class="product-title">產品名稱載入中...</h1>
+                <p class="product-brand">品牌: <a href="#" id="product-brand-link"><span id="product-brand">N/A</span></a></p>
+                <p id="product-price" class="product-price">NT$0</p>
+                
+                <div id="product-short-description" class="product-short-description">
+                    <p>產品簡介載入中...</p>
+                </div>
+
+                <div class="product-actions">
+                    <div class="quantity-selector">
+                        <label for="quantity">數量:</label>
+                        <input type="number" id="quantity" name="quantity" value="1" min="1">
+                    </div>
+                    <button id="add-to-cart-btn" class="add-to-cart-btn">
+                        <i class="fas fa-shopping-cart"></i> 加入購物車
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="product-additional-details" id="product-additional-content">
+            <div class="product-description">
+                <h3><i class="fas fa-file-alt"></i> 商品詳情</h3>
+                <div id="product-full-description" class="description-content">
+                    <p>詳細說明載入中...</p>
+                </div>
+            </div>
+            <hr style="margin: 2rem 0; border-color: #eee;">
+            <div class="product-specs">
+                <h3><i class="fas fa-list-ul"></i> 商品規格</h3>
+                <div id="product-specifications" class="specs-content">
+                    <ul>
+                        <li><strong>規格:</strong> 載入中...</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <!-- Footer content will be inserted by common.js -->
+    </footer>
+
+    <script src="/js/common.js"></script>
+    <script src="js/auth-state.js"></script>
+    <script>
+        // Mock product data (This should ideally be in a shared file or fetched from a backend)
+        // Adding more fields like shortDescription, fullDescription, specifications
+         const mockProductDetailDB = {
+            "jet-z2-fork": { 
+                id: "jet-z2-fork", name: "【怪獸工廠Z2 PRO前叉】", price: 18800, image: "images/parts/怪獸工廠Z2 PRO前叉.webp", 
+                category: "sym-jet-suspension", mainCategory: "sym-jet", brand: "怪獸工廠", dateAdded: "2024-05-01",
+                shortDescription: "專為JET車系設計的高性能Z2 PRO前避震器，提供卓越的操控性和舒適度。",
+                fullDescription: "<p>怪獸工廠最新力作 Z2 PRO 前叉避震器，採用精密CNC加工與強化阻尼設定，有效吸收路面衝擊，提升騎乘穩定性。無論是賽道競技或山路遨遊，都能帶來極致的駕馭體驗。</p><p>特性：<br>- 客製化配色選擇<br>- 預載、阻尼可調<br>- 輕量化高剛性材質</p>",
+                specifications: { "適用車種": "SYM JET S/SR/SL", "材質": "航太級鋁合金", "保固": "一年原廠保固" }
+            },
+            "mmbcu-brembo-caliper": {
+                id: "mmbcu-brembo-caliper", name: "【Brembo MMBCU對四卡鉗】基本對四系列", price: 7800, image: "images/parts/mmbcu-caliper-brembo.jpg",
+                category: "sym-mmbcu-brake", mainCategory: "sym-mmbcu", brand: "Brembo", dateAdded: "2024-03-01",
+                shortDescription: "義大利Brembo出品，MMBCU專用對四活塞卡鉗，提供強勁且線性的制動力。",
+                fullDescription: "<p>提升愛車制動性能的最佳選擇之一。Brembo基本對四卡鉗，提供優異的煞車手感與力道，確保行車安全。陽極黑配色低調帥氣。</p>",
+                specifications: { "適用車種": "SYM MMBCU", "活塞": "對向四活塞", "材質": "鍛造鋁合金", "顏色": "陽極黑" }
+            },
+            "jet-simota-mirror": { 
+                id: "jet-simota-mirror", name: "【SIMOTA碳纖維後照鏡】", price: 8000, image: "images/parts/SIMOTA碳纖維後照鏡.webp", 
+                category: "sym-jet-appearance", mainCategory: "sym-jet", brand: "SIMOTA", dateAdded: "2024-04-20",
+                shortDescription: "輕量化SIMOTA碳纖維後照鏡，藍鏡鏡面，造型獨特，提升愛車質感。",
+                fullDescription: "<p>SIMOTA出品的高質感碳纖維後照鏡，採用正碳纖維材質，兼具輕量化與高強度。獨特的造型設計，讓您的愛車更具戰鬥氣息。鏡面採用防眩光藍鏡，提升夜間行車安全。</p>",
+                specifications: { "適用車種": "通用型 (附各車系轉接座)", "材質": "碳纖維 + 鋁合金", "鏡面": "防眩光藍鏡" }
+            },
+            "jet-masa-disk-fixed": {
+                id: "jet-masa-disk-fixed", name: "【MASA固定碟盤-劃線版】", price: 3200, image: "images/parts/MASA固定碟盤-劃線版.webp",
+                category: "sym-jet-brake", mainCategory: "sym-jet", brand: "MASA", dateAdded: "2024-04-15",
+                shortDescription: "MASA高品質固定碟盤，採用特殊劃線設計，提供更好的制動效果。",
+                fullDescription: "<p>MASA固定碟盤採用高品質不銹鋼材質，特殊劃線設計有效提升制動效果，同時具備優異的散熱性能。適合日常騎乘使用，提供穩定可靠的制動力道。</p>",
+                specifications: { "適用車種": "SYM JET系列", "材質": "不銹鋼", "尺寸": "原廠規格" }
+            },
+            "jet-koso-taillight": {
+                id: "jet-koso-taillight", name: "【KOSO衝刺尾燈】", price: 2800, image: "images/parts/KOSO衝刺尾燈.webp",
+                category: "sym-jet-appearance", mainCategory: "sym-jet", brand: "KOSO", dateAdded: "2024-04-10",
+                shortDescription: "KOSO新款LED尾燈，流線型設計，提供更好的視覺效果和安全性。",
+                fullDescription: "<p>KOSO衝刺尾燈採用最新LED光源技術，具備日行燈功能，夜間行車更安全。流線型外觀設計完美融入車體，安裝簡單，即插即用。</p>",
+                specifications: { "適用車種": "SYM JET系列", "光源": "LED", "功能": "煞車燈/位置燈/方向燈" }
+            },
+            "jet-baphomet-fuel-cap": {
+                id: "jet-baphomet-fuel-cap", name: "【巴風特油箱蓋】", price: 1500, image: "images/parts/巴風特油箱蓋.webp",
+                category: "sym-jet-appearance", mainCategory: "sym-jet", brand: "巴風特", dateAdded: "2024-04-05",
+                shortDescription: "CNC切削加工油箱蓋，造型獨特，安裝簡單。",
+                fullDescription: "<p>巴風特油箱蓋採用航太級鋁合金材質，CNC精密切削加工，表面經過硬質陽極處理，耐用度高。造型獨特，安裝簡單，可直接替換原廠油箱蓋。</p>",
+                specifications: { "適用車種": "SYM JET系列", "材質": "鋁合金", "表面處理": "硬質陽極" }
+            },
+            "jet-apexx-gt-exhaust-cover": {
+                id: "jet-apexx-gt-exhaust-cover", name: "【APEXX GT防燙蓋】", price: 2200, image: "images/parts/APEXX GT防燙蓋.webp",
+                category: "sym-jet-appearance", mainCategory: "sym-jet", brand: "APEXX", dateAdded: "2024-04-01",
+                shortDescription: "APEXX GT系列排氣管防燙蓋，有效降低燙傷風險。",
+                fullDescription: "<p>APEXX GT防燙蓋採用特殊隔熱材質，有效降低排氣管表面溫度，防止燙傷。外觀設計時尚，與車體完美融合，安裝簡單。</p>",
+                specifications: { "適用車種": "SYM JET系列", "材質": "特殊隔熱材質", "重量": "輕量化設計" }
+            },
+            "jet-gjms-tcd2000": {
+                id: "jet-gjms-tcd2000", name: "【GJMS TCD2000前叉】", price: 16800, image: "images/parts/GJMS TCD2000前叉.webp",
+                category: "sym-jet-suspension", mainCategory: "sym-jet", brand: "GJMS", dateAdded: "2024-03-25",
+                shortDescription: "GJMS頂級TCD2000前叉，提供卓越的操控性和舒適性。",
+                fullDescription: "<p>GJMS TCD2000前叉採用先進的阻尼控制技術，提供優異的路感和穩定性。全可調設計，可根據騎士需求進行個性化調整，適合運動騎乘和日常通勤。</p>",
+                specifications: { "適用車種": "SYM JET系列", "功能": "預載/回彈可調", "材質": "特殊鋁合金" }
+            }
+        };
+        
+        // Simplified category mapping for breadcrumbs
+        const categoryDisplayNames = {
+            "all-products": "所有產品",
+            "sym-jet": "SYM JET 全車系",
+            "sym-jet-power": "JET動力系統",
+            "sym-jet-brake": "JET煞車制動",
+            "sym-jet-suspension": "JET避震懸吊",
+            "sym-jet-appearance": "JET熱門外觀燈系",
+            "sym-drg": "SYM DRG",
+            "sym-drg-power": "DRG動力系統",
+            "sym-drg-suspension": "DRG避震懸吊",
+            "sym-mmbcu": "SYM MMBCU",
+            "sym-mmbcu-brake": "MMBCU煞車制動"
+        };
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+            const product = mockProductDetailDB[productId];
+
+            const productDetailContent = document.getElementById('product-detail-content');
+            const productAdditionalContent = document.getElementById('product-additional-content');
+            const productNotFoundDiv = document.getElementById('product-not-found');
+
+            if (product) {
+                productDetailContent.style.display = ''; // Or original display value like 'grid'
+                productAdditionalContent.style.display = '';
+                productNotFoundDiv.style.display = 'none';
+
+                document.title = `${product.name} - MotoWeb`;
+
+                // Populate breadcrumbs
+                const breadcrumbContainer = document.getElementById('breadcrumb-container');
+                breadcrumbContainer.innerHTML = `
+                    <li><a href="index.html">首頁</a></li>
+                    <li><a href="products.html">改裝零件</a></li>
+                    ${product.mainCategory && categoryDisplayNames[product.mainCategory] ? `<li><a href="products.html?category=${product.mainCategory}">${categoryDisplayNames[product.mainCategory]}</a></li>` : ''}
+                    ${product.category && categoryDisplayNames[product.category] && product.category !== product.mainCategory ? `<li><a href="products.html?category=${product.category}">${categoryDisplayNames[product.category]}</a></li>` : ''}
+                    <li>${product.name}</li>
+                `;
+                
+                document.getElementById('product-image').src = product.image || 'images/parts/placeholder-product.png';
+                document.getElementById('product-image').alt = product.name;
+                document.getElementById('product-name').textContent = product.name;
+                document.getElementById('product-brand').textContent = product.brand || 'N/A';
+                if(product.brand) {
+                    // Assuming brand link goes to a filtered product page by brand (not implemented yet)
+                    document.getElementById('product-brand-link').href = `products.html?brand=${encodeURIComponent(product.brand)}`;
+                }
+                document.getElementById('product-price').textContent = `NT$${product.price.toLocaleString()}`;
+                
+                const shortDescEl = document.getElementById('product-short-description');
+                if (product.shortDescription) {
+                    shortDescEl.innerHTML = product.shortDescription; // Allow basic HTML if any
+                } else {
+                    shortDescEl.innerHTML = '<p>此產品暫無簡短描述。</p>';
+                }
+
+                const fullDescEl = document.getElementById('product-full-description');
+                if (product.fullDescription) {
+                    fullDescEl.innerHTML = product.fullDescription; // Allow HTML for rich text
+                } else {
+                    fullDescEl.innerHTML = '<p>此產品暫無詳細說明。</p>';
+                }
+
+                const specsEl = document.getElementById('product-specifications').querySelector('ul');
+                if (product.specifications && Object.keys(product.specifications).length > 0) {
+                    specsEl.innerHTML = ''; // Clear loading message
+                    for (const key in product.specifications) {
+                        const listItem = document.createElement('li');
+                        listItem.innerHTML = `<strong>${key}:</strong> ${product.specifications[key]}`;
+                        specsEl.appendChild(listItem);
+                    }
+                } else {
+                    specsEl.innerHTML = '<li><strong>規格:</strong> 此產品暫無詳細規格。</li>';
+                }
+
+                const addToCartBtn = document.getElementById('add-to-cart-btn');
+                addToCartBtn.addEventListener('click', () => {
+                    // Placeholder for add to cart functionality
+                    const quantity = document.getElementById('quantity').value;
+                    alert(`已將 ${quantity} 件 "${product.name}" 加入購物車 (模擬功能)`);
+                    // Here you would typically interact with a cart system
+                });
+
+            } else {
+                document.title = "找不到產品 - MotoWeb";
+                productDetailContent.style.display = 'none';
+                productAdditionalContent.style.display = 'none';
+                productNotFoundDiv.style.display = 'block';
+                 // Clear breadcrumbs or set a "Not Found" breadcrumb
+                const breadcrumbContainer = document.getElementById('breadcrumb-container');
+                breadcrumbContainer.innerHTML = `
+                    <li><a href="index.html">首頁</a></li>
+                    <li><a href="products.html">改裝零件</a></li>
+                    <li>找不到產品</li>
+                `;
+            }
+
+            if (typeof initMobileNav === 'function') initMobileNav();
+            if (typeof initAuthState === 'function') initAuthState();
+        });
+    </script>
+</body>
+</html> 

@@ -8,14 +8,83 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/showcase.css">
+    <style>
+        /* 用戶菜單樣式 */
+        .user-menu {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .user-avatar {
+            display: flex;
+            align-items: center;
+            padding: 5px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .user-avatar:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .user-avatar img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .user-avatar .username {
+            color: white;
+            font-weight: 500;
+            max-width: 120px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 180px;
+            background-color: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 8px 0;
+            z-index: 100;
+            display: none;
+        }
+        
+        .dropdown-menu.show {
+            display: block;
+        }
+        
+        .dropdown-menu a {
+            display: block;
+            padding: 8px 16px;
+            color: #333;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+        
+        .dropdown-menu a:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .dropdown-menu i {
+            width: 16px;
+            margin-right: 8px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body class="showcase-page">
     <nav class="navbar">
         <div class="container nav-container">
             <div class="logo">
-                <a href="index.html" aria-label="MotoMod首頁">
-                    <img src="images/logo.svg" alt="MotoMod Logo" class="logo-img">
-                    <h1>MotoMod</h1>
+                <a href="index.html" aria-label="motoweb首頁">
+                    <img src="MOTOWEB.png" alt="motoweb Logo" class="logo-img">
                 </a>
             </div>
             <div class="nav-links" id="navLinks">
@@ -30,6 +99,18 @@
                 <div class="auth-buttons">
                     <a href="login.html" class="btn btn-secondary">登入</a>
                     <a href="register.html" class="btn btn-primary">註冊</a>
+                </div>
+                <div class="user-menu" style="display: none;">
+                    <div class="user-avatar">
+                        <img src="/images/default-avatar.svg" alt="用戶頭像" class="avatar">
+                        <span class="username">用戶名稱</span>
+                    </div>
+                    <div class="dropdown-menu">
+                        <a href="/profile.html"><i class="fas fa-user"></i> 個人資料</a>
+                        <a href="/garage.html"><i class="fas fa-motorcycle"></i> 我的車庫</a>
+                        <a href="/settings.html"><i class="fas fa-cog"></i> 帳號設定</a>
+                        <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> 登出</a>
+                    </div>
                 </div>
             </div>
             <button class="menu-toggle" aria-label="展開選單" aria-expanded="false" aria-controls="navLinks">
@@ -80,6 +161,20 @@
                     <label><input type="checkbox" value="honda"> Honda</label>
                     <label><input type="checkbox" value="suzuki"> Suzuki</label>
                     <label><input type="checkbox" value="kawasaki"> Kawasaki</label>
+                    <label><input type="checkbox" value="sym"> SYM</label>
+                </div>
+            </div>
+            <div class="filter-group">
+                <h3>車款型號</h3>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" value="drg"> DRG</label>
+                    <label><input type="checkbox" value="mmbcu"> MMB CU</label>
+                    <label><input type="checkbox" value="sl"> SL</label>
+                    <label><input type="checkbox" value="sr"> SR</label>
+                    <label><input type="checkbox" value="force"> FORCE</label>
+                    <label><input type="checkbox" value="cygnus"> CYGNUS</label>
+                    <label><input type="checkbox" value="krv"> KRV</label>
+                    <label><input type="checkbox" value="augur"> AUGUR</label>
                 </div>
             </div>
             <div class="filter-group">
@@ -106,38 +201,247 @@
 
         <!-- 展示網格 -->
         <div class="showcase-grid">
-            <!-- 展示卡片範例 -->
+            <!-- SYM DRG 改裝案例 -->
             <article class="showcase-card">
                 <div class="card-image">
-                    <img src="images/showcase/bike1.jpg" alt="改裝機車展示">
+                    <img src="images/bikes/drg.jpg" alt="SYM DRG 改裝展示">
                     <div class="card-badges">
                         <span class="badge featured">精選</span>
                         <span class="badge difficulty">中等難度</span>
                     </div>
                 </div>
                 <div class="card-content">
-                    <h3 class="card-title">YAMAHA R3 全車改裝</h3>
-                    <p class="card-description">完整的車身改裝，包含引擎強化、懸吊系統升級和外觀改造...</p>
+                    <h3 class="card-title">SYM DRG 運動改裝</h3>
+                    <p class="card-description">升級LED大燈、運動型排氣管與懸吊，提升操控與外觀。</p>
                     <div class="card-meta">
                         <div class="author">
                             <img src="images/avatars/user1.jpg" alt="作者頭像">
-                            <span>by 阿明</span>
+                            <span>by 小志</span>
                         </div>
                         <div class="stats">
-                            <span><i class="fas fa-heart"></i> 245</span>
-                            <span><i class="fas fa-comment"></i> 18</span>
-                            <span><i class="fas fa-eye"></i> 1.2k</span>
+                            <span><i class="fas fa-heart"></i> 120</span>
+                            <span><i class="fas fa-comment"></i> 8</span>
+                            <span><i class="fas fa-eye"></i> 500</span>
                         </div>
                     </div>
                     <div class="card-tags">
-                        <span class="tag">引擎改裝</span>
-                        <span class="tag">懸吊系統</span>
-                        <span class="tag">外觀改裝</span>
+                        <span class="tag">LED大燈</span>
+                        <span class="tag">排氣管</span>
+                        <span class="tag">懸吊</span>
                     </div>
                 </div>
             </article>
-
-            <!-- 更多卡片將由JavaScript動態生成 -->
+            <!-- SYM MMBCU 改裝案例 -->
+            <article class="showcase-card">
+                <div class="card-image">
+                    <img src="images/bikes/mmbcu.jpg" alt="SYM MMBCU 改裝展示">
+                    <div class="card-badges">
+                        <span class="badge featured">精選</span>
+                        <span class="badge difficulty">簡單</span>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">SYM MMBCU 日常通勤改裝</h3>
+                    <p class="card-description">換裝LED方向燈與運動型後避震，兼顧安全與舒適。</p>
+                    <div class="card-meta">
+                        <div class="author">
+                            <img src="images/avatars/user2.jpg" alt="作者頭像">
+                            <span>by 阿明</span>
+                        </div>
+                        <div class="stats">
+                            <span><i class="fas fa-heart"></i> 85</span>
+                            <span><i class="fas fa-comment"></i> 5</span>
+                            <span><i class="fas fa-eye"></i> 320</span>
+                        </div>
+                    </div>
+                    <div class="card-tags">
+                        <span class="tag">方向燈</span>
+                        <span class="tag">避震</span>
+                    </div>
+                </div>
+            </article>
+            <!-- SYM SL 改裝案例 -->
+            <article class="showcase-card">
+                <div class="card-image">
+                    <img src="images/bikes/sl.jpg" alt="SYM SL 改裝展示">
+                    <div class="card-badges">
+                        <span class="badge featured">精選</span>
+                        <span class="badge difficulty">進階</span>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">SYM SL 街頭風格改裝</h3>
+                    <p class="card-description">外觀升級與排氣管改裝，展現個人風格。</p>
+                    <div class="card-meta">
+                        <div class="author">
+                            <img src="images/avatars/user3.jpg" alt="作者頭像">
+                            <span>by 小美</span>
+                        </div>
+                        <div class="stats">
+                            <span><i class="fas fa-heart"></i> 60</span>
+                            <span><i class="fas fa-comment"></i> 3</span>
+                            <span><i class="fas fa-eye"></i> 210</span>
+                        </div>
+                    </div>
+                    <div class="card-tags">
+                        <span class="tag">外觀</span>
+                        <span class="tag">排氣管</span>
+                    </div>
+                </div>
+            </article>
+            <!-- SYM SR 改裝案例 -->
+            <article class="showcase-card">
+                <div class="card-image">
+                    <img src="images/bikes/sr.jpg" alt="SYM SR 改裝展示">
+                    <div class="card-badges">
+                        <span class="badge featured">精選</span>
+                        <span class="badge difficulty">簡單</span>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">SYM SR 都會通勤改裝</h3>
+                    <p class="card-description">加裝LED大燈與避震，提升夜間安全與舒適性。</p>
+                    <div class="card-meta">
+                        <div class="author">
+                            <img src="images/avatars/user4.jpg" alt="作者頭像">
+                            <span>by 阿宏</span>
+                        </div>
+                        <div class="stats">
+                            <span><i class="fas fa-heart"></i> 45</span>
+                            <span><i class="fas fa-comment"></i> 2</span>
+                            <span><i class="fas fa-eye"></i> 150</span>
+                        </div>
+                    </div>
+                    <div class="card-tags">
+                        <span class="tag">LED大燈</span>
+                        <span class="tag">避震</span>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- SYM FORCE 改裝案例 -->
+            <article class="showcase-card">
+                <div class="card-image">
+                    <img src="images/bikes/FORCE.jpg" alt="SYM FORCE 改裝展示">
+                    <div class="card-badges">
+                        <span class="badge featured">精選</span>
+                        <span class="badge difficulty">中等難度</span>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">SYM FORCE 運動風格改裝</h3>
+                    <p class="card-description">性能避震系統與碳纖維排氣管，提升騎乘體驗與聲浪品質。</p>
+                    <div class="card-meta">
+                        <div class="author">
+                            <img src="images/avatars/user5.jpg" alt="作者頭像">
+                            <span>by 阿傑</span>
+                        </div>
+                        <div class="stats">
+                            <span><i class="fas fa-heart"></i> 95</span>
+                            <span><i class="fas fa-comment"></i> 7</span>
+                            <span><i class="fas fa-eye"></i> 420</span>
+                        </div>
+                    </div>
+                    <div class="card-tags">
+                        <span class="tag">避震系統</span>
+                        <span class="tag">碳纖維排氣管</span>
+                        <span class="tag">LED大燈</span>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- YAMAHA CYGNUS 改裝案例 -->
+            <article class="showcase-card">
+                <div class="card-image">
+                    <img src="images/bikes/CYGNUS GRYPHUS.jpg" alt="YAMAHA CYGNUS GRYPHUS 改裝展示">
+                    <div class="card-badges">
+                        <span class="badge featured">精選</span>
+                        <span class="badge difficulty">簡單</span>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">YAMAHA CYGNUS 舒適通勤改裝</h3>
+                    <p class="card-description">加裝舒適坐墊與握把，提高日常騎乘舒適度，適合長時間通勤。</p>
+                    <div class="card-meta">
+                        <div class="author">
+                            <img src="images/avatars/user6.jpg" alt="作者頭像">
+                            <span>by 小玲</span>
+                        </div>
+                        <div class="stats">
+                            <span><i class="fas fa-heart"></i> 72</span>
+                            <span><i class="fas fa-comment"></i> 4</span>
+                            <span><i class="fas fa-eye"></i> 280</span>
+                        </div>
+                    </div>
+                    <div class="card-tags">
+                        <span class="tag">舒適坐墊</span>
+                        <span class="tag">握把</span>
+                        <span class="tag">收納</span>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- SYM KRV 改裝案例 -->
+            <article class="showcase-card">
+                <div class="card-image">
+                    <img src="images/bikes/KRV.jpg" alt="SYM KRV 改裝展示">
+                    <div class="card-badges">
+                        <span class="badge featured">精選</span>
+                        <span class="badge difficulty">進階</span>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">SYM KRV 競技風格改裝</h3>
+                    <p class="card-description">全車空力套件與競技排氣系統，打造街道賽車風格。</p>
+                    <div class="card-meta">
+                        <div class="author">
+                            <img src="images/avatars/user7.jpg" alt="作者頭像">
+                            <span>by 阿勳</span>
+                        </div>
+                        <div class="stats">
+                            <span><i class="fas fa-heart"></i> 110</span>
+                            <span><i class="fas fa-comment"></i> 9</span>
+                            <span><i class="fas fa-eye"></i> 480</span>
+                        </div>
+                    </div>
+                    <div class="card-tags">
+                        <span class="tag">空力套件</span>
+                        <span class="tag">競技排氣</span>
+                        <span class="tag">煞車系統</span>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- SYM AUGUR 改裝案例 -->
+            <article class="showcase-card">
+                <div class="card-image">
+                    <img src="images/bikes/AUGUR.jpg" alt="SYM AUGUR 改裝展示">
+                    <div class="card-badges">
+                        <span class="badge featured">精選</span>
+                        <span class="badge difficulty">中等難度</span>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">SYM AUGUR 都會風格改裝</h3>
+                    <p class="card-description">優化懸吊系統與輪圈，提升穩定性與視覺效果。</p>
+                    <div class="card-meta">
+                        <div class="author">
+                            <img src="images/avatars/user8.jpg" alt="作者頭像">
+                            <span>by 小強</span>
+                        </div>
+                        <div class="stats">
+                            <span><i class="fas fa-heart"></i> 88</span>
+                            <span><i class="fas fa-comment"></i> 6</span>
+                            <span><i class="fas fa-eye"></i> 350</span>
+                        </div>
+                    </div>
+                    <div class="card-tags">
+                        <span class="tag">懸吊系統</span>
+                        <span class="tag">輪圈</span>
+                        <span class="tag">改裝後照鏡</span>
+                    </div>
+                </div>
+            </article>
         </div>
 
         <!-- 載入更多按鈕 -->
@@ -198,5 +502,68 @@
     <script src="/js/common.js"></script>
     <script src="/js/showcase.js"></script>
     <script src="js/auth-state.js"></script>
+    <script>
+        // 檢查用戶登入狀態
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            const authButtons = document.querySelector('.auth-buttons');
+            const userMenu = document.querySelector('.user-menu');
+            
+            if (isLoggedIn) {
+                // 用戶已登入，顯示用戶菜單，隱藏登入/註冊按鈕
+                if (authButtons) authButtons.style.display = 'none';
+                if (userMenu) {
+                    userMenu.style.display = 'block';
+                    
+                    // 從localStorage獲取用戶信息並顯示
+                    const username = localStorage.getItem('username') || '用戶';
+                    const usernameElement = userMenu.querySelector('.username');
+                    if (usernameElement) {
+                        usernameElement.textContent = username;
+                    }
+                    
+                    // 用戶菜單點擊切換
+                    const userAvatar = userMenu.querySelector('.user-avatar');
+                    const dropdownMenu = userMenu.querySelector('.dropdown-menu');
+                    
+                    if (userAvatar && dropdownMenu) {
+                        userAvatar.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            dropdownMenu.classList.toggle('show');
+                        });
+                        
+                        // 點擊其他地方關閉下拉菜單
+                        document.addEventListener('click', function() {
+                            dropdownMenu.classList.remove('show');
+                        });
+                    }
+                }
+            } else {
+                // 用戶未登入，顯示登入/註冊按鈕，隱藏用戶菜單
+                if (authButtons) authButtons.style.display = 'flex';
+                if (userMenu) userMenu.style.display = 'none';
+            }
+            
+            // 登出功能
+            const logoutButton = document.getElementById('logout');
+            if (logoutButton) {
+                logoutButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // 清除登入狀態
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('username');
+                    
+                    // 顯示登出成功提示
+                    alert('登出成功！');
+                    
+                    // 重新導向到首頁
+                    setTimeout(function() {
+                        window.location.href = 'index.html';
+                    }, 500);
+                });
+            }
+        });
+    </script>
 </body>
 </html> 

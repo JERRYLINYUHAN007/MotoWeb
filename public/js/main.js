@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loadDiscussions();
     initNewsletterForm();
     initPageTransitions();
+    initHeroSlider();
 });
 
 /**
@@ -333,4 +334,77 @@ function initPageTransitions() {
             }, 300);
         }
     });
+}
+
+// 首頁輪播功能
+function initHeroSlider() {
+    const sliderTrack = document.querySelector('.slider-track');
+    const slides = document.querySelectorAll('.slider-slide');
+    const prevBtn = document.querySelector('.slider-control.prev');
+    const nextBtn = document.querySelector('.slider-control.next');
+    
+    if (!sliderTrack || slides.length === 0) return;
+    
+    let currentIndex = 0;
+    const slideCount = slides.length;
+    let autoplayInterval;
+    
+    // 更新輪播位置
+    function updateSliderPosition() {
+        sliderTrack.style.transform = `translateX(-${currentIndex * 25}%)`;
+    }
+    
+    // 更新按鈕狀態
+    function updateButtonState() {
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex === slideCount - 1;
+    }
+    
+    // 開始自動輪播
+    function startAutoplay() {
+        autoplayInterval = setInterval(() => {
+            if (currentIndex < slideCount - 1) {
+                currentIndex++;
+            } else {
+                currentIndex = 0;
+            }
+            updateSliderPosition();
+            updateButtonState();
+        }, 5000);
+    }
+    
+    // 停止自動輪播
+    function stopAutoplay() {
+        clearInterval(autoplayInterval);
+    }
+    
+    // 上一張
+    prevBtn.addEventListener('click', () => {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateSliderPosition();
+            updateButtonState();
+        }
+    });
+    
+    // 下一張
+    nextBtn.addEventListener('click', () => {
+        if (currentIndex < slideCount - 1) {
+            currentIndex++;
+            updateSliderPosition();
+            updateButtonState();
+        }
+    });
+    
+    // 滑鼠懸停時暫停自動輪播
+    sliderTrack.addEventListener('mouseenter', stopAutoplay);
+    
+    // 滑鼠離開時恢復自動輪播
+    sliderTrack.addEventListener('mouseleave', startAutoplay);
+    
+    // 初始化按鈕狀態
+    updateButtonState();
+    
+    // 開始自動輪播
+    startAutoplay();
 } 

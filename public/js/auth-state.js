@@ -16,25 +16,15 @@ document.addEventListener('DOMContentLoaded', function() {
  */
 function updateAuthUI() {
     const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    const authButtonsContainer = document.querySelector('.auth-buttons');
-    
-    if (!authButtonsContainer) return;
     
     if (isLoggedIn) {
-        // 用戶已登入，顯示用戶選單
-        authButtonsContainer.innerHTML = `
-            <div class="user-menu">
-                <img src="images/default-avatar.svg" alt="用戶頭像" class="avatar">
-                <div class="dropdown-menu">
-                    <a href="profile.html">個人資料</a>
-                    <a href="garage.html">我的車庫</a>
-                    <a href="settings.html">帳號設定</a>
-                    <a href="#" id="logout">登出</a>
-                </div>
-            </div>
-        `;
+        // 用戶已登入，common.js 應該已經顯示了用戶選單
+        // const authButtonsContainer = document.querySelector('.auth-buttons'); // 這個選擇器在登入時可能不適用
+        // if (!authButtonsContainer) return; // 如果由 common.js 的 user-actions 包裹 user-menu，則不需要這個
+
+        // authButtonsContainer.innerHTML = ` ... `; // <--- 移除這段及類似的 innerHTML 修改
         
-        // 設置用戶選單的交互效果
+        // 直接查找由 common.js 生成的 .user-menu 並設置交互
         const userMenu = document.querySelector('.user-menu');
         if (userMenu) {
             userMenu.addEventListener('click', function(e) {
@@ -42,22 +32,19 @@ function updateAuthUI() {
                 this.classList.toggle('active');
             });
             
-            // 點擊其他地方關閉下拉選單
             document.addEventListener('click', function(e) {
-                if (!userMenu.contains(e.target)) {
+                if (userMenu.classList.contains('active') && !userMenu.contains(e.target)) {
                     userMenu.classList.remove('active');
                 }
             });
         }
         
-        // 設置登出按鈕功能
-        setupLogoutButton();
+        // setupLogoutButton(); // 這個的調用位置在 DOMContentLoaded 中，是OK的
     } else {
-        // 用戶未登入，顯示登入和註冊按鈕
-        authButtonsContainer.innerHTML = `
-            <a href="login.html" class="btn btn-secondary">登入</a>
-            <a href="register.html" class="btn btn-primary">註冊</a>
-        `;
+        // 用戶未登入，common.js 應該已經顯示了登入和註冊按鈕
+        // const authButtonsContainer = document.querySelector('.auth-buttons');
+        // if (!authButtonsContainer) return;
+        // authButtonsContainer.innerHTML = ` ... `; // <--- 移除這段及類似的 innerHTML 修改
     }
 }
 

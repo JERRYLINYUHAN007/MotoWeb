@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initEditProfileModal();
     setupLogoutButton();
     loadUserProfile();
+    initPostPreview();
 });
 
 /**
@@ -347,5 +348,102 @@ function initImageUpload() {
             
             fileInput.click();
         });
+    }
+}
+
+/**
+ * 初始化貼文預覽功能
+ */
+function initPostPreview() {
+    // 獲取預覽按鈕
+    const previewButtons = document.querySelectorAll('.preview-btn');
+    const modal = document.getElementById('postPreviewModal');
+    const closeModal = modal.querySelector('.close-modal');
+    const closePreviewBtn = document.getElementById('closePreview');
+    
+    // 點擊預覽按鈕打開模態框
+    previewButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // 獲取貼文數據
+            const postItem = this.closest('.post-item');
+            const postId = postItem.dataset.postId;
+            const title = postItem.querySelector('.post-header h3').textContent;
+            const date = postItem.querySelector('.post-date').textContent;
+            const content = postItem.querySelector('.post-content').innerHTML;
+            const commentCount = postItem.querySelector('.post-stats span:nth-child(1)').textContent.trim().split(' ')[1];
+            const likeCount = postItem.querySelector('.post-stats span:nth-child(2)').textContent.trim().split(' ')[1];
+            
+            // 填充模態框內容
+            document.getElementById('previewPostTitle').textContent = title;
+            document.getElementById('previewPostDate').textContent = date;
+            document.getElementById('previewPostCategory').textContent = getCategoryForPost(postId);
+            document.getElementById('previewPostContent').innerHTML = content;
+            document.getElementById('previewCommentCount').textContent = commentCount;
+            document.getElementById('previewLikeCount').textContent = likeCount;
+            document.getElementById('previewViewCount').textContent = getRandomViewCount();
+            
+            // 設置跳轉連結
+            document.getElementById('goToFullPost').href = `community.html?post=${postId}`;
+            
+            // 打開模態框
+            openPostPreviewModal();
+        });
+    });
+    
+    // 關閉模態框
+    if (closeModal) {
+        closeModal.addEventListener('click', closePostPreviewModal);
+    }
+    
+    if (closePreviewBtn) {
+        closePreviewBtn.addEventListener('click', closePostPreviewModal);
+    }
+    
+    // 點擊模態框背景關閉
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closePostPreviewModal();
+        }
+    });
+    
+    /**
+     * 根據貼文ID獲取分類
+     * @param {string} postId - 貼文ID
+     * @return {string} 分類名稱
+     */
+    function getCategoryForPost(postId) {
+        const categories = {
+            '1': '避震器改裝',
+            '2': '改裝指南',
+            '3': '輪胎保養'
+        };
+        
+        return categories[postId] || '一般討論';
+    }
+    
+    /**
+     * 生成隨機瀏覽量
+     * @return {number} 隨機數字
+     */
+    function getRandomViewCount() {
+        return Math.floor(Math.random() * 500) + 100;
+    }
+    
+    /**
+     * 打開貼文預覽模態框
+     */
+    function openPostPreviewModal() {
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    /**
+     * 關閉貼文預覽模態框
+     */
+    function closePostPreviewModal() {
+        modal.classList.remove('open');
+        document.body.style.overflow = '';
     }
 } 

@@ -16,9 +16,9 @@
     <nav class="navbar">
         <div class="container nav-container">
             <div class="logo">
-                <a href="index.html" aria-label="MotoMod首頁">
-                    <img src="images/logo.svg" alt="MotoMod Logo" class="logo-img">
-                    <h1>MotoMod</h1>
+                <a href="index.html" aria-label="motoweb首頁">
+                    <img src="MOTOWEB.png" alt="motoweb Logo" class="logo-img">
+                    <h1>motoweb</h1>
                 </a>
             </div>
             <div class="nav-links" id="navLinks">
@@ -44,34 +44,36 @@
     <main>
         <div class="container">
             <div class="profile-header">
-                <div class="profile-cover">
-                    <img src="images/profile-cover-default.svg" alt="封面圖片" id="profileCover">
-                    <button class="edit-cover-btn" title="更改封面圖片">
-                        <i class="fas fa-camera"></i>
-                    </button>
-                </div>
-                <div class="profile-info">
-                    <div class="profile-avatar">
-                        <img src="images/default-avatar.svg" alt="用戶頭像" id="profileAvatar">
-                        <button class="edit-avatar-btn" title="更改頭像">
+                <div class="profile-banner">
+                    <div class="profile-cover">
+                        <img src="images/profile/profile-cover-default.svg" alt="封面圖片" id="profileCover">
+                        <button class="edit-cover-btn" title="更換封面">
                             <i class="fas fa-camera"></i>
                         </button>
                     </div>
-                    <div class="profile-details">
-                        <h1 id="profileName">使用者名稱 <button class="edit-btn" title="編輯個人資料"><i class="fas fa-edit"></i></button></h1>
-                        <p class="user-bio" id="profileBio">分享您的個人簡介...</p>
-                        <div class="user-stats">
-                            <div class="stat-item">
-                                <span class="stat-number">12</span>
-                                <span class="stat-label">改裝作品</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number">48</span>
-                                <span class="stat-label">討論貼文</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number">156</span>
-                                <span class="stat-label">獲得讚數</span>
+                    <div class="profile-info">
+                        <div class="profile-avatar">
+                            <img src="images/default/default-avatar.svg" alt="用戶頭像" id="profileAvatar">
+                            <button class="edit-avatar-btn" title="更改頭像">
+                                <i class="fas fa-camera"></i>
+                            </button>
+                        </div>
+                        <div class="profile-details">
+                            <h1 id="profileName">使用者名稱 <button class="edit-btn" title="編輯個人資料"><i class="fas fa-edit"></i></button></h1>
+                            <p class="user-bio" id="profileBio">分享您的個人簡介...</p>
+                            <div class="user-stats">
+                                <div class="stat-item">
+                                    <span class="stat-number">12</span>
+                                    <span class="stat-label">改裝作品</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number">48</span>
+                                    <span class="stat-label">討論貼文</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number">156</span>
+                                    <span class="stat-label">獲得讚數</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -124,48 +126,92 @@
                     
                     <div class="tab-content" id="postsTab">
                         <div class="posts-list">
-                            <div class="post-item">
+                            <div class="post-item" data-post-id="1">
                                 <div class="post-header">
                                     <h3>改裝CB650R避震器經驗分享</h3>
                                     <span class="post-date">2024-05-15</span>
                                 </div>
                                 <p class="post-excerpt">最近替我的CB650R換上了Öhlins避震器，騎乘感受有了很大的提升，尤其是過彎時的穩定性...</p>
+                                <div class="post-content" style="display: none;">
+                                    <p>最近替我的CB650R換上了Öhlins避震器，騎乘感受有了很大的提升，尤其是過彎時的穩定性和回饋感都大幅提升。</p>
+                                    <p>選擇Öhlins的STX 46系列，這款避震器針對中型街車設計，提供了優異的阻尼控制和回彈表現。安裝過程並不困難，基本上只需要一個下午的時間就能完成，但建議還是找專業的改裝店進行安裝，以確保一切就位及調校正確。</p>
+                                    <p>騎乘感受方面，最明顯的差異在於過彎時的穩定性，尤其是連續彎道中，車身的起伏感減少了，更能夠精準地控制車輛走向。此外，在遇到路面不平時，避震器對小顛簸的過濾也更加出色，提升了日常騎乘的舒適度。</p>
+                                    <p>價格雖然不算便宜，但就改裝帶來的效果來說，這筆投資絕對值得。如果你也在考慮升級避震器，強烈推薦Öhlins這個選擇！</p>
+                                </div>
                                 <div class="post-footer">
                                     <div class="post-stats">
                                         <span><i class="fas fa-comment"></i> 12</span>
                                         <span><i class="fas fa-heart"></i> 34</span>
                                     </div>
-                                    <a href="#" class="post-link">查看全文</a>
+                                    <a href="#" class="post-link preview-btn">預覽</a>
+                                    <a href="community.html?post=1" class="post-link">查看全文</a>
                                 </div>
                             </div>
                             
-                            <div class="post-item">
+                            <div class="post-item" data-post-id="2">
                                 <div class="post-header">
                                     <h3>街車改裝推薦配件大全</h3>
                                     <span class="post-date">2024-04-28</span>
                                 </div>
                                 <p class="post-excerpt">整理了適合街車改裝的必備配件，從入門到進階，包含排氣管、腳踏、把手、坐墊等多個方面...</p>
+                                <div class="post-content" style="display: none;">
+                                    <p>經過多年的街車改裝經驗，我整理了一份從入門到進階的改裝配件清單，希望對新手車友有所幫助。</p>
+                                    <p><strong>入門級改裝：</strong></p>
+                                    <ul>
+                                        <li>握把：RIZOMA或Lightech的防滑握把可提升操控手感</li>
+                                        <li>腳踏：CNC加工的防滑腳踏板，提升駕駛穩定性</li>
+                                        <li>尾燈：整合式LED尾燈，提升夜間視線性</li>
+                                        <li>排氣管消音塞：可調整聲浪但不需更換整套排氣系統</li>
+                                    </ul>
+                                    <p><strong>進階改裝：</strong></p>
+                                    <ul>
+                                        <li>全段排氣管：Akrapovic或SC Project，提升動力輸出</li>
+                                        <li>避震器：Öhlins或YSS避震，改善操控性</li>
+                                        <li>ECU控制器：Power Commander或Rapid Bike，優化油門反應</li>
+                                        <li>碟盤：浮動式碟盤，提升制動性能</li>
+                                    </ul>
+                                    <p>改裝時最重要的是考慮整體性，而不是單獨看每個零件。完美的改裝是讓所有部件協調工作，創造出符合個人風格的騎乘體驗。</p>
+                                </div>
                                 <div class="post-footer">
                                     <div class="post-stats">
                                         <span><i class="fas fa-comment"></i> 25</span>
                                         <span><i class="fas fa-heart"></i> 53</span>
                                     </div>
-                                    <a href="#" class="post-link">查看全文</a>
+                                    <a href="#" class="post-link preview-btn">預覽</a>
+                                    <a href="community.html?post=2" class="post-link">查看全文</a>
                                 </div>
                             </div>
                             
-                            <div class="post-item">
+                            <div class="post-item" data-post-id="3">
                                 <div class="post-header">
                                     <h3>輪胎選擇與氣壓調整的重要性</h3>
                                     <span class="post-date">2024-03-19</span>
                                 </div>
                                 <p class="post-excerpt">分享我對不同路況選擇合適輪胎的經驗，以及如何根據載重、天氣調整氣壓，以提升安全性與操控感...</p>
+                                <div class="post-content" style="display: none;">
+                                    <p>輪胎是摩托車上最重要的零件之一，它直接影響了操控性與安全性。經過多年的嘗試，我想分享一些選擇輪胎和調整氣壓的心得。</p>
+                                    <p><strong>適合日常通勤的輪胎：</strong></p>
+                                    <ul>
+                                        <li>Michelin Road 5：兼顧了耐久性和抓地力，雨天表現優異</li>
+                                        <li>Pirelli Diablo Rosso IV：偏運動化路線，但常溫下很快發揮性能</li>
+                                        <li>Dunlop RoadSmart IV：性價比高，舒適性好</li>
+                                    </ul>
+                                    <p><strong>輪胎氣壓調整原則：</strong></p>
+                                    <ul>
+                                        <li>標準氣壓：參考車輛說明書，通常前輪約2.3-2.5bar，後輪約2.7-2.9bar</li>
+                                        <li>雨天：可適度降低0.1-0.2bar，增加接觸面積提升抓地力</li>
+                                        <li>高速巡航：可增加0.1-0.2bar，減少輪胎變形，降低油耗</li>
+                                        <li>雙載/滿載：後輪增加0.2-0.3bar，補償額外載重</li>
+                                    </ul>
+                                    <p>特別要注意的是，每個月至少檢查一次胎壓，確保在最佳狀態。正確的胎壓不僅能提升操控性和安全性，還能延長輪胎壽命，節省燃油消耗。</p>
+                                </div>
                                 <div class="post-footer">
                                     <div class="post-stats">
                                         <span><i class="fas fa-comment"></i> 18</span>
                                         <span><i class="fas fa-heart"></i> 41</span>
                                     </div>
-                                    <a href="#" class="post-link">查看全文</a>
+                                    <a href="#" class="post-link preview-btn">預覽</a>
+                                    <a href="community.html?post=3" class="post-link">查看全文</a>
                                 </div>
                             </div>
                         </div>
@@ -175,15 +221,14 @@
                         <div class="bikes-grid">
                             <div class="bike-card">
                                 <div class="bike-image">
-                                    <img src="images/bikes/cb650r.svg" alt="Honda CB650R">
+                                    <img src="images/bikes/drg.jpg" alt="SYM DRG">
                                 </div>
                                 <div class="bike-info">
-                                    <h3>Honda CB650R</h3>
-                                    <p class="bike-details">2022年 / 649cc / 已改裝</p>
+                                    <h3>SYM DRG</h3>
+                                    <p class="bike-details">2024年 / 158cc / 已改裝</p>
                                     <div class="bike-mods">
-                                        <span class="mod-tag">SC Project 排氣管</span>
-                                        <span class="mod-tag">Öhlins 避震器</span>
-                                        <span class="mod-tag">Rizoma 後視鏡</span>
+                                        <span class="mod-tag">LED 大燈</span>
+                                        <span class="mod-tag">運動型排氣管</span>
                                     </div>
                                     <a href="#" class="btn btn-outline">查看詳情</a>
                                 </div>
@@ -191,29 +236,44 @@
                             
                             <div class="bike-card">
                                 <div class="bike-image">
-                                    <img src="images/bikes/mt-07.svg" alt="Yamaha MT-07">
+                                    <img src="images/bikes/mmbcu.jpg" alt="SYM MMB CU">
                                 </div>
                                 <div class="bike-info">
-                                    <h3>Yamaha MT-07</h3>
-                                    <p class="bike-details">2023年 / 689cc / 已改裝</p>
+                                    <h3>SYM MMB CU</h3>
+                                    <p class="bike-details">2023年 / 125cc / 已改裝</p>
                                     <div class="bike-mods">
-                                        <span class="mod-tag">Akrapovic 排氣管</span>
-                                        <span class="mod-tag">Brembo 煞車系統</span>
+                                        <span class="mod-tag">LED 方向燈</span>
+                                        <span class="mod-tag">運動型後避震</span>
                                     </div>
                                     <a href="#" class="btn btn-outline">查看詳情</a>
                                 </div>
                             </div>
-                            
+
                             <div class="bike-card">
                                 <div class="bike-image">
-                                    <img src="images/bikes/vespa.svg" alt="Vespa Sprint">
+                                    <img src="images/bikes/sl.jpg" alt="SYM SL">
                                 </div>
                                 <div class="bike-info">
-                                    <h3>Vespa Sprint</h3>
-                                    <p class="bike-details">2021年 / 150cc / 已改裝</p>
+                                    <h3>SYM SL</h3>
+                                    <p class="bike-details">2023年 / 125cc / 已改裝</p>
                                     <div class="bike-mods">
-                                        <span class="mod-tag">Leo Vince 排氣管</span>
-                                        <span class="mod-tag">NCY 避震器</span>
+                                        <span class="mod-tag">LED 大燈</span>
+                                        <span class="mod-tag">運動型排氣管</span>
+                                    </div>
+                                    <a href="#" class="btn btn-outline">查看詳情</a>
+                                </div>
+                            </div>
+
+                            <div class="bike-card">
+                                <div class="bike-image">
+                                    <img src="images/bikes/sr.jpg" alt="SYM SR">
+                                </div>
+                                <div class="bike-info">
+                                    <h3>SYM SR</h3>
+                                    <p class="bike-details">2024年 / 125cc / 已改裝</p>
+                                    <div class="bike-mods">
+                                        <span class="mod-tag">LED 大燈</span>
+                                        <span class="mod-tag">運動型後避震</span>
                                     </div>
                                     <a href="#" class="btn btn-outline">查看詳情</a>
                                 </div>
@@ -224,7 +284,7 @@
                     <div class="tab-content hidden" id="likesTab">
                         <div class="likes-grid">
                             <div class="liked-item">
-                                <img src="images/parts/exhaust.svg" alt="Akrapovic 排氣管">
+                                <img src="images/parts/牛王SVR排氣管.webp" alt="Akrapovic 排氣管">
                                 <div class="liked-item-info">
                                     <h3>Akrapovic 鈦合金排氣管</h3>
                                     <p>適用於多款中量級街車，提升引擎輸出與聲浪</p>
@@ -236,7 +296,7 @@
                             </div>
                             
                             <div class="liked-item">
-                                <img src="images/parts/suspension.svg" alt="Öhlins 避震器">
+                                <img src="images/parts/drg-shock-ohlins.jpg" alt="Öhlins 避震器">
                                 <div class="liked-item-info">
                                     <h3>Öhlins 頂級後避震器</h3>
                                     <p>全可調式設計，適用於大多數日系街車</p>
@@ -248,7 +308,7 @@
                             </div>
                             
                             <div class="liked-item">
-                                <img src="images/parts/mirrors.svg" alt="Rizoma 後視鏡">
+                                <img src="images/parts/SIMOTA碳纖維後照鏡.webp" alt="Rizoma 後視鏡">
                                 <div class="liked-item-info">
                                     <h3>Rizoma 鋁合金後視鏡</h3>
                                     <p>義大利設計，提升質感與視野範圍</p>
@@ -260,7 +320,7 @@
                             </div>
                             
                             <div class="liked-item">
-                                <img src="images/parts/brakes.svg" alt="Brembo 煞車套件">
+                                <img src="images/parts/ANC72大對四卡鉗.webp" alt="Brembo 煞車套件">
                                 <div class="liked-item-info">
                                     <h3>Brembo 高性能煞車套件</h3>
                                     <p>提升制動性能與手感，適合中大型摩托車</p>
@@ -327,8 +387,8 @@
             <div class="footer-content">
                 <div class="footer-section about">
                     <div class="footer-logo">
-                        <img src="images/logo-white.svg" alt="MotoMod Logo" class="footer-logo-img">
-                        <h3>MotoMod</h3>
+                        <img src="MOTOWEB.png" alt="motoweb Logo" class="footer-logo-img">
+                        <h3>motoweb</h3>
                     </div>
                     <p>專業的摩托車改裝社群平台，為車友提供交流與分享的空間。</p>
                     <div class="social-links">
@@ -383,5 +443,29 @@
     <script src="js/main.js"></script>
     <script src="js/profile.js"></script>
     <script src="js/auth-state.js"></script>
+
+    <!-- 貼文預覽模態框 -->
+    <div class="modal" id="postPreviewModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="post-preview-container">
+                <h2 class="post-title" id="previewPostTitle"></h2>
+                <div class="post-meta">
+                    <span class="post-date" id="previewPostDate"></span>
+                    <span class="post-category" id="previewPostCategory"></span>
+                </div>
+                <div class="post-content" id="previewPostContent"></div>
+                <div class="post-stats">
+                    <span><i class="fas fa-comment"></i> <span id="previewCommentCount">0</span></span>
+                    <span><i class="fas fa-heart"></i> <span id="previewLikeCount">0</span></span>
+                    <span><i class="fas fa-eye"></i> <span id="previewViewCount">0</span></span>
+                </div>
+                <div class="post-actions">
+                    <a href="#" class="btn btn-primary" id="goToFullPost">前往完整貼文</a>
+                    <button class="btn btn-secondary" id="closePreview">關閉</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html> 

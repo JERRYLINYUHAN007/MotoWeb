@@ -11,6 +11,75 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
+        /* 用戶菜單樣式 */
+        .user-menu {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .user-avatar {
+            display: flex;
+            align-items: center;
+            padding: 5px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .user-avatar:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        
+        .user-avatar img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .user-avatar .username {
+            color: var(--secondary-color);
+            font-weight: 500;
+            max-width: 120px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 180px;
+            background-color: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 8px 0;
+            z-index: 100;
+            display: none;
+        }
+        
+        .dropdown-menu.show {
+            display: block;
+        }
+        
+        .dropdown-menu a {
+            display: block;
+            padding: 8px 16px;
+            color: #333;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+        
+        .dropdown-menu a:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .dropdown-menu i {
+            width: 16px;
+            margin-right: 8px;
+            text-align: center;
+        }
+
         /* 導航欄樣式 */
         .navbar {
             position: fixed;
@@ -144,17 +213,31 @@
         .section-header {
             text-align: center;
             margin-bottom: 4rem;
+            position: relative;
         }
 
         .section-header h2 {
             font-size: 2.5rem;
             color: var(--secondary-color);
             margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-header h2:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary-color);
+            margin: 15px auto 0;
         }
 
         .section-header p {
             color: #666;
             font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
         }
 
         .featured-grid {
@@ -163,6 +246,19 @@
             gap: 2rem;
             max-width: 1400px;
             margin: 0 auto;
+        }
+        
+        .section-footer {
+            text-align: center;
+            margin-top: 3rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .section-footer .btn {
+            display: inline-block;
+            margin-top: 1rem;
         }
 
         .featured-card {
@@ -510,6 +606,106 @@
             transform: translateY(-5px);
         }
 
+        /* 輪播圖樣式 */
+        .hero-slider {
+            flex: 1;
+            max-width: 600px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .slider-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            height: 400px;
+        }
+        
+        .slider-slide {
+            min-width: 100%;
+            position: relative;
+        }
+        
+        .slider-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .slide-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+        }
+        
+        .slide-caption h3 {
+            margin: 0 0 5px 0;
+            font-size: 1.5rem;
+        }
+        
+        .slide-caption p {
+            margin: 0;
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+        
+        .slider-controls {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .slider-dot.active {
+            background: white;
+            transform: scale(1.2);
+        }
+        
+        .slider-arrows {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            transform: translateY(-50%);
+            z-index: 10;
+        }
+        
+        .slider-arrow {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .slider-arrow:hover {
+            background: rgba(0,0,0,0.8);
+        }
+
         /* 響應式設計 */
         @media (max-width: 1200px) {
             .featured-grid,
@@ -606,8 +802,7 @@
         <div class="container nav-container">
             <div class="logo">
                 <a href="index.html" aria-label="motoweb首頁">
-                    <img src="MOTOWEB.png" alt="motoweb Logo" class="logo-img">
-                    <h1>motoweb</h1>
+                    <img src="images/motoweb-logo.svg" alt="motoweb Logo" class="logo-img">
                 </a>
             </div>
             <div class="nav-links" id="navLinks">
@@ -621,6 +816,18 @@
                 <div class="auth-buttons">
                     <a href="login.html" class="btn btn-secondary">登入</a>
                     <a href="register.html" class="btn btn-primary">註冊</a>
+                </div>
+                <div class="user-menu" style="display: none;">
+                    <div class="user-avatar">
+                        <img src="/images/default-avatar.svg" alt="用戶頭像" class="avatar">
+                        <span class="username">用戶名稱</span>
+                    </div>
+                    <div class="dropdown-menu">
+                        <a href="/profile.html"><i class="fas fa-user"></i> 個人資料</a>
+                        <a href="/garage.html"><i class="fas fa-motorcycle"></i> 我的車庫</a>
+                        <a href="/settings.html"><i class="fas fa-cog"></i> 帳號設定</a>
+                        <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> 登出</a>
+                    </div>
                 </div>
             </div>
             <button class="menu-toggle" aria-label="展開選單" aria-expanded="false" aria-controls="navLinks">
@@ -641,8 +848,51 @@
                     <a href="community.html" class="btn btn-outline">加入討論</a>
                 </div>
             </div>
-            <div class="hero-image">
-                <img src="images/hero-bike.webp" alt="精品改裝摩托車" loading="eager">
+            <div class="hero-slider">
+                <div class="slider-track">
+                    <div class="slider-slide">
+                        <img src="images/bikes/drg.jpg" alt="SYM DRG 改裝展示">
+                        <div class="slide-caption">
+                            <h3>SYM DRG</h3>
+                            <p>運動改裝</p>
+                        </div>
+                    </div>
+                    <div class="slider-slide">
+                        <img src="images/bikes/mmbcu.jpg" alt="SYM MMBCU 改裝展示">
+                        <div class="slide-caption">
+                            <h3>SYM MMBCU</h3>
+                            <p>日常通勤改裝</p>
+                        </div>
+                    </div>
+                    <div class="slider-slide">
+                        <img src="images/bikes/sl.jpg" alt="SYM SL 改裝展示">
+                        <div class="slide-caption">
+                            <h3>SYM SL</h3>
+                            <p>街頭風格改裝</p>
+                        </div>
+                    </div>
+                    <div class="slider-slide">
+                        <img src="images/bikes/sr.jpg" alt="SYM SR 改裝展示">
+                        <div class="slide-caption">
+                            <h3>SYM SR</h3>
+                            <p>復古風格改裝</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="slider-controls">
+                    <div class="slider-dot active" data-index="0"></div>
+                    <div class="slider-dot" data-index="1"></div>
+                    <div class="slider-dot" data-index="2"></div>
+                    <div class="slider-dot" data-index="3"></div>
+                </div>
+                <div class="slider-arrows">
+                    <div class="slider-arrow prev-arrow">
+                        <i class="fas fa-chevron-left"></i>
+                    </div>
+                    <div class="slider-arrow next-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
@@ -691,6 +941,9 @@
                         <p>座墊、把手、腳踏板、儀表板</p>
                     </a>
                 </div>
+                <div class="section-footer">
+                    <a href="categories.html" class="btn btn-primary">查看所有分類 <i class="fas fa-arrow-right"></i></a>
+                </div>
             </div>
         </section>
 
@@ -728,8 +981,7 @@
             <div class="footer-content">
                 <div class="footer-section about">
                     <div class="footer-logo">
-                        <img src="MOTOWEB.png" alt="motoweb Logo" class="footer-logo-img">
-                        <h3>motoweb</h3>
+                        <img src="images/motoweb-logo.svg" alt="motoweb Logo" class="footer-logo-img">
                     </div>
                     <p>專業的摩托車改裝社群平台，為車友提供交流與分享的空間。</p>
                     <div class="social-links">
@@ -784,6 +1036,72 @@
     <script src="/js/common.js"></script>
     <script src="js/auth-state.js"></script>
     <script>
+        // 檢查用戶登入狀態
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            const authButtons = document.querySelector('.auth-buttons');
+            const userMenu = document.querySelector('.user-menu');
+            const ctaSection = document.querySelector('.cta-section');
+            
+            if (isLoggedIn) {
+                // 用戶已登入，顯示用戶菜單，隱藏登入/註冊按鈕
+                if (authButtons) authButtons.style.display = 'none';
+                if (userMenu) {
+                    userMenu.style.display = 'block';
+                    
+                    // 從localStorage獲取用戶信息並顯示
+                    const username = localStorage.getItem('username') || '用戶';
+                    const usernameElement = userMenu.querySelector('.username');
+                    if (usernameElement) {
+                        usernameElement.textContent = username;
+                    }
+                    
+                    // 用戶菜單點擊切換
+                    const userAvatar = userMenu.querySelector('.user-avatar');
+                    const dropdownMenu = userMenu.querySelector('.dropdown-menu');
+                    
+                    if (userAvatar && dropdownMenu) {
+                        userAvatar.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            dropdownMenu.classList.toggle('show');
+                        });
+                        
+                        // 點擊其他地方關閉下拉菜單
+                        document.addEventListener('click', function() {
+                            dropdownMenu.classList.remove('show');
+                        });
+                    }
+                }
+                
+                // 已登入用戶隱藏CTA區域
+                if (ctaSection) {
+                    ctaSection.style.display = 'none';
+                }
+            } else {
+                // 用戶未登入，顯示登入/註冊按鈕，隱藏用戶菜單
+                if (authButtons) authButtons.style.display = 'flex';
+                if (userMenu) userMenu.style.display = 'none';
+            }
+            
+            // 登出功能
+            const logoutButton = document.getElementById('logout');
+            if (logoutButton) {
+                logoutButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // 清除登入狀態
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('username');
+                    
+                    // 顯示登出成功提示
+                    alert('登出成功！');
+                    
+                    // 刷新頁面
+                    window.location.reload();
+                });
+            }
+        });
+        
         // 載入精選改裝作品
         async function loadFeaturedWorks() {
             try {
@@ -865,23 +1183,116 @@
                 behavior: 'smooth'
             });
         });
-
+        
+        // 輪播功能實現
+        function initSlider() {
+            const sliderTrack = document.querySelector('.slider-track');
+            const slides = document.querySelectorAll('.slider-slide');
+            const dots = document.querySelectorAll('.slider-dot');
+            const prevArrow = document.querySelector('.prev-arrow');
+            const nextArrow = document.querySelector('.next-arrow');
+            
+            if (!sliderTrack || slides.length === 0) return;
+            
+            let currentIndex = 0;
+            const slideCount = slides.length;
+            let autoSlideInterval;
+            
+            // 移到特定幻燈片
+            function goToSlide(index) {
+                // 確保索引在有效範圍內
+                if (index < 0) index = slideCount - 1;
+                if (index >= slideCount) index = 0;
+                
+                currentIndex = index;
+                
+                // 更新slider-track的位置
+                sliderTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
+                
+                // 更新控制點狀態
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === currentIndex);
+                });
+            }
+            
+            // 下一張幻燈片
+            function nextSlide() {
+                goToSlide(currentIndex + 1);
+            }
+            
+            // 上一張幻燈片
+            function prevSlide() {
+                goToSlide(currentIndex - 1);
+            }
+            
+            // 開始自動播放
+            function startAutoSlide() {
+                stopAutoSlide(); // 先停止任何存在的計時器
+                autoSlideInterval = setInterval(nextSlide, 5000); // 每5秒切換一次
+            }
+            
+            // 停止自動播放
+            function stopAutoSlide() {
+                if (autoSlideInterval) {
+                    clearInterval(autoSlideInterval);
+                }
+            }
+            
+            // 綁定事件
+            if (nextArrow) {
+                nextArrow.addEventListener('click', () => {
+                    nextSlide();
+                    startAutoSlide(); // 點擊後重新開始自動播放
+                });
+            }
+            
+            if (prevArrow) {
+                prevArrow.addEventListener('click', () => {
+                    prevSlide();
+                    startAutoSlide(); // 點擊後重新開始自動播放
+                });
+            }
+            
+            // 點擊控制點
+            dots.forEach((dot) => {
+                dot.addEventListener('click', () => {
+                    const index = parseInt(dot.dataset.index, 10);
+                    goToSlide(index);
+                    startAutoSlide(); // 點擊後重新開始自動播放
+                });
+            });
+            
+            // 當鼠標懸停在輪播上時，暫停自動播放
+            const heroSlider = document.querySelector('.hero-slider');
+            if (heroSlider) {
+                heroSlider.addEventListener('mouseenter', stopAutoSlide);
+                heroSlider.addEventListener('mouseleave', startAutoSlide);
+            }
+            
+            // 初始化輪播
+            goToSlide(0);
+            startAutoSlide();
+        }
+        
+        // 頁面加載時初始化輪播
+        document.addEventListener('DOMContentLoaded', function() {
+            initSlider();
+            loadFeaturedWorks();
+            loadHotDiscussions();
+        });
+        
         // 手機版選單切換
         const menuToggle = document.querySelector('.menu-toggle');
         const navLinks = document.querySelector('.nav-links');
 
-        menuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            menuToggle.setAttribute('aria-expanded', 
-                menuToggle.getAttribute('aria-expanded') === 'false' ? 'true' : 'false'
-            );
-        });
-
-        // 初始化頁面
-        document.addEventListener('DOMContentLoaded', () => {
-            loadFeaturedWorks();
-            loadHotDiscussions();
-        });
+        if (menuToggle && navLinks) {
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                menuToggle.setAttribute('aria-expanded', 
+                    menuToggle.getAttribute('aria-expanded') === 'false' ? 'true' : 'false'
+                );
+            });
+        }
     </script>
 </body>
 </html> 

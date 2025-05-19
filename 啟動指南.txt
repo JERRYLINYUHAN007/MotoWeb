@@ -35,24 +35,12 @@ http://localhost:3001
 - 討論區
 - 活動專區
 
-### 新增功能
+### 車輛圖庫功能
 - **車輛圖庫功能**：提供各種摩托車型號的原廠和改裝圖片瀏覽，可按車型和改裝類別篩選。
    - 訪問路徑：`/bikes-gallery.html`
    - 支持車型：SYM SL125, SR125, DRG, MMBCU
    - 圖片類別：原廠、改裝整車、各種改裝零件
-
-## 爬蟲功能使用
-
-### 執行爬蟲
-如需爬取最新的車輛圖片，可使用以下命令：
-```
-npm run scrape
-```
-
-### 爬蟲設定
-- 爬蟲預設會抓取 SYM SL125, SR125, DRG, MMBCU 等車型的圖片
-- 圖片會存儲在 `public/uploads/scraped-bikes` 目錄下
-- 請注意網路狀況和目標網站的爬蟲政策，避免頻繁請求被封鎖
+   - 圖片會存儲在 `public/uploads/scraped-bikes` 目錄下
 
 ## 管理功能
 
@@ -64,21 +52,14 @@ npm run scrape
 
 ### 圖片管理
 在管理面板可以進行以下操作：
-- 查看已爬取的圖片
+- 查看系統圖片
 - 管理圖片分類
 - 刪除不需要的圖片
-- 手動啟動爬蟲任務
 
 ## 常見問題
 
 ### MongoDB 連接失敗
 檢查 MongoDB 服務是否運行，或嘗試修改 `.env` 文件中的 `MONGO_URI`。
-
-### 爬蟲無法運行
-確保已安裝 puppeteer 和 axios：
-```
-npm install puppeteer axios
-```
 
 ### 圖片顯示問題
 檢查 `public/uploads` 目錄權限是否正確。 

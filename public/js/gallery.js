@@ -770,25 +770,147 @@ function loadFeaturedItems() {
     const featuredSlider = document.getElementById('featuredSlider');
     
     // 在實際應用中，這裡應該從API獲取精選作品
-    // 這裡使用已載入的一般作品
-    const galleryItems = document.querySelectorAll('.gallery-item');
+    // 這裡創建特別的精選作品項目
+    const featuredItems = [
+        {
+            id: 101,
+            title: 'YAMAHA MT-09 全車改裝',
+            image: 'images/bikes/drg.jpg',
+            author: {
+                name: '冒險騎士',
+                avatar: 'images/avatars/user1.svg'
+            },
+            category: 'naked',
+            style: 'street',
+            model: 'YAMAHA MT-09',
+            description: '全車性能與外觀升級，打造極致街頭戰士風格。',
+            date: '2025-04-18',
+            tags: ['外觀', '排氣', '懸吊', 'YAMAHA'],
+            stats: {
+                likes: 423,
+                comments: 87,
+                views: 2156
+            }
+        },
+        {
+            id: 102,
+            title: 'SYM DRG BT競技風格改裝',
+            image: 'images/bikes/KRV.jpg',
+            author: {
+                name: '街頭玩家',
+                avatar: 'images/avatars/user2.svg'
+            },
+            category: 'scooter',
+            style: 'racing',
+            model: 'SYM DRG BT',
+            description: '賽道風格改裝，強化動力輸出與操控性能。',
+            date: '2025-04-15',
+            tags: ['動力', '外觀', 'SYM'],
+            stats: {
+                likes: 386,
+                comments: 72,
+                views: 1892
+            }
+        },
+        {
+            id: 103,
+            title: 'HONDA CB650R 咖啡風格改裝',
+            image: 'images/bikes/FORCE.jpg',
+            author: {
+                name: '復古車迷',
+                avatar: 'images/avatars/user3.svg'
+            },
+            category: 'naked',
+            style: 'cafe',
+            model: 'HONDA CB650R',
+            description: '經典咖啡風格改裝，融合現代技術與復古美學。',
+            date: '2025-04-12',
+            tags: ['座墊', '車把', '排氣', 'HONDA'],
+            stats: {
+                likes: 352,
+                comments: 68,
+                views: 1754
+            }
+        },
+        {
+            id: 104,
+            title: 'KAWASAKI Z900 街頭風格改裝',
+            image: 'images/bikes/AUGUR.jpg',
+            author: {
+                name: '綠色騎士',
+                avatar: 'images/avatars/user4.svg'
+            },
+            category: 'naked',
+            style: 'street',
+            model: 'KAWASAKI Z900',
+            description: '狂野街頭風格改裝，提升視覺衝擊與性能表現。',
+            date: '2025-04-10',
+            tags: ['車燈', '排氣', '輪圈', 'KAWASAKI'],
+            stats: {
+                likes: 325,
+                comments: 64,
+                views: 1625
+            }
+        }
+    ];
     
     // 創建滑軌
     const sliderTrack = document.createElement('div');
     sliderTrack.className = 'slider-track';
     
-    // 將一般作品複製到精選輪播
-    galleryItems.forEach(item => {
+    // 將精選作品添加到輪播
+    featuredItems.forEach(item => {
         const slide = document.createElement('div');
         slide.className = 'slider-slide';
         
-        // 複製作品卡片
-        const galleryItem = item.cloneNode(true);
-        slide.appendChild(galleryItem);
+        // 創建作品卡片HTML
+        const galleryItem = document.createElement('div');
+        galleryItem.className = 'gallery-item';
+        galleryItem.dataset.id = item.id;
         
+        // 格式化日期
+        const date = new Date(item.date);
+        const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+        
+        galleryItem.innerHTML = `
+            <div class="item-image">
+                <img src="${item.image}" alt="${item.title}">
+                <div class="item-overlay">
+                    <h3 class="item-title">${item.title}</h3>
+                    <div class="item-author">
+                        <img src="${item.author.avatar}" alt="${item.author.name}" class="author-avatar">
+                        <span>${item.author.name}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="item-content">
+                <div class="item-header">
+                    <h3 class="item-title">${item.title}</h3>
+                    <span class="item-type">${getCategoryName(item.category)}</span>
+                </div>
+                <div class="item-author">
+                    <img src="${item.author.avatar}" alt="${item.author.name}" class="author-avatar">
+                    <span>${item.author.name} · ${formattedDate}</span>
+                </div>
+                <p class="item-description">${item.description}</p>
+                <div class="item-stats">
+                    <span class="stat-item"><i class="far fa-heart"></i> ${item.stats.likes}</span>
+                    <span class="stat-item"><i class="far fa-comment"></i> ${item.stats.comments}</span>
+                    <span class="stat-item"><i class="far fa-eye"></i> ${item.stats.views}</span>
+                </div>
+            </div>
+        `;
+        
+        // 點擊作品打開預覽
+        galleryItem.addEventListener('click', function() {
+            openImagePreview(item);
+        });
+        
+        slide.appendChild(galleryItem);
         sliderTrack.appendChild(slide);
     });
     
+    featuredSlider.innerHTML = '';
     featuredSlider.appendChild(sliderTrack);
 }
 
@@ -909,21 +1031,22 @@ function loadGalleryItems() {
     const galleryContainer = document.getElementById('galleryItems');
     
     // 模擬從API獲取的作品集資料
+    // 注意：已成功添加 FORCE、CYGNUS GRYPHUS、KRV 和 AUGUR 四款新車型
     const galleryItems = [
         {
             id: 1,
-            title: 'Yamaha MT-09 Street Fighter改裝',
-            image: 'images/gallery/mt09-mod.jpg',
+            title: 'SYM DRG 運動改裝',
+            image: 'images/bikes/drg.jpg',
             author: {
                 name: '改裝達人',
-                avatar: 'images/avatars/user1.jpg'
+                avatar: 'images/avatars/user1.svg'
             },
-            category: 'naked',
+            category: 'scooter',
             style: 'street',
-            model: 'Yamaha MT-09',
-            description: '全車改裝，包括Akrapovic排氣管、Öhlins懸吊系統、Rizoma把手和後視鏡。',
+            model: 'SYM DRG',
+            description: '全車改裝，包括LED大燈、運動型排氣管與懸吊，提升操控與外觀。',
             date: '2025-04-10',
-            tags: ['排氣管', '懸吊', '外觀', 'Yamaha'],
+            tags: ['LED大燈', '排氣管', '懸吊', 'SYM'],
             stats: {
                 likes: 247,
                 comments: 42,
@@ -932,18 +1055,18 @@ function loadGalleryItems() {
         },
         {
             id: 2,
-            title: 'Ducati Monster 821 Café Racer',
-            image: 'images/gallery/ducati-mod.jpg',
+            title: 'SYM MMBCU 日常通勤改裝',
+            image: 'images/bikes/mmbcu.jpg',
             author: {
                 name: '咖啡騎士',
-                avatar: 'images/avatars/user2.jpg'
+                avatar: 'images/avatars/user2.svg'
             },
-            category: 'naked',
-            style: 'cafe',
-            model: 'Ducati Monster 821',
-            description: '經典咖啡風格改裝，改裝部件包括裁切後尾、café racer座墊、clip-on把手。',
+            category: 'scooter',
+            style: 'street',
+            model: 'SYM MMBCU',
+            description: '換裝LED方向燈與運動型後避震，兼顧安全與舒適。',
             date: '2025-04-08',
-            tags: ['把手', '座墊', '尾段', 'Ducati'],
+            tags: ['方向燈', '避震', 'SYM'],
             stats: {
                 likes: 198,
                 comments: 36,
@@ -952,18 +1075,18 @@ function loadGalleryItems() {
         },
         {
             id: 3,
-            title: 'Honda CBR1000RR 競技版',
-            image: 'images/gallery/cbr-mod.jpg',
+            title: 'SYM SL 街頭風格改裝',
+            image: 'images/bikes/sl.jpg',
             author: {
                 name: '賽道狂人',
-                avatar: 'images/avatars/user3.jpg'
+                avatar: 'images/avatars/user3.svg'
             },
-            category: 'sport',
-            style: 'racing',
-            model: 'Honda CBR1000RR',
-            description: '賽道專用改裝，包括全車碳纖維車殼、競技懸吊和電子系統優化。',
+            category: 'scooter',
+            style: 'street',
+            model: 'SYM SL',
+            description: '外觀升級與排氣管改裝，展現個人風格。',
             date: '2025-04-05',
-            tags: ['碳纖維', '懸吊', '電子系統', 'Honda'],
+            tags: ['外觀', '排氣管', 'SYM'],
             stats: {
                 likes: 312,
                 comments: 58,
@@ -972,18 +1095,18 @@ function loadGalleryItems() {
         },
         {
             id: 4,
-            title: 'Harley-Davidson Sportster Bobber',
-            image: 'images/gallery/harley-mod.jpg',
+            title: 'SYM SR 都會通勤改裝',
+            image: 'images/bikes/sr.jpg',
             author: {
                 name: '美式車迷',
-                avatar: 'images/avatars/user4.jpg'
+                avatar: 'images/avatars/user4.svg'
             },
-            category: 'cruiser',
-            style: 'bobber',
-            model: 'Harley-Davidson Sportster',
-            description: 'Bobber風格改裝，包括短尾、單座椅、高把手和改裝化油器。',
+            category: 'scooter',
+            style: 'street',
+            model: 'SYM SR',
+            description: '加裝LED大燈與避震，提升夜間安全與舒適性。',
             date: '2025-04-03',
-            tags: ['座椅', '把手', '化油器', 'Harley'],
+            tags: ['LED大燈', '避震', 'SYM'],
             stats: {
                 likes: 274,
                 comments: 45,
@@ -992,42 +1115,82 @@ function loadGalleryItems() {
         },
         {
             id: 5,
-            title: 'BMW R1250GS 長途旅行版',
-            image: 'images/gallery/bmw-mod.jpg',
+            title: 'SYM FORCE 性能改裝',
+            image: 'images/bikes/FORCE.jpg',
             author: {
-                name: '環球騎士',
-                avatar: 'images/avatars/user5.jpg'
+                name: '改裝達人',
+                avatar: 'images/avatars/user1.svg'
             },
-            category: 'adventure',
-            style: 'touring',
-            model: 'BMW R1250GS',
-            description: '長途旅行改裝，包括加大油箱、側箱系統、加高擋風鏡和座椅加熱系統。',
-            date: '2025-04-01',
-            tags: ['油箱', '側箱', '擋風鏡', 'BMW'],
+            category: 'scooter',
+            style: 'racing',
+            model: 'SYM FORCE',
+            description: '全車改裝，包括LED大燈、運動型排氣管與懸吊，提升操控與外觀。',
+            date: '2025-04-10',
+            tags: ['LED大燈', '排氣管', '懸吊', 'SYM'],
             stats: {
-                likes: 186,
-                comments: 32,
-                views: 967
+                likes: 312,
+                comments: 56,
+                views: 1580
             }
         },
         {
             id: 6,
-            title: 'Kawasaki Z900 街頭風格改裝',
-            image: 'images/gallery/z900-mod.jpg',
+            title: 'YAMAHA CYGNUS GRYPHUS 時尚改裝',
+            image: 'images/bikes/CYGNUS GRYPHUS.jpg',
             author: {
-                name: '街頭騎士',
-                avatar: 'images/avatars/user6.jpg'
+                name: '改裝達人',
+                avatar: 'images/avatars/user3.svg'
             },
-            category: 'naked',
+            category: 'scooter',
             style: 'street',
-            model: 'Kawasaki Z900',
-            description: '個性化街頭風格改裝，包括LED燈組、短尾、特製塗裝和SC-Project排氣管。',
-            date: '2025-03-28',
-            tags: ['LED', '尾段', '塗裝', 'Kawasaki'],
+            model: 'YAMAHA CYGNUS GRYPHUS',
+            description: '全車改裝，包括LED大燈、運動型排氣管與懸吊，提升操控與外觀。',
+            date: '2025-04-10',
+            tags: ['LED大燈', '排氣管', '側殼', 'YAMAHA'],
             stats: {
-                likes: 235,
-                comments: 41,
-                views: 1254
+                likes: 286,
+                comments: 48,
+                views: 1422
+            }
+        },
+        {
+            id: 7,
+            title: 'SYM KRV 街頭風格改裝',
+            image: 'images/bikes/KRV.jpg',
+            author: {
+                name: '改裝達人',
+                avatar: 'images/avatars/user2.svg'
+            },
+            category: 'scooter',
+            style: 'street',
+            model: 'SYM KRV',
+            description: '全車改裝，包括LED大燈、運動型排氣管與懸吊，提升操控與外觀。',
+            date: '2025-04-10',
+            tags: ['LED大燈', '排氣管', '懸吊', 'SYM'],
+            stats: {
+                likes: 253,
+                comments: 39,
+                views: 1287
+            }
+        },
+        {
+            id: 8,
+            title: 'SYM AUGUR 越野風格改裝',
+            image: 'images/bikes/AUGUR.jpg',
+            author: {
+                name: '改裝達人',
+                avatar: 'images/avatars/user4.svg'
+            },
+            category: 'scooter',
+            style: 'scrambler',
+            model: 'SYM AUGUR',
+            description: '全車改裝，包括LED大燈、運動型排氣管與懸吊，提升操控與外觀。',
+            date: '2025-04-10',
+            tags: ['LED大燈', '排氣管', '懸吊', 'SYM'],
+            stats: {
+                likes: 267,
+                comments: 44,
+                views: 1356
             }
         }
     ];

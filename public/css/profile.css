@@ -533,6 +533,51 @@ main {
     margin-right: 0.5rem;
 }
 
+/* 貼文預覽模態框樣式 */
+.post-preview-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1.5rem;
+}
+
+.post-title {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+.post-meta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+}
+
+.post-content {
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    color: var(--text-color);
+}
+
+.post-stats {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--secondary-color);
+}
+
+.post-stats i {
+    color: var(--primary-color);
+    margin-right: 0.5rem;
+}
+
+.post-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+}
+
 /* 響應式設計 */
 @media (max-width: 992px) {
     .profile-content {
@@ -570,6 +615,24 @@ main {
     .bikes-grid,
     .likes-grid {
         grid-template-columns: 1fr;
+    }
+    
+    .post-preview-container {
+        padding: 1rem;
+    }
+    
+    .post-title {
+        font-size: 1.5rem;
+    }
+    
+    .post-actions {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .post-actions .btn {
+        width: 100%;
+        text-align: center;
     }
 }
 

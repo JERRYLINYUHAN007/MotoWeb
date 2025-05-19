@@ -15,7 +15,7 @@ function insertNavbar() {
         navbar.innerHTML = `
             <div class="navbar-container">
                 <a href="/" class="logo">
-                    <img src="/images/logo.svg" alt="MotoWeb Logo">
+                    <img src="/MOTOWEB.png" alt="MotoWeb Logo">
                     <span>MotoWeb</span>
                 </a>
                 
@@ -26,6 +26,14 @@ function insertNavbar() {
                 </div>
                 
                 <div class="nav-links">
+                    <a href="/">首頁</a>
+                    <a href="/products.html">改裝零件</a>
+                    <a href="/community.html">社群討論</a>
+                    <a href="/showcase.html">作品展示</a>
+                    <a href="/events.html">改裝活動</a>
+                </div>
+
+                <div class="user-actions"> 
                     <div class="user-menu">
                         <img src="/images/default-avatar.svg" alt="用戶頭像" class="avatar">
                         <div class="dropdown-menu">
@@ -43,7 +51,7 @@ function insertNavbar() {
         navbar.innerHTML = `
             <div class="navbar-container">
                 <a href="/" class="logo">
-                    <img src="/images/logo.svg" alt="MotoWeb Logo">
+                    <img src="/MOTOWEB.png" alt="MotoWeb Logo">
                     <span>MotoWeb</span>
                 </a>
                 
@@ -183,9 +191,40 @@ function initializeNavigation() {
     });
 }
 
+/**
+ * 初始化頁面過渡效果
+ */
+function initPageTransitions() {
+    const body = document.body;
+
+    // 進入頁面時添加動畫
+    body.classList.add('fade-in');
+
+    // 點擊連結時的處理 - 這部分邏輯已證明會導致導航問題，因此移除其內部操作，僅保留函數結構以備未來可能重新設計轉場效果
+    // document.addEventListener('click', function(e) {
+    //     const targetLink = e.target.closest('a');
+
+    //     if (targetLink && targetLink.href && 
+    //         targetLink.hostname === window.location.hostname && // 確保是同站連結
+    //         targetLink.getAttribute('target') !== '_blank' && // 不是在新分頁開啟
+    //         !targetLink.href.includes('#') && // 不是錨點連結
+    //         !targetLink.hasAttribute('download') && // 不是下載連結
+    //         !targetLink.classList.contains('no-transition')) { // 避免特定連結的轉場
+            
+    //         // 原本的淡出動畫和延遲導航邏輯已註解
+    //         // e.preventDefault();
+    //         // body.classList.add('fade-out');
+    //         // setTimeout(function() {
+    //         //     window.location.href = targetLink.href;
+    //         // }, 300); // 動畫時間
+    //     }
+    // });
+}
+
 // 當 DOM 加載完成時執行
 document.addEventListener('DOMContentLoaded', () => {
     insertNavbar();
     insertFooter();
     initializeNavigation();
+    initPageTransitions();
 }); 
