@@ -1,0 +1,598 @@
+/**
+ * profile.css
+ * 個人資料頁面樣式
+ */
+
+/* 共用變數從主樣式表引入 */
+@import url('style.css');
+
+/* 頁面基本樣式 */
+.profile-page {
+    background-color: var(--section-alt-bg);
+}
+
+main {
+    padding: 2rem 0;
+}
+
+/* 個人資料頁頭部 */
+.profile-header {
+    background-color: var(--light-color);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 2rem;
+    overflow: hidden;
+}
+
+.profile-cover {
+    position: relative;
+    height: 240px;
+    overflow: hidden;
+}
+
+.profile-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.edit-cover-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.edit-cover-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.profile-info {
+    position: relative;
+    padding: 0 2rem 2rem;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.profile-avatar {
+    position: relative;
+    margin-top: -60px;
+    margin-right: 2rem;
+}
+
+.profile-avatar img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 5px solid var(--light-color);
+    object-fit: cover;
+}
+
+.edit-avatar-btn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.edit-avatar-btn:hover {
+    background-color: var(--button-hover-color);
+}
+
+.profile-details {
+    flex: 1;
+    min-width: 0;
+    padding-top: 1rem;
+}
+
+.profile-details h1 {
+    display: flex;
+    align-items: center;
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.edit-btn {
+    margin-left: 1rem;
+    background: none;
+    border: none;
+    color: var(--secondary-color);
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.edit-btn:hover {
+    color: var(--primary-color);
+}
+
+.user-bio {
+    color: var(--secondary-color);
+    margin-bottom: 1.5rem;
+}
+
+.user-stats {
+    display: flex;
+    gap: 2rem;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-number {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: var(--secondary-color);
+}
+
+/* 個人資料內容區域 */
+.profile-content {
+    display: grid;
+    grid-template-columns: minmax(250px, 1fr) 3fr;
+    gap: 2rem;
+}
+
+.profile-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.profile-section {
+    background-color: var(--light-color);
+    border-radius: var(--border-radius-md);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.profile-section h3 {
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--section-alt-bg);
+}
+
+.info-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.info-group i {
+    width: 24px;
+    margin-right: 0.75rem;
+    color: var(--primary-color);
+}
+
+.tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tag {
+    background-color: var(--section-alt-bg);
+    color: var(--text-color);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.tag:hover {
+    background-color: var(--primary-color);
+    color: var(--light-color);
+}
+
+.quick-links {
+    list-style: none;
+}
+
+.quick-links li {
+    margin-bottom: 0.75rem;
+}
+
+.quick-links a {
+    display: flex;
+    align-items: center;
+    color: var(--text-color);
+    transition: color 0.3s ease;
+}
+
+.quick-links a:hover {
+    color: var(--primary-color);
+}
+
+.quick-links i {
+    width: 24px;
+    margin-right: 0.75rem;
+    color: var(--primary-color);
+}
+
+/* 主要內容區 */
+.profile-main {
+    background-color: var(--light-color);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+
+.profile-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--section-alt-bg);
+}
+
+.tab-btn {
+    padding: 1rem 1.5rem;
+    background: none;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+.tab-btn:hover {
+    color: var(--primary-color);
+}
+
+.tab-btn.active {
+    color: var(--primary-color);
+}
+
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--primary-color);
+}
+
+.tab-content {
+    padding: 1.5rem;
+}
+
+.tab-content.hidden {
+    display: none;
+}
+
+/* 我的貼文區域 */
+.posts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.post-item {
+    border-radius: var(--border-radius-md);
+    border: 1px solid var(--section-alt-bg);
+    padding: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.post-item:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+}
+
+.post-header h3 {
+    margin-bottom: 0;
+    color: var(--text-color);
+}
+
+.post-date {
+    font-size: 0.875rem;
+    color: var(--secondary-color);
+}
+
+.post-excerpt {
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.post-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.post-stats {
+    display: flex;
+    gap: 1rem;
+}
+
+.post-stats span {
+    display: flex;
+    align-items: center;
+    color: var(--secondary-color);
+    font-size: 0.875rem;
+}
+
+.post-stats i {
+    margin-right: 0.25rem;
+}
+
+.post-link {
+    font-weight: 500;
+    color: var(--primary-color);
+}
+
+/* 我的愛車區域 */
+.bikes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.bike-card {
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    border: 1px solid var(--section-alt-bg);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bike-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+.bike-image {
+    height: 180px;
+    overflow: hidden;
+}
+
+.bike-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.bike-card:hover .bike-image img {
+    transform: scale(1.05);
+}
+
+.bike-info {
+    padding: 1.25rem;
+}
+
+.bike-info h3 {
+    margin-bottom: 0.5rem;
+}
+
+.bike-details {
+    color: var(--secondary-color);
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+}
+
+.bike-mods {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.mod-tag {
+    background-color: var(--section-alt-bg);
+    color: var(--text-color);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+}
+
+/* 收藏項目區域 */
+.likes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.liked-item {
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    border: 1px solid var(--section-alt-bg);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.liked-item:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+.liked-item img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+}
+
+.liked-item-info {
+    padding: 1.25rem;
+}
+
+.liked-item-info h3 {
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+}
+
+.liked-item-info p {
+    color: var(--secondary-color);
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+}
+
+.liked-item-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.price {
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.btn-small {
+    font-size: 0.875rem;
+    padding: 0.35rem 0.75rem;
+}
+
+/* 模態框樣式 */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+
+.modal.open {
+    display: flex;
+}
+
+.modal-content {
+    background-color: var(--light-color);
+    border-radius: var(--border-radius-md);
+    max-width: 600px;
+    width: 100%;
+    padding: 2rem;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.close-modal {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--secondary-color);
+}
+
+.modal h2 {
+    margin-bottom: 1.5rem;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-group input {
+    margin-right: 0.5rem;
+}
+
+/* 響應式設計 */
+@media (max-width: 992px) {
+    .profile-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .profile-sidebar {
+        order: 2;
+    }
+    
+    .profile-main {
+        order: 1;
+        margin-bottom: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-avatar {
+        margin-top: -40px;
+    }
+    
+    .profile-avatar img {
+        width: 90px;
+        height: 90px;
+    }
+    
+    .user-stats {
+        gap: 1rem;
+    }
+    
+    .profile-cover {
+        height: 180px;
+    }
+    
+    .bikes-grid,
+    .likes-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .profile-info {
+        padding: 0 1rem 1.5rem;
+    }
+    
+    .profile-details h1 {
+        font-size: 1.5rem;
+    }
+    
+    .profile-tabs {
+        flex-wrap: wrap;
+    }
+    
+    .tab-btn {
+        flex-grow: 1;
+        padding: 1rem 0.5rem;
+        text-align: center;
+    }
+    
+    .tab-content {
+        padding: 1rem;
+    }
+} 

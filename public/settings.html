@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>帳號設定 - MotoMod 摩托車改裝社群</title>
+    <meta name="description" content="管理您的 MotoMod 帳號設定與偏好">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/settings.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="settings-page">
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                <a href="index.html" aria-label="MotoMod首頁">
+                    <img src="images/logo.svg" alt="MotoMod Logo" class="logo-img">
+                    <h1>MotoMod</h1>
+                </a>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <div class="main-nav">
+                    <a href="index.html">首頁</a>
+                    <a href="products.html">改裝零件</a>
+                    <a href="community.html">社群討論</a>
+                    <a href="gallery.html">作品展示</a>
+                    <a href="events.html">改裝活動</a>
+                </div>
+                <div class="auth-buttons">
+                    <!-- 這裡將由 auth-state.js 動態更新 -->
+                </div>
+            </div>
+            <button class="menu-toggle" aria-label="展開選單" aria-expanded="false" aria-controls="navLinks">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <h1 class="page-title">帳號設定</h1>
+            
+            <div class="settings-container">
+                <div class="settings-sidebar">
+                    <ul class="settings-nav">
+                        <li><a href="#account" class="active" data-section="account">帳號資訊</a></li>
+                        <li><a href="#security" data-section="security">安全設定</a></li>
+                        <li><a href="#notifications" data-section="notifications">通知偏好</a></li>
+                        <li><a href="#privacy" data-section="privacy">隱私設定</a></li>
+                        <li><a href="#devices" data-section="devices">已登入裝置</a></li>
+                        <li><a href="#data" data-section="data">資料與隱私</a></li>
+                    </ul>
+                </div>
+                
+                <div class="settings-content">
+                    <!-- 帳號資訊設定 -->
+                    <section id="account" class="settings-section active">
+                        <h2>帳號資訊</h2>
+                        <p class="section-desc">您可以在此管理基本帳號資訊。</p>
+                        
+                        <form id="accountForm" class="settings-form">
+                            <div class="form-group">
+                                <label for="email">電子郵件</label>
+                                <input type="email" id="email" name="email" value="user@example.com" disabled>
+                                <button type="button" class="link-button" id="changeEmailBtn">變更電子郵件</button>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="username">用戶名稱</label>
+                                <input type="text" id="username" name="username" value="用戶名稱">
+                                <p class="input-hint">用戶名稱在整個平台是唯一的</p>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="phone">手機號碼</label>
+                                <input type="tel" id="phone" name="phone" placeholder="新增手機號碼">
+                                <p class="input-hint">用於帳號安全與驗證</p>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="language">介面語言</label>
+                                <select id="language" name="language">
+                                    <option value="zh-TW" selected>繁體中文</option>
+                                    <option value="en">English</option>
+                                    <option value="ja">日本語</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">儲存變更</button>
+                            </div>
+                        </form>
+                    </section>
+                    
+                    <!-- 安全設定 -->
+                    <section id="security" class="settings-section">
+                        <h2>安全設定</h2>
+                        <p class="section-desc">管理您的密碼與帳號安全功能。</p>
+                        
+                        <form id="securityForm" class="settings-form">
+                            <div class="form-group">
+                                <label for="currentPassword">目前密碼</label>
+                                <input type="password" id="currentPassword" name="currentPassword">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="newPassword">新密碼</label>
+                                <input type="password" id="newPassword" name="newPassword">
+                                <p class="input-hint">密碼必須包含至少8個字元，包括大小寫字母、數字和特殊符號</p>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="confirmPassword">確認新密碼</label>
+                                <input type="password" id="confirmPassword" name="confirmPassword">
+                            </div>
+                            
+                            <div class="setting-option">
+                                <div class="option-info">
+                                    <h4>雙重驗證</h4>
+                                    <p>啟用後，每次登入需要額外的安全驗證碼</p>
+                                </div>
+                                <div class="option-control">
+                                    <label class="switch">
+                                        <input type="checkbox" name="twoFactor">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-option">
+                                <div class="option-info">
+                                    <h4>登入通知</h4>
+                                    <p>當有新裝置登入您的帳號時收到通知</p>
+                                </div>
+                                <div class="option-control">
+                                    <label class="switch">
+                                        <input type="checkbox" name="loginAlert" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">更新密碼</button>
+                            </div>
+                        </form>
+                    </section>
+                    
+                    <!-- 通知偏好 -->
+                    <section id="notifications" class="settings-section">
+                        <h2>通知偏好</h2>
+                        <p class="section-desc">管理您想接收的通知類型。</p>
+                        
+                        <div class="settings-form">
+                            <div class="setting-option">
+                                <div class="option-info">
+                                    <h4>電子郵件通知</h4>
+                                    <p>透過電子郵件接收通知</p>
+                                </div>
+                                <div class="option-control">
+                                    <label class="switch">
+                                        <input type="checkbox" name="emailNotif" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-option">
+                                <div class="option-info">
+                                    <h4>推播通知</h4>
+                                    <p>允許網站發送推播通知</p>
+                                </div>
+                                <div class="option-control">
+                                    <label class="switch">
+                                        <input type="checkbox" name="pushNotif">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <h3 class="settings-subtitle">接收通知類型</h3>
+                            
+                            <div class="setting-option">
+                                <div class="option-info">
+                                    <h4>留言回覆</h4>
+                                    <p>當有人回覆您的貼文或評論</p>
+                                </div>
+                                <div class="option-control">
+                                    <label class="switch">
+                                        <input type="checkbox" name="commentNotif" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-option">
+                                <div class="option-info">
+                                    <h4>讚與收藏</h4>
+                                    <p>當有人讚或收藏您的貼文</p>
+                                </div>
+                                <div class="option-control">
+                                    <label class="switch">
+                                        <input type="checkbox" name="likeNotif" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-option">
+                                <div class="option-info">
+                                    <h4>活動訊息</h4>
+                                    <p>關於近期改裝活動的通知</p>
+                                </div>
+                                <div class="option-control">
+                                    <label class="switch">
+                                        <input type="checkbox" name="eventNotif" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-option">
+                                <div class="option-info">
+                                    <h4>產品更新</h4>
+                                    <p>關於您感興趣零件的新品與折扣通知</p>
+                                </div>
+                                <div class="option-control">
+                                    <label class="switch">
+                                        <input type="checkbox" name="productNotif">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-option">
+                                <div class="option-info">
+                                    <h4>系統更新</h4>
+                                    <p>平台功能與政策更新的通知</p>
+                                </div>
+                                <div class="option-control">
+                                    <label class="switch">
+                                        <input type="checkbox" name="systemNotif" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-primary" id="saveNotifications">儲存偏好設定</button>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- 隱私設定 -->
+                    <section id="privacy" class="settings-section">
+                        <h2>隱私設定</h2>
+                        <p class="section-desc">控制誰可以看到您的資料與活動。</p>
+                        
+                        <div class="settings-form">
+                            <h3 class="settings-subtitle">資料可見性</h3>
+                            
+                            <div class="setting-option">
+                                <div class="option-info">
+                                    <h4>個人資料</h4>
+                                    <p>誰可以看到您的個人資料</p>
+                                </div>
+                                <div class="option-control">
+                                    <select name="profileVisibility">
+                                        <option value="public">所有人</option>
+                                        <option value="friends">僅追蹤者</option>
+                                        <option value="private">僅自己</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-option">
+                                <div class="option-info">
+                                    <h4>車庫內容</h4>
+                                    <p>誰可以看到您的愛車資訊</p>
+                                </div>
+                                <div class="option-control">
+                                    <select name="garageVisibility">
+                                        <option value="public">所有人</option>
+                                        <option value="friends">僅追蹤者</option>
+                                        <option value="private">僅自己</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-option">
+                                <div class="option-info">
+                                    <h4>聯絡資訊</h4>
+                                    <p>是否顯示您的聯絡資訊</p>
+                                </div>
+                                <div class="option-control">
+                                    <select name="contactVisibility">
+                                        <option value="public">所有人</option>
+                                        <option value="friends">僅追蹤者</option>
+                                        <option value="private">僅自己</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <h3 class="settings-subtitle">互動設定</h3>
+                            
+                            <div class="setting-option">
+                                <div class="option-info">
+                                    <h4>允許標記</h4>
+                                    <p>允許其他用戶在貼文中標記您</p>
+                                </div>
+                                <div class="option-control">
+                                    <label class="switch">
+                                        <input type="checkbox" name="allowTagging" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-option">
+                                <div class="option-info">
+                                    <h4>活動狀態</h4>
+                                    <p>顯示您最後活動的時間</p>
+                                </div>
+                                <div class="option-control">
+                                    <label class="switch">
+                                        <input type="checkbox" name="showActivity" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-primary" id="savePrivacy">儲存隱私設定</button>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- 已登入裝置 -->
+                    <section id="devices" class="settings-section">
+                        <h2>已登入裝置</h2>
+                        <p class="section-desc">管理您目前登入的裝置。</p>
+                        
+                        <div class="devices-list">
+                            <div class="device-item current">
+                                <div class="device-info">
+                                    <i class="fas fa-laptop"></i>
+                                    <div>
+                                        <h4>Windows 10 - Chrome</h4>
+                                        <p>台北市 • 目前使用中</p>
+                                        <span class="device-time">上次活動: 目前</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-danger" disabled>此裝置</button>
+                            </div>
+                            
+                            <div class="device-item">
+                                <div class="device-info">
+                                    <i class="fas fa-mobile-alt"></i>
+                                    <div>
+                                        <h4>iPhone 14 - Safari</h4>
+                                        <p>台北市 • 信任的裝置</p>
+                                        <span class="device-time">上次活動: 昨天 15:45</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-danger">登出</button>
+                            </div>
+                            
+                            <div class="device-item">
+                                <div class="device-info">
+                                    <i class="fas fa-tablet-alt"></i>
+                                    <div>
+                                        <h4>iPad Pro - Safari</h4>
+                                        <p>台北市 • 信任的裝置</p>
+                                        <span class="device-time">上次活動: 2024-05-10 09:30</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-danger">登出</button>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions centered">
+                            <button type="button" class="btn btn-danger" id="logoutAllDevices">登出所有其他裝置</button>
+                        </div>
+                    </section>
+                    
+                    <!-- 資料與隱私 -->
+                    <section id="data" class="settings-section">
+                        <h2>資料與隱私</h2>
+                        <p class="section-desc">管理您的個人資料和隱私選項。</p>
+                        
+                        <div class="data-options">
+                            <div class="data-option">
+                                <div class="option-description">
+                                    <h3>下載您的資料</h3>
+                                    <p>匯出您在 MotoMod 上的個人資料和活動記錄的副本。</p>
+                                </div>
+                                <button class="btn btn-outline">請求資料</button>
+                            </div>
+                            
+                            <div class="data-option">
+                                <div class="option-description">
+                                    <h3>資料使用</h3>
+                                    <p>管理我們如何使用您的資料來改進服務和提供個人化內容。</p>
+                                </div>
+                                <button class="btn btn-outline">管理權限</button>
+                            </div>
+                            
+                            <div class="data-option">
+                                <div class="option-description">
+                                    <h3>刪除帳號</h3>
+                                    <p>永久刪除您的帳號及所有相關資料。此操作無法撤銷。</p>
+                                </div>
+                                <button class="btn btn-danger">刪除帳號</button>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- 變更電子郵件模態框 -->
+    <div class="modal" id="changeEmailModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>變更電子郵件</h2>
+            <form id="changeEmailForm">
+                <div class="form-group">
+                    <label for="currentEmail">目前電子郵件</label>
+                    <input type="email" id="currentEmail" value="user@example.com" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="newEmail">新電子郵件</label>
+                    <input type="email" id="newEmail" name="newEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmEmailPassword">輸入密碼以確認變更</label>
+                    <input type="password" id="confirmEmailPassword" name="confirmEmailPassword" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelEmailChange">取消</button>
+                    <button type="submit" class="btn btn-primary">確認變更</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section about">
+                    <div class="footer-logo">
+                        <img src="images/logo-white.svg" alt="MotoMod Logo" class="footer-logo-img">
+                        <h3>MotoMod</h3>
+                    </div>
+                    <p>專業的摩托車改裝社群平台，為車友提供交流與分享的空間。</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section links">
+                    <h3>快速連結</h3>
+                    <ul>
+                        <li><a href="about.html">關於我們</a></li>
+                        <li><a href="products.html">改裝零件</a></li>
+                        <li><a href="community.html">社群討論</a></li>
+                        <li><a href="gallery.html">作品展示</a></li>
+                        <li><a href="events.html">改裝活動</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section contact">
+                    <h3>聯絡資訊</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-envelope"></i> contact@motomod.com</li>
+                        <li><i class="fas fa-phone"></i> (02) 1234-5678</li>
+                        <li><i class="fas fa-map-marker-alt"></i> 台北市信義區松仁路100號</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section newsletter">
+                    <h3>訂閱電子報</h3>
+                    <p>獲取最新改裝趨勢與活動資訊</p>
+                    <form class="newsletter-form" action="subscribe.php" method="POST">
+                        <input type="email" name="email" placeholder="您的電子郵件" required>
+                        <button type="submit" class="btn">訂閱</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 MotoMod. 保留所有權利。</p>
+                <div class="footer-bottom-links">
+                    <a href="privacy.html">隱私政策</a>
+                    <a href="terms.html">使用條款</a>
+                    <a href="cookies.html">Cookie 政策</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/auth-state.js"></script>
+</body>
+</html> 

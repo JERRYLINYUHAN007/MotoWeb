@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="60" viewBox="0 0 200 60">
+  <!-- 背景圓形 -->
+  <circle cx="30" cy="30" r="25" fill="#3498db"/>
+  
+  <!-- M字樣 -->
+  <path d="M18,15 L25,40 L30,30 L35,40 L42,15" stroke="white" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- 文字部分 -->
+  <text x="65" y="35" font-family="Arial, sans-serif" font-size="22" font-weight="bold" fill="#333">MOTOWEB</text>
+  
+  <!-- 裝飾線 -->
+  <line x1="60" y1="15" x2="60" y2="45" stroke="#3498db" stroke-width="2"/>
+</svg> 

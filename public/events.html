@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>改裝活動 - MotoMod 摩托車改裝社群</title>
+    <meta name="description" content="參與MotoMod舉辦的摩托車改裝活動，與車友交流互動、學習改裝技術">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/events.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="events-page">
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                <a href="index.html" aria-label="MotoMod首頁">
+                    <img src="images/logo.svg" alt="MotoMod Logo" class="logo-img">
+                    <h1>MotoMod</h1>
+                </a>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <div class="main-nav">
+                    <a href="index.html">首頁</a>
+                    <a href="products.html">改裝零件</a>
+                    <a href="community.html">社群討論</a>
+                    <a href="gallery.html">作品展示</a>
+                    <a href="events.html" class="active" aria-current="page">改裝活動</a>
+                </div>
+                <div class="auth-buttons">
+                    <a href="login.html" class="btn btn-secondary">登入</a>
+                    <a href="register.html" class="btn btn-primary">註冊</a>
+                </div>
+            </div>
+            <button class="menu-toggle" aria-label="展開選單" aria-expanded="false" aria-controls="navLinks">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
+    </nav>
+
+    <main>
+        <section class="events-hero">
+            <div class="container">
+                <h1>改裝活動</h1>
+                <p>參與精彩的摩托車改裝活動，與車友交流切磋，提升您的改裝技術</p>
+                <div class="hero-actions">
+                    <button class="btn btn-primary create-event-btn" id="createEventBtn">
+                        <i class="fas fa-plus"></i>
+                        舉辦活動
+                    </button>
+                    <div class="search-bar">
+                        <input type="text" placeholder="搜尋活動..." aria-label="搜尋活動" id="eventSearchInput">
+                        <button type="button" class="search-btn" id="eventSearchBtn" aria-label="搜尋">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="events-filter">
+            <div class="container">
+                <div class="filter-options">
+                    <div class="filter-group">
+                        <label for="eventTypeFilter">活動類型</label>
+                        <select id="eventTypeFilter">
+                            <option value="all">所有類型</option>
+                            <option value="workshop">改裝工作坊</option>
+                            <option value="competition">改裝比賽</option>
+                            <option value="meetup">車友聚會</option>
+                            <option value="seminar">技術講座</option>
+                            <option value="exhibition">展覽活動</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="eventLocationFilter">活動地點</label>
+                        <select id="eventLocationFilter">
+                            <option value="all">所有地區</option>
+                            <option value="taipei">台北市</option>
+                            <option value="new-taipei">新北市</option>
+                            <option value="taoyuan">桃園市</option>
+                            <option value="taichung">台中市</option>
+                            <option value="kaohsiung">高雄市</option>
+                            <option value="other">其他地區</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="eventDateFilter">時間範圍</label>
+                        <select id="eventDateFilter">
+                            <option value="all">所有時間</option>
+                            <option value="today">今天</option>
+                            <option value="tomorrow">明天</option>
+                            <option value="this-week">本週</option>
+                            <option value="this-month">本月</option>
+                            <option value="next-month">下個月</option>
+                        </select>
+                    </div>
+                    <div class="filter-actions">
+                        <button class="btn btn-outline" id="clearFilterBtn">清除篩選</button>
+                    </div>
+                </div>
+                <div class="view-toggles">
+                    <button class="view-toggle active" data-view="grid" aria-label="網格檢視">
+                        <i class="fas fa-th"></i>
+                    </button>
+                    <button class="view-toggle" data-view="list" aria-label="列表檢視">
+                        <i class="fas fa-list"></i>
+                    </button>
+                    <button class="view-toggle" data-view="calendar" aria-label="日曆檢視">
+                        <i class="fas fa-calendar-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="events-calendar" id="calendarView">
+            <div class="container">
+                <div class="calendar-header">
+                    <h2>活動日曆</h2>
+                    <div class="calendar-nav">
+                        <button class="btn btn-outline prev-month" id="prevMonthBtn" aria-label="上個月">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <span class="current-month" id="currentMonth">2025年4月</span>
+                        <button class="btn btn-outline next-month" id="nextMonthBtn" aria-label="下個月">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="calendar-grid" id="calendarGrid">
+                    <!-- 日曆將由 JavaScript 動態生成 -->
+                    <div class="calendar-loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <span>載入日曆中...</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="upcoming-events" id="gridView">
+            <div class="container">
+                <h2>即將舉行的活動</h2>
+                <div class="events-grid" id="eventsGrid">
+                    <!-- 活動卡片將由 JavaScript 動態生成 -->
+                    <div class="events-loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <span>載入活動中...</span>
+                    </div>
+                </div>
+                <div class="load-more">
+                    <button class="btn btn-outline" id="loadMoreBtn">
+                        <i class="fas fa-sync"></i>
+                        載入更多活動
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="events-list" id="listView">
+            <div class="container">
+                <h2>活動列表</h2>
+                <div class="events-table-wrapper">
+                    <table class="events-table">
+                        <thead>
+                            <tr>
+                                <th>日期</th>
+                                <th>活動名稱</th>
+                                <th>地點</th>
+                                <th>類型</th>
+                                <th>名額</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="eventsTableBody">
+                            <!-- 活動列表將由 JavaScript 動態生成 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="event-categories">
+            <div class="container">
+                <h2>活動類型</h2>
+                <div class="categories-grid">
+                    <a href="#" class="category-card" data-type="workshop">
+                        <div class="category-icon">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <h3>改裝工作坊</h3>
+                        <p>專業技師帶領的實作課程，學習實用的改裝技巧</p>
+                    </a>
+                    <a href="#" class="category-card" data-type="competition">
+                        <div class="category-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <h3>改裝比賽</h3>
+                        <p>展現您的改裝實力，贏得獎項與榮譽</p>
+                    </a>
+                    <a href="#" class="category-card" data-type="meetup">
+                        <div class="category-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>車友聚會</h3>
+                        <p>輕鬆交流分享的聚會，認識志同道合的夥伴</p>
+                    </a>
+                    <a href="#" class="category-card" data-type="seminar">
+                        <div class="category-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <h3>技術講座</h3>
+                        <p>專業知識分享與討論，提升改裝理論基礎</p>
+                    </a>
+                    <a href="#" class="category-card" data-type="exhibition">
+                        <div class="category-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h3>展覽活動</h3>
+                        <p>最新改裝零件與成品車展示，掌握市場趨勢</p>
+                    </a>
+                    <a href="#" class="category-card" data-type="all">
+                        <div class="category-icon">
+                            <i class="fas fa-th-list"></i>
+                        </div>
+                        <h3>查看全部</h3>
+                        <p>瀏覽所有類型的改裝活動</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="featured-event">
+            <div class="container">
+                <div class="featured-content">
+                    <div class="featured-info">
+                        <span class="featured-label">推薦活動</span>
+                        <h2>2025春季改裝盛會</h2>
+                        <p class="featured-description">
+                            一年一度的春季改裝展即將登場，現場將展示最新改裝零件與成品車，並有多場專業講座與互動展示。
+                            適合所有摩托車愛好者參加，無論您是改裝新手還是老手，都能在活動中獲得寶貴的經驗與知識。
+                        </p>
+                        <div class="featured-meta">
+                            <span><i class="fas fa-calendar-alt"></i> 2025年4月15日 - 4月17日</span>
+                            <span><i class="fas fa-map-marker-alt"></i> 台北南港展覽館</span>
+                            <span><i class="fas fa-users"></i> 已有 1,240 人報名</span>
+                        </div>
+                        <div class="featured-actions">
+                            <button class="btn btn-primary" data-event-id="1">查看詳情</button>
+                            <button class="btn btn-secondary">加入行事曆</button>
+                        </div>
+                    </div>
+                    <div class="featured-image">
+                        <img src="images/events/featured-event.jpg" alt="2025春季改裝盛會">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="events-cta">
+            <div class="container">
+                <div class="cta-content">
+                    <h2>想舉辦自己的改裝活動？</h2>
+                    <p>您可以在MotoMod平台上免費建立和推廣您的改裝活動，讓更多車友參與。</p>
+                    <button class="btn btn-primary create-event-btn-large" id="createEventBtnLarge">
+                        <i class="fas fa-plus"></i>
+                        立即建立活動
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section about">
+                    <div class="footer-logo">
+                        <img src="images/logo-white.svg" alt="MotoMod Logo" class="footer-logo-img">
+                        <h3>MotoMod</h3>
+                    </div>
+                    <p>專業的摩托車改裝社群平台，為車友提供交流與分享的空間。</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section links">
+                    <h3>快速連結</h3>
+                    <ul>
+                        <li><a href="about.html">關於我們</a></li>
+                        <li><a href="products.html">改裝零件</a></li>
+                        <li><a href="community.html">社群討論</a></li>
+                        <li><a href="gallery.html">作品展示</a></li>
+                        <li><a href="events.html">改裝活動</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section contact">
+                    <h3>聯絡資訊</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-envelope"></i> contact@motomod.com</li>
+                        <li><i class="fas fa-phone"></i> (02) 1234-5678</li>
+                        <li><i class="fas fa-map-marker-alt"></i> 台北市信義區松仁路100號</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section newsletter">
+                    <h3>訂閱電子報</h3>
+                    <p>獲取最新改裝趨勢與活動資訊</p>
+                    <form class="newsletter-form" action="subscribe.php" method="POST">
+                        <input type="email" name="email" placeholder="您的電子郵件" required aria-label="電子郵件地址">
+                        <button type="submit" class="btn">訂閱</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 MotoMod. 保留所有權利。</p>
+                <div class="footer-bottom-links">
+                    <a href="privacy.html">隱私政策</a>
+                    <a href="terms.html">使用條款</a>
+                    <a href="cookies.html">Cookie 政策</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 活動詳情模態框 -->
+    <div class="modal" id="eventModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeEventModal" aria-label="關閉">&times;</button>
+            <div class="event-details">
+                <div class="event-header">
+                    <img src="" alt="活動圖片" class="event-banner" id="eventBanner">
+                    <div class="event-badges" id="eventBadges">
+                        <!-- 活動標籤將在這裡顯示 -->
+                    </div>
+                </div>
+                <div class="event-body">
+                    <div class="event-main">
+                        <h2 class="event-title" id="eventTitle"></h2>
+                        <div class="event-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <div>
+                                    <span class="meta-label">日期</span>
+                                    <span class="meta-value" id="eventDate"></span>
+                                </div>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-clock"></i>
+                                <div>
+                                    <span class="meta-label">時間</span>
+                                    <span class="meta-value" id="eventTime"></span>
+                                </div>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div>
+                                    <span class="meta-label">地點</span>
+                                    <span class="meta-value" id="eventLocation"></span>
+                                </div>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-user"></i>
+                                <div>
+                                    <span class="meta-label">主辦方</span>
+                                    <span class="meta-value" id="eventOrganizer"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="event-tabs">
+                            <button class="event-tab active" data-tab="description">活動介紹</button>
+                            <button class="event-tab" data-tab="schedule">活動議程</button>
+                            <button class="event-tab" data-tab="speakers">講師介紹</button>
+                            <button class="event-tab" data-tab="location">活動地點</button>
+                        </div>
+                        <div class="event-tab-content active" id="tab-description">
+                            <div class="event-description" id="eventDescription"></div>
+                        </div>
+                        <div class="event-tab-content" id="tab-schedule">
+                            <div class="event-schedule" id="eventSchedule"></div>
+                        </div>
+                        <div class="event-tab-content" id="tab-speakers">
+                            <div class="event-speakers" id="eventSpeakers"></div>
+                        </div>
+                        <div class="event-tab-content" id="tab-location">
+                            <div class="event-location-map" id="eventLocationMap"></div>
+                        </div>
+                    </div>
+                    <div class="event-sidebar">
+                        <div class="registration-card">
+                            <h3>報名資訊</h3>
+                            <div class="registration-status" id="registrationStatus"></div>
+                            <div class="registration-details" id="registrationDetails"></div>
+                            <div class="price-info" id="priceInfo"></div>
+                            <div class="remaining-spots" id="remainingSpots"></div>
+                            <div class="registration-deadline" id="registrationDeadline"></div>
+                            <button class="btn btn-primary register-btn" id="registerBtn">立即報名</button>
+                            <button class="btn btn-outline add-calendar-btn" id="addCalendarBtn">
+                                <i class="fas fa-calendar-plus"></i>
+                                加入行事曆
+                            </button>
+                            <button class="btn btn-outline share-btn" id="shareEventBtn">
+                                <i class="fas fa-share-alt"></i>
+                                分享活動
+                            </button>
+                        </div>
+                        <div class="organizer-card">
+                            <h3>主辦方資訊</h3>
+                            <div class="organizer-info" id="organizerInfo"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 報名表單模態框 -->
+    <div class="modal" id="registrationModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeRegistrationModal" aria-label="關閉">&times;</button>
+            <div class="modal-header">
+                <h2>活動報名</h2>
+                <h3 id="registrationEventTitle"></h3>
+            </div>
+            <div class="modal-body">
+                <form id="registrationForm" class="registration-form">
+                    <div class="form-group">
+                        <label for="registrationName">姓名</label>
+                        <input type="text" id="registrationName" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registrationEmail">電子郵件</label>
+                        <input type="email" id="registrationEmail" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registrationPhone">電話</label>
+                        <input type="tel" id="registrationPhone" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registrationMotorcycle">您的愛車</label>
+                        <input type="text" id="registrationMotorcycle" class="form-control" placeholder="例如：Yamaha MT-09">
+                    </div>
+                    <div class="form-group">
+                        <label for="registrationExperience">改裝經驗</label>
+                        <select id="registrationExperience" class="form-control">
+                            <option value="">請選擇</option>
+                            <option value="beginner">新手 (1年以下)</option>
+                            <option value="intermediate">中級 (1-3年)</option>
+                            <option value="advanced">進階 (3-5年)</option>
+                            <option value="expert">專家 (5年以上)</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="ticketSelectionGroup">
+                        <label>選擇票種</label>
+                        <div class="ticket-options" id="ticketOptions">
+                            <!-- 票種選項將由 JavaScript 動態生成 -->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="registrationComments">備註</label>
+                        <textarea id="registrationComments" class="form-control" rows="3" placeholder="如有特殊需求請在此說明"></textarea>
+                    </div>
+                    <div class="form-group form-check">
+                        <input type="checkbox" id="registrationTerms" class="form-check-input" required>
+                        <label for="registrationTerms" class="form-check-label">我已閱讀並同意<a href="#" target="_blank">活動條款</a>與<a href="#" target="_blank">隱私政策</a></label>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancelRegistrationBtn">取消</button>
+                        <button type="submit" class="btn btn-primary" id="submitRegistrationBtn">完成報名</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 創建活動模態框 -->
+    <div class="modal" id="createEventModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeCreateEventModal" aria-label="關閉">&times;</button>
+            <div class="modal-header">
+                <h2>建立新活動</h2>
+            </div>
+            <div class="modal-body">
+                <form id="createEventForm" class="create-event-form">
+                    <div class="form-group">
+                        <label for="eventTitle">活動名稱</label>
+                        <input type="text" id="createEventTitle" class="form-control" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group half">
+                            <label for="createEventDate">活動日期</label>
+                            <input type="date" id="createEventDate" class="form-control" required>
+                        </div>
+                        <div class="form-group half">
+                            <label for="createEventTime">活動時間</label>
+                            <input type="time" id="createEventTime" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="createEventLocation">活動地點</label>
+                        <input type="text" id="createEventLocation" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="createEventType">活動類型</label>
+                        <select id="createEventType" class="form-control" required>
+                            <option value="">請選擇活動類型</option>
+                            <option value="workshop">改裝工作坊</option>
+                            <option value="competition">改裝比賽</option>
+                            <option value="meetup">車友聚會</option>
+                            <option value="seminar">技術講座</option>
+                            <option value="exhibition">展覽活動</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="createEventDescription">活動描述</label>
+                        <textarea id="createEventDescription" class="form-control" rows="5" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>上傳活動圖片</label>
+                        <div class="upload-area" id="eventImageUpload">
+                            <input type="file" id="eventImageFile" accept="image/*" class="file-input">
+                            <div class="upload-placeholder">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>點擊或拖放圖片至此處</p>
+                            </div>
+                            <div class="image-preview" id="eventImagePreview"></div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group half">
+                            <label for="createEventCapacity">活動名額</label>
+                            <input type="number" id="createEventCapacity" class="form-control" min="1" required>
+                        </div>
+                        <div class="form-group half">
+                            <label for="createEventFee">參加費用 (NT$)</label>
+                            <input type="number" id="createEventFee" class="form-control" min="0" value="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="createEventDeadline">報名截止日期</label>
+                        <input type="date" id="createEventDeadline" class="form-control" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancelCreateEventBtn">取消</button>
+                        <button type="submit" class="btn btn-primary" id="submitCreateEventBtn">建立活動</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 成功提示模態框 -->
+    <div class="modal" id="successModal">
+        <div class="modal-content modal-sm">
+            <div class="success-message">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3 id="successTitle">操作成功</h3>
+                <p id="successMessage">您的操作已經成功完成！</p>
+                <button class="btn btn-primary" id="successCloseBtn">確定</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/events.js"></script>
+    <script src="js/auth-state.js"></script>
+</body>
+</html>

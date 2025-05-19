@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>改裝案例展示 - MotoMod 摩托車改裝社群</title>
+    <meta name="description" content="探索最新的摩托車改裝案例，分享你的改裝經驗，與車友交流討論。">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/showcase.css">
+</head>
+<body class="showcase-page">
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                <a href="index.html" aria-label="MotoMod首頁">
+                    <img src="images/logo.svg" alt="MotoMod Logo" class="logo-img">
+                    <h1>MotoMod</h1>
+                </a>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <div class="main-nav">
+                    <a href="index.html">首頁</a>
+                    <a href="products.html">改裝零件</a>
+                    <a href="community.html">社群討論</a>
+                    <a href="gallery.html">作品展示</a>
+                    <a href="events.html">改裝活動</a>
+                    <a href="showcase.html" class="active" aria-current="page">改裝案例</a>
+                </div>
+                <div class="auth-buttons">
+                    <a href="login.html" class="btn btn-secondary">登入</a>
+                    <a href="register.html" class="btn btn-primary">註冊</a>
+                </div>
+            </div>
+            <button class="menu-toggle" aria-label="展開選單" aria-expanded="false" aria-controls="navLinks">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
+    </nav>
+
+    <main class="showcase-container">
+        <header class="showcase-header">
+            <h1>改裝案例展示</h1>
+            <p>探索精彩的摩托車改裝作品，分享你的改裝經驗</p>
+            <button class="upload-btn">
+                <i class="fas fa-plus"></i>
+                分享你的改裝案例
+            </button>
+        </header>
+
+        <!-- 搜尋和篩選區域 -->
+        <section class="search-filters">
+            <div class="search-bar">
+                <input type="text" placeholder="搜尋改裝案例...">
+                <button class="search-btn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <div class="filter-options">
+                <button class="filter-btn">
+                    <i class="fas fa-filter"></i>
+                    篩選條件
+                </button>
+                <select class="sort-select">
+                    <option value="latest">最新上傳</option>
+                    <option value="popular">最受歡迎</option>
+                    <option value="views">觀看最多</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- 進階搜尋面板 -->
+        <section class="advanced-search-panel">
+            <div class="filter-group">
+                <h3>車款品牌</h3>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" value="yamaha"> Yamaha</label>
+                    <label><input type="checkbox" value="honda"> Honda</label>
+                    <label><input type="checkbox" value="suzuki"> Suzuki</label>
+                    <label><input type="checkbox" value="kawasaki"> Kawasaki</label>
+                </div>
+            </div>
+            <div class="filter-group">
+                <h3>改裝類型</h3>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" value="engine"> 引擎改裝</label>
+                    <label><input type="checkbox" value="exhaust"> 排氣系統</label>
+                    <label><input type="checkbox" value="suspension"> 懸吊系統</label>
+                    <label><input type="checkbox" value="appearance"> 外觀改裝</label>
+                </div>
+            </div>
+            <div class="filter-group">
+                <h3>預算範圍</h3>
+                <div class="range-slider">
+                    <input type="range" min="0" max="1000000" step="10000" class="price-range">
+                    <span class="range-value">NT$ 500,000</span>
+                </div>
+            </div>
+            <div class="filter-actions">
+                <button class="btn btn-outline">重置</button>
+                <button class="btn btn-primary">套用篩選</button>
+            </div>
+        </section>
+
+        <!-- 展示網格 -->
+        <div class="showcase-grid">
+            <!-- 展示卡片範例 -->
+            <article class="showcase-card">
+                <div class="card-image">
+                    <img src="images/showcase/bike1.jpg" alt="改裝機車展示">
+                    <div class="card-badges">
+                        <span class="badge featured">精選</span>
+                        <span class="badge difficulty">中等難度</span>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">YAMAHA R3 全車改裝</h3>
+                    <p class="card-description">完整的車身改裝，包含引擎強化、懸吊系統升級和外觀改造...</p>
+                    <div class="card-meta">
+                        <div class="author">
+                            <img src="images/avatars/user1.jpg" alt="作者頭像">
+                            <span>by 阿明</span>
+                        </div>
+                        <div class="stats">
+                            <span><i class="fas fa-heart"></i> 245</span>
+                            <span><i class="fas fa-comment"></i> 18</span>
+                            <span><i class="fas fa-eye"></i> 1.2k</span>
+                        </div>
+                    </div>
+                    <div class="card-tags">
+                        <span class="tag">引擎改裝</span>
+                        <span class="tag">懸吊系統</span>
+                        <span class="tag">外觀改裝</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 更多卡片將由JavaScript動態生成 -->
+        </div>
+
+        <!-- 載入更多按鈕 -->
+        <div class="load-more">
+            <button class="btn btn-outline">
+                <i class="fas fa-sync"></i>
+                載入更多案例
+            </button>
+        </div>
+
+        <!-- 詳細資訊模態框 -->
+        <div class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <div class="showcase-detail">
+                    <div class="showcase-gallery">
+                        <div class="main-image">
+                            <img src="" alt="Main showcase image">
+                            <div class="gallery-nav">
+                                <button class="prev">&lt;</button>
+                                <button class="next">&gt;</button>
+                            </div>
+                        </div>
+                        <div class="thumbnail-strip">
+                            <!-- 縮圖將由JavaScript動態生成 -->
+                        </div>
+                    </div>
+                    
+                    <div class="showcase-info">
+                        <h2 class="showcase-title"></h2>
+                        <div class="author-info">
+                            <img src="" alt="Author avatar">
+                            <div>
+                                <span class="author-name"></span>
+                                <span class="post-date"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="project-description"></div>
+                        
+                        <div class="project-details">
+                            <h3>使用零件</h3>
+                            <div class="parts-list">
+                                <!-- 零件列表將由JavaScript動態生成 -->
+                            </div>
+                            
+                            <h3>規格資訊</h3>
+                            <div class="specs">
+                                <!-- 規格資訊將由JavaScript動態生成 -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/js/common.js"></script>
+    <script src="/js/showcase.js"></script>
+    <script src="js/auth-state.js"></script>
+</body>
+</html> 

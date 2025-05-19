@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MotoWeb - 摩托車改裝社群</title>
+    <meta name="description" content="MotoWeb是台灣最大的摩托車改裝社群平台，提供改裝零件展示、經驗分享與交流">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* 導航欄樣式 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 1000;
+            height: 80px;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+            padding: 0 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--secondary-color);
+        }
+
+        .logo-img {
+            height: 40px;
+            margin-right: 1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--secondary-color);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a.active {
+            color: var(--primary-color);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .menu-toggle {
+            display: none;
+        }
+
+        /* 首頁特定樣式 */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+                        url('/images/hero-bg.jpg') center/cover;
+            display: flex;
+            align-items: center;
+            color: white;
+            padding: 0 5%;
+            margin-top: -80px;
+        }
+
+        .hero .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 4rem;
+        }
+
+        .hero-content {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .hero-image {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* 特色區塊樣式 */
+        .featured-section {
+            padding: 6rem 5%;
+            background: white;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .featured-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .featured-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-image {
+            position: relative;
+            height: 250px;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-tag {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-content h3 {
+            margin: 0 0 1rem;
+            color: var(--secondary-color);
+        }
+
+        .card-content p {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .card-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-link {
+            margin-left: auto;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* 分類區塊樣式 */
+        .categories-section {
+            padding: 6rem 5%;
+            background: var(--background-color);
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .category-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--secondary-color);
+            transition: transform 0.3s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .category-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .category-card h3 {
+            margin-bottom: 1rem;
+        }
+
+        .category-card p {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* 社群討論區塊樣式 */
+        .community-section {
+            padding: 6rem 5%;
+            background: white;
+        }
+
+        .discussion-list {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            gap: 2rem;
+        }
+
+        .discussion-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .user-meta h4 {
+            color: var(--secondary-color);
+            margin: 0;
+        }
+
+        .user-meta span {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .discussion-title {
+            margin: 0 0 1rem;
+            color: var(--secondary-color);
+        }
+
+        .discussion-excerpt {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .discussion-meta {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .discussion-link {
+            margin-left: auto;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* CTA 區塊樣式 */
+        .cta-section {
+            padding: 6rem 5%;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+                        url('/images/cta-bg.jpg') center/cover;
+            color: white;
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        /* 頁尾樣式 */
+        .footer {
+            background: var(--secondary-color);
+            color: white;
+            padding: 4rem 5% 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-logo-img {
+            height: 40px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-section a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-color);
+        }
+
+        .contact-info li {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 4rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-bottom-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        /* 返回頂部按鈕 */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--primary-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background: #c1121f;
+            transform: translateY(-5px);
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 1200px) {
+            .featured-grid,
+            .categories-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                height: 60px;
+            }
+
+            .menu-toggle {
+                display: block;
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 0;
+            }
+
+            .bar {
+                display: block;
+                width: 25px;
+                height: 3px;
+                background: var(--secondary-color);
+                margin: 5px 0;
+                transition: all 0.3s ease;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .hero .container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .featured-grid,
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .footer-bottom-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                <a href="index.html" aria-label="motoweb首頁">
+                    <img src="MOTOWEB.png" alt="motoweb Logo" class="logo-img">
+                    <h1>motoweb</h1>
+                </a>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <div class="main-nav">
+                    <a href="index.html" class="active" aria-current="page">首頁</a>
+                    <a href="products.html">改裝零件</a>
+                    <a href="community.html">社群討論</a>
+                    <a href="gallery.html">作品展示</a>
+                    <a href="events.html">改裝活動</a>
+                </div>
+                <div class="auth-buttons">
+                    <a href="login.html" class="btn btn-secondary">登入</a>
+                    <a href="register.html" class="btn btn-primary">註冊</a>
+                </div>
+            </div>
+            <button class="menu-toggle" aria-label="展開選單" aria-expanded="false" aria-controls="navLinks">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">摩托車改裝的專業社群</h1>
+                <p class="hero-subtitle">分享您的改裝經驗，尋找專業建議，展示您獨一無二的愛車</p>
+                <div class="hero-buttons">
+                    <a href="#featured" class="btn btn-primary">探索改裝作品</a>
+                    <a href="community.html" class="btn btn-outline">加入討論</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="images/hero-bike.webp" alt="精品改裝摩托車" loading="eager">
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="featured" class="featured-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>精選改裝作品</h2>
+                    <p>來自社群的最受歡迎改裝案例</p>
+                </div>
+                <div class="featured-grid">
+                    <!-- 動態載入的改裝作品卡片 -->
+                </div>
+                <div class="section-footer">
+                    <a href="gallery.html" class="btn btn-primary">查看所有作品 <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </section>
+
+        <section class="categories-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>改裝分類</h2>
+                    <p>依照您的需求探索不同類型的改裝</p>
+                </div>
+                <div class="categories-grid">
+                    <a href="category.html?id=performance" class="category-card">
+                        <div class="category-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <h3>性能升級</h3>
+                        <p>引擎調校、排氣系統、進氣系統</p>
+                    </a>
+                    <a href="category.html?id=suspension" class="category-card">
+                        <div class="category-icon"><i class="fas fa-cogs"></i></div>
+                        <h3>懸吊系統</h3>
+                        <p>前叉、後避震、車身高度調整</p>
+                    </a>
+                    <a href="category.html?id=visual" class="category-card">
+                        <div class="category-icon"><i class="fas fa-paint-brush"></i></div>
+                        <h3>外觀改造</h3>
+                        <p>整流罩、塗裝、貼膜、尾翼</p>
+                    </a>
+                    <a href="category.html?id=comfort" class="category-card">
+                        <div class="category-icon"><i class="fas fa-couch"></i></div>
+                        <h3>舒適度提升</h3>
+                        <p>座墊、把手、腳踏板、儀表板</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="community-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>熱門討論</h2>
+                    <p>加入社群對話，分享您的經驗與問題</p>
+                </div>
+                <div class="discussion-list">
+                    <!-- 動態載入的討論卡片 -->
+                </div>
+                <div class="section-footer">
+                    <a href="community.html" class="btn btn-primary">查看所有討論 <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="container">
+                <div class="cta-content">
+                    <h2>加入我們的摩托車改裝社群</h2>
+                    <p>立即註冊取得專業建議、分享您的改裝經驗，並展示您的愛車</p>
+                    <div class="cta-buttons">
+                        <a href="register.html" class="btn btn-primary">免費註冊</a>
+                        <a href="about.html" class="btn btn-outline">了解更多</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section about">
+                    <div class="footer-logo">
+                        <img src="MOTOWEB.png" alt="motoweb Logo" class="footer-logo-img">
+                        <h3>motoweb</h3>
+                    </div>
+                    <p>專業的摩托車改裝社群平台，為車友提供交流與分享的空間。</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section links">
+                    <h3>快速連結</h3>
+                    <ul>
+                        <li><a href="about.html">關於我們</a></li>
+                        <li><a href="products.html">改裝零件</a></li>
+                        <li><a href="community.html">社群討論</a></li>
+                        <li><a href="gallery.html">作品展示</a></li>
+                        <li><a href="events.html">改裝活動</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section contact">
+                    <h3>聯絡資訊</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-envelope"></i> contact@MotoWeb.com</li>
+                        <li><i class="fas fa-phone"></i> (02) 1234-5678</li>
+                        <li><i class="fas fa-map-marker-alt"></i> 台北市信義區松仁路100號</li>
+                    </ul>
+                </div>
+                <div class="footer-section newsletter">
+                    <h3>訂閱電子報</h3>
+                    <p>獲取最新改裝趨勢與活動資訊</p>
+                    <form class="newsletter-form" action="subscribe.php" method="POST">
+                        <input type="email" name="email" placeholder="您的電子郵件" required>
+                        <button type="submit" class="btn btn-primary">訂閱</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MotoWeb. 保留所有權利。</p>
+                <div class="footer-bottom-links">
+                    <a href="privacy.html">隱私政策</a>
+                    <a href="terms.html">使用條款</a>
+                    <a href="cookies.html">Cookie 政策</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <button id="backToTop" class="back-to-top" aria-label="返回頁面頂部">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <script src="/js/common.js"></script>
+    <script src="js/auth-state.js"></script>
+    <script>
+        // 載入精選改裝作品
+        async function loadFeaturedWorks() {
+            try {
+                const response = await fetch('/api/featured-works');
+                const data = await response.json();
+                
+                const featuredGrid = document.querySelector('.featured-grid');
+                data.works.forEach(work => {
+                    const card = document.createElement('article');
+                    card.className = 'featured-card';
+                    card.innerHTML = `
+                        <div class="card-image">
+                            <img src="${work.image}" alt="${work.title}" loading="lazy">
+                            <div class="card-tag">${work.tag}</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>${work.title}</h3>
+                            <p>${work.description}</p>
+                            <div class="card-meta">
+                                <span class="meta-item"><i class="fas fa-heart"></i> ${work.likes}</span>
+                                <span class="meta-item"><i class="fas fa-comment"></i> ${work.comments}</span>
+                                <a href="project.html?id=${work.id}" class="card-link">查看詳情</a>
+                            </div>
+                        </div>
+                    `;
+                    featuredGrid.appendChild(card);
+                });
+            } catch (error) {
+                console.error('Error loading featured works:', error);
+            }
+        }
+
+        // 載入熱門討論
+        async function loadHotDiscussions() {
+            try {
+                const response = await fetch('/api/hot-discussions');
+                const data = await response.json();
+                
+                const discussionList = document.querySelector('.discussion-list');
+                data.discussions.forEach(discussion => {
+                    const card = document.createElement('article');
+                    card.className = 'discussion-card';
+                    card.innerHTML = `
+                        <div class="user-info">
+                            <img src="${discussion.userAvatar}" alt="用戶頭像" class="user-avatar">
+                            <div class="user-meta">
+                                <h4>${discussion.userName}</h4>
+                                <span>${discussion.timeAgo}</span>
+                            </div>
+                        </div>
+                        <h3 class="discussion-title">${discussion.title}</h3>
+                        <p class="discussion-excerpt">${discussion.excerpt}</p>
+                        <div class="discussion-meta">
+                            <span><i class="fas fa-comment"></i> ${discussion.replies} 回覆</span>
+                            <span><i class="fas fa-eye"></i> ${discussion.views} 瀏覽</span>
+                            <a href="discussion.html?id=${discussion.id}" class="discussion-link">參與討論</a>
+                        </div>
+                    `;
+                    discussionList.appendChild(card);
+                });
+            } catch (error) {
+                console.error('Error loading hot discussions:', error);
+            }
+        }
+
+        // 返回頂部按鈕功能
+        const backToTopButton = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // 手機版選單切換
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuToggle.setAttribute('aria-expanded', 
+                menuToggle.getAttribute('aria-expanded') === 'false' ? 'true' : 'false'
+            );
+        });
+
+        // 初始化頁面
+        document.addEventListener('DOMContentLoaded', () => {
+            loadFeaturedWorks();
+            loadHotDiscussions();
+        });
+    </script>
+</body>
+</html> 

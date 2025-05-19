@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的車庫 - MotoMod 摩托車改裝社群</title>
+    <meta name="description" content="管理您在 MotoMod 平台上的愛車與改裝紀錄">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/garage.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="garage-page">
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                <a href="index.html" aria-label="MotoMod首頁">
+                    <img src="images/logo.svg" alt="MotoMod Logo" class="logo-img">
+                    <h1>MotoMod</h1>
+                </a>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <div class="main-nav">
+                    <a href="index.html">首頁</a>
+                    <a href="products.html">改裝零件</a>
+                    <a href="community.html">社群討論</a>
+                    <a href="gallery.html">作品展示</a>
+                    <a href="events.html">改裝活動</a>
+                </div>
+                <div class="auth-buttons">
+                    <!-- 這裡將由 auth-state.js 動態更新 -->
+                </div>
+            </div>
+            <button class="menu-toggle" aria-label="展開選單" aria-expanded="false" aria-controls="navLinks">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <div class="garage-header">
+                <div class="header-content">
+                    <h1>我的車庫</h1>
+                    <p>管理您的愛車與改裝紀錄</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="addBikeBtn">
+                        <i class="fas fa-plus"></i>
+                        添加新車輛
+                    </button>
+                </div>
+            </div>
+
+            <div class="garage-content">
+                <div class="garage-sidebar">
+                    <div class="sidebar-section">
+                        <h2>快速導航</h2>
+                        <ul class="sidebar-nav">
+                            <li><a href="profile.html"><i class="fas fa-user-circle"></i> 個人資料</a></li>
+                            <li><a href="garage.html" class="active"><i class="fas fa-warehouse"></i> 我的車庫</a></li>
+                            <li><a href="settings.html"><i class="fas fa-cog"></i> 帳號設定</a></li>
+                        </ul>
+                    </div>
+                    <div class="sidebar-section">
+                        <h2>統計資訊</h2>
+                        <div class="stat-group">
+                            <div class="stat-item">
+                                <div class="stat-icon"><i class="fas fa-motorcycle"></i></div>
+                                <div class="stat-info">
+                                    <span class="stat-number">3</span>
+                                    <span class="stat-label">車輛總數</span>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-icon"><i class="fas fa-tools"></i></div>
+                                <div class="stat-info">
+                                    <span class="stat-number">24</span>
+                                    <span class="stat-label">改裝零件</span>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-icon"><i class="fas fa-wrench"></i></div>
+                                <div class="stat-info">
+                                    <span class="stat-number">8</span>
+                                    <span class="stat-label">維修紀錄</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sidebar-section">
+                        <h2>主要車款</h2>
+                        <div class="main-bike">
+                            <img src="images/bikes/cb650r.jpg" alt="Honda CB650R">
+                            <div class="main-bike-info">
+                                <h3>Honda CB650R</h3>
+                                <p>2022 年 · 649cc</p>
+                                <span class="status">主要車輛</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="garage-main">
+                    <div class="garage-filter">
+                        <div class="filter-group">
+                            <label for="bikeFilter">車輛篩選:</label>
+                            <select id="bikeFilter">
+                                <option value="all">所有車輛</option>
+                                <option value="street">街車</option>
+                                <option value="sport">運動車</option>
+                                <option value="scooter">速克達</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="sortOrder">排序方式:</label>
+                            <select id="sortOrder">
+                                <option value="newest">最新添加</option>
+                                <option value="oldest">最早添加</option>
+                                <option value="name">名稱 A-Z</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <div class="search-box">
+                                <input type="text" placeholder="搜尋車輛...">
+                                <button class="search-btn"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bikes-grid">
+                        <!-- Honda CB650R -->
+                        <div class="bike-card">
+                            <div class="bike-header">
+                                <div class="bike-image">
+                                    <img src="images/bikes/cb650r.jpg" alt="Honda CB650R">
+                                </div>
+                                <div class="bike-actions">
+                                    <button class="btn-icon edit-bike" title="編輯車輛資訊">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn-icon share-bike" title="分享車輛改裝">
+                                        <i class="fas fa-share-alt"></i>
+                                    </button>
+                                    <button class="btn-icon delete-bike" title="刪除車輛">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="bike-info">
+                                <div class="bike-title">
+                                    <h3>Honda CB650R</h3>
+                                    <span class="main-badge">主要車輛</span>
+                                </div>
+                                <div class="bike-specs">
+                                    <div class="spec-item">
+                                        <span class="spec-label">年份</span>
+                                        <span class="spec-value">2022</span>
+                                    </div>
+                                    <div class="spec-item">
+                                        <span class="spec-label">排量</span>
+                                        <span class="spec-value">649cc</span>
+                                    </div>
+                                    <div class="spec-item">
+                                        <span class="spec-label">里程</span>
+                                        <span class="spec-value">12,450 km</span>
+                                    </div>
+                                    <div class="spec-item">
+                                        <span class="spec-label">最後更新</span>
+                                        <span class="spec-value">2024/04/25</span>
+                                    </div>
+                                </div>
+                                <div class="bike-mods">
+                                    <h4>改裝零件 <span class="mod-count">12</span></h4>
+                                    <div class="mod-tags">
+                                        <span class="mod-tag">SC Project 排氣管</span>
+                                        <span class="mod-tag">Öhlins 避震器</span>
+                                        <span class="mod-tag">Rizoma 後視鏡</span>
+                                        <span class="mod-tag">+9 項</span>
+                                    </div>
+                                </div>
+                                <div class="bike-footer">
+                                    <a href="#" class="view-details">查看詳情</a>
+                                    <button class="btn btn-outline add-mod-btn">添加改裝</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Yamaha MT-07 -->
+                        <div class="bike-card">
+                            <div class="bike-header">
+                                <div class="bike-image">
+                                    <img src="images/bikes/mt-07.jpg" alt="Yamaha MT-07">
+                                </div>
+                                <div class="bike-actions">
+                                    <button class="btn-icon edit-bike" title="編輯車輛資訊">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn-icon share-bike" title="分享車輛改裝">
+                                        <i class="fas fa-share-alt"></i>
+                                    </button>
+                                    <button class="btn-icon delete-bike" title="刪除車輛">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="bike-info">
+                                <h3>Yamaha MT-07</h3>
+                                <div class="bike-specs">
+                                    <div class="spec-item">
+                                        <span class="spec-label">年份</span>
+                                        <span class="spec-value">2023</span>
+                                    </div>
+                                    <div class="spec-item">
+                                        <span class="spec-label">排量</span>
+                                        <span class="spec-value">689cc</span>
+                                    </div>
+                                    <div class="spec-item">
+                                        <span class="spec-label">里程</span>
+                                        <span class="spec-value">5,680 km</span>
+                                    </div>
+                                    <div class="spec-item">
+                                        <span class="spec-label">最後更新</span>
+                                        <span class="spec-value">2024/03/15</span>
+                                    </div>
+                                </div>
+                                <div class="bike-mods">
+                                    <h4>改裝零件 <span class="mod-count">8</span></h4>
+                                    <div class="mod-tags">
+                                        <span class="mod-tag">Akrapovic 排氣管</span>
+                                        <span class="mod-tag">Brembo 煞車系統</span>
+                                        <span class="mod-tag">+6 項</span>
+                                    </div>
+                                </div>
+                                <div class="bike-footer">
+                                    <a href="#" class="view-details">查看詳情</a>
+                                    <button class="btn btn-outline add-mod-btn">添加改裝</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Vespa Sprint -->
+                        <div class="bike-card">
+                            <div class="bike-header">
+                                <div class="bike-image">
+                                    <img src="images/bikes/vespa.jpg" alt="Vespa Sprint">
+                                </div>
+                                <div class="bike-actions">
+                                    <button class="btn-icon edit-bike" title="編輯車輛資訊">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn-icon share-bike" title="分享車輛改裝">
+                                        <i class="fas fa-share-alt"></i>
+                                    </button>
+                                    <button class="btn-icon delete-bike" title="刪除車輛">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="bike-info">
+                                <h3>Vespa Sprint</h3>
+                                <div class="bike-specs">
+                                    <div class="spec-item">
+                                        <span class="spec-label">年份</span>
+                                        <span class="spec-value">2021</span>
+                                    </div>
+                                    <div class="spec-item">
+                                        <span class="spec-label">排量</span>
+                                        <span class="spec-value">150cc</span>
+                                    </div>
+                                    <div class="spec-item">
+                                        <span class="spec-label">里程</span>
+                                        <span class="spec-value">8,920 km</span>
+                                    </div>
+                                    <div class="spec-item">
+                                        <span class="spec-label">最後更新</span>
+                                        <span class="spec-value">2024/01/20</span>
+                                    </div>
+                                </div>
+                                <div class="bike-mods">
+                                    <h4>改裝零件 <span class="mod-count">4</span></h4>
+                                    <div class="mod-tags">
+                                        <span class="mod-tag">Leo Vince 排氣管</span>
+                                        <span class="mod-tag">NCY 避震器</span>
+                                        <span class="mod-tag">+2 項</span>
+                                    </div>
+                                </div>
+                                <div class="bike-footer">
+                                    <a href="#" class="view-details">查看詳情</a>
+                                    <button class="btn btn-outline add-mod-btn">添加改裝</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 添加車輛模態框 -->
+    <div class="modal" id="addBikeModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>添加新車輛</h2>
+            <form id="addBikeForm">
+                <div class="form-group">
+                    <label for="bikeBrand">品牌</label>
+                    <input type="text" id="bikeBrand" name="brand" required>
+                </div>
+                <div class="form-group">
+                    <label for="bikeModel">型號</label>
+                    <input type="text" id="bikeModel" name="model" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="bikeYear">年份</label>
+                        <input type="number" id="bikeYear" name="year" min="1970" max="2030" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bikeCC">排量 (cc)</label>
+                        <input type="number" id="bikeCC" name="cc" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="bikeCategory">類別</label>
+                    <select id="bikeCategory" name="category" required>
+                        <option value="">請選擇車輛類別</option>
+                        <option value="street">街車</option>
+                        <option value="sport">運動車</option>
+                        <option value="cruiser">巡航車</option>
+                        <option value="adventure">冒險車</option>
+                        <option value="scooter">速克達</option>
+                        <option value="touring">旅行車</option>
+                        <option value="other">其他</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="bikeImage">車輛照片</label>
+                    <div class="file-upload">
+                        <input type="file" id="bikeImage" name="image" accept="image/*">
+                        <label for="bikeImage" class="file-label">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span>選擇圖片</span>
+                        </label>
+                        <div class="file-preview"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="bikeDescription">描述</label>
+                    <textarea id="bikeDescription" name="description" rows="3"></textarea>
+                </div>
+                <div class="form-group checkbox-group">
+                    <label>
+                        <input type="checkbox" name="isMainBike">
+                        <span>設為主要車輛</span>
+                    </label>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelAddBike">取消</button>
+                    <button type="submit" class="btn btn-primary">儲存車輛</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section about">
+                    <div class="footer-logo">
+                        <img src="images/logo-white.svg" alt="MotoMod Logo" class="footer-logo-img">
+                        <h3>MotoMod</h3>
+                    </div>
+                    <p>專業的摩托車改裝社群平台，為車友提供交流與分享的空間。</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section links">
+                    <h3>快速連結</h3>
+                    <ul>
+                        <li><a href="about.html">關於我們</a></li>
+                        <li><a href="products.html">改裝零件</a></li>
+                        <li><a href="community.html">社群討論</a></li>
+                        <li><a href="gallery.html">作品展示</a></li>
+                        <li><a href="events.html">改裝活動</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section contact">
+                    <h3>聯絡資訊</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-envelope"></i> contact@motomod.com</li>
+                        <li><i class="fas fa-phone"></i> (02) 1234-5678</li>
+                        <li><i class="fas fa-map-marker-alt"></i> 台北市信義區松仁路100號</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section newsletter">
+                    <h3>訂閱電子報</h3>
+                    <p>獲取最新改裝趨勢與活動資訊</p>
+                    <form class="newsletter-form" action="subscribe.php" method="POST">
+                        <input type="email" name="email" placeholder="您的電子郵件" required>
+                        <button type="submit" class="btn">訂閱</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 MotoMod. 保留所有權利。</p>
+                <div class="footer-bottom-links">
+                    <a href="privacy.html">隱私政策</a>
+                    <a href="terms.html">使用條款</a>
+                    <a href="cookies.html">Cookie 政策</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/garage.js"></script>
+    <script src="js/auth-state.js"></script>
+</body>
+</html> 

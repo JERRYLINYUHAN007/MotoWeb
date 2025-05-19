@@ -1,0 +1,191 @@
+// 插入導航欄
+function insertNavbar() {
+    // 檢查頁面是否已有導航欄
+    if (document.querySelector('.navbar')) {
+        return;
+    }
+    
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    
+    const navbar = document.createElement('nav');
+    navbar.className = 'navbar';
+    
+    if (isLoggedIn) {
+        // 登入後的導航欄結構
+        navbar.innerHTML = `
+            <div class="navbar-container">
+                <a href="/" class="logo">
+                    <img src="/images/logo.svg" alt="MotoWeb Logo">
+                    <span>MotoWeb</span>
+                </a>
+                
+                <div class="menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                
+                <div class="nav-links">
+                    <div class="user-menu">
+                        <img src="/images/default-avatar.svg" alt="用戶頭像" class="avatar">
+                        <div class="dropdown-menu">
+                            <a href="/profile.html">個人資料</a>
+                            <a href="/garage.html">我的車庫</a>
+                            <a href="/settings.html">帳號設定</a>
+                            <a href="#" id="logout">登出</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    } else {
+        // 未登入狀態的導航欄
+        navbar.innerHTML = `
+            <div class="navbar-container">
+                <a href="/" class="logo">
+                    <img src="/images/logo.svg" alt="MotoWeb Logo">
+                    <span>MotoWeb</span>
+                </a>
+                
+                <div class="menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                
+                <div class="nav-links">
+                    <a href="/" class="active">首頁</a>
+                    <a href="/showcase.html">改裝展示</a>
+                    <a href="/products.html">零件商城</a>
+                    <a href="/community.html">討論區</a>
+                    <a href="/bikes-gallery.html">車輛圖庫</a>
+                    <a href="/garage.html">車庫</a>
+                </div>
+                
+                <div class="user-actions">
+                    <a href="/login.html" class="login-btn">登入</a>
+                    <a href="/register.html" class="signup-btn">註冊</a>
+                </div>
+            </div>
+        `;
+    }
+    
+    document.body.insertBefore(navbar, document.body.firstChild);
+    
+    // 如果用戶已登入，設置登出功能
+    if (isLoggedIn) {
+        setupLogout();
+    }
+}
+
+// 設置登出功能
+function setupLogout() {
+    const logoutButton = document.getElementById('logout');
+    
+    if (logoutButton) {
+        logoutButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // 清除登入狀態
+            localStorage.removeItem('isLoggedIn');
+            
+            // 顯示登出成功提示
+            alert('登出成功！');
+            
+            // 重新導向到首頁
+            setTimeout(function() {
+                window.location.href = '/';
+            }, 500);
+        });
+    }
+}
+
+// 插入頁尾
+function insertFooter() {
+    // 檢查頁面是否已有頁尾
+    if (document.querySelector('.footer')) {
+        return;
+    }
+    
+    const footer = document.createElement('footer');
+    footer.className = 'footer';
+    footer.innerHTML = `
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>關於我們</h3>
+                <ul>
+                    <li><a href="/about.html">公司介紹</a></li>
+                    <li><a href="/contact.html">聯絡我們</a></li>
+                    <li><a href="/careers.html">工作機會</a></li>
+                    <li><a href="/press.html">媒體中心</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>服務項目</h3>
+                <ul>
+                    <li><a href="/showcase.html">改裝展示</a></li>
+                    <li><a href="/products.html">零件商城</a></li>
+                    <li><a href="/community.html">討論區</a></li>
+                    <li><a href="/garage.html">車庫</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>幫助中心</h3>
+                <ul>
+                    <li><a href="/faq.html">常見問題</a></li>
+                    <li><a href="/shipping.html">運送說明</a></li>
+                    <li><a href="/returns.html">退換貨政策</a></li>
+                    <li><a href="/privacy.html">隱私權政策</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>關注我們</h3>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">YouTube</a></li>
+                    <li><a href="#">Line</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 MotoWeb. All rights reserved.</p>
+        </div>
+    `;
+    document.body.appendChild(footer);
+}
+
+// 初始化導航欄功能
+function initializeNavigation() {
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    
+    if (menuToggle && navLinks) {
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+    }
+    
+    // 設置當前頁面的導航鏈接為活動狀態
+    const currentPath = window.location.pathname;
+    const navAnchors = document.querySelectorAll('.nav-links a');
+    
+    navAnchors.forEach(anchor => {
+        if (anchor.getAttribute('href') === currentPath) {
+            anchor.classList.add('active');
+        } else {
+            anchor.classList.remove('active');
+        }
+    });
+}
+
+// 當 DOM 加載完成時執行
+document.addEventListener('DOMContentLoaded', () => {
+    insertNavbar();
+    insertFooter();
+    initializeNavigation();
+}); 
