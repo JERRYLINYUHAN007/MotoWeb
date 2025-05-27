@@ -179,6 +179,10 @@ function initFormSubmission() {
                 const username = emailInput.value.split('@')[0]; // 從電子郵件擷取用戶名
                 localStorage.setItem('username', username);
                 
+                // 設置模擬的認證token（實際應用中會從服務器獲取）
+                const mockToken = 'mock_token_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('token', mockToken);
+                
                 // 模擬登入成功
                 showNotification('登入成功！即將跳轉到首頁...', 'success');
                 

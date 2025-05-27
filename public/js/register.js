@@ -113,6 +113,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 實際應用中，這裡應該根據 API 響應來處理
                 localStorage.setItem('isLoggedIn', 'true');
                 
+                // 儲存用戶資訊
+                localStorage.setItem('username', username);
+                
+                // 設置模擬的認證token（實際應用中會從服務器獲取）
+                const mockToken = 'mock_token_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('token', mockToken);
+                
                 // 重定向到首頁
                 window.location.href = 'index.html';
                 

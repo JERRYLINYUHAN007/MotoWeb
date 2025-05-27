@@ -654,65 +654,9 @@
     </div>
 
     <script src="js/main.js"></script>
+    <script src="js/events-api.js"></script>
     <script src="js/events.js"></script>
     <script src="js/auth-state.js"></script>
-    <script>
-        // 檢查用戶登入狀態
-        document.addEventListener('DOMContentLoaded', function() {
-            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-            const authButtons = document.querySelector('.auth-buttons');
-            const userMenu = document.querySelector('.user-menu');
-            
-            if (isLoggedIn) {
-                // 用戶已登入，顯示用戶菜單，隱藏登入/註冊按鈕
-                if (authButtons) authButtons.style.display = 'none';
-                if (userMenu) {
-                    userMenu.style.display = 'block';
-                    
-                    // 從localStorage獲取用戶信息並顯示
-                    const username = localStorage.getItem('username') || '用戶';
-                    const usernameElement = userMenu.querySelector('.username');
-                    if (usernameElement) usernameElement.textContent = username;
-                    
-                    // 點擊頭像顯示下拉菜單
-                    const userAvatar = userMenu.querySelector('.user-avatar');
-                    const dropdownMenu = userMenu.querySelector('.dropdown-menu');
-                    
-                    if (userAvatar && dropdownMenu) {
-                        userAvatar.addEventListener('click', function(e) {
-                            e.stopPropagation();
-                            dropdownMenu.classList.toggle('show');
-                        });
-                        
-                        // 點擊其他地方關閉下拉菜單
-                        document.addEventListener('click', function() {
-                            dropdownMenu.classList.remove('show');
-                        });
-                        
-                        // 防止點擊下拉菜單本身導致關閉
-                        dropdownMenu.addEventListener('click', function(e) {
-                            e.stopPropagation();
-                        });
-                    }
-                    
-                    // 登出功能
-                    const logoutBtn = document.getElementById('logout');
-                    if (logoutBtn) {
-                        logoutBtn.addEventListener('click', function(e) {
-                            e.preventDefault();
-                            localStorage.removeItem('isLoggedIn');
-                            localStorage.removeItem('username');
-                            localStorage.removeItem('token');
-                            window.location.reload();
-                        });
-                    }
-                }
-            } else {
-                // 用戶未登入，顯示登入/註冊按鈕，隱藏用戶菜單
-                if (authButtons) authButtons.style.display = 'flex';
-                if (userMenu) userMenu.style.display = 'none';
-            }
-        });
-    </script>
+
 </body>
 </html>

@@ -21,7 +21,7 @@ const PORT = config.server.port;
 const JWT_SECRET = process.env.JWT_SECRET || 'motomod_secret_key';
 
 // MongoDB 連接
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/motomod';
+const MONGO_URI = process.env.MONGODB_URI || 'mongodb+srv://Jerry:Jerrylin007@motoweb.xspj1kv.mongodb.net/motoweb?retryWrites=true&w=majority';
 let db;
 
 // 啟用CORS
@@ -112,16 +112,85 @@ async function connectToDatabase() {
     client = new MongoClient(MONGO_URI, options);
     await client.connect();
     console.log('MongoDB 連接成功！');
-    db = client.db();
+    db = client.db('motoweb');
     
-    // 確保索引
-    await db.collection('users').createIndex({ username: 1 }, { unique: true });
-    await db.collection('users').createIndex({ email: 1 }, { unique: true });
+    // 確保索引 - 使用 try-catch 避免重複創建索引錯誤
+    try {
+      await db.collection('users').createIndex({ username: 1 }, { unique: true });
+      await db.collection('users').createIndex({ email: 1 }, { unique: true });
+    } catch (error) {
+      if (!error.message.includes('already exists')) {
+        console.warn('用戶索引創建警告:', error.message);
+      }
+    }
     
-    await db.collection('showcases').createIndex({ title: 'text', description: 'text' });
-    await db.collection('products').createIndex({ name: 'text', description: 'text' });
-    await db.collection('posts').createIndex({ title: 'text', content: 'text' });
-    await db.collection('events').createIndex({ title: 'text', description: 'text' });
+    // 文字搜尋索引 - 使用與修復腳本一致的名稱和配置
+    try {
+      await db.collection('showcases').createIndex(
+        { title: 'text', description: 'text' },
+        { name: 'showcases_text_search', default_language: 'none' }
+      );
+    } catch (error) {
+      if (!error.message.includes('already exists')) {
+        console.warn('Showcases 索引創建警告:', error.message);
+      }
+    }
+    
+    try {
+      await db.collection('products').createIndex(
+        { name: 'text', description: 'text', brand: 'text', tags: 'text' },
+        { 
+          name: 'products_text_search',
+          default_language: 'none',
+          weights: { name: 10, brand: 5, description: 1, tags: 3 }
+        }
+      );
+    } catch (error) {
+      if (!error.message.includes('already exists')) {
+        console.warn('Products 索引創建警告:', error.message);
+      }
+    }
+    
+    try {
+      await db.collection('posts').createIndex(
+        { title: 'text', content: 'text' },
+        { name: 'posts_text_search', default_language: 'none' }
+      );
+    } catch (error) {
+      if (!error.message.includes('already exists')) {
+        console.warn('Posts 索引創建警告:', error.message);
+      }
+    }
+    
+    try {
+      await db.collection('events').createIndex(
+        { title: 'text', description: 'text' },
+        { name: 'events_text_search', default_language: 'none' }
+      );
+    } catch (error) {
+      if (!error.message.includes('already exists')) {
+        console.warn('Events 索引創建警告:', error.message);
+      }
+    }
+    
+    // 畫廊集合索引
+    try {
+      await db.collection('galleries').createIndex({ 
+        title: 'text', 
+        description: 'text',
+        model: 'text',
+        tags: 'text'
+      }, { name: 'galleries_text_search', default_language: 'none' });
+      
+      await db.collection('galleries').createIndex({ createdAt: -1 });
+      await db.collection('galleries').createIndex({ 'stats.likes': -1 });
+      await db.collection('galleries').createIndex({ category: 1 });
+      await db.collection('galleries').createIndex({ style: 1 });
+    } catch (error) {
+      if (!error.message.includes('already exists')) {
+        console.warn('Galleries 索引創建警告:', error.message);
+      }
+    }
     
     return true;
   } catch (error) {
@@ -145,11 +214,11 @@ async function connectToDatabase() {
     if (MONGO_URI.includes('mongodb+srv')) {
       console.log('嘗試連接到本地 MongoDB 作為備選...');
       try {
-        const localUri = 'mongodb://localhost:27017/motomod';
+        const localUri = 'mongodb://localhost:27017/motoweb';
         client = new MongoClient(localUri);
         await client.connect();
         console.log('成功連接到本地 MongoDB!');
-        db = client.db();
+        db = client.db('motoweb');
         return true;
       } catch (localError) {
         console.error('本地 MongoDB 連接也失敗:', localError.message);
@@ -575,6 +644,7 @@ app.get('/api/products', async (req, res) => {
 // 社群文章相關 API
 app.get('/api/posts', async (req, res) => {
   try {
+    console.log('API /api/posts 被調用');
     const page = parseInt(req.query.page) || 1;
     const perPage = parseInt(req.query.limit) || 10;
     const category = req.query.category;
@@ -595,13 +665,19 @@ app.get('/api/posts', async (req, res) => {
       query.tags = tag;
     }
     
+    console.log('查詢條件:', query);
+    
     const total = await db.collection('posts').countDocuments(query);
+    console.log('總文章數:', total);
+    
     const posts = await db.collection('posts')
       .find(query)
       .sort({ createdAt: -1 })
       .skip((page - 1) * perPage)
       .limit(perPage)
       .toArray();
+    
+    console.log('找到的文章數:', posts.length);
     
     res.json({
       posts,
@@ -611,6 +687,7 @@ app.get('/api/posts', async (req, res) => {
       totalPages: Math.ceil(total / perPage)
     });
   } catch (error) {
+    console.error('API錯誤:', error);
     res.status(500).json({ error: '服務器錯誤' });
   }
 });
@@ -644,6 +721,49 @@ app.post('/api/posts', authenticate, async (req, res) => {
       postId: result.insertedId
     });
   } catch (error) {
+    res.status(500).json({ error: '服務器錯誤' });
+  }
+});
+
+// 獲取單篇社群文章詳情
+app.get('/api/posts/:id', async (req, res) => {
+  try {
+    const { ObjectId } = require('mongodb');
+    
+    if (!ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ error: '無效的文章ID' });
+    }
+    
+    const post = await db.collection('posts').findOne({
+      _id: new ObjectId(req.params.id)
+    });
+    
+    if (!post) {
+      return res.status(404).json({ error: '文章不存在' });
+    }
+    
+    // 增加瀏覽次數
+    await db.collection('posts').updateOne(
+      { _id: new ObjectId(req.params.id) },
+      { $inc: { views: 1 } }
+    );
+    
+    // 生成摘要（如果沒有的話）
+    if (!post.excerpt) {
+      const textContent = post.content.replace(/<[^>]*>/g, ''); // 移除HTML標籤
+      post.excerpt = textContent.length > 150 
+        ? textContent.substring(0, 150) + '...' 
+        : textContent;
+    }
+    
+    // 設置默認頭像
+    if (!post.avatar) {
+      post.avatar = 'images/avatars/default-user.svg';
+    }
+    
+    res.json(post);
+  } catch (error) {
+    console.error('獲取文章詳情時出錯:', error);
     res.status(500).json({ error: '服務器錯誤' });
   }
 });
@@ -790,7 +910,7 @@ app.get('/api/events', async (req, res) => {
 app.get('/api/events/:id', async (req, res) => {
   try {
     const event = await db.collection('events').findOne({
-      _id: ObjectId(req.params.id)
+      _id: new ObjectId(req.params.id)
     });
     
     if (!event) {
@@ -808,7 +928,7 @@ app.get('/api/events/:id', async (req, res) => {
 app.post('/api/events/:id/register', authenticate, async (req, res) => {
   try {
     const event = await db.collection('events').findOne({
-      _id: ObjectId(req.params.id)
+      _id: new ObjectId(req.params.id)
     });
     
     if (!event) {
@@ -842,7 +962,7 @@ app.post('/api/events/:id/register', authenticate, async (req, res) => {
     };
     
     await db.collection('events').updateOne(
-      { _id: ObjectId(req.params.id) },
+      { _id: new ObjectId(req.params.id) },
       { 
         $push: { attendees: attendee },
         $inc: { registeredCount: 1 }
@@ -863,7 +983,7 @@ app.post('/api/events/:id/register', authenticate, async (req, res) => {
 app.put('/api/events/:id', authenticate, upload.single('image'), async (req, res) => {
   try {
     const event = await db.collection('events').findOne({
-      _id: ObjectId(req.params.id)
+      _id: new ObjectId(req.params.id)
     });
     
     if (!event) {
@@ -928,7 +1048,7 @@ app.put('/api/events/:id', authenticate, upload.single('image'), async (req, res
     
     // 更新數據庫
     await db.collection('events').updateOne(
-      { _id: ObjectId(req.params.id) },
+      { _id: new ObjectId(req.params.id) },
       { $set: updateData }
     );
     
@@ -958,6 +1078,345 @@ app.post('/api/upload/:type', authenticate, upload.single('image'), (req, res) =
     res.status(500).json({ error: '服務器錯誤' });
   }
 });
+
+// =============== 畫廊相關 API ===============
+
+// 獲取畫廊作品列表 API
+app.get('/api/gallery', async (req, res) => {
+  try {
+    const { category, style, sort, search, page = 1, limit = 12 } = req.query;
+    
+    // 建立查詢條件
+    const query = {};
+    if (category && category !== 'all') {
+      query.category = category;
+    }
+    if (style && style !== 'all') {
+      query.style = style;
+    }
+    
+    // 新增搜尋功能
+    if (search && search.trim() !== '') {
+      const searchRegex = { $regex: search.trim(), $options: 'i' };
+      query.$or = [
+        { title: searchRegex },
+        { description: searchRegex },
+        { model: searchRegex },
+        { tags: { $in: [searchRegex] } }
+      ];
+    }
+    
+    // 建立排序條件
+    let sortOption = { createdAt: -1 }; // 預設按建立時間倒序
+    switch (sort) {
+      case 'popular':
+        sortOption = { 'stats.likes': -1 };
+        break;
+      case 'views':
+        sortOption = { 'stats.views': -1 };
+        break;
+      case 'comments':
+        sortOption = { 'stats.comments': -1 };
+        break;
+      default:
+        sortOption = { createdAt: -1 };
+    }
+    
+    // 計算跳過的項目數
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+    
+    // 獲取總數和作品列表
+    const total = await db.collection('galleries').countDocuments(query);
+    const items = await db.collection('galleries')
+      .find(query)
+      .sort(sortOption)
+      .skip(skip)
+      .limit(parseInt(limit))
+      .toArray();
+    
+    res.json({
+      items,
+      pagination: {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        total,
+        pages: Math.ceil(total / parseInt(limit))
+      }
+    });
+  } catch (error) {
+    console.error('獲取畫廊作品時出錯:', error);
+    res.status(500).json({ error: '服務器錯誤' });
+  }
+});
+
+// 創建新的畫廊作品 API
+app.post('/api/gallery', authenticate, upload.array('images', 5), async (req, res) => {
+  try {
+    const { title, description, category, style, model, tags } = req.body;
+    
+    // 驗證必填欄位
+    if (!title || !description || !category || !style || !model) {
+      return res.status(400).json({ error: '請填寫所有必填欄位' });
+    }
+    
+    // 檢查是否有上傳圖片
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ error: '請至少上傳一張圖片' });
+    }
+    
+    // 處理圖片路徑
+    const images = req.files.map(file => `/uploads/gallery/${file.filename}`);
+    
+    // 處理標籤
+    let tagsArray = [];
+    if (tags) {
+      try {
+        tagsArray = typeof tags === 'string' ? JSON.parse(tags) : tags;
+      } catch (e) {
+        tagsArray = [];
+      }
+    }
+    
+    // 建立作品資料
+    const newGalleryItem = {
+      title,
+      description,
+      category,
+      style,
+      model,
+      tags: tagsArray,
+      images,
+      image: images[0], // 主要圖片
+      author: {
+        _id: req.user._id,
+        name: req.user.username,
+        avatar: req.user.profile?.avatar || '/images/default-avatar.svg'
+      },
+      stats: {
+        likes: 0,
+        comments: 0,
+        views: 0
+      },
+      likes: [], // 點讚用戶ID列表
+      comments: [], // 評論列表
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    
+    // 儲存到資料庫
+    const result = await db.collection('galleries').insertOne(newGalleryItem);
+    
+    res.status(201).json({
+      message: '作品上傳成功',
+      itemId: result.insertedId,
+      item: {
+        ...newGalleryItem,
+        _id: result.insertedId
+      }
+    });
+  } catch (error) {
+    console.error('創建畫廊作品時出錯:', error);
+    res.status(500).json({ error: '服務器錯誤' });
+  }
+});
+
+// 獲取單個畫廊作品詳情 API
+app.get('/api/gallery/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ error: '無效的作品 ID' });
+    }
+    
+    // 增加瀏覽次數
+    await db.collection('galleries').updateOne(
+      { _id: ObjectId(id) },
+      { $inc: { 'stats.views': 1 } }
+    );
+    
+    // 獲取作品詳情
+    const item = await db.collection('galleries').findOne({ _id: ObjectId(id) });
+    
+    if (!item) {
+      return res.status(404).json({ error: '作品不存在' });
+    }
+    
+    res.json(item);
+  } catch (error) {
+    console.error('獲取作品詳情時出錯:', error);
+    res.status(500).json({ error: '服務器錯誤' });
+  }
+});
+
+// 點讚/取消點讚作品 API
+app.post('/api/gallery/:id/like', authenticate, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user._id;
+    
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ error: '無效的作品 ID' });
+    }
+    
+    const item = await db.collection('galleries').findOne({ _id: ObjectId(id) });
+    
+    if (!item) {
+      return res.status(404).json({ error: '作品不存在' });
+    }
+    
+    // 檢查用戶是否已經點讚
+    const hasLiked = item.likes && item.likes.includes(userId.toString());
+    
+    let updateOperation;
+    let message;
+    
+    if (hasLiked) {
+      // 取消點讚
+      updateOperation = {
+        $pull: { likes: userId.toString() },
+        $inc: { 'stats.likes': -1 }
+      };
+      message = '已取消點讚';
+    } else {
+      // 點讚
+      updateOperation = {
+        $addToSet: { likes: userId.toString() },
+        $inc: { 'stats.likes': 1 }
+      };
+      message = '點讚成功';
+    }
+    
+    await db.collection('galleries').updateOne(
+      { _id: ObjectId(id) },
+      updateOperation
+    );
+    
+    // 獲取更新後的點讚數
+    const updatedItem = await db.collection('galleries').findOne({ _id: ObjectId(id) });
+    
+    res.json({
+      message,
+      liked: !hasLiked,
+      likesCount: updatedItem.stats.likes
+    });
+  } catch (error) {
+    console.error('點讚操作時出錯:', error);
+    res.status(500).json({ error: '服務器錯誤' });
+  }
+});
+
+// 添加評論 API
+app.post('/api/gallery/:id/comment', authenticate, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { content } = req.body;
+    
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ error: '無效的作品 ID' });
+    }
+    
+    if (!content || content.trim() === '') {
+      return res.status(400).json({ error: '評論內容不能為空' });
+    }
+    
+    const item = await db.collection('galleries').findOne({ _id: ObjectId(id) });
+    
+    if (!item) {
+      return res.status(404).json({ error: '作品不存在' });
+    }
+    
+    // 建立新評論
+    const newComment = {
+      _id: new ObjectId(),
+      content: content.trim(),
+      author: {
+        _id: req.user._id,
+        name: req.user.username,
+        avatar: req.user.profile?.avatar || '/images/default-avatar.svg'
+      },
+      createdAt: new Date()
+    };
+    
+    // 添加評論並增加評論數
+    await db.collection('galleries').updateOne(
+      { _id: ObjectId(id) },
+      {
+        $push: { comments: newComment },
+        $inc: { 'stats.comments': 1 }
+      }
+    );
+    
+    res.status(201).json({
+      message: '評論添加成功',
+      comment: newComment
+    });
+  } catch (error) {
+    console.error('添加評論時出錯:', error);
+    res.status(500).json({ error: '服務器錯誤' });
+  }
+});
+
+// 獲取精選作品 API
+app.get('/api/gallery/featured', async (req, res) => {
+  try {
+    // 檢查資料庫連接
+    if (!db) {
+      throw new Error('資料庫未連接');
+    }
+
+    // 獲取點讚數最多的6個作品作為精選
+    const featuredItems = await db.collection('galleries')
+      .find({
+        // 確保必要欄位存在
+        title: { $exists: true },
+        description: { $exists: true },
+        category: { $exists: true }
+      })
+      .sort({ 
+        'stats.likes': -1,  // 首選按讚數排序
+        'stats.views': -1,  // 其次按觀看數
+        createdAt: -1       // 最後按創建時間
+      })
+      .limit(6)
+      .toArray();
+
+    // 如果沒有找到任何作品，返回空數組而不是錯誤
+    if (!featuredItems || featuredItems.length === 0) {
+      return res.json([]);
+    }
+
+    // 處理每個作品的資料，確保必要欄位存在
+    const processedItems = featuredItems.map(item => ({
+      _id: item._id,
+      title: item.title,
+      description: item.description || '',
+      category: item.category,
+      image: item.image || null,
+      createdAt: item.createdAt || new Date(),
+      author: {
+        name: item.author?.name || '匿名用戶',
+        avatar: item.author?.avatar || '/images/default-avatar.jpg'
+      },
+      stats: {
+        likes: item.stats?.likes || 0,
+        comments: item.stats?.comments || 0,
+        views: item.stats?.views || 0
+      }
+    }));
+
+    res.json(processedItems);
+  } catch (error) {
+    console.error('獲取精選作品時出錯:', error);
+    res.status(500).json({ 
+      error: '獲取精選作品失敗',
+      message: error.message,
+      details: process.env.NODE_ENV === 'development' ? error.stack : undefined
+    });
+  }
+});
+
+// =============== 畫廊相關 API 結束 ===============
 
 // 忘記密碼 API
 app.post('/api/forgot-password', async (req, res) => {
@@ -1035,6 +1494,53 @@ app.post('/api/reset-password', async (req, res) => {
     res.json({ message: '密碼已成功重置，請使用新密碼登入' });
   } catch (error) {
     console.error(error);
+    res.status(500).json({ error: '服務器錯誤' });
+  }
+});
+
+// 健康檢查 API
+app.get('/api/health', (req, res) => {
+  res.json({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    version: '1.0.0',
+    database: db ? 'connected' : 'disconnected',
+    uptime: process.uptime()
+  });
+});
+
+// 資料庫初始化API（僅限開發環境或首次部署）
+app.post('/api/init-db', async (req, res) => {
+  try {
+    if (!db) {
+      return res.status(500).json({ error: '資料庫未連接' });
+    }
+
+    // 檢查是否已經初始化過
+    const userCount = await db.collection('users').countDocuments();
+    if (userCount > 0) {
+      return res.json({ 
+        message: '資料庫已經初始化過，無需重複操作',
+        userCount: userCount
+      });
+    }
+
+    // 執行初始化腳本
+    const { exec } = require('child_process');
+    exec('node initDB.js', (error, stdout, stderr) => {
+      if (error) {
+        console.error('初始化資料庫失敗:', error);
+        return res.status(500).json({ error: '初始化資料庫失敗', details: error.message });
+      }
+      
+      console.log('資料庫初始化成功:', stdout);
+      res.json({ 
+        message: '資料庫初始化成功',
+        details: stdout
+      });
+    });
+  } catch (error) {
+    console.error('資料庫初始化API錯誤:', error);
     res.status(500).json({ error: '服務器錯誤' });
   }
 });

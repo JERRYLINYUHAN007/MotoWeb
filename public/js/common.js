@@ -1,7 +1,8 @@
-// 插入導航欄
+// 插入導航欄（僅在沒有導航欄的頁面使用）
 function insertNavbar() {
-    // 檢查頁面是否已有導航欄
+    // 檢查頁面是否已有導航欄，如果有則不插入
     if (document.querySelector('.navbar')) {
+        console.log('頁面已有導航欄，跳過動態插入');
         return;
     }
     
@@ -96,6 +97,8 @@ function setupLogout() {
             
             // 清除登入狀態
             localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('token');
+            localStorage.removeItem('username');
             
             // 顯示登出成功提示
             alert('登出成功！');

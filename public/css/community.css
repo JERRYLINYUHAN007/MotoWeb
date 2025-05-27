@@ -1,51 +1,42 @@
-/* community.css - MotoMod社群討論頁面樣式 */
+/* community.css - MotoWeb社群討論頁面樣式 */
+
+/* 導入顏色變數 */
+@import url('colors.css');
 
 /* 社群頁面主體 */
 .community-page {
     background-color: #f8f9fa;
 }
 
-/* 英雄區塊樣式 */
-.community-hero {
-    background: linear-gradient(to right, #2c3e50, #1a252f);
-    color: #fff;
-    padding: 4rem 0;
+/* 定義社群頁面特定變數 */
+:root {
+    --text-color-light: #666;
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 頁面標題區塊樣式 */
+.page-header {
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../images/community-bg.jpg') center/cover no-repeat;
+    color: white;
+    padding: 4rem 5%;
     text-align: center;
 }
 
-.community-hero h1 {
+.page-header h1 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
     font-weight: 700;
 }
 
-.community-hero p {
+.page-header p {
     font-size: 1.2rem;
     margin-bottom: 2rem;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.hero-actions {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
-
-.create-post-btn {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-weight: 500;
-    padding: 0.75rem 1.5rem;
-    border-radius: 4px;
 }
 
 .search-bar {
     position: relative;
-    min-width: 300px;
+    max-width: 400px;
+    margin: 0 auto;
 }
 
 .search-bar input {
@@ -63,44 +54,57 @@
     top: 0;
     height: 100%;
     width: 3rem;
-    background: transparent;
+    background: var(--primary-color);
     border: none;
-    color: #6c757d;
+    color: white;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 0 4px 4px 0;
 }
 
-.search-bar .search-btn:hover {
-    color: #343a40;
-}
+
 
 /* 主要內容區域 */
-.community-content {
-    padding: 3rem 0;
+.community-main-content {
+    display: flex;
+    gap: 2rem;
+    padding: 2rem 5%;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
 .content-layout {
-    display: grid;
-    grid-template-columns: 250px 1fr;
+    display: flex;
     gap: 2rem;
+    width: 100%;
 }
 
 /* 側邊欄樣式 */
-.sidebar {
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+.community-sidebar {
+    flex: 0 0 280px;
+    background-color: #f9f9f9;
     padding: 1.5rem;
+    border-radius: 8px;
+    height: fit-content;
+}
+
+.community-sidebar h3 {
+    font-size: 1.5rem;
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #eee;
 }
 
 .category-list h3,
 .popular-tags h3 {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
+    color: var(--secondary-color);
     margin-bottom: 1rem;
-    color: #2c3e50;
-    font-weight: 500;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #eee;
 }
 
 .category-list ul {
@@ -115,21 +119,15 @@
 
 .category-list a {
     display: block;
-    padding: 0.6rem 1rem;
-    color: #495057;
+    padding: 0.4rem 0;
+    color: var(--text-color-light);
     text-decoration: none;
-    border-radius: 4px;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease;
 }
 
-.category-list a:hover {
-    background-color: #f1f3f5;
-    color: #212529;
-}
-
+.category-list a:hover,
 .category-list a.active {
-    background-color: #e9ecef;
-    color: #212529;
+    color: var(--primary-color);
     font-weight: 500;
 }
 
@@ -147,7 +145,7 @@
     display: inline-block;
     padding: 0.4rem 0.8rem;
     background-color: #e9ecef;
-    color: #495057;
+    color: var(--text-color-light);
     border-radius: 50px;
     font-size: 0.875rem;
     text-decoration: none;
@@ -155,25 +153,36 @@
 }
 
 .tag:hover {
-    background-color: #d8d9da;
-    color: #212529;
+    background-color: var(--primary-color);
+    color: white;
 }
 
 /* 主內容區域 */
-.main-content {
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    padding: 1.5rem;
+.community-display-area {
+    flex: 1;
 }
 
-.content-header {
+.community-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #e9ecef;
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: var(--shadow-sm);
+}
+
+.community-header .view-options button {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .view-options {
@@ -202,16 +211,19 @@
 }
 
 .discussion-item {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
+    display: flex;
+    align-items: flex-start;
     padding: 1.25rem;
     border-bottom: 1px solid #e9ecef;
     transition: background-color 0.2s ease;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 1rem;
 }
 
 .discussion-item:hover {
-    background-color: #f8f9fa;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .discussion-avatar {
@@ -258,10 +270,8 @@
 
 .discussion-stats {
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 0.5rem;
-    margin-left: 1rem;
+    gap: 1rem;
+    margin-top: 0.5rem;
 }
 
 .stats-item {
@@ -291,34 +301,70 @@
 }
 
 /* 分頁 */
+.pagination-container {
+    margin-top: 2rem;
+}
+
 .pagination {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 2rem;
     gap: 0.5rem;
 }
 
-.page-numbers {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-}
-
-.page-prev,
-.page-next {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.page-numbers .btn {
-    min-width: 2.5rem;
-    height: 2.5rem;
+.pagination a {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    padding: 0.5rem;
+    border: 1px solid #dee2e6;
+    background-color: #fff;
+    color: #495057;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.pagination a:hover {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+    color: #212529;
+}
+
+.pagination a.active {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+.pagination span {
+    padding: 0.5rem;
+    color: #6c757d;
+}
+
+/* 載入和錯誤狀態 */
+.loading {
+    text-align: center;
+    padding: 2rem;
+    color: #6c757d;
+    font-size: 1.1rem;
+}
+
+.loading i {
+    margin-right: 0.5rem;
+}
+
+.error-message,
+.no-posts {
+    text-align: center;
+    padding: 3rem;
+    color: #6c757d;
+    font-size: 1.1rem;
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    background-color: #f8f9fa;
 }
 
 /* 新主題彈窗 */
@@ -488,15 +534,16 @@ textarea.form-control {
 
 /* 響應式設計 */
 @media (max-width: 992px) {
-    .content-layout {
-        grid-template-columns: 1fr;
+    .community-main-content {
+        flex-direction: column;
     }
     
-    .sidebar {
+    .community-sidebar {
         order: 2;
+        flex: none;
     }
     
-    .main-content {
+    .community-display-area {
         order: 1;
     }
 }

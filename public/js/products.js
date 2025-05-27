@@ -2,99 +2,99 @@
 const products = [
     {
         id: 1,
-        name: "Yoshimura R11 排氣管",
+        name: "【牛王SVR排氣管】",
         category: "exhaust",
-        brand: "yoshimura",
-        price: 28000,
+        brand: "牛王",
+        price: 12800,
         bikeType: ["sport", "naked"],
         rating: 4.8,
         reviews: 124,
-        image: "images/products/yoshimura-exhaust.jpg",
-        description: "高性能賽車級鈦合金排氣管，提升馬力並減輕重量"
+        image: "images/parts/牛王SVR排氣管.webp",
+        description: "高性能鈦合金排氣管，提升馬力並減輕重量"
     },
     {
         id: 2,
-        name: "Akrapovic 鈦合金全段排氣系統",
+        name: "【毒蛇SP1合格砲管】",
         category: "exhaust",
-        brand: "akrapovic",
-        price: 45000,
+        brand: "毒蛇",
+        price: 9800,
         bikeType: ["sport", "naked", "adventure"],
         rating: 4.9,
         reviews: 98,
-        image: "images/products/akrapovic-exhaust.jpg",
-        description: "頂級鈦合金全段排氣系統，提供卓越性能和獨特聲浪"
+        image: "images/parts/毒蛇SP1合格砲管.webp",
+        description: "毒蛇SP1合格排氣管，通過噪音檢測，提供優質聲浪和動力"
     },
     {
         id: 3,
-        name: "Öhlins TTX GP 後避震",
+        name: "【怪獸工廠ZR後避震】",
         category: "suspension",
-        brand: "ohlins",
-        price: 65000,
+        brand: "怪獸工廠",
+        price: 12800,
         bikeType: ["sport"],
         rating: 4.7,
         reviews: 76,
-        image: "images/products/ohlins-shock.jpg",
-        description: "專業賽事等級後避震器，提供最佳操控性和穩定性"
+        image: "images/parts/怪獸工廠ZR後避震.webp",
+        description: "怪獸工廠ZR後避震，全可調設計，提供卓越的操控性和舒適度"
     },
     {
         id: 4,
-        name: "Brembo M50 卡鉗套件",
+        name: "【ANC72大對四卡鉗】",
         category: "brakes",
-        brand: "brembo",
-        price: 38000,
+        brand: "ANC",
+        price: 7800,
         bikeType: ["sport", "naked"],
         rating: 4.8,
         reviews: 112,
-        image: "images/products/brembo-caliper.jpg",
-        description: "頂級單體鑄造卡鉗，提供卓越制動力與手感"
+        image: "images/parts/ANC72大對四卡鉗.webp",
+        description: "大對四活塞卡鉗，提供強勁且線性的制動力"
     },
     {
         id: 5,
-        name: "K&N 高流量空氣濾清器",
+        name: "【KOSO燻黑透明空濾蓋】",
         category: "engine",
-        brand: "other",
-        price: 3500,
+        brand: "KOSO",
+        price: 1800,
         bikeType: ["sport", "naked", "cruiser", "adventure"],
         rating: 4.5,
         reviews: 203,
-        image: "images/products/kn-filter.jpg",
-        description: "提升進氣效率，增加引擎響應性和馬力輸出"
+        image: "images/parts/KOSO燻黑透明空濾蓋.webp",
+        description: "KOSO燻黑透明空濾蓋，展現引擎內部美學"
     },
     {
         id: 6,
-        name: "SC Project CRT 碳纖維排氣管",
+        name: "【APEXX GT防燙蓋】",
         category: "exhaust",
-        brand: "other",
-        price: 32000,
+        brand: "APEXX",
+        price: 2200,
         bikeType: ["sport", "naked"],
         rating: 4.6,
         reviews: 87,
-        image: "images/products/sc-project-exhaust.jpg",
-        description: "輕量化碳纖維設計，提供激越聲浪和性能提升"
+        image: "images/parts/APEXX GT防燙蓋.webp",
+        description: "APEXX GT系列排氣管防燙蓋，有效降低燙傷風險"
     },
     {
         id: 7,
-        name: "Öhlins NIX 30 前叉套件",
+        name: "【怪獸工廠Z2 PRO前叉】",
         category: "suspension",
-        brand: "ohlins",
-        price: 58000,
+        brand: "怪獸工廠",
+        price: 18800,
         bikeType: ["sport", "naked"],
         rating: 4.7,
         reviews: 65,
-        image: "images/products/ohlins-fork.jpg",
-        description: "賽道級前叉套件，提供精準操控和優異的回饋感"
+        image: "images/parts/怪獸工廠Z2 PRO前叉.webp",
+        description: "專為JET車系設計的高性能Z2 PRO前避震器，提供卓越的操控性和舒適度"
     },
     {
         id: 8,
-        name: "Power Commander V",
+        name: "【廣昇999R CNC 鋁合金排骨】",
         category: "engine",
-        brand: "other",
-        price: 15000,
+        brand: "廣昇",
+        price: 4500,
         bikeType: ["sport", "naked", "cruiser", "adventure"],
         rating: 4.6,
         reviews: 175,
-        image: "images/products/power-commander.jpg",
-        description: "精準燃油控制模組，可自訂引擎動力輸出曲線"
+        image: "images/parts/廣昇999R CNC 鋁合金排骨.webp",
+        description: "廣昇CNC切削鋁合金排骨，提升引擎動力輸出"
     }
 ];
 

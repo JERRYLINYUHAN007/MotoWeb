@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+    <!-- 背景 -->
+    <rect width="400" height="300" fill="#f8f9fa"/>
+    
+    <!-- 摩托車輪廓 -->
+    <g transform="translate(50,50) scale(1.2)">
+        <!-- 後輪 -->
+        <circle cx="50" cy="120" r="40" stroke="#495057" stroke-width="8" fill="#e9ecef"/>
+        <circle cx="50" cy="120" r="30" stroke="#495057" stroke-width="2" fill="none"/>
+        <circle cx="50" cy="120" r="20" stroke="#495057" stroke-width="2" fill="none"/>
+        
+        <!-- 前輪 -->
+        <circle cx="200" cy="120" r="40" stroke="#495057" stroke-width="8" fill="#e9ecef"/>
+        <circle cx="200" cy="120" r="30" stroke="#495057" stroke-width="2" fill="none"/>
+        <circle cx="200" cy="120" r="20" stroke="#495057" stroke-width="2" fill="none"/>
+        
+        <!-- 車架 -->
+        <path d="M90 120 L130 60 L170 60 L200 120" stroke="#495057" stroke-width="8" fill="none"/>
+        <path d="M130 60 L110 100" stroke="#495057" stroke-width="8" fill="none"/>
+        
+        <!-- 座椅 -->
+        <path d="M110 60 L150 60" stroke="#495057" stroke-width="12" fill="none"/>
+        
+        <!-- 把手 -->
+        <path d="M170 60 C190 50, 210 50, 230 60" stroke="#495057" stroke-width="8" fill="none"/>
+        
+        <!-- 裝飾元素 -->
+        <path d="M130 60 L150 80" stroke="#495057" stroke-width="4" fill="none"/>
+        <path d="M170 60 L150 80" stroke="#495057" stroke-width="4" fill="none"/>
+        
+        <!-- 引擎部分 -->
+        <rect x="100" y="90" width="50" height="25" rx="5" stroke="#495057" stroke-width="4" fill="#e9ecef"/>
+        <line x1="110" y1="102.5" x2="140" y2="102.5" stroke="#495057" stroke-width="2"/>
+        
+        <!-- 車燈 -->
+        <circle cx="220" cy="70" r="8" stroke="#495057" stroke-width="2" fill="#e9ecef"/>
+    </g>
+</svg> 

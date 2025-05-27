@@ -11,22 +11,27 @@ function renderGalleryItems(items) {
     items.forEach(item => {
         const galleryItem = document.createElement('div');
         galleryItem.className = 'gallery-item';
-        galleryItem.dataset.id = item.id;
+        galleryItem.dataset.id = item._id;
         galleryItem.dataset.category = item.category;
         galleryItem.dataset.style = item.style;
         
         // 格式化日期
-        const date = new Date(item.date);
-        const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+        const dateField = item.createdAt || item.date || new Date().toISOString();
+        const date = new Date(dateField);
+        const formattedDate = formatDate(dateField);
+        
+        // 處理預設圖片
+        const defaultImage = '/images/default-bike.svg';
+        const imageUrl = item.image || defaultImage;
         
         // 創建作品卡片HTML
         galleryItem.innerHTML = `
             <div class="item-image">
-                <img src="${item.image}" alt="${item.title}">
+                <img src="${imageUrl}" alt="${item.title}" onerror="this.src='${defaultImage}'">
                 <div class="item-overlay">
                     <h3 class="item-title">${item.title}</h3>
                     <div class="item-author">
-                        <img src="${item.author.avatar}" alt="${item.author.name}" class="author-avatar">
+                        <img src="${item.author.avatar}" alt="${item.author.name}" class="author-avatar" onerror="this.src='/images/default-avatar.svg'">
                         <span>${item.author.name}</span>
                     </div>
                 </div>
@@ -37,7 +42,7 @@ function renderGalleryItems(items) {
                     <span class="item-type">${getCategoryName(item.category)}</span>
                 </div>
                 <div class="item-author">
-                    <img src="${item.author.avatar}" alt="${item.author.name}" class="author-avatar">
+                    <img src="${item.author.avatar}" alt="${item.author.name}" class="author-avatar" onerror="this.src='/images/default-avatar.svg'">
                     <span>${item.author.name} · ${formattedDate}</span>
                 </div>
                 <p class="item-description">${item.description}</p>
@@ -65,6 +70,7 @@ function renderGalleryItems(items) {
  */
 function getCategoryName(category) {
     const categories = {
+        'scooter': '速克達車系',
         'sport': '運動車系',
         'naked': '街車系',
         'cruiser': '巡航車系',
@@ -85,6 +91,11 @@ function getStyleName(style) {
     const styles = {
         'racing': '競技風格',
         'street': '街頭風格',
+        'custom': '客製化',
+        'japanese': '日系風格',
+        'adventure': '冒險風格',
+        'retro': '復古風格',
+        'maintenance': '保養升級',
         'cafe': '咖啡風格',
         'touring': '旅行風格',
         'scrambler': '越野風格',
@@ -226,10 +237,18 @@ function initFilters() {
  */
 function initViewToggle() {
     const viewToggles = document.querySelectorAll('.view-toggle');
-    const galleryContainer = document.getElementById('galleryItems').parentElement;
+    const galleryMain = document.querySelector('.gallery-main');
+    const galleryContent = document.querySelector('.gallery-content');
+    
+    if (!viewToggles.length) {
+        console.log('找不到檢視切換按鈕');
+        return;
+    }
     
     viewToggles.forEach(toggle => {
         toggle.addEventListener('click', function() {
+            console.log('檢視切換點擊:', this.dataset.view);
+            
             // 移除其他按鈕的活動狀態
             viewToggles.forEach(btn => btn.classList.remove('active'));
             // 設置當前按鈕為活動狀態
@@ -238,12 +257,20 @@ function initViewToggle() {
             // 獲取檢視類型
             const viewType = this.dataset.view;
             
-            // 應用檢視類型
-            if (viewType === 'list') {
-                galleryContainer.classList.add('list-view');
-            } else {
-                galleryContainer.classList.remove('list-view');
-            }
+            // 應用檢視類型到多個容器
+            const containers = [galleryMain, galleryContent, document.body];
+            
+            containers.forEach(container => {
+                if (container) {
+                    if (viewType === 'list') {
+                        container.classList.add('list-view');
+                    } else {
+                        container.classList.remove('list-view');
+                    }
+                }
+            });
+            
+            console.log('檢視模式已切換到:', viewType);
         });
     });
 }
@@ -252,55 +279,60 @@ function initViewToggle() {
  * 初始化載入更多功能
  */
 function initLoadMore() {
-    const loadMoreBtn = document.getElementById('loadMoreBtn');
+    const loadMoreBtn = document.getElementById('loadMore');
     
-    loadMoreBtn.addEventListener('click', function() {
-        // 顯示載入中狀態
-        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 載入中...';
-        this.disabled = true;
-        
-        // 模擬載入延遲
-        setTimeout(() => {
-            // 在實際應用中，這裡應該向API請求更多作品
-            // 這裡僅模擬載入更多作品
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', function() {
+            // 顯示載入中狀態
+            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 載入中...';
+            this.disabled = true;
             
-            // 恢復按鈕狀態
-            this.innerHTML = '<i class="fas fa-sync"></i> 載入更多作品';
-            this.disabled = false;
-            
-            // 模擬已載入全部作品
-            const randomNum = Math.floor(Math.random() * 3);
-            if (randomNum === 0) {
-                this.innerHTML = '已載入全部作品';
-                this.disabled = true;
-            }
-        }, 1500);
-    });
+            // 模擬載入延遲
+            setTimeout(() => {
+                // 在實際應用中，這裡應該向API請求更多作品
+                // 這裡僅模擬載入更多作品
+                
+                // 恢復按鈕狀態
+                this.innerHTML = '載入更多';
+                this.disabled = false;
+                
+                // 模擬已載入全部作品
+                const randomNum = Math.floor(Math.random() * 3);
+                if (randomNum === 0) {
+                    this.innerHTML = '已載入全部作品';
+                    this.disabled = true;
+                }
+            }, 1500);
+        });
+    }
 }
 
 /**
  * 初始化作品預覽功能
  */
 function initImagePreview() {
-    const modal = document.getElementById('imageModal');
-    const closeBtn = modal.querySelector('.close-modal');
-    
-    // 關閉按鈕
-    closeBtn.addEventListener('click', function() {
-        closeModal(modal);
-    });
-    
-    // 點擊模態框外部關閉
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
-            closeModal(modal);
+    const previewModal = document.getElementById('imagePreview');
+    if (!previewModal) return;
+
+    // 點擊模態框背景關閉
+    previewModal.addEventListener('click', function(e) {
+        if (e.target === previewModal) {
+            closeModal(previewModal);
         }
     });
-    
-    // ESC鍵關閉
+
+    // 點擊關閉按鈕關閉
+    const closeButton = previewModal.querySelector('.close-preview');
+    if (closeButton) {
+        closeButton.addEventListener('click', function() {
+            closeModal(previewModal);
+        });
+    }
+
+    // 按ESC鍵關閉
     document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && modal.classList.contains('active')) {
-            closeModal(modal);
+        if (e.key === 'Escape' && previewModal.classList.contains('active')) {
+            closeModal(previewModal);
         }
     });
     
@@ -471,7 +503,7 @@ function openImagePreview(item) {
     currentGalleryItem = item;
     
     // 取得模態框元素
-    const modal = document.getElementById('imageModal');
+    const modal = document.getElementById('imagePreview');
     const previewImage = document.getElementById('previewImage');
     const imageTitle = document.getElementById('imageTitle');
     const authorAvatar = document.getElementById('authorAvatar');
@@ -538,8 +570,9 @@ function openImagePreview(item) {
  * @param {HTMLElement} modal - 模態框元素
  */
 function openModal(modal) {
+    if (!modal) return;
     modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
+    document.body.classList.add('modal-open');
 }
 
 /**
@@ -547,8 +580,15 @@ function openModal(modal) {
  * @param {HTMLElement} modal - 模態框元素
  */
 function closeModal(modal) {
+    if (!modal) return;
     modal.classList.remove('active');
-    document.body.style.overflow = '';
+    document.body.classList.remove('modal-open');
+    
+    // 移除預覽內容
+    const previewContent = modal.querySelector('.preview-content');
+    if (previewContent) {
+        previewContent.innerHTML = '';
+    }
 }
 
 /**
@@ -733,15 +773,56 @@ function initUploadFeature() {
             return;
         }
         
-        // 在實際應用中，這裡會將表單資料發送到後端
-        // 模擬上傳過程
+        // 檢查用戶是否已登入
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('請先登入後再上傳作品');
+            return;
+        }
+        
+        // 獲取所有標籤
+        const tagItems = tagContainer.querySelectorAll('.tag-item span');
+        const tags = Array.from(tagItems).map(item => item.textContent);
+        
+        // 建立 FormData 物件
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('description', description);
+        formData.append('category', category);
+        formData.append('style', style);
+        formData.append('model', model);
+        formData.append('tags', JSON.stringify(tags));
+        
+        // 添加圖片檔案
+        const files = fileInput.files;
+        for (let i = 0; i < files.length; i++) {
+            formData.append('images', files[i]);
+        }
+        
+        // 上傳狀態管理
         const submitBtn = document.getElementById('submitUpload');
         const originalText = submitBtn.textContent;
         
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 上傳中...';
         
-        setTimeout(() => {
+        // 向後端 API 發送請求
+        fetch('/api/gallery', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => {
+                    throw new Error(err.error || '上傳失敗');
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
             alert('作品上傳成功！');
             closeModal(uploadModal);
             
@@ -759,229 +840,135 @@ function initUploadFeature() {
             
             // 重新載入作品集
             loadGalleryItems();
-        }, 2000);
+        })
+        .catch(error => {
+            console.error('上傳失敗:', error);
+            alert(error.message || '上傳失敗，請稍後再試');
+            
+            // 恢復按鈕狀態
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+        });
     });
 }
 
 /**
  * 載入精選作品
  */
-function loadFeaturedItems() {
+async function loadFeaturedItems() {
     const featuredSlider = document.getElementById('featuredSlider');
     
-    // 在實際應用中，這裡應該從API獲取精選作品
-    // 這裡創建特別的精選作品項目
-    const featuredItems = [
-        {
-            id: 101,
-            title: 'YAMAHA MT-09 全車改裝',
-            image: 'images/bikes/drg.jpg',
-            author: {
-                name: '冒險騎士',
-                avatar: 'images/avatars/user1.svg'
-            },
-            category: 'naked',
-            style: 'street',
-            model: 'YAMAHA MT-09',
-            description: '全車性能與外觀升級，打造極致街頭戰士風格。',
-            date: '2025-04-18',
-            tags: ['外觀', '排氣', '懸吊', 'YAMAHA'],
-            stats: {
-                likes: 423,
-                comments: 87,
-                views: 2156
-            }
-        },
-        {
-            id: 102,
-            title: 'SYM DRG BT競技風格改裝',
-            image: 'images/bikes/KRV.jpg',
-            author: {
-                name: '街頭玩家',
-                avatar: 'images/avatars/user2.svg'
-            },
-            category: 'scooter',
-            style: 'racing',
-            model: 'SYM DRG BT',
-            description: '賽道風格改裝，強化動力輸出與操控性能。',
-            date: '2025-04-15',
-            tags: ['動力', '外觀', 'SYM'],
-            stats: {
-                likes: 386,
-                comments: 72,
-                views: 1892
-            }
-        },
-        {
-            id: 103,
-            title: 'HONDA CB650R 咖啡風格改裝',
-            image: 'images/bikes/FORCE.jpg',
-            author: {
-                name: '復古車迷',
-                avatar: 'images/avatars/user3.svg'
-            },
-            category: 'naked',
-            style: 'cafe',
-            model: 'HONDA CB650R',
-            description: '經典咖啡風格改裝，融合現代技術與復古美學。',
-            date: '2025-04-12',
-            tags: ['座墊', '車把', '排氣', 'HONDA'],
-            stats: {
-                likes: 352,
-                comments: 68,
-                views: 1754
-            }
-        },
-        {
-            id: 104,
-            title: 'KAWASAKI Z900 街頭風格改裝',
-            image: 'images/bikes/AUGUR.jpg',
-            author: {
-                name: '綠色騎士',
-                avatar: 'images/avatars/user4.svg'
-            },
-            category: 'naked',
-            style: 'street',
-            model: 'KAWASAKI Z900',
-            description: '狂野街頭風格改裝，提升視覺衝擊與性能表現。',
-            date: '2025-04-10',
-            tags: ['車燈', '排氣', '輪圈', 'KAWASAKI'],
-            stats: {
-                likes: 325,
-                comments: 64,
-                views: 1625
-            }
+    try {
+        const featuredItems = await api.gallery.getFeatured();
+        
+        // 如果沒有精選作品，顯示預設內容
+        if (!featuredItems || !Array.isArray(featuredItems) || featuredItems.length === 0) {
+            featuredSlider.innerHTML = '<div class="no-featured">目前沒有精選作品</div>';
+            return;
         }
-    ];
-    
-    // 創建滑軌
-    const sliderTrack = document.createElement('div');
-    sliderTrack.className = 'slider-track';
-    
-    // 將精選作品添加到輪播
-    featuredItems.forEach(item => {
-        const slide = document.createElement('div');
-        slide.className = 'slider-slide';
         
-        // 創建作品卡片HTML
-        const galleryItem = document.createElement('div');
-        galleryItem.className = 'gallery-item';
-        galleryItem.dataset.id = item.id;
+        // 創建滑軌
+        const sliderTrack = document.createElement('div');
+        sliderTrack.className = 'slider-track';
         
-        // 格式化日期
-        const date = new Date(item.date);
-        const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+        // 添加作品卡片
+        featuredItems.forEach(item => {
+            const card = createFeaturedCard(item);
+            sliderTrack.appendChild(card);
+        });
         
-        galleryItem.innerHTML = `
-            <div class="item-image">
-                <img src="${item.image}" alt="${item.title}">
-                <div class="item-overlay">
-                    <h3 class="item-title">${item.title}</h3>
-                    <div class="item-author">
-                        <img src="${item.author.avatar}" alt="${item.author.name}" class="author-avatar">
-                        <span>${item.author.name}</span>
-                    </div>
-                </div>
-            </div>
-            <div class="item-content">
-                <div class="item-header">
-                    <h3 class="item-title">${item.title}</h3>
-                    <span class="item-type">${getCategoryName(item.category)}</span>
-                </div>
-                <div class="item-author">
-                    <img src="${item.author.avatar}" alt="${item.author.name}" class="author-avatar">
-                    <span>${item.author.name} · ${formattedDate}</span>
-                </div>
-                <p class="item-description">${item.description}</p>
-                <div class="item-stats">
-                    <span class="stat-item"><i class="far fa-heart"></i> ${item.stats.likes}</span>
-                    <span class="stat-item"><i class="far fa-comment"></i> ${item.stats.comments}</span>
-                    <span class="stat-item"><i class="far fa-eye"></i> ${item.stats.views}</span>
-                </div>
+        // 清空並添加新內容
+        featuredSlider.innerHTML = '';
+        featuredSlider.appendChild(sliderTrack);
+        
+        // 初始化滑動功能
+        initializeSlider();
+    } catch (error) {
+        console.error('載入精選作品失敗:', error);
+        featuredSlider.innerHTML = `
+            <div class="error-message">
+                <i class="fas fa-exclamation-circle"></i>
+                <p>載入精選作品時發生錯誤</p>
+                <button onclick="loadFeaturedItems()">重試</button>
             </div>
         `;
-        
-        // 點擊作品打開預覽
-        galleryItem.addEventListener('click', function() {
-            openImagePreview(item);
-        });
-        
-        slide.appendChild(galleryItem);
-        sliderTrack.appendChild(slide);
-    });
-    
-    featuredSlider.innerHTML = '';
-    featuredSlider.appendChild(sliderTrack);
+    }
 }
 
-/**
- * 初始化精選作品輪播
- */
-function initFeaturedSlider() {
-    // 等待精選作品載入完成
-    setTimeout(() => {
-        const sliderTrack = document.querySelector('.slider-track');
-        const slides = document.querySelectorAll('.slider-slide');
-        const prevBtn = document.querySelector('.slider-control.prev');
-        const nextBtn = document.querySelector('.slider-control.next');
-        
-        if (!sliderTrack || slides.length === 0) return;
-        
-        let currentIndex = 0;
-        let slideWidth = slides[0].offsetWidth;
-        const slidesPerView = getResponsiveSlidesCount();
-        
-        // 響應視窗大小變化
-        window.addEventListener('resize', function() {
-            slideWidth = slides[0].offsetWidth;
-            updateSliderPosition();
-        });
-        
-        // 上一張按鈕
-        prevBtn.addEventListener('click', function() {
-            if (currentIndex > 0) {
-                currentIndex--;
-                updateSliderPosition();
-                updateButtonState();
-            }
-        });
-        
-        // 下一張按鈕
-        nextBtn.addEventListener('click', function() {
-            if (currentIndex < slides.length - slidesPerView) {
-                currentIndex++;
-                updateSliderPosition();
-                updateButtonState();
-            }
-        });
-        
-        // 更新初始按鈕狀態
-        updateButtonState();
-        
-        // 獲取響應式的每屏幻燈片數量
-        function getResponsiveSlidesCount() {
-            const viewportWidth = window.innerWidth;
-            
-            if (viewportWidth < 768) {
-                return 1;
-            } else if (viewportWidth < 992) {
-                return 2;
-            } else {
-                return 3;
-            }
+// 創建精選作品卡片
+function createFeaturedCard(item) {
+    const card = document.createElement('div');
+    card.className = 'featured-card';
+    
+    // 使用預設圖片作為備用
+    const imageUrl = item.image || '/images/default-bike.svg';
+    
+    card.innerHTML = `
+        <div class="featured-image">
+            <img src="${imageUrl}" alt="${item.title}" onerror="this.src='/images/default-bike.svg'">
+        </div>
+        <div class="featured-info">
+            <h3>${item.title}</h3>
+            <p>${item.description || '暫無描述'}</p>
+            <div class="featured-meta">
+                <span class="category">${item.category || '未分類'}</span>
+                <span class="date">${formatDate(item.createdAt)}</span>
+            </div>
+            <div class="featured-stats">
+                <span><i class="fas fa-heart"></i> ${item.stats?.likes || 0}</span>
+                <span><i class="fas fa-comment"></i> ${item.stats?.comments || 0}</span>
+                <span><i class="fas fa-eye"></i> ${item.stats?.views || 0}</span>
+            </div>
+        </div>
+    `;
+    
+    // 添加點擊事件
+    card.addEventListener('click', () => {
+        window.location.href = `/gallery/${item._id}`;
+    });
+    
+    return card;
+}
+
+// 初始化滑動功能
+function initializeSlider() {
+    const track = document.querySelector('.slider-track');
+    const cards = track.getElementsByClassName('featured-card');
+    
+    if (cards.length <= 1) return;
+    
+    let currentIndex = 0;
+    const cardWidth = cards[0].offsetWidth;
+    
+    // 自動輪播
+    setInterval(() => {
+        currentIndex = (currentIndex + 1) % cards.length;
+        track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+    }, 5000);
+}
+
+// 格式化日期
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diff = now - date;
+    
+    // 24小時內顯示相對時間
+    if (diff < 24 * 60 * 60 * 1000) {
+        const hours = Math.floor(diff / (60 * 60 * 1000));
+        if (hours < 1) {
+            const minutes = Math.floor(diff / (60 * 1000));
+            return `${minutes} 分鐘前`;
         }
-        
-        // 更新輪播位置
-        function updateSliderPosition() {
-            sliderTrack.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-        }
-        
-        // 更新按鈕狀態
-        function updateButtonState() {
-            prevBtn.disabled = currentIndex === 0;
-            nextBtn.disabled = currentIndex >= slides.length - slidesPerView;
-        }
-    }, 1000);
+        return `${hours} 小時前`;
+    }
+    
+    // 超過24小時顯示具體日期
+    return date.toLocaleDateString('zh-TW', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
 }
 
 /**
@@ -1020,6 +1007,9 @@ function initGalleryPage() {
     
     // 初始化搜尋功能
     initSearchFunction();
+    
+    // 添加側邊欄初始化
+    initSidebar();
 }
 
 /**
@@ -1029,242 +1019,330 @@ function initGalleryPage() {
 function loadGalleryItems() {
     // 顯示載入中指示器
     const galleryContainer = document.getElementById('galleryItems');
+    galleryContainer.innerHTML = `
+        <div class="loading-indicator">
+            <i class="fas fa-spinner fa-spin"></i>
+            <span>載入作品中...</span>
+        </div>
+    `;
     
-    // 模擬從API獲取的作品集資料
-    // 注意：已成功添加 FORCE、CYGNUS GRYPHUS、KRV 和 AUGUR 四款新車型
-    const galleryItems = [
-        {
-            id: 1,
-            title: 'SYM DRG 運動改裝',
-            image: 'images/bikes/drg.jpg',
-            author: {
-                name: '改裝達人',
-                avatar: 'images/avatars/user1.svg'
-            },
-            category: 'scooter',
-            style: 'street',
-            model: 'SYM DRG',
-            description: '全車改裝，包括LED大燈、運動型排氣管與懸吊，提升操控與外觀。',
-            date: '2025-04-10',
-            tags: ['LED大燈', '排氣管', '懸吊', 'SYM'],
-            stats: {
-                likes: 247,
-                comments: 42,
-                views: 1356
-            }
-        },
-        {
-            id: 2,
-            title: 'SYM MMBCU 日常通勤改裝',
-            image: 'images/bikes/mmbcu.jpg',
-            author: {
-                name: '咖啡騎士',
-                avatar: 'images/avatars/user2.svg'
-            },
-            category: 'scooter',
-            style: 'street',
-            model: 'SYM MMBCU',
-            description: '換裝LED方向燈與運動型後避震，兼顧安全與舒適。',
-            date: '2025-04-08',
-            tags: ['方向燈', '避震', 'SYM'],
-            stats: {
-                likes: 198,
-                comments: 36,
-                views: 1085
-            }
-        },
-        {
-            id: 3,
-            title: 'SYM SL 街頭風格改裝',
-            image: 'images/bikes/sl.jpg',
-            author: {
-                name: '賽道狂人',
-                avatar: 'images/avatars/user3.svg'
-            },
-            category: 'scooter',
-            style: 'street',
-            model: 'SYM SL',
-            description: '外觀升級與排氣管改裝，展現個人風格。',
-            date: '2025-04-05',
-            tags: ['外觀', '排氣管', 'SYM'],
-            stats: {
-                likes: 312,
-                comments: 58,
-                views: 1892
-            }
-        },
-        {
-            id: 4,
-            title: 'SYM SR 都會通勤改裝',
-            image: 'images/bikes/sr.jpg',
-            author: {
-                name: '美式車迷',
-                avatar: 'images/avatars/user4.svg'
-            },
-            category: 'scooter',
-            style: 'street',
-            model: 'SYM SR',
-            description: '加裝LED大燈與避震，提升夜間安全與舒適性。',
-            date: '2025-04-03',
-            tags: ['LED大燈', '避震', 'SYM'],
-            stats: {
-                likes: 274,
-                comments: 45,
-                views: 1432
-            }
-        },
-        {
-            id: 5,
-            title: 'SYM FORCE 性能改裝',
-            image: 'images/bikes/FORCE.jpg',
-            author: {
-                name: '改裝達人',
-                avatar: 'images/avatars/user1.svg'
-            },
-            category: 'scooter',
-            style: 'racing',
-            model: 'SYM FORCE',
-            description: '全車改裝，包括LED大燈、運動型排氣管與懸吊，提升操控與外觀。',
-            date: '2025-04-10',
-            tags: ['LED大燈', '排氣管', '懸吊', 'SYM'],
-            stats: {
-                likes: 312,
-                comments: 56,
-                views: 1580
-            }
-        },
-        {
-            id: 6,
-            title: 'YAMAHA CYGNUS GRYPHUS 時尚改裝',
-            image: 'images/bikes/CYGNUS GRYPHUS.jpg',
-            author: {
-                name: '改裝達人',
-                avatar: 'images/avatars/user3.svg'
-            },
-            category: 'scooter',
-            style: 'street',
-            model: 'YAMAHA CYGNUS GRYPHUS',
-            description: '全車改裝，包括LED大燈、運動型排氣管與懸吊，提升操控與外觀。',
-            date: '2025-04-10',
-            tags: ['LED大燈', '排氣管', '側殼', 'YAMAHA'],
-            stats: {
-                likes: 286,
-                comments: 48,
-                views: 1422
-            }
-        },
-        {
-            id: 7,
-            title: 'SYM KRV 街頭風格改裝',
-            image: 'images/bikes/KRV.jpg',
-            author: {
-                name: '改裝達人',
-                avatar: 'images/avatars/user2.svg'
-            },
-            category: 'scooter',
-            style: 'street',
-            model: 'SYM KRV',
-            description: '全車改裝，包括LED大燈、運動型排氣管與懸吊，提升操控與外觀。',
-            date: '2025-04-10',
-            tags: ['LED大燈', '排氣管', '懸吊', 'SYM'],
-            stats: {
-                likes: 253,
-                comments: 39,
-                views: 1287
-            }
-        },
-        {
-            id: 8,
-            title: 'SYM AUGUR 越野風格改裝',
-            image: 'images/bikes/AUGUR.jpg',
-            author: {
-                name: '改裝達人',
-                avatar: 'images/avatars/user4.svg'
-            },
-            category: 'scooter',
-            style: 'scrambler',
-            model: 'SYM AUGUR',
-            description: '全車改裝，包括LED大燈、運動型排氣管與懸吊，提升操控與外觀。',
-            date: '2025-04-10',
-            tags: ['LED大燈', '排氣管', '懸吊', 'SYM'],
-            stats: {
-                likes: 267,
-                comments: 44,
-                views: 1356
-            }
-        }
-    ];
+    // 獲取當前篩選條件（從側邊欄的active鏈接）
+    const activeCategoryLink = document.querySelector('[data-category].active');
+    const activeStyleLink = document.querySelector('[data-style].active');
+    const activeSortLink = document.querySelector('[data-sort].active');
     
-    // 清空載入指示器
-    galleryContainer.innerHTML = '';
+    const params = new URLSearchParams();
     
-    // 渲染作品集
-    renderGalleryItems(galleryItems);
+    // 添加篩選條件
+    if (activeCategoryLink && activeCategoryLink.dataset.category !== 'all') {
+        params.append('category', activeCategoryLink.dataset.category);
+    }
+    if (activeStyleLink && activeStyleLink.dataset.style !== 'all') {
+        params.append('style', activeStyleLink.dataset.style);
+    }
+    if (activeSortLink && activeSortLink.dataset.sort) {
+        params.append('sort', activeSortLink.dataset.sort);
+    }
     
-    // 載入精選作品
-    loadFeaturedItems();
+    // 從 API 獲取作品數據
+    fetch(`/api/gallery?${params.toString()}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('獲取作品列表失敗');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // 清空載入指示器
+            galleryContainer.innerHTML = '';
+            
+            // 更新作品計數
+            updateGalleryCount(data);
+            
+            // 渲染作品集
+            if (Array.isArray(data)) {
+                renderGalleryItems(data);
+            } else if (data.items && Array.isArray(data.items)) {
+                renderGalleryItems(data.items);
+                
+                // 更新分頁信息
+                if (data.pagination) {
+                    updatePagination(data.pagination);
+                }
+            } else {
+                renderGalleryItems([]);
+            }
+            
+            // 載入精選作品
+            loadFeaturedItems();
+        })
+        .catch(error => {
+            console.error('載入作品時出錯:', error);
+            galleryContainer.innerHTML = `
+                <div class="no-results">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p>載入作品時出現錯誤，請稍後再試</p>
+                    <button class="btn btn-primary" onclick="loadGalleryItems()">重新載入</button>
+                </div>
+            `;
+        });
 }
 
 /**
- * 渲染作品集
- * @param {Array} items - 作品集資料陣列
+ * 更新畫廊作品計數
  */
-function renderGalleryItems(items) {
-    const galleryContainer = document.getElementById('galleryItems');
+function updateGalleryCount(data) {
+    const countElement = document.getElementById('gallery-count');
+    if (countElement) {
+        let count = 0;
+        if (Array.isArray(data)) {
+            count = data.length;
+        } else if (data.pagination) {
+            count = data.pagination.total;
+        } else if (data.items) {
+            count = data.items.length;
+        }
+        
+        countElement.textContent = `共 ${count} 個作品`;
+    }
+}
+
+/**
+ * 更新分頁信息
+ */
+function updatePagination(pagination) {
+    // 如果需要分頁功能，可以在這裡實現
+    console.log('分頁信息:', pagination);
+}
+
+/**
+ * 從側邊欄應用篩選
+ */
+function applyFiltersFromSidebar(filterData) {
+    console.log('側邊欄篩選被觸發:', filterData);
     
-    // 如果沒有作品
-    if (items.length === 0) {
-        galleryContainer.innerHTML = '<div class="no-results">目前沒有符合條件的作品</div>';
-        return;
+    // 更新篩選標籤顯示
+    updateFilterTagsFromSidebar();
+    
+    // 重新載入作品
+    loadGalleryItems();
+}
+
+/**
+ * 從側邊欄更新篩選標籤
+ */
+function updateFilterTagsFromSidebar() {
+    const filterTagsContainer = document.getElementById('filterTags');
+    if (!filterTagsContainer) return;
+    
+    // 清空現有標籤
+    filterTagsContainer.innerHTML = '';
+    
+    // 獲取當前選中的篩選條件
+    const activeCategoryLink = document.querySelector('[data-category].active');
+    const activeStyleLink = document.querySelector('[data-style].active');
+    const activeSortLink = document.querySelector('[data-sort].active');
+    
+    // 添加分類標籤
+    if (activeCategoryLink && activeCategoryLink.dataset.category !== 'all') {
+        addFilterTagFromSidebar('分類', getCategoryName(activeCategoryLink.dataset.category), () => {
+            activeCategoryLink.classList.remove('active');
+            document.querySelector('[data-category="all"]').classList.add('active');
+            applyFiltersFromSidebar();
+        });
     }
     
-    // 為每個作品建立卡片
-    items.forEach(item => {
-        const galleryItem = document.createElement('div');
-        galleryItem.className = 'gallery-item';
-        galleryItem.dataset.id = item.id;
-        galleryItem.dataset.category = item.category;
-        galleryItem.dataset.style = item.style;
+    // 添加風格標籤
+    if (activeStyleLink && activeStyleLink.dataset.style !== 'all') {
+        addFilterTagFromSidebar('風格', getStyleName(activeStyleLink.dataset.style), () => {
+            activeStyleLink.classList.remove('active');
+            document.querySelector('[data-style="all"]').classList.add('active');
+            applyFiltersFromSidebar();
+        });
+    }
+    
+    // 添加排序標籤
+    if (activeSortLink && activeSortLink.dataset.sort !== 'latest') {
+        const sortLabels = {
+            'popular': '最受歡迎',
+            'views': '最多瀏覽',
+            'comments': '最多評論'
+        };
+        addFilterTagFromSidebar('排序', sortLabels[activeSortLink.dataset.sort], () => {
+            activeSortLink.classList.remove('active');
+            document.querySelector('[data-sort="latest"]').classList.add('active');
+            applyFiltersFromSidebar();
+        });
+    }
+}
+
+/**
+ * 添加側邊欄篩選標籤
+ */
+function addFilterTagFromSidebar(type, value, removeCallback) {
+    const filterTagsContainer = document.getElementById('filterTags');
+    const tag = document.createElement('div');
+    tag.className = 'filter-tag';
+    tag.innerHTML = `
+        <span>${type}: ${value}</span>
+        <button class="remove-tag" aria-label="移除篩選">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+    
+    // 綁定移除按鈕事件
+    const removeBtn = tag.querySelector('.remove-tag');
+    removeBtn.addEventListener('click', removeCallback);
+    
+    filterTagsContainer.appendChild(tag);
+}
+
+/**
+ * 初始化搜尋功能
+ */
+function initSearchFunction() {
+    const searchInput = document.querySelector('.search-bar input');
+    const searchBtn = document.querySelector('.search-btn');
+    
+    if (!searchInput || !searchBtn) return;
+    
+    // 搜尋按鈕點擊事件
+    searchBtn.addEventListener('click', function() {
+        performSearch();
+    });
+    
+    // 輸入框 Enter 鍵事件
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            performSearch();
+        }
+    });
+    
+    // 執行搜尋
+    function performSearch() {
+        const searchTerm = searchInput.value.trim();
         
-        // 格式化日期
-        const date = new Date(item.date);
-        const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
-        
-        // 創建作品卡片HTML
-        galleryItem.innerHTML = `
-            <div class="item-image">
-                <img src="${item.image}" alt="${item.title}">
-                <div class="item-overlay">
-                    <h3 class="item-title">${item.title}</h3>
-                    <div class="item-author">
-                        <img src="${item.author.avatar}" alt="${item.author.name}" class="author-avatar">
-                        <span>${item.author.name}</span>
-                    </div>
-                </div>
-            </div>
-            <div class="item-content">
-                <div class="item-header">
-                    <h3 class="item-title">${item.title}</h3>
-                    <span class="item-type">${getCategoryName(item.category)}</span>
-                </div>
-                <div class="item-author">
-                    <img src="${item.author.avatar}" alt="${item.author.name}" class="author-avatar">
-                    <span>${item.author.name} · ${formattedDate}</span>
-                </div>
-                <p class="item-description">${item.description}</p>
-                <div class="item-stats">
-                    <span class="stat-item"><i class="far fa-heart"></i> ${item.stats.likes}</span>
-                    <span class="stat-item"><i class="far fa-comment"></i> ${item.stats.comments}</span>
-                    <span class="stat-item"><i class="far fa-eye"></i> ${item.stats.views}</span>
-                </div>
+        // 顯示載入中指示器
+        const galleryContainer = document.getElementById('galleryItems');
+        galleryContainer.innerHTML = `
+            <div class="loading-indicator">
+                <i class="fas fa-spinner fa-spin"></i>
+                <span>搜尋中...</span>
             </div>
         `;
         
-        // 點擊作品打開預覽
-        galleryItem.addEventListener('click', function() {
-            openImagePreview(item);
-        });
+        // 建立搜尋參數
+        const params = new URLSearchParams();
+        if (searchTerm) {
+            params.append('search', searchTerm);
+        }
         
-        galleryContainer.appendChild(galleryItem);
+        // 添加其他篩選條件（從側邊欄的active鏈接）
+        const activeCategoryLink = document.querySelector('[data-category].active');
+        const activeStyleLink = document.querySelector('[data-style].active');
+        const activeSortLink = document.querySelector('[data-sort].active');
+        
+        if (activeCategoryLink && activeCategoryLink.dataset.category !== 'all') {
+            params.append('category', activeCategoryLink.dataset.category);
+        }
+        if (activeStyleLink && activeStyleLink.dataset.style !== 'all') {
+            params.append('style', activeStyleLink.dataset.style);
+        }
+        if (activeSortLink && activeSortLink.dataset.sort) {
+            params.append('sort', activeSortLink.dataset.sort);
+        }
+        
+        // 向 API 發送搜尋請求
+        fetch(`/api/gallery?${params.toString()}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('搜尋失敗');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // 清空載入指示器
+                galleryContainer.innerHTML = '';
+                
+                // 渲染搜尋結果
+                if (data.items && data.items.length > 0) {
+                    renderGalleryItems(data.items);
+                } else {
+                    galleryContainer.innerHTML = `
+                        <div class="no-results">
+                            <i class="fas fa-search"></i>
+                            <p>找不到符合 "${searchTerm}" 的作品</p>
+                            <button class="btn btn-primary" onclick="loadGalleryItems()">檢視所有作品</button>
+                        </div>
+                    `;
+                }
+            })
+            .catch(error => {
+                console.error('搜尋時出錯:', error);
+                galleryContainer.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>搜尋時出現錯誤，請稍後再試</p>
+                        <button class="btn btn-primary" onclick="loadGalleryItems()">回到作品列表</button>
+                    </div>
+                `;
+            });
+    }
+}
+
+async function loadDiscussions() {
+    const discussionListEl = document.querySelector('.discussion-list');
+    
+    try {
+        // 顯示載入中狀態
+        discussionListEl.innerHTML = '<div class="loading">載入中...</div>';
+        
+        // 從 API 獲取資料
+        const response = await api.gallery.getFeatured();
+        
+        if (!response || !Array.isArray(response)) {
+            throw new Error('無效的資料格式');
+        }
+        
+        if (response.length === 0) {
+            discussionListEl.innerHTML = '<div class="no-discussions">目前沒有展示作品</div>';
+            return;
+        }
+        
+        // 渲染討論列表
+        renderDiscussions(response);
+        
+    } catch (error) {
+        console.error('載入展示作品失敗:', error);
+        discussionListEl.innerHTML = `
+            <div class="error-message">
+                <i class="fas fa-exclamation-circle"></i>
+                <p>載入展示作品時發生錯誤</p>
+                <button onclick="loadDiscussions()">重試</button>
+            </div>
+        `;
+    }
+}
+
+function initSidebar() {
+    const filterGroups = document.querySelectorAll('.filter-group');
+    
+    filterGroups.forEach(group => {
+        const title = group.querySelector('.group-title');
+        const list = group.querySelector('.filter-list');
+        
+        if (title && list) {
+            title.addEventListener('click', () => {
+                // 切換展開/收合狀態
+                const isOpen = title.classList.toggle('open');
+                list.classList.toggle('open');
+                
+                // 更新箭頭圖標
+                const icon = title.querySelector('i');
+                if (icon) {
+                    icon.className = isOpen ? 'fas fa-chevron-right rotate-90' : 'fas fa-chevron-right';
+                }
+            });
+        }
     });
 }

@@ -302,7 +302,7 @@ const showcaseItems = [
     {
         id: 1,
         title: 'SYM DRG 運動改裝',
-        image: 'images/bikes/drg.jpg',
+        image: 'images/bikes/DRG.jpg',
         author: {
             name: '小志',
             avatar: 'images/avatars/user1.jpg'
@@ -322,7 +322,7 @@ const showcaseItems = [
     {
         id: 2,
         title: 'SYM MMBCU 日常通勤改裝',
-        image: 'images/bikes/mmbcu.jpg',
+        image: 'images/bikes/MMBCU.jpg',
         author: {
             name: '阿明',
             avatar: 'images/avatars/user2.jpg'
@@ -342,7 +342,7 @@ const showcaseItems = [
     {
         id: 3,
         title: 'SYM SL 街頭風格改裝',
-        image: 'images/bikes/sl.jpg',
+        image: 'images/bikes/JET.jpg',
         author: {
             name: '小美',
             avatar: 'images/avatars/user3.jpg'
@@ -362,7 +362,7 @@ const showcaseItems = [
     {
         id: 4,
         title: 'SYM SR 都會通勤改裝',
-        image: 'images/bikes/sr.jpg',
+        image: 'images/bikes/JET.jpg',
         author: {
             name: '阿宏',
             avatar: 'images/avatars/user4.jpg'

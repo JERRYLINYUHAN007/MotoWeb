@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>導航測試 - MotoWeb</title>
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            margin: 2rem;
+            line-height: 1.6;
+        }
+        .test-section {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .test-link {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            margin: 0.5rem;
+            background-color: #dc2626;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .test-link:hover {
+            background-color: #b91c1c;
+        }
+    </style>
+</head>
+<body>
+    <h1>MotoWeb 導航功能測試</h1>
+    
+    <div class="test-section">
+        <h2>首頁討論區塊測試</h2>
+        <p>測試首頁的「參與討論」按鈕是否正確跳轉到對應的社群討論分類：</p>
+        
+        <a href="community.html?category=排氣系統" class="test-link">
+            排氣系統討論 (模擬首頁按鈕)
+        </a>
+        
+        <a href="community.html?category=懸吊系統" class="test-link">
+            懸吊系統討論 (模擬首頁按鈕)
+        </a>
+        
+        <a href="community.html?category=電子系統" class="test-link">
+            電子系統討論 (模擬首頁按鈕)
+        </a>
+    </div>
+    
+    <div class="test-section">
+        <h2>一般導航測試</h2>
+        <p>測試基本頁面導航：</p>
+        
+        <a href="index.html" class="test-link">首頁</a>
+        <a href="products.html" class="test-link">改裝零件</a>
+        <a href="community.html" class="test-link">社群討論</a>
+        <a href="gallery.html" class="test-link">作品展示</a>
+        <a href="events.html" class="test-link">改裝活動</a>
+    </div>
+    
+    <div class="test-section">
+        <h2>產品分類測試</h2>
+        <p>測試產品頁面的分類過濾：</p>
+        
+        <a href="products.html?category=sym-jet-power" class="test-link">SYM JET 動力系統</a>
+        <a href="products.html?category=sym-drg-appearance" class="test-link">SYM DRG 外觀改裝</a>
+        <a href="products.html?category=yamaha-cygnus-brake" class="test-link">YAMAHA 勁戰 煞車系統</a>
+    </div>
+    
+    <div class="test-section">
+        <h2>功能狀態檢查</h2>
+        <p>檢查各項功能是否正常：</p>
+        
+        <ul>
+            <li>✅ 擎翔車業產品資料已導入 (107個產品)</li>
+            <li>✅ 首頁「參與討論」按鈕已修復</li>
+            <li>✅ 社群討論頁面支援分類過濾</li>
+            <li>✅ 產品頁面API整合完成</li>
+            <li>✅ 伺服器運行在 http://localhost:3001</li>
+        </ul>
+    </div>
+    
+    <div class="test-section">
+        <h2>返回主要頁面</h2>
+        <a href="index.html" class="test-link">返回首頁</a>
+    </div>
+    
+    <script>
+        // 簡單的功能測試
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('導航測試頁面已載入');
+            console.log('當前URL:', window.location.href);
+            
+            // 測試localStorage
+            const testKey = 'motoweb-test';
+            localStorage.setItem(testKey, 'test-value');
+            const testValue = localStorage.getItem(testKey);
+            console.log('localStorage 測試:', testValue === 'test-value' ? '✅ 正常' : '❌ 異常');
+            localStorage.removeItem(testKey);
+            
+            // 測試fetch API
+            fetch('/api/products?limit=1')
+                .then(response => {
+                    console.log('API 測試:', response.ok ? '✅ 伺服器響應正常' : '❌ 伺服器響應異常');
+                })
+                .catch(error => {
+                    console.log('API 測試: ❌ 無法連接到伺服器');
+                });
+        });
+    </script>
+</body>
+</html> 

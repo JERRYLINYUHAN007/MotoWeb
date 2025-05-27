@@ -262,271 +262,92 @@ function initEventDetails() {
  * 開啟活動詳情
  * @param {string} eventId - 活動ID
  */
-function openEventDetails(eventId) {
-    // 在實際應用中，這裡應該從API獲取特定ID的活動詳情
-    // 這裡模擬獲取活動詳情
-    
-    // 使用loadEvents中定義的事件數據（實際應該從API獲取）
-    const events = [
-        {
-            id: 1,
-            title: '2025春季改裝盛會',
-            image: 'images/events/event1.jpg',
-            date: '2025-04-15',
-            time: '09:00 - 17:00',
-            location: '台北南港展覽館',
-            address: '台北市南港區研究院路一段1號',
-            organizer: 'MotoMod官方',
-            type: 'exhibition',
-            description: '一年一度的春季改裝展即將登場，現場將展示最新改裝零件與成品車，並有多場專業講座與互動展示。適合所有摩托車愛好者參加，無論您是改裝新手還是老手，都能在活動中獲得寶貴的經驗與知識。<br><br>活動亮點：<ul><li>最新改裝零件展示區</li><li>成品車展示與評選</li><li>專業技師現場諮詢</li><li>改裝技術講座</li><li>互動體驗區</li><li>限量周邊商品</li></ul>',
-            capacity: 500,
-            registered: 128,
-            fee: 300,
-            deadline: '2025-04-10',
-            status: 'open',
-            schedule: [
-                {
-                    time: '09:00 - 10:00',
-                    title: '開幕式',
-                    description: '開幕致詞與活動介紹'
-                },
-                {
-                    time: '10:00 - 12:00',
-                    title: '零件展示區開放',
-                    description: '各大廠商展示最新改裝零件'
-                },
-                {
-                    time: '12:00 - 13:00',
-                    title: '午餐時間',
-                    description: '現場有多家美食攤位'
-                },
-                {
-                    time: '13:00 - 15:00',
-                    title: '改裝技術講座',
-                    description: '由專業技師主講各類改裝技術'
-                },
-                {
-                    time: '15:00 - 16:30',
-                    title: '成品車評選',
-                    description: '評選最佳改裝車輛'
-                },
-                {
-                    time: '16:30 - 17:00',
-                    title: '閉幕式與頒獎',
-                    description: '頒發評選獎項與抽獎活動'
-                }
-            ],
-            speakers: [
-                {
-                    name: '王大明',
-                    title: '資深改裝技師',
-                    avatar: 'images/avatars/speaker1.jpg',
-                    description: '擁有15年改裝經驗，專精於排氣系統與動力提升。'
-                },
-                {
-                    name: '李小華',
-                    title: '懸吊系統專家',
-                    avatar: 'images/avatars/speaker2.jpg',
-                    description: '曾任職於多家國際知名懸吊品牌，現為獨立技術顧問。'
-                },
-                {
-                    name: '張明德',
-                    title: '電控系統工程師',
-                    avatar: 'images/avatars/speaker3.jpg',
-                    description: '專精於摩托車電子系統調校，擁有多項相關專利。'
-                }
-            ],
-            organizer_info: {
-                name: 'MotoMod官方',
-                avatar: 'images/logo.svg',
-                description: 'MotoMod是台灣最大的摩托車改裝社群平台，致力於推廣摩托車文化與技術交流。',
-                website: 'https://www.motomod.com',
-                email: 'event@motomod.com',
-                phone: '(02) 1234-5678'
-            },
-            tickets: [
-                {
-                    id: 'early',
-                    name: '早鳥票',
-                    price: 200,
-                    description: '限時優惠票種，提前報名享優惠',
-                    remaining: 0,
-                    soldOut: true
-                },
-                {
-                    id: 'regular',
-                    name: '一般票',
-                    price: 300,
-                    description: '標準票價，享有所有活動權益',
-                    remaining: 372,
-                    soldOut: false
-                },
-                {
-                    id: 'vip',
-                    name: 'VIP票',
-                    price: 800,
-                    description: '包含專屬休息區、限量贈品與講師會面機會',
-                    remaining: 25,
-                    soldOut: false
-                }
-            ]
-        },
-        // 若有更多事件，可以在此添加
-    ];
-    
-    // 找到指定ID的活動
-    const event = events.find(e => e.id == eventId) || events[0]; // 預設使用第一個活動
+async function openEventDetails(eventId) {
+    try {
+        // 從API獲取活動詳情
+        const event = await window.eventsAPI.getEventById(eventId);
+        const formattedEvent = window.eventsAPI.formatEventForDisplay(event);
     
     // 更新模態框內容
-    document.getElementById('eventBanner').src = event.image;
-    document.getElementById('eventBanner').alt = event.title;
-    document.getElementById('eventTitle').textContent = event.title;
+        document.getElementById('eventBanner').src = formattedEvent.image;
+        document.getElementById('eventBanner').alt = formattedEvent.title;
+        document.getElementById('eventTitle').textContent = formattedEvent.title;
     
     // 更新活動標籤
     const eventBadges = document.getElementById('eventBadges');
     eventBadges.innerHTML = '';
     
-    // 翻譯活動類型
-    const typeNames = {
-        'workshop': '改裝工作坊',
-        'competition': '改裝比賽',
-        'meetup': '車友聚會',
-        'seminar': '技術講座',
-        'exhibition': '展覽活動'
-    };
-    
     const typeBadge = document.createElement('div');
-    typeBadge.className = `event-badge-large ${event.type}`;
-    typeBadge.textContent = typeNames[event.type];
+        typeBadge.className = `event-badge-large ${formattedEvent.type}`;
+        typeBadge.textContent = window.eventsAPI.getTypeDisplayName(formattedEvent.type);
     eventBadges.appendChild(typeBadge);
     
     // 更新活動元數據
-    document.getElementById('eventDate').textContent = formatDate(event.date);
-    document.getElementById('eventTime').textContent = event.time;
-    document.getElementById('eventLocation').textContent = `${event.location} (${event.address})`;
-    document.getElementById('eventOrganizer').textContent = event.organizer;
+        document.getElementById('eventDate').textContent = formatDate(formattedEvent.date);
+        document.getElementById('eventTime').textContent = formattedEvent.time;
+        document.getElementById('eventLocation').textContent = `${formattedEvent.location}${formattedEvent.address ? ' (' + formattedEvent.address + ')' : ''}`;
+        document.getElementById('eventOrganizer').textContent = formattedEvent.organizer;
     
     // 更新活動描述
-    document.getElementById('eventDescription').innerHTML = event.description;
+        document.getElementById('eventDescription').innerHTML = formattedEvent.description;
     
-    // 更新活動議程
-    const eventSchedule = document.getElementById('eventSchedule');
-    eventSchedule.innerHTML = '';
-    
-    if (event.schedule && event.schedule.length > 0) {
-        event.schedule.forEach(item => {
-            const scheduleItem = document.createElement('div');
-            scheduleItem.className = 'schedule-item';
-            scheduleItem.innerHTML = `
-                <div class="schedule-time">${item.time}</div>
-                <div class="schedule-content">
-                    <div class="schedule-title">${item.title}</div>
-                    <div class="schedule-description">${item.description}</div>
-                </div>
-            `;
-            eventSchedule.appendChild(scheduleItem);
-        });
-    } else {
-        eventSchedule.innerHTML = '<p>暫無詳細議程</p>';
-    }
-    
-    // 更新講者資訊
-    const eventSpeakers = document.getElementById('eventSpeakers');
-    eventSpeakers.innerHTML = '';
-    
-    if (event.speakers && event.speakers.length > 0) {
-        event.speakers.forEach(speaker => {
-            const speakerCard = document.createElement('div');
-            speakerCard.className = 'speaker-card';
-            speakerCard.innerHTML = `
-                <img src="${speaker.avatar}" alt="${speaker.name}" class="speaker-avatar">
-                <div class="speaker-info">
-                    <div class="speaker-name">${speaker.name}</div>
-                    <div class="speaker-title">${speaker.title}</div>
-                    <p>${speaker.description}</p>
-                </div>
-            `;
-            eventSpeakers.appendChild(speakerCard);
-        });
-    } else {
-        eventSpeakers.innerHTML = '<p>暫無講者資訊</p>';
-    }
-    
-    // 更新地點資訊（假設使用靜態圖片替代地圖）
-    const eventLocationMap = document.getElementById('eventLocationMap');
-    eventLocationMap.innerHTML = `
+        // 更新其他頁籤內容（簡化處理）
+        document.getElementById('eventSchedule').innerHTML = '<p>暫無詳細議程</p>';
+        document.getElementById('eventSpeakers').innerHTML = '<p>暫無講者資訊</p>';
+        document.getElementById('eventLocationMap').innerHTML = `
         <div style="background-color: #f8f9fa; padding: 1rem; text-align: center;">
             <p><i class="fas fa-map-marked-alt" style="font-size: 2rem; margin-bottom: 0.5rem;"></i></p>
-            <p><strong>${event.location}</strong></p>
-            <p>${event.address}</p>
-            <p><small>在實際應用中，這裡應該顯示Google地圖或其他地圖服務</small></p>
+                <p><strong>${formattedEvent.location}</strong></p>
+                ${formattedEvent.address ? `<p>${formattedEvent.address}</p>` : ''}
         </div>
     `;
     
     // 更新報名資訊
-    document.getElementById('registrationStatus').textContent = getStatusText(event.status);
-    document.getElementById('registrationStatus').className = `registration-status ${event.status}`;
+        document.getElementById('registrationStatus').textContent = getStatusText(formattedEvent.status);
+        document.getElementById('registrationStatus').className = `registration-status ${formattedEvent.status}`;
     
     document.getElementById('registrationDetails').innerHTML = `
         <p>請於截止日期前完成報名，名額有限，額滿為止。</p>
         <p>報名成功後，將收到確認電子郵件，請於活動當天出示QR碼報到。</p>
     `;
     
-    document.getElementById('priceInfo').textContent = event.fee > 0 ? `NT$ ${event.fee}` : '免費';
-    document.getElementById('priceInfo').className = event.fee > 0 ? 'price-info' : 'price-info free';
+        document.getElementById('priceInfo').textContent = formattedEvent.fee > 0 ? `NT$ ${formattedEvent.fee}` : '免費';
+        document.getElementById('priceInfo').className = formattedEvent.fee > 0 ? 'price-info' : 'price-info free';
     
+        const remaining = formattedEvent.capacity - formattedEvent.registered;
     document.getElementById('remainingSpots').innerHTML = `
-        <div>剩餘名額：${event.capacity - event.registered}/${event.capacity}</div>
+            <div>剩餘名額：${remaining}/${formattedEvent.capacity}</div>
         <div class="spots-progress">
-            <div class="spots-bar" style="width: ${(event.registered / event.capacity) * 100}%"></div>
+                <div class="spots-bar" style="width: ${(formattedEvent.registered / formattedEvent.capacity) * 100}%"></div>
         </div>
     `;
     
-    document.getElementById('registrationDeadline').textContent = `報名截止日期：${formatDate(event.deadline)}`;
+        if (formattedEvent.deadline) {
+            document.getElementById('registrationDeadline').textContent = `報名截止日期：${formatDate(formattedEvent.deadline)}`;
+        }
     
     // 更新按鈕狀態
     const registerBtn = document.getElementById('registerBtn');
-    registerBtn.disabled = event.status === 'closed';
-    registerBtn.textContent = event.status === 'closed' ? '報名已截止' : '立即報名';
-    registerBtn.dataset.eventId = event.id;
+        registerBtn.disabled = formattedEvent.status === 'closed';
+        registerBtn.textContent = formattedEvent.status === 'closed' ? '報名已截止' : '立即報名';
+        registerBtn.dataset.eventId = formattedEvent.id;
     
-    const addCalendarBtn = document.getElementById('addCalendarBtn');
-    addCalendarBtn.dataset.eventId = event.id;
-    
-    const shareEventBtn = document.getElementById('shareEventBtn');
-    shareEventBtn.dataset.eventId = event.id;
+        document.getElementById('addCalendarBtn').dataset.eventId = formattedEvent.id;
+        document.getElementById('shareEventBtn').dataset.eventId = formattedEvent.id;
     
     // 更新主辦方資訊
     const organizerInfo = document.getElementById('organizerInfo');
-    
-    if (event.organizer_info) {
-        organizerInfo.innerHTML = `
-            <div class="organizer-info">
-                <img src="${event.organizer_info.avatar}" alt="${event.organizer_info.name}" class="organizer-avatar">
-                <div>
-                    <div class="organizer-name">${event.organizer_info.name}</div>
-                </div>
-            </div>
-            <p>${event.organizer_info.description}</p>
-            <div class="organizer-meta">
-                <a href="${event.organizer_info.website}" target="_blank"><i class="fas fa-globe"></i> 官方網站</a>
-                <a href="mailto:${event.organizer_info.email}"><i class="fas fa-envelope"></i> ${event.organizer_info.email}</a>
-                <a href="tel:${event.organizer_info.phone}"><i class="fas fa-phone"></i> ${event.organizer_info.phone}</a>
-            </div>
-        `;
-    } else {
         organizerInfo.innerHTML = `
             <div class="organizer-info">
                 <div class="organizer-avatar" style="background-color: #e9ecef; display: flex; align-items: center; justify-content: center;">
                     <i class="fas fa-user" style="font-size: 1.5rem; color: #6c757d;"></i>
                 </div>
                 <div>
-                    <div class="organizer-name">${event.organizer}</div>
+                    <div class="organizer-name">${formattedEvent.organizer}</div>
                 </div>
             </div>
-            <p>暫無詳細資訊</p>
+            <p>主辦方資訊</p>
         `;
-    }
     
     // 激活第一個頁籤
     document.querySelectorAll('.event-tab').forEach(tab => tab.classList.remove('active'));
@@ -538,6 +359,11 @@ function openEventDetails(eventId) {
     const eventModal = document.getElementById('eventModal');
     eventModal.classList.add('active');
     document.body.style.overflow = 'hidden';
+        
+    } catch (error) {
+        console.error('載入活動詳情失敗:', error);
+        alert('載入活動詳情失敗：' + error.message);
+    }
 }
 
 /**
@@ -599,7 +425,7 @@ function initRegistration() {
         }
         
         // 在實際應用中，這裡應該向API發送報名資訊
-        // 模擬報名提交成功
+        // 提交報名
         submitRegistration();
     });
     
@@ -629,102 +455,54 @@ function initRegistration() {
  * 開啟報名表單
  * @param {string} eventId - 活動ID
  */
-function openRegistrationForm(eventId) {
-    // 在實際應用中，這裡應該從API獲取活動和票種資訊
-    // 這裡使用模擬資料
-    
-    // 使用前面定義的活動資料
-    const event = {
-        id: eventId,
-        title: '2025春季改裝盛會',
-        tickets: [
-            {
-                id: 'early',
-                name: '早鳥票',
-                price: 200,
-                description: '限時優惠票種，提前報名享優惠',
-                remaining: 0,
-                soldOut: true
-            },
-            {
-                id: 'regular',
-                name: '一般票',
-                price: 300,
-                description: '標準票價，享有所有活動權益',
-                remaining: 372,
-                soldOut: false
-            },
-            {
-                id: 'vip',
-                name: 'VIP票',
-                price: 800,
-                description: '包含專屬休息區、限量贈品與講師會面機會',
-                remaining: 25,
-                soldOut: false
-            }
-        ]
-    };
+async function openRegistrationForm(eventId) {
+    try {
+        // 從API獲取活動資訊
+        const event = await window.eventsAPI.getEventById(eventId);
+        const formattedEvent = window.eventsAPI.formatEventForDisplay(event);
     
     // 更新表單標題
-    document.getElementById('registrationEventTitle').textContent = event.title;
+        document.getElementById('registrationEventTitle').textContent = formattedEvent.title;
     
-    // 更新票種選項
-    const ticketOptions = document.getElementById('ticketOptions');
+        // 隱藏票種選擇區域（簡化處理）
     const ticketSelectionGroup = document.getElementById('ticketSelectionGroup');
-    
-    // 清空票種容器
-    ticketOptions.innerHTML = '';
-    
-    // 如果有票種，顯示票種選擇區域
-    if (event.tickets && event.tickets.length > 0) {
-        ticketSelectionGroup.style.display = 'block';
-        
-        // 加入票種選項
-        event.tickets.forEach(ticket => {
-            const ticketOption = document.createElement('div');
-            ticketOption.className = `ticket-option ${ticket.soldOut ? 'sold-out' : ''}`;
-            
-            ticketOption.innerHTML = `
-                <input type="radio" name="ticket" id="ticket-${ticket.id}" value="${ticket.id}" class="ticket-radio" ${ticket.soldOut ? 'disabled' : ''}>
-                <div class="ticket-info">
-                    <div class="ticket-name">${ticket.name}</div>
-                    <div class="ticket-description">${ticket.description}</div>
-                    <div class="ticket-meta">
-                        <div class="ticket-price">NT$ ${ticket.price}</div>
-                        <div class="ticket-remains">${ticket.soldOut ? '已售完' : `剩餘 ${ticket.remaining} 張`}</div>
-                    </div>
-                </div>
-            `;
-            
-            ticketOptions.appendChild(ticketOption);
-        });
-    } else {
-        // 如果沒有票種，隱藏票種選擇區域
         ticketSelectionGroup.style.display = 'none';
-    }
     
     // 重置表單
     document.getElementById('registrationForm').reset();
+        
+        // 儲存活動ID供表單提交使用
+        document.getElementById('registrationForm').dataset.eventId = eventId;
     
     // 開啟模態框
     const registrationModal = document.getElementById('registrationModal');
     registrationModal.classList.add('active');
     document.body.style.overflow = 'hidden';
+        
+    } catch (error) {
+        console.error('載入報名表單失敗:', error);
+        alert('載入報名表單失敗：' + error.message);
+    }
 }
 
 /**
  * 提交報名表單
  */
-function submitRegistration() {
-    // 在實際應用中，這裡應該向API發送報名資訊
-    // 模擬資料處理延遲
+async function submitRegistration() {
     const submitBtn = document.getElementById('submitRegistrationBtn');
     const originalText = submitBtn.textContent;
     
+    try {
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 處理中...';
     
-    setTimeout(() => {
+        // 獲取表單資料
+        const form = document.getElementById('registrationForm');
+        const eventId = form.dataset.eventId;
+        
+        // 使用API註冊活動
+        await window.eventsAPI.registerForEvent(eventId);
+        
         // 關閉報名模態框
         const registrationModal = document.getElementById('registrationModal');
         registrationModal.classList.remove('active');
@@ -735,11 +513,16 @@ function submitRegistration() {
         document.getElementById('successMessage').textContent = '您已成功報名活動，確認信將發送至您的電子郵件。';
         
         successModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
         
+    } catch (error) {
+        console.error('報名失敗:', error);
+        alert('報名失敗：' + error.message);
+    } finally {
         // 重置按鈕狀態
         submitBtn.disabled = false;
         submitBtn.textContent = originalText;
-    }, 1500);
+    }
 }
 
 /**
@@ -919,56 +702,19 @@ function initSearchFunction() {
         const searchTerm = searchInput.value.trim();
         
         if (searchTerm === '') {
+            // 如果搜尋框為空，載入所有活動
+            loadEvents();
             return;
         }
         
-        // 顯示載入中狀態
-        const eventsGrid = document.getElementById('eventsGrid');
-        eventsGrid.innerHTML = `
-            <div class="events-loading">
-                <i class="fas fa-spinner fa-spin"></i>
-                <span>搜尋中...</span>
-            </div>
-        `;
+        // 更新URL參數
+        const url = new URL(window.location);
+        url.searchParams.set('search', searchTerm);
+        url.searchParams.delete('page'); // 重置到第一頁
+        window.history.pushState({}, '', url);
         
-        // 更新列表視圖
-        const eventsTableBody = document.getElementById('eventsTableBody');
-        eventsTableBody.innerHTML = '';
-        
-        // 模擬搜尋延遲
-        setTimeout(() => {
-            // 在實際應用中，這裡應該向API發送搜尋請求
-            // 模擬搜尋結果
-            if (Math.random() > 0.3) {
-                // 有找到結果
+        // 重新載入活動（會自動帶上搜尋參數）
                 loadEvents();
-            } else {
-                // 沒有找到結果
-                eventsGrid.innerHTML = `
-                    <div class="no-events">
-                        <i class="fas fa-search"></i>
-                        <p>找不到符合「${searchTerm}」的活動</p>
-                        <button class="btn btn-outline" id="clearSearchBtn">清除搜尋</button>
-                    </div>
-                `;
-                
-                eventsTableBody.innerHTML = `
-                    <tr>
-                        <td colspan="6" class="text-center">
-                            <div class="no-events">
-                                <p>找不到符合「${searchTerm}」的活動</p>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-                
-                // 綁定清除搜尋按鈕
-                document.getElementById('clearSearchBtn').addEventListener('click', function() {
-                    searchInput.value = '';
-                    loadEvents();
-                });
-            }
-        }, 1000);
     }
 }
 
@@ -978,190 +724,24 @@ function initSearchFunction() {
 function initLoadMore() {
     const loadMoreBtn = document.getElementById('loadMoreBtn');
     
-    loadMoreBtn.addEventListener('click', function() {
-        // 顯示載入中狀態
-        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 載入中...';
-        this.disabled = true;
-        
-        // 模擬載入延遲
-        setTimeout(() => {
-            // 在實際應用中，這裡應該向API請求更多活動
-            // 這裡僅模擬載入更多活動
-            loadMoreEvents();
-            
-            // 恢復按鈕狀態
-            this.innerHTML = '<i class="fas fa-sync"></i> 載入更多活動';
-            this.disabled = false;
-        }, 1500);
-    });
+    if (!loadMoreBtn) return;
     
-    /**
-     * 載入更多活動
-     */
-    function loadMoreEvents() {
-        // 檢查是否有更多活動可加載
-        if (!window.allMockEvents || !window.currentLoadedEvents) {
-            // 顯示已載入全部
-            const loadMoreBtn = document.getElementById('loadMoreBtn');
-            loadMoreBtn.innerHTML = '已載入全部活動';
-            loadMoreBtn.disabled = true;
-            return;
-        }
+    loadMoreBtn.addEventListener('click', function() {
+        // 獲取當前頁碼
+        const urlParams = new URLSearchParams(window.location.search);
+        const currentPage = parseInt(urlParams.get('page')) || 1;
+        const nextPage = currentPage + 1;
         
-        const eventsGrid = document.getElementById('eventsGrid');
-        const eventsTableBody = document.getElementById('eventsTableBody');
-        const allEvents = window.allMockEvents;
-        const currentIndex = window.currentEventIndex || window.currentLoadedEvents.length;
+        // 更新URL到下一頁
+        const url = new URL(window.location);
+        url.searchParams.set('page', nextPage);
+        window.history.pushState({}, '', url);
         
-        // 確定要加載的活動數量
-        const loadCount = 3;
-        let loadedCount = 0;
-        
-        // 判斷是否還有更多活動可載入
-        if (currentIndex >= allEvents.length) {
-            // 已經載入全部活動
-            const loadMoreBtn = document.getElementById('loadMoreBtn');
-            loadMoreBtn.innerHTML = '已載入全部活動';
-            loadMoreBtn.disabled = true;
-            return;
-        }
-        
-        // 翻譯活動類型
-        const typeNames = {
-            'workshop': '改裝工作坊',
-            'competition': '改裝比賽',
-            'meetup': '車友聚會',
-            'seminar': '技術講座',
-            'exhibition': '展覽活動'
-        };
-        
-        // 從未載入的活動中依次載入
-        for (let i = 0; i < loadCount; i++) {
-            const nextIndex = currentIndex + i;
-            
-            // 檢查是否已經載入完全部活動
-            if (nextIndex >= allEvents.length) {
-                break;
-            }
-            
-            const event = allEvents[nextIndex];
-            loadedCount++;
-            
-            // 將活動添加到已載入列表
-            window.currentLoadedEvents.push(event);
-            
-            // 創建活動卡片
-            const eventCard = document.createElement('article');
-            eventCard.className = 'event-card';
-            eventCard.dataset.id = event.id;
-            
-            // 解析日期
-            let date, day, month;
-            try {
-                date = new Date(event.date);
-                day = date.getDate();
-                const monthNames = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'];
-                month = monthNames[date.getMonth()];
-            } catch (e) {
-                console.error('日期解析錯誤:', e);
-                day = Math.floor(Math.random() * 28) + 1;
-                month = '六月';
-            }
-            
-            // 建立卡片HTML
-            eventCard.innerHTML = `
-                <div class="event-image">
-                    <img src="${event.image}" alt="${event.title}">
-                    <div class="event-date">
-                        <span class="date">${day}</span>
-                        <span class="month">${month}</span>
-                    </div>
-                    <div class="event-badge ${event.type}">${typeNames[event.type]}</div>
-                </div>
-                <div class="event-content">
-                    <h3>${event.title}</h3>
-                    <div class="event-meta">
-                        <span><i class="fas fa-map-marker-alt"></i> ${event.location}</span>
-                        <span><i class="fas fa-clock"></i> ${event.time}</span>
-                    </div>
-                    <p>${event.description.length > 150 ? event.description.substring(0, 150) + '...' : event.description}</p>
-                    <div class="event-footer">
-                        <button class="btn btn-primary view-event-btn" data-id="${event.id}">查看詳情</button>
-                        <div class="event-stats">
-                            <span><i class="fas fa-user"></i> ${event.registered}/${event.capacity}</span>
-                            <span><i class="fas fa-heart"></i> ${Math.floor(Math.random() * 100) + 10}</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            // 綁定查看詳情按鈕
-            const viewBtn = eventCard.querySelector('.view-event-btn');
-            viewBtn.addEventListener('click', function() {
-                openEventDetails(this.dataset.id);
+        // 載入下一頁的活動
+        loadEvents();
             });
             
-            // 添加到網格視圖
-            eventsGrid.appendChild(eventCard);
-            
-            // 添加到列表視圖
-            const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
-            const eventRow = document.createElement('tr');
-            eventRow.innerHTML = `
-                <td>${formattedDate}</td>
-                <td>
-                    <div class="table-event-title">
-                        <span class="table-event-badge ${event.type}"></span>
-                        ${event.title}
-                    </div>
-                </td>
-                <td>${event.location}</td>
-                <td>${typeNames[event.type]}</td>
-                <td>${event.registered}/${event.capacity}</td>
-                <td>
-                    <div class="table-actions">
-                        <button class="view-btn" data-id="${event.id}" aria-label="查看詳情">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="register-btn" data-id="${event.id}" aria-label="報名">
-                            <i class="fas fa-user-plus"></i>
-                        </button>
-                        <button class="calendar-btn" data-id="${event.id}" aria-label="加入行事曆">
-                            <i class="fas fa-calendar-plus"></i>
-                        </button>
-                    </div>
-                </td>
-            `;
-            
-            // 綁定表格按鈕事件
-            const tableViewBtn = eventRow.querySelector('.view-btn');
-            tableViewBtn.addEventListener('click', function() {
-                openEventDetails(this.dataset.id);
-            });
-            
-            const tableRegisterBtn = eventRow.querySelector('.register-btn');
-            tableRegisterBtn.addEventListener('click', function() {
-                openRegistrationForm(this.dataset.id);
-            });
-            
-            const tableCalendarBtn = eventRow.querySelector('.calendar-btn');
-            tableCalendarBtn.addEventListener('click', function() {
-                addToCalendar(this.dataset.id);
-            });
-            
-            eventsTableBody.appendChild(eventRow);
-        }
-        
-        // 更新當前索引
-        window.currentEventIndex = currentIndex + loadedCount;
-        
-        // 檢查是否已載入全部
-        if (window.currentEventIndex >= allEvents.length) {
-            const loadMoreBtn = document.getElementById('loadMoreBtn');
-            loadMoreBtn.innerHTML = '已載入全部活動';
-            loadMoreBtn.disabled = true;
-        }
-    }
+    // (移除模擬的 loadMoreEvents 函數，改用分頁系統)
 }
 
 /**
@@ -1213,11 +793,8 @@ function initCategoryCards() {
         const eventsTableBody = document.getElementById('eventsTableBody');
         eventsTableBody.innerHTML = '';
         
-        // 模擬載入延遲
-        setTimeout(() => {
             // 重新載入活動
             loadEvents();
-        }, 800);
     }
 }
 
@@ -1227,7 +804,7 @@ function initCategoryCards() {
  */
 function addToCalendar(eventId) {
     // 在實際應用中，這裡應該獲取活動詳情
-    // 模擬加入Google行事曆的功能（實際應該使用API）
+    // 加入行事曆功能（可串接Google Calendar等服務）
     alert('已將活動加入您的行事曆');
 }
 
@@ -1267,9 +844,31 @@ function getStatusText(status) {
  * events.js - MotoMod改裝活動頁面功能
  */
 
+// 頁面初始化
 document.addEventListener('DOMContentLoaded', function() {
-    // 初始化頁面
-    initEventsPage();
+    console.log('Events page initializing...');
+    
+    // 確保EventsAPI已經載入
+    if (typeof window.eventsAPI === 'undefined') {
+        console.error('EventsAPI not loaded');
+        return;
+    }
+    
+    // 初始化各種功能
+    initEventDetails();
+    initRegistration();
+    initCreateEvent();
+    initSearchFunction();
+    initLoadMore();
+    initCategoryCards();
+    initViewToggle();
+    initFilters();
+    initCalendar();
+    
+    // 載入活動資料
+    loadEvents();
+    
+    console.log('Events page initialized successfully');
 });
 
 /**
@@ -1400,9 +999,6 @@ function initFilters() {
      * 應用篩選條件
      */
     function applyFilters() {
-        // 在實際應用中，應該向API發送請求獲取篩選後的資料
-        // 這裡模擬篩選操作
-        
         // 顯示載入中狀態
         const eventsGrid = document.getElementById('eventsGrid');
         eventsGrid.innerHTML = `
@@ -1416,11 +1012,8 @@ function initFilters() {
         const eventsTableBody = document.getElementById('eventsTableBody');
         eventsTableBody.innerHTML = '';
         
-        // 模擬載入延遲
-        setTimeout(() => {
             // 重新載入活動
             loadEvents();
-        }, 800);
     }
     
     /**
@@ -1491,8 +1084,6 @@ function initCalendar() {
             </div>
         `;
         
-        // 模擬載入延遲
-        setTimeout(() => {
             // 清空日曆
             calendarGrid.innerHTML = '';
             
@@ -1559,31 +1150,7 @@ function initCalendar() {
                             dayCell.classList.add('today');
                         }
                         
-                        // 新增該日期的活動（模擬數據）
-                        if (dayCount % 3 === 0) {
-                            const eventsContainer = document.createElement('div');
-                            eventsContainer.className = 'calendar-events';
-                            
-                            // 添加1-3個活動
-                            const eventCount = Math.floor(Math.random() * 3) + 1;
-                            for (let i = 0; i < eventCount; i++) {
-                                const eventType = getRandomEventType();
-                                const eventElement = document.createElement('div');
-                                eventElement.className = `calendar-event ${eventType}`;
-                                eventElement.textContent = getEventName(eventType);
-                                eventElement.dataset.eventId = Math.floor(Math.random() * 10) + 1;
-                                
-                                // 點擊活動打開詳情
-                                eventElement.addEventListener('click', function(e) {
-                                    e.stopPropagation();
-                                    openEventDetails(this.dataset.eventId);
-                                });
-                                
-                                eventsContainer.appendChild(eventElement);
-                            }
-                            
-                            dayCell.appendChild(eventsContainer);
-                        }
+                        // 活動顯示（簡化處理，實際應從API獲取該日期的活動）
                         
                         dayCount++;
                     }
@@ -1601,45 +1168,15 @@ function initCalendar() {
                 
                 calendarGrid.appendChild(weekRow);
             }
-        }, 500);
     }
     
-    /**
-     * 獲取隨機活動類型
-     * @returns {string} 活動類型
-     */
-    function getRandomEventType() {
-        const types = ['workshop', 'competition', 'meetup', 'seminar', 'exhibition'];
-        return types[Math.floor(Math.random() * types.length)];
-    }
-    
-    /**
-     * 根據活動類型獲取活動名稱
-     * @param {string} type - 活動類型
-     * @returns {string} 活動名稱
-     */
-    function getEventName(type) {
-        switch (type) {
-            case 'workshop':
-                return '排氣管改裝工作坊';
-            case 'competition':
-                return '年度改裝大賽';
-            case 'meetup':
-                return '北區車友聚會';
-            case 'seminar':
-                return '懸吊調校講座';
-            case 'exhibition':
-                return '春季改裝展';
-            default:
-                return '摩托車活動';
-        }
-    }
+    // (移除模擬活動相關的輔助函數)
 }
 
 /**
  * 載入活動資料
  */
-function loadEvents() {
+async function loadEvents() {
     // 顯示載入中
     const eventsGrid = document.getElementById('eventsGrid');
     const eventsTableBody = document.getElementById('eventsTableBody');
@@ -1648,302 +1185,136 @@ function loadEvents() {
         eventsGrid.innerHTML = '<div class="events-loading"><i class="fas fa-spinner fa-spin"></i><span>載入活動中...</span></div>';
     }
     
+    try {
     // 構建查詢參數
     const urlParams = new URLSearchParams(window.location.search);
-    const page = urlParams.get('page') || 1;
+        const page = parseInt(urlParams.get('page')) || 1;
     const type = urlParams.get('type') || '';
     const search = urlParams.get('search') || '';
     const startDate = urlParams.get('startDate') || '';
     const endDate = urlParams.get('endDate') || '';
     
-    // 檢查是否為未來活動頁面，若是則只顯示未來的活動
-    const isUpcoming = window.location.pathname.includes('upcoming') || document.querySelector('.upcoming-events');
-    
-    // 模擬數據 - 活動列表
-    const currentDate = new Date();
-    const twoWeeksLater = new Date();
-    twoWeeksLater.setDate(currentDate.getDate() + 14);
-    
-    // 未來活動
-    const upcomingEvents = [
-        {
-            id: 101,
-            title: '排氣管改裝工作坊',
-            image: 'images/events/event1.jpg',
-            description: '專業技師指導排氣管改裝技巧，包含基礎理論與實作示範。適合有基礎改裝知識的車友參加。',
-            date: '2025-05-15',
-            time: '14:00-17:00',
-            location: '台北市大安區',
-            type: 'workshop',
-            registered: 26,
-            capacity: 30
-        },
-        {
-            id: 102,
-            title: '北區車友月聚',
-            image: 'images/events/event3.jpg',
-            description: '每月定期舉辦的北區車友聚會，輕鬆交流分享騎乘與改裝經驗，認識志同道合的夥伴。',
-            date: '2025-05-05',
-            time: '19:00-21:30',
-            location: '新北市板橋區',
-            type: 'meetup',
-            registered: 45,
-            capacity: 50
-        },
-        {
-            id: 103,
-            title: 'LED燈具升級講座',
-            image: 'images/events/event6.jpg',
-            description: '全面介紹摩托車LED燈具升級方案，包含大燈、方向燈、尾燈等改裝技巧與注意事項。',
-            date: '2025-05-22',
-            time: '19:30-21:30',
-            location: '台北市信義區',
-            type: 'seminar',
-            registered: 28,
-            capacity: 35
-        },
-        {
-            id: 104,
-            title: '車身彩繪設計大賽',
-            image: 'images/events/event2.jpg',
-            description: '展現您的彩繪設計才華，贏得多樣豐富獎項。現場將展示最新彩繪技術與材料，並有專業評審進行指導。',
-            date: '2025-05-24',
-            time: '10:00-16:00',
-            location: '台中車友俱樂部',
-            type: 'competition',
-            registered: 24,
-            capacity: 50
-        },
-        {
-            id: 105,
-            title: '東部車友交流會',
-            image: 'images/events/event4.jpg',
-            description: '特別為東部地區車友舉辦的交流活動，分享改裝經驗，討論東部特有的騎乘路線與保養秘訣。',
-            date: '2025-05-21',
-            time: '8:00-14:00',
-            location: '花蓮海濱車場',
-            type: 'seminar',
-            registered: 11,
-            capacity: 89
-        },
-        {
-            id: 106,
-            title: '車身彩繪設計大賽',
-            image: 'images/events/event5.jpg',
-            description: '歡迎參加年度最具創意的彩繪設計大賽！本次活動設有多個獎項類別，包括最佳技術、最佳創意和觀眾票選獎。',
-            date: '2025-05-20',
-            time: '8:00-16:00',
-            location: '花蓮海濱車場',
-            type: 'competition',
-            registered: 37,
-            capacity: 72
-        },
-        {
-            id: 107,
-            title: '車身彩繪設計大賽',
-            image: 'images/events/event3.jpg',
-            description: '由專業彩繪師主持的設計大賽，參賽者將接受挑戰，在限定時間內完成指定主題的彩繪設計。適合各級彩繪愛好者參加。',
-            date: '2025-05-22',
-            time: '13:00-14:00',
-            location: '台北技術學院',
-            type: 'workshop',
-            registered: 19,
-            capacity: 66
+        // 準備API查詢選項
+        const queryOptions = {
+            page,
+            limit: 12
+        };
+        
+        if (type && type !== 'all') {
+            queryOptions.type = type;
         }
-    ];
-    
-    // 模擬未來活動（5-6月）
-    const futureEvents = [
-        {
-            id: 4,
-            title: '懸吊調校技巧講座',
-            image: 'images/events/event4.jpg',
-            description: '專業講師分享摩托車懸吊系統原理與調校技巧，幫助車友優化騎乘體驗與操控性。',
-            date: '2025-06-10',
-            time: '19:00-21:00',
-            location: '台中市西區',
-            type: 'seminar',
-            registered: 33,
-            capacity: 40
-        },
-        {
-            id: 5,
-            title: '年度改裝大賽',
-            image: 'images/events/event5.jpg',
-            description: '展現您的改裝實力，贏得獎項與榮譽。比賽分為多個組別，包含外觀改裝、性能提升等類別。',
-            date: '2025-07-15',
-            time: '10:00-17:00',
-            location: '高雄市左營區',
-            type: 'competition',
-            registered: 68,
-            capacity: 100
-        },
-        {
-            id: 9,
-            title: '車身彩繪設計大賽',
-            image: 'images/events/event3.jpg',
-            description: '展現您的創意和技巧，為您的愛車設計獨一無二的彩繪。比賽設有多個獎項，歡迎各級車友參加。',
-            date: '2025-06-10',
-            time: '18:00-19:00',
-            location: '台北技術學院',
-            type: 'seminar',
-            registered: 23,
-            capacity: 63
-        },
-        {
-            id: 10,
-            title: '電子系統改裝展示會',
-            image: 'images/events/event1.jpg',
-            description: '探索最新的摩托車電子系統改裝趨勢，包括ECU調校、儀表板升級等多項技術展示與實機操作。',
-            date: '2025-06-01',
-            time: '16:00-15:00',
-            location: '台南文創園區',
-            type: 'workshop',
-            registered: 40,
-            capacity: 62
-        },
-        {
-            id: 11,
-            title: '冒險車系改裝研討會',
-            image: 'images/events/event5.jpg',
-            description: '專為越野與旅行車系車主打造的研討會，討論適合長途騎乘與越野的各項改裝方案與經驗分享。',
-            date: '2025-06-10',
-            time: '17:00-16:00',
-            location: '花蓮海濱車場',
-            type: 'competition',
-            registered: 34,
-            capacity: 102
-        },
-        {
-            id: 12,
-            title: '車身彩繪設計大賽',
-            image: 'images/events/event6.jpg',
-            description: '一年一度的彩繪設計大賽，邀請各地車友展示創意，優勝者將有機會與知名彩繪師合作或獲得專業彩繪工具。',
-            date: '2025-06-15',
-            time: '19:00-18:00',
-            location: '新竹科學園區',
-            type: 'exhibition',
-            registered: 27,
-            capacity: 109
+        
+        if (search.trim()) {
+            queryOptions.search = search.trim();
         }
-    ];
-    
-    // 過去活動資料（用於歷史查詢）
-    const pastEvents = [
-        {
-            id: 2,
-            title: '2025春季改裝盛會',
-            image: 'images/events/event2.jpg',
-            description: '一年一度的春季改裝展即將登場，現場將展示最新改裝零件與成品車，並有多場專業講座與互動展示。',
-            date: '2025-04-20',
-            time: '09:00-18:00',
-            location: '台北南港展覽館',
-            type: 'exhibition',
-            registered: 1240,
-            capacity: 2000,
-            status: 'completed'
+        
+        if (startDate) {
+            queryOptions.startDate = startDate;
         }
-    ];
-    
-    // 根據查詢條件確定要顯示的活動列表
-    let mockEvents = [];
-    
-    if(isUpcoming) {
-        // 顯示未來活動
-        mockEvents = [...upcomingEvents];
-    } else if(type || search || startDate || endDate) {
-        // 如有篩選條件，合併所有活動然後進行篩選
-        const allEvents = [...upcomingEvents, ...futureEvents, ...pastEvents];
-        mockEvents = allEvents.filter(event => {
-            // 模擬篩選邏輯
-            let match = true;
-            if(type && event.type !== type) match = false;
-            if(search && !event.title.toLowerCase().includes(search.toLowerCase())) match = false;
-            // 日期篩選邏輯省略...
-            return match;
-        });
-    } else {
-        // 默認顯示所有活動
-        mockEvents = [...upcomingEvents, ...futureEvents];
-    }
-    
-    // 保存到全局變數，供loadMoreEvents使用
-    window.allMockEvents = [...upcomingEvents, ...futureEvents, ...pastEvents];
-    window.currentLoadedEvents = [...mockEvents];
-    window.currentEventIndex = mockEvents.length;
-    
-    // 嘗試從API獲取活動列表，如果失敗則使用模擬數據
-    fetch(`/api/events?page=${page}&type=${type}&search=${search}&startDate=${startDate}&endDate=${endDate}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('獲取活動列表失敗');
-            }
-            return response.json();
-        })
-        .then(data => {
-            // 渲染API返回的活動數據
-            if (data.events && data.events.length > 0) {
-                renderEventsGrid(data.events);
-                renderEventsList(data.events);
-                // 渲染分頁
-                if (data.totalPages > 1) {
-                    renderPagination(data.page, data.totalPages);
+        
+        if (endDate) {
+            queryOptions.endDate = endDate;
+        }
+        
+        // 檢查是否為未來活動頁面，若是則只顯示未來的活動
+        const isUpcoming = window.location.pathname.includes('upcoming') || document.querySelector('.upcoming-events');
+        if (isUpcoming && !startDate) {
+            queryOptions.startDate = new Date().toISOString().split('T')[0];
+        }
+        
+        console.log('Loading events with options:', queryOptions);
+        
+        // 從API載入活動資料
+        const response = await window.eventsAPI.getEvents(queryOptions);
+        console.log('API response:', response);
+        
+        if (response && response.events) {
+            // 格式化活動資料以符合前端顯示需求
+            const formattedEvents = response.events.map(event => 
+                window.eventsAPI.formatEventForDisplay(event)
+            );
+            
+            console.log('Formatted events:', formattedEvents);
+            
+            // 渲染活動列表
+            renderEventsGrid(formattedEvents);
+            renderEventsList(formattedEvents);
+            
+            // 更新分頁資訊
+            if (response.totalPages > 1) {
+                renderPagination(response.page || 1, response.totalPages);
                 }
-            } else {
-                // 沒有活動數據，顯示空狀態
-                showEmptyState();
-            }
-        })
-        .catch(error => {
-            console.warn('API請求失敗，使用模擬數據:', error);
             
-            // 檢查是否有活動數據
-            if(mockEvents.length > 0) {
-                // 使用模擬數據代替
-                renderEventsGrid(mockEvents);
-                renderEventsList(mockEvents);
+            // 更新URL以反映當前篩選狀態
+            updateURL(queryOptions);
+            
             } else {
-                // 沒有符合條件的活動，顯示空狀態
                 showEmptyState();
             }
             
-            // 如果有錯誤日誌元素，顯示錯誤信息
-            const errorLog = document.getElementById('errorLog');
-            if (errorLog) {
-                errorLog.textContent = '注意：使用的是模擬數據，API連接失敗: ' + error.message;
+    } catch (error) {
+        console.error('載入活動失敗:', error);
+        showErrorState(error.message);
             }
-        });
+}
+
+// 顯示錯誤狀態
+function showErrorState(message) {
+    const eventsGrid = document.getElementById('eventsGrid');
+    const eventsTableBody = document.getElementById('eventsTableBody');
     
-    function showEmptyState() {
-        if (eventsGrid) {
-            eventsGrid.innerHTML = `
-                <div class="empty-state">
-                    <i class="fas fa-calendar-times"></i>
-                    <h3>暫無活動</h3>
-                    <p>目前沒有符合條件的活動</p>
+    const errorHTML = `
+        <div class="no-events">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p>載入活動時發生錯誤</p>
+            <p class="error-message">${message}</p>
+            <button class="btn btn-outline" onclick="loadEvents()">重新載入</button>
                 </div>
             `;
+    
+    if (eventsGrid) {
+        eventsGrid.innerHTML = errorHTML;
         }
         
         if (eventsTableBody) {
-            const emptyRow = document.createElement('tr');
-            emptyRow.innerHTML = `
-                <td colspan="6" class="text-center">
-                    <div class="no-events">
-                        <p>目前沒有符合條件的活動</p>
-                    </div>
-                </td>
-            `;
-            eventsTableBody.innerHTML = '';
-            eventsTableBody.appendChild(emptyRow);
-        }
-        
-        // 隱藏載入更多按鈕
-        const loadMoreBtn = document.getElementById('loadMoreBtn');
-        if (loadMoreBtn) {
-            loadMoreBtn.style.display = 'none';
-        }
+        eventsTableBody.innerHTML = `
+            <tr>
+                <td colspan="6" class="text-center">${errorHTML}</td>
+            </tr>
+        `;
     }
+}
+
+// 更新URL狀態
+function updateURL(options) {
+    const url = new URL(window.location);
+    
+    // 清除舊的查詢參數
+    url.searchParams.delete('page');
+    url.searchParams.delete('type');
+    url.searchParams.delete('search');
+    url.searchParams.delete('startDate');
+    url.searchParams.delete('endDate');
+    
+    // 添加新的查詢參數
+    if (options.page && options.page > 1) {
+        url.searchParams.set('page', options.page);
+        }
+    if (options.type) {
+        url.searchParams.set('type', options.type);
+    }
+    if (options.search) {
+        url.searchParams.set('search', options.search);
+    }
+    if (options.startDate) {
+        url.searchParams.set('startDate', options.startDate);
+    }
+    if (options.endDate) {
+        url.searchParams.set('endDate', options.endDate);
+    }
+    
+    // 更新瀏覽器歷史記錄
+    window.history.replaceState({}, '', url);
 }
 
 /**

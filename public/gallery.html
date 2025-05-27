@@ -80,6 +80,213 @@
             margin-right: 8px;
             text-align: center;
         }
+
+        /* 側邊欄樣式 */
+        .content-layout {
+            display: flex;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 5%;
+        }
+
+        .gallery-sidebar {
+            flex: 0 0 280px;
+            background-color: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            height: fit-content;
+        }
+
+        .gallery-sidebar h3 {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .filter-group .group-title {
+            font-weight: bold;
+            color: var(--text-color);
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+        }
+
+        .filter-group .group-title i {
+            transition: transform 0.3s ease;
+        }
+
+        .filter-group .group-title.open i {
+            transform: rotate(90deg);
+        }
+
+        .filter-list {
+            list-style: none;
+            padding-left: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .filter-list.open {
+            max-height: 1000px;
+        }
+
+        .filter-list li a {
+            text-decoration: none;
+            color: var(--text-color-light);
+            display: block;
+            padding: 0.4rem 0;
+            transition: color 0.2s ease;
+        }
+
+        .filter-list li a:hover,
+        .filter-list li a.active {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .gallery-main {
+            flex: 1;
+        }
+
+        .gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 0.5rem;
+            background-color: #fff;
+            border-radius: 6px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .view-options button {
+            background: none;
+            border: 1px solid #ddd;
+            padding: 0.5rem;
+            margin-left: 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .view-options button.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .applied-filters h4 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+        }
+
+        .filter-tags {
+            margin-bottom: 1rem;
+        }
+
+        .btn-small {
+            padding: 0.3rem 0.8rem;
+            font-size: 0.85rem;
+        }
+
+        /* 側邊欄摺疊樣式 */
+        .group-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--secondary-color);
+            border-bottom: 1px solid #eee;
+            transition: color 0.3s ease;
+        }
+
+        .group-title:hover {
+            color: var(--primary-color);
+        }
+
+        .group-title i {
+            transition: transform 0.3s ease;
+        }
+
+        .group-title.open i {
+            transform: rotate(90deg);
+        }
+
+        .filter-list {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .filter-list.open {
+            max-height: 500px !important;
+            padding: 0.5rem 0;
+        }
+
+        .filter-list li {
+            margin: 0.25rem 0;
+        }
+
+        .filter-list a {
+            display: block;
+            padding: 0.5rem 1rem;
+            color: #666;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .filter-list a:hover {
+            background-color: #f5f5f5;
+            color: var(--primary-color);
+        }
+
+        .filter-list a.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* 篩選標籤樣式 */
+        .filter-tag {
+            display: inline-flex;
+            align-items: center;
+            background-color: #e3f2fd;
+            border: 1px solid #2196f3;
+            border-radius: 20px;
+            padding: 0.25rem 0.75rem;
+            margin: 0.25rem 0.25rem 0.25rem 0;
+            font-size: 0.875rem;
+            color: #1976d2;
+        }
+
+        .filter-tag .remove-tag {
+            background: none;
+            border: none;
+            color: #1976d2;
+            cursor: pointer;
+            margin-left: 0.5rem;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            font-size: 0.75rem;
+        }
+
+        .filter-tag .remove-tag:hover {
+            color: #d32f2f;
+        }
     </style>
 </head>
 <body class="gallery-page">
@@ -143,77 +350,86 @@
             </div>
         </section>
 
-        <section class="gallery-filters">
+        <section class="gallery-content">
             <div class="container">
-                <div class="filter-options">
-                    <div class="filter-group">
-                        <label for="category">分類</label>
-                        <select id="category">
-                            <option value="all">全部作品</option>
-                            <option value="sport">運動車系</option>
-                            <option value="naked">街車系</option>
-                            <option value="cruiser">巡航車系</option>
-                            <option value="adventure">冒險車系</option>
-                            <option value="touring">旅行車系</option>
-                            <option value="custom">客製化</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label for="style">改裝風格</label>
-                        <select id="style">
-                            <option value="all">所有風格</option>
-                            <option value="racing">競技風格</option>
-                            <option value="street">街頭風格</option>
-                            <option value="cafe">咖啡風格</option>
-                            <option value="touring">旅行風格</option>
-                            <option value="scrambler">越野風格</option>
-                            <option value="bobber">短尾風格</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label for="sort">排序方式</label>
-                        <select id="sort">
-                            <option value="latest">最新上傳</option>
-                            <option value="popular">最受歡迎</option>
-                            <option value="views">最多瀏覽</option>
-                            <option value="comments">最多評論</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="applied-filters">
-                    <span class="filter-label">已套用篩選：</span>
-                    <div class="filter-tags" id="filterTags">
-                        <!-- 已套用的篩選條件將在這裡顯示 -->
-                    </div>
-                    <button id="clearFilters" class="btn btn-small">清除篩選</button>
-                </div>
-            </div>
-        </section>
+                <div class="content-layout">
+                    <aside class="gallery-sidebar" id="gallery-sidebar">
+                        <h3>篩選條件</h3>
+                        
+                        <div class="filter-group">
+                            <div class="group-title" data-toggle="category-filter">
+                                車輛分類 <i class="fas fa-chevron-right"></i>
+                            </div>
+                            <ul class="filter-list" id="category-filter">
+                                <li><a href="#" data-category="all" class="active">全部作品</a></li>
+                                <li><a href="#" data-category="scooter">速克達車系</a></li>
+                            </ul>
+                        </div>
 
-        <section class="gallery-grid">
-            <div class="container">
-                <div class="view-toggles">
-                    <button class="view-toggle active" data-view="grid">
-                        <i class="fas fa-th"></i> 網格檢視
-                    </button>
-                    <button class="view-toggle" data-view="list">
-                        <i class="fas fa-list"></i> 列表檢視
-                    </button>
-                </div>
-                
-                <div class="masonry-grid" id="galleryItems">
-                    <!-- 作品卡片將由 JavaScript 動態生成 -->
-                    <div class="loading-indicator">
-                        <i class="fas fa-spinner fa-spin"></i>
-                        <span>載入作品中...</span>
-                    </div>
-                </div>
-                
-                <div class="load-more">
-                    <button class="btn btn-outline" id="loadMoreBtn">
-                        <i class="fas fa-sync"></i>
-                        載入更多作品
-                    </button>
+                        <div class="filter-group">
+                            <div class="group-title" data-toggle="style-filter">
+                                改裝風格 <i class="fas fa-chevron-right"></i>
+                            </div>
+                            <ul class="filter-list" id="style-filter">
+                                <li><a href="#" data-style="all" class="active">所有風格</a></li>
+                                <li><a href="#" data-style="racing">競技風格</a></li>
+                                <li><a href="#" data-style="street">街頭風格</a></li>
+                                <li><a href="#" data-style="custom">客製化</a></li>
+                                <li><a href="#" data-style="japanese">日系風格</a></li>
+                                <li><a href="#" data-style="adventure">冒險風格</a></li>
+                                <li><a href="#" data-style="retro">復古風格</a></li>
+                                <li><a href="#" data-style="maintenance">保養升級</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="filter-group">
+                            <div class="group-title" data-toggle="sort-filter">
+                                排序方式 <i class="fas fa-chevron-right"></i>
+                            </div>
+                            <ul class="filter-list" id="sort-filter">
+                                <li><a href="#" data-sort="latest" class="active">最新上傳</a></li>
+                                <li><a href="#" data-sort="popular">最受歡迎</a></li>
+                                <li><a href="#" data-sort="views">最多瀏覽</a></li>
+                                <li><a href="#" data-sort="comments">最多評論</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="applied-filters">
+                            <h4>已套用篩選</h4>
+                            <div class="filter-tags" id="filterTags">
+                                <!-- 已套用的篩選條件將在這裡顯示 -->
+                            </div>
+                            <button id="clearFilters" class="btn btn-small">清除篩選</button>
+                        </div>
+                    </aside>
+
+                    <section class="gallery-main">
+                        <div class="gallery-header">
+                            <div class="results-count">
+                                <span id="gallery-count">載入中...</span>
+                            </div>
+                            <div class="view-options">
+                                <button class="view-toggle active" data-view="grid">
+                                    <i class="fas fa-th"></i> 網格檢視
+                                </button>
+                                <button class="view-toggle" data-view="list">
+                                    <i class="fas fa-list"></i> 列表檢視
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="gallery-items" id="galleryItems">
+                            <!-- 作品項目將在這裡動態載入 -->
+                            <div class="loading-indicator">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <span>載入作品中...</span>
+                            </div>
+                        </div>
+                        
+                        <div class="load-more-container">
+                            <button class="btn btn-secondary" id="loadMore">載入更多</button>
+                        </div>
+                    </section>
                 </div>
             </div>
         </section>
@@ -498,65 +714,91 @@
     <script src="js/gallery.js"></script>
     <script src="js/auth-state.js"></script>
     <script>
-        // 檢查用戶登入狀態
+        // 側邊欄摺疊功能
         document.addEventListener('DOMContentLoaded', function() {
-            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-            const authButtons = document.querySelector('.auth-buttons');
-            const userMenu = document.querySelector('.user-menu');
-            
-            if (isLoggedIn) {
-                // 用戶已登入，顯示用戶菜單，隱藏登入/註冊按鈕
-                if (authButtons) authButtons.style.display = 'none';
-                if (userMenu) {
-                    userMenu.style.display = 'block';
-                    
-                    // 從localStorage獲取用戶信息並顯示
-                    const username = localStorage.getItem('username') || '用戶';
-                    const usernameElement = userMenu.querySelector('.username');
-                    if (usernameElement) {
-                        usernameElement.textContent = username;
-                    }
-                    
-                    // 用戶菜單點擊切換
-                    const userAvatar = userMenu.querySelector('.user-avatar');
-                    const dropdownMenu = userMenu.querySelector('.dropdown-menu');
-                    
-                    if (userAvatar && dropdownMenu) {
-                        userAvatar.addEventListener('click', function(e) {
-                            e.stopPropagation();
-                            dropdownMenu.classList.toggle('show');
-                        });
-                        
-                        // 點擊其他地方關閉下拉菜單
-                        document.addEventListener('click', function() {
-                            dropdownMenu.classList.remove('show');
-                        });
-                    }
-                }
-            } else {
-                // 用戶未登入，顯示登入/註冊按鈕，隱藏用戶菜單
-                if (authButtons) authButtons.style.display = 'flex';
-                if (userMenu) userMenu.style.display = 'none';
+            // 初始化畫廊頁面功能
+            if (typeof initGalleryPage === 'function') {
+                initGalleryPage();
             }
             
-            // 登出功能
-            const logoutButton = document.getElementById('logout');
-            if (logoutButton) {
-                logoutButton.addEventListener('click', function(e) {
+            // 初始化側邊欄摺疊功能
+            initSidebarToggle();
+            
+            // 初始化其他功能
+            if (typeof initMobileNav === 'function') initMobileNav();
+            if (typeof initAuthState === 'function') initAuthState();
+        });
+
+        function initSidebarToggle() {
+            // 初始展開所有篩選組
+            setTimeout(() => {
+                document.querySelectorAll('.filter-list').forEach(list => {
+                    list.classList.add('open');
+                });
+                document.querySelectorAll('.group-title').forEach(title => {
+                    title.classList.add('open');
+                });
+            }, 100);
+            
+            // 側邊欄摺疊功能
+            document.querySelectorAll('[data-toggle]').forEach(toggle => {
+                toggle.addEventListener('click', (e) => {
+                    const targetId = e.currentTarget.getAttribute('data-toggle');
+                    const targetElement = document.getElementById(targetId);
+                    
+                    if (targetElement) {
+                        targetElement.classList.toggle('open');
+                        e.currentTarget.classList.toggle('open');
+                    }
+                });
+            });
+
+            // 篩選功能
+            document.querySelectorAll('[data-category], [data-style], [data-sort]').forEach(link => {
+                link.addEventListener('click', (e) => {
                     e.preventDefault();
                     
-                    // 清除登入狀態
-                    localStorage.removeItem('isLoggedIn');
-                    localStorage.removeItem('username');
+                    // 移除同組的active狀態
+                    const parent = e.target.closest('.filter-list');
+                    parent.querySelectorAll('a').forEach(a => a.classList.remove('active'));
                     
-                    // 顯示登出成功提示
-                    alert('登出成功！');
+                    // 添加active狀態
+                    e.target.classList.add('active');
                     
-                    // 刷新頁面
-                    window.location.reload();
+                    // 觸發篩選功能
+                    if (typeof applyFiltersFromSidebar === 'function') {
+                        applyFiltersFromSidebar(e.target.dataset);
+                    }
+                });
+            });
+
+            // 清除篩選按鈕
+            const clearFiltersBtn = document.getElementById('clearFilters');
+            if (clearFiltersBtn) {
+                clearFiltersBtn.addEventListener('click', () => {
+                    // 重置所有篩選條件
+                    document.querySelectorAll('.filter-list a').forEach(a => {
+                        a.classList.remove('active');
+                    });
+                    
+                    // 設定預設選項為active
+                    document.querySelectorAll('[data-category="all"], [data-style="all"], [data-sort="latest"]').forEach(a => {
+                        a.classList.add('active');
+                    });
+                    
+                    // 清空篩選標籤
+                    const filterTags = document.getElementById('filterTags');
+                    if (filterTags) {
+                        filterTags.innerHTML = '';
+                    }
+                    
+                    // 重載作品
+                    if (typeof loadGalleryItems === 'function') {
+                        loadGalleryItems();
+                    }
                 });
             }
-        });
+        }
     </script>
 </body>
 </html>

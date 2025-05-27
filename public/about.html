@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>關於我們 - MotoWeb 摩托車改裝社群</title>
+    <meta name="description" content="了解 MotoWeb 摩托車改裝社群的使命、願景與團隊">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        .about-page {
+            padding-top: 80px;
+        }
+        
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('images/about-hero-bg.jpg') center/cover;
+            color: white;
+            text-align: center;
+            padding: 6rem 0;
+        }
+        
+        .hero-section h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero-section p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .content-section {
+            padding: 4rem 0;
+        }
+        
+        .content-section.alt {
+            background-color: var(--background-color);
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 3rem;
+        }
+        
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .team-member {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .member-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            background: var(--background-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--primary-color);
+        }
+        
+        .stats-section {
+            text-align: center;
+            color: white;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .stat-item {
+            padding: 2rem;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body class="about-page">
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                <a href="index.html" aria-label="motoweb首頁">
+                    <img src="images/motoweb-logo.svg" alt="motoweb Logo" class="logo-img">
+                </a>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <div class="main-nav">
+                    <a href="index.html">首頁</a>
+                    <a href="products.html">改裝零件</a>
+                    <a href="community.html">社群討論</a>
+                    <a href="gallery.html">作品展示</a>
+                    <a href="events.html">改裝活動</a>
+                </div>
+                <div class="auth-buttons">
+                    <a href="login.html" class="btn btn-secondary">登入</a>
+                    <a href="register.html" class="btn btn-primary">註冊</a>
+                </div>
+            </div>
+            <button class="menu-toggle" aria-label="展開選單" aria-expanded="false" aria-controls="navLinks">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero-section">
+            <div class="container">
+                <h1>關於 MotoWeb</h1>
+                <p>台灣最專業的摩托車改裝社群平台，連結車友、分享經驗、創造無限可能</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="container">
+                <h2 class="section-title">我們的使命</h2>
+                <div class="about-content">
+                    <p>MotoWeb 致力於建立台灣最完整、最活躍的摩托車改裝社群。我們相信每一輛摩托車都有其獨特的故事，每一次改裝都是車主個性的展現。</p>
+                    <p>我們的平台不僅是一個展示空間，更是一個知識分享的園地。無論您是改裝新手還是資深玩家，都能在這裡找到志同道合的夥伴，獲得專業的建議，並分享您的改裝心得。</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section alt">
+            <div class="container">
+                <h2 class="section-title">核心特色</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-users"></i></div>
+                        <h3>專業社群</h3>
+                        <p>匯聚全台改裝達人，分享第一手經驗與技術</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-tools"></i></div>
+                        <h3>零件商城</h3>
+                        <p>精選優質改裝零件，提供專業選購建議</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-camera"></i></div>
+                        <h3>作品展示</h3>
+                        <p>展示您的改裝成果，獲得社群的讚賞與回饋</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-calendar-alt"></i></div>
+                        <h3>活動資訊</h3>
+                        <p>第一時間掌握改裝展覽、聚會等活動訊息</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section" style="background: linear-gradient(135deg, var(--primary-color), #a00e1a);">
+            <div class="container stats-section">
+                <h2 class="section-title" style="color: white;">平台數據</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-number">25,000+</span>
+                        <span class="stat-label">註冊會員</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">8,500+</span>
+                        <span class="stat-label">改裝作品</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">15,000+</span>
+                        <span class="stat-label">討論貼文</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">500+</span>
+                        <span class="stat-label">合作店家</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="container">
+                <h2 class="section-title">創辦團隊</h2>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="member-avatar"><i class="fas fa-user"></i></div>
+                        <h3>陳建宏</h3>
+                        <p class="member-role">創辦人 & CEO</p>
+                        <p>15年改裝經驗，致力於推廣摩托車改裝文化</p>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-avatar"><i class="fas fa-user"></i></div>
+                        <h3>林小雯</h3>
+                        <p class="member-role">技術總監</p>
+                        <p>資深軟體工程師，專精於社群平台開發</p>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-avatar"><i class="fas fa-user"></i></div>
+                        <h3>王大明</h3>
+                        <p class="member-role">社群經理</p>
+                        <p>負責社群營運與會員服務，確保平台活躍度</p>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-avatar"><i class="fas fa-user"></i></div>
+                        <h3>張美麗</h3>
+                        <p class="member-role">商務總監</p>
+                        <p>負責與改裝店家合作，建立完整生態系統</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section alt">
+            <div class="container">
+                <h2 class="section-title">聯絡我們</h2>
+                <div class="about-content" style="text-align: center;">
+                    <p>有任何問題或建議，歡迎隨時與我們聯繫：</p>
+                    <div style="margin: 2rem 0;">
+                        <p><i class="fas fa-envelope"></i> contact@motoweb.com</p>
+                        <p><i class="fas fa-phone"></i> (02) 1234-5678</p>
+                        <p><i class="fas fa-map-marker-alt"></i> 台北市信義區松仁路100號</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section about">
+                    <div class="footer-logo">
+                        <img src="images/motoweb-logo.svg" alt="motoweb Logo" class="footer-logo-img">
+                    </div>
+                    <p>專業的摩托車改裝社群平台，為車友提供交流與分享的空間。</p>
+                </div>
+                <div class="footer-section links">
+                    <h3>快速連結</h3>
+                    <ul>
+                        <li><a href="about.html">關於我們</a></li>
+                        <li><a href="products.html">改裝零件</a></li>
+                        <li><a href="community.html">社群討論</a></li>
+                        <li><a href="gallery.html">作品展示</a></li>
+                        <li><a href="events.html">改裝活動</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section contact">
+                    <h3>聯絡資訊</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-envelope"></i> contact@motoweb.com</li>
+                        <li><i class="fas fa-phone"></i> (02) 1234-5678</li>
+                        <li><i class="fas fa-map-marker-alt"></i> 台北市信義區松仁路100號</li>
+                    </ul>
+                </div>
+                <div class="footer-section newsletter">
+                    <h3>訂閱電子報</h3>
+                    <p>獲取最新改裝趨勢與活動資訊</p>
+                    <form class="newsletter-form" action="subscribe.php" method="POST">
+                        <input type="email" name="email" placeholder="您的電子郵件" required>
+                        <button type="submit" class="btn btn-primary">訂閱</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MotoWeb. 保留所有權利。</p>
+                <div class="footer-bottom-links">
+                    <a href="privacy.html">隱私政策</a>
+                    <a href="terms.html">使用條款</a>
+                    <a href="cookies.html">Cookie 政策</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/auth-state.js"></script>
+</body>
+</html> 

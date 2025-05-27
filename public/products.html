@@ -7,6 +7,75 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
+        /* 用戶菜單樣式 */
+        .user-menu {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .user-avatar {
+            display: flex;
+            align-items: center;
+            padding: 5px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .user-avatar:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .user-avatar img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .user-avatar .username {
+            color: white;
+            font-weight: 500;
+            max-width: 120px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 180px;
+            background-color: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 8px 0;
+            z-index: 100;
+            display: none;
+        }
+        
+        .dropdown-menu.show {
+            display: block;
+        }
+        
+        .dropdown-menu a {
+            display: block;
+            padding: 8px 16px;
+            color: #333;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+        
+        .dropdown-menu a:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .dropdown-menu i {
+            width: 16px;
+            margin-right: 8px;
+            text-align: center;
+        }
+
         /* Products Page Specific Styles */
         .page-header h1 {
             font-size: 3rem; /* 仿照 community.html */
@@ -204,11 +273,11 @@
         }
 
         .product-card-link {
-            text-decoration: none;
             color: inherit;
             display: flex;
             flex-direction: column;
-            height: 100%; /* Ensure link takes full card height */
+            height: 100%; /* Ensure div takes full card height */
+            cursor: default; /* 移除手型游標 */
         }
 
         .product-image-container {
@@ -288,9 +357,27 @@
                     <a href="events.html">改裝活動</a>
                 </div>
                 <div class="auth-buttons">
-                    <!-- 登入/註冊按鈕，或用戶頭像 -->
+                    <a href="login.html" class="btn btn-secondary">登入</a>
+                    <a href="register.html" class="btn btn-primary">註冊</a>
+                </div>
+                <div class="user-menu" style="display: none;">
+                    <div class="user-avatar">
+                        <img src="/images/default-avatar.svg" alt="用戶頭像" class="avatar">
+                        <span class="username">用戶名稱</span>
+                    </div>
+                    <div class="dropdown-menu">
+                        <a href="/profile.html"><i class="fas fa-user"></i> 個人資料</a>
+                        <a href="/garage.html"><i class="fas fa-motorcycle"></i> 我的車庫</a>
+                        <a href="/settings.html"><i class="fas fa-cog"></i> 帳號設定</a>
+                        <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> 登出</a>
+                    </div>
                 </div>
             </div>
+            <button class="menu-toggle" aria-label="展開選單" aria-expanded="false" aria-controls="navLinks">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
         </div>
     </nav>
 
@@ -344,16 +431,10 @@
                 <div class="group-title" data-toggle="yamaha-series">YAMAHA車系 <i class="fas fa-chevron-right"></i></div>
                 <ul class="filter-list" id="yamaha-series">
                     <li>
-                        <div class="group-title sub-group-title" data-toggle="yamaha-bws">BWS車系 <i class="fas fa-chevron-right"></i></div>
-                        <ul class="filter-list sub-list" id="yamaha-bws">
-                           <li><a href="#" data-category="yamaha-bws-power">BWS動力系統升級</a></li>
-                           <li><a href="#" data-category="yamaha-bws-brake">BWS煞車制動升級</a></li>
-                           <li><a href="#" data-category="yamaha-bws-suspension">BWS避震懸吊升級</a></li>
-                           <li><a href="#" data-category="yamaha-bws-appearance">BWS熱門外觀燈系升級</a></li>
-                        </ul>
+                        <!-- BWS車系選項已移除 -->
                     </li>
                      <li>
-                        <div class="group-title sub-group-title" data-toggle="yamaha-cygnus">勁戰車系 <i class="fas fa-chevron-right"></i></div>
+                        <div class="group-title sub-group-title" data-toggle="yamaha-cygnus">CYGNUS GRYPHUS <i class="fas fa-chevron-right"></i></div>
                         <ul class="filter-list sub-list" id="yamaha-cygnus">
                            <li><a href="#" data-category="yamaha-cygnus-power">勁戰動力系統升級</a></li>
                            <li><a href="#" data-category="yamaha-cygnus-brake">勁戰煞車制動升級</a></li>
@@ -385,15 +466,7 @@
             <div class="filter-group">
                 <div class="group-title" data-toggle="kymco-series">KYMCO車系 <i class="fas fa-chevron-right"></i></div>
                 <ul class="filter-list" id="kymco-series">
-                    <li>
-                        <div class="group-title sub-group-title" data-toggle="kymco-racings">雷霆s125/150 <i class="fas fa-chevron-right"></i></div>
-                        <ul class="filter-list sub-list" id="kymco-racings">
-                           <li><a href="#" data-category="kymco-racings-power">雷霆動力系統升級</a></li>
-                           <li><a href="#" data-category="kymco-racings-brake">雷霆煞車制動升級</a></li>
-                           <li><a href="#" data-category="kymco-racings-suspension">雷霆避震懸吊升級</a></li>
-                           <li><a href="#" data-category="kymco-racings-appearance">雷霆熱門外觀燈系升級</a></li>
-                        </ul>
-                    </li>
+
                      <li>
                         <div class="group-title sub-group-title" data-toggle="kymco-krv">KRV <i class="fas fa-chevron-right"></i></div>
                         <ul class="filter-list sub-list" id="kymco-krv">
@@ -426,7 +499,7 @@
 
             <div class="product-grid" id="product-grid">
                 <!-- Products will be loaded here by JavaScript -->
-                <p>請選擇商品分類以查看零件。</p>
+                <p>正在載入產品資料...</p>
                 </div>
 
             <div class="pagination" id="pagination">
@@ -441,257 +514,85 @@
 
     <script src="/js/common.js"></script>
     <script src="js/auth-state.js"></script>
+    <script src="js/products-api.js"></script>
     <script>
-        // Mock product data (expand this with more details and categories)
-        const mockProductsDB = {
-            // JET Series - Updated images and added new products
-            "jet-z2-fork": { id: "jet-z2-fork", name: "【怪獸工廠Z2 PRO前叉】", price: 18800, image: "images/parts/怪獸工廠Z2 PRO前叉.webp", category: "sym-jet-suspension", mainCategory: "sym-jet", brand: "怪獸工廠", dateAdded: "2024-05-01" },
-            "jet-simota-mirror": { id: "jet-simota-mirror", name: "【SIMOTA碳纖維後照鏡】", price: 8000, image: "images/parts/SIMOTA碳纖維後照鏡.webp", category: "sym-jet-appearance", mainCategory: "sym-jet", brand: "SIMOTA", dateAdded: "2024-04-20" },
-            "jet-masa-disk-fixed": { id: "jet-masa-disk-fixed", name: "【MASA固定碟盤-劃線版】", price: 2188, image: "images/parts/MASA固定碟盤-劃線版.webp", category: "sym-jet-brake", mainCategory: "sym-jet", brand: "MASA", dateAdded: "2024-04-25" },
-            "jet-koso-taillight": { id: "jet-koso-taillight", name: "【KOSO衝刺尾燈】", price: 3600, image: "images/parts/KOSO衝刺尾燈.webp", category: "sym-jet-appearance", mainCategory: "sym-jet", brand: "KOSO", dateAdded: "2023-12-25" },
-            "jet-baphomet-fuel-cap": { id: "jet-baphomet-fuel-cap", name: "【巴風特油箱蓋】", price: 1300, image: "images/parts/巴風特油箱蓋.webp", category: "sym-jet-appearance", mainCategory: "sym-jet", brand: "巴風特", dateAdded: "2024-04-11" },
-            "jet-gjms-tcd2000": { id: "jet-gjms-tcd2000", name: "【GJMS TCD2000前叉】", price: 9000, image: "images/parts/GJMS TCD2000前叉.webp", category: "sym-jet-suspension", mainCategory: "sym-jet", brand: "GJMS", dateAdded: "2024-03-15"},
-            "jet-apexx-gt-exhaust-cover": { id: "jet-apexx-gt-exhaust-cover", name: "【APEXX GT防燙蓋】JET車系通用款", price: 980, image: "images/parts/APEXX GT防燙蓋.webp", category: "sym-jet-appearance", mainCategory: "sym-jet", brand: "APEXX", dateAdded: "2024-01-20" },
-            "jet-ncy-drive-pulley-set": { id: "jet-ncy-drive-pulley-set", name: "NCY部品 JET S/SR/SL 冠軍傳動組 前組", price: 2800, image: "images/parts/placeholder-product.png", category: "sym-jet-power", mainCategory: "sym-jet", brand: "NCY", dateAdded: "2024-03-20" }, // Placeholder image, needs update if available
-            "jet-badpanda-rear-shock": { id: "jet-badpanda-rear-shock", name: "【BadPanda壞熊貓】中置後避震 JET SL", price: 8500, image: "images/parts/placeholder-product.png", category: "sym-jet-suspension", mainCategory: "sym-jet", brand: "BadPanda", dateAdded: "2024-02-10"}, // Placeholder image
-            "jet-monster-zr-rear-shock": { id: "jet-monster-zr-rear-shock", name: "【怪獸工廠ZR後避震】", price: 14000, image: "images/parts/怪獸工廠ZR後避震.webp", category: "sym-jet-suspension", mainCategory: "sym-jet", brand: "怪獸工廠", dateAdded: "2024-06-01"},
-            "jet-limit-fuel-cap": {id: "jet-limit-fuel-cap", name: "【LIMIT日規油箱蓋】", price: 900, image: "images/parts/LIMIT日規油箱蓋.webp", category: "sym-jet-appearance", mainCategory: "sym-jet", brand: "LIMIT", dateAdded: "2024-06-02"},
-            "jet-skuny-screen-protector": { id: "jet-skuny-screen-protector", name: "【SKUNY硬式螢幕保護殼】", price: 1200, image: "images/parts/SKUNY硬式螢幕保護殼.webp", category: "sym-jet-appearance", mainCategory: "sym-jet", brand: "SKUNY", dateAdded: "2024-06-03"},
-            "jet-ghost-factory-radiator-cover": { id: "jet-ghost-factory-radiator-cover", name: "【Ghost Factory 水箱罩】", price: 1380, image: "images/parts/Ghost Factory 水箱罩.webp", category: "sym-jet-appearance", mainCategory: "sym-jet", brand: "Ghost Factory", dateAdded: "2024-06-04"},
-            "jet-masa-floating-disk": { id: "jet-masa-floating-disk", name: "【MASA浮動碟盤】", price: 3000, image: "images/parts/MASA浮動碟盤.webp", category: "sym-jet-brake", mainCategory: "sym-jet", brand: "MASA", dateAdded: "2024-06-05"},
-            "jet-skuny-headlight-armor": { id: "jet-skuny-headlight-armor", name: "【SKUNY大燈護甲】", price: 990, image: "images/parts/SKUNY大燈護甲.webp", category: "sym-jet-appearance", mainCategory: "sym-jet", brand: "SKUNY", dateAdded: "2024-06-06"},
-
-            // DRG Series (Example - some placeholders might need real images if available)
-            // "drg-exhaust-ak": { id: "drg-exhaust-ak", name: "【Akrapovic DRG專用排氣管】鈦合金材質", price: 25000, image: "images/parts/drg-exhaust-akrapovic.jpg", category: "sym-drg-power", mainCategory: "sym-drg", brand: "Akrapovic", dateAdded: "2024-05-10" }, // Removed as per new categories
-            "drg-ohlins-rear-shock": { id: "drg-ohlins-rear-shock", name: "【Öhlins DRG後避震】瑞典頂級避震器", price: 32000, image: "images/parts/drg-shock-ohlins.jpg", category: "sym-drg-suspension", mainCategory: "sym-drg", brand: "Öhlins", dateAdded: "2024-04-15" },
-            "drg-brembo-gp4rx": { id: "drg-brembo-gp4rx", name: "【Brembo GP4RX 輻射卡鉗】DRG適用", price: 15000, image: "images/parts/placeholder-product.png", category: "sym-drg-brake", mainCategory: "sym-drg", brand: "Brembo", dateAdded: "2024-03-25"},
-            "drg-koso-led-taillight": { id: "drg-koso-led-taillight", name: "【KOSO DRG LED尾燈】序列式方向燈", price: 4200, image: "images/parts/placeholder-product.png", category: "sym-drg-appearance", mainCategory: "sym-drg", brand: "KOSO", dateAdded: "2024-02-18"},
-            "drg-ccd-c53-fork": {id: "drg-ccd-c53-fork", name: "【CCD C53前叉】DRG車系", price: 17000, image: "images/parts/CCD C53前叉.webp", category: "sym-drg-suspension", mainCategory: "sym-drg", brand: "CCD", dateAdded: "2024-06-07"},
-            "drg-star-lord-m7-taillight": {id: "drg-star-lord-m7-taillight", name: "【星爵M7尾燈】DRG車系", price: 4500, image: "images/parts/星爵M7尾燈.webp", category: "sym-drg-appearance", mainCategory: "sym-drg", brand: "星爵", dateAdded: "2024-06-08"},
-            "drg-aj-taillight": {id: "drg-aj-taillight", name: "【AJ尾燈】DRG車系", price: 4000, image: "images/parts/AJ尾燈.webp", category: "sym-drg-appearance", mainCategory: "sym-drg", brand: "AJ", dateAdded: "2024-06-09"},
-            "drg-anc72-caliper": {id: "drg-anc72-caliper", name: "【ANC72大對四卡鉗】DRG車系", price: 6000, image: "images/parts/ANC72大對四卡鉗.webp", category: "sym-drg-brake", mainCategory: "sym-drg", brand: "ANC", dateAdded: "2024-06-10"},
-
-
-            // MMBCU Series (Example - some placeholders might need real images if available)
-            "mmbcu-brembo-caliper": { id: "mmbcu-brembo-caliper", name: "【Brembo MMBCU對四卡鉗】基本對四系列", price: 7800, image: "images/parts/mmbcu-caliper-brembo.jpg", category: "sym-mmbcu-brake", mainCategory: "sym-mmbcu", brand: "Brembo", dateAdded: "2024-03-01" },
-            "mmbcu-triones-floating-disc": { id: "mmbcu-triones-floating-disc", name: "【Triones 川歐力士 浮動碟盤】MMBCU適用", price: 3500, image: "images/parts/placeholder-product.png", category: "sym-mmbcu-brake", mainCategory: "sym-mmbcu", brand: "Triones", dateAdded: "2024-04-05"},
-            // "mmbcu-ak550-exhaust": { id: "mmbcu-ak550-exhaust", name: "【OVER Racing MMBCU 類AK550排氣管】", price: 19800, image: "images/parts/placeholder-product.png", category: "sym-mmbcu-power", mainCategory: "sym-mmbcu", brand: "OVER Racing", dateAdded: "2024-05-01"}, // Removed as per new categories
-            "mmbcu-savage-bull-arx-fork": {id: "mmbcu-savage-bull-arx-fork", name: "【野蠻公牛ARX經典版預載可調前叉】MMBCU車系", price: 12000, image: "images/parts/野蠻公牛ARX經典版預載可調前叉.webp", category: "sym-mmbcu-suspension", mainCategory: "sym-mmbcu", brand: "野蠻公牛", dateAdded: "2024-06-11"},
-            "mmbcu-far-black-gold-disk": {id: "mmbcu-far-black-gold-disk", name: "【FAR黑金碟盤】MMBCU車系", price: 4200, image: "images/parts/FAR黑金碟盤.webp", category: "sym-mmbcu-brake", mainCategory: "sym-mmbcu", brand: "FAR", dateAdded: "2024-06-12"},
-            "mmbcu-apexx-headlight-trim": {id: "mmbcu-apexx-headlight-trim", name: "【APEXX媚眼】MMBCU車系", price: 1500, image: "images/parts/APEXX媚眼.webp", category: "sym-mmbcu-appearance", mainCategory: "sym-mmbcu", brand: "APEXX", dateAdded: "2024-06-13"},
-            "mmbcu-koso-air-filter-cover": {id: "mmbcu-koso-air-filter-cover", name: "【KOSO燻黑透明空濾蓋】MMBCU車系", price: 800, image: "images/parts/KOSO燻黑透明空濾蓋.webp", category: "sym-mmbcu-appearance", mainCategory: "sym-mmbcu", brand: "KOSO", dateAdded: "2024-06-14"},
-            "mmbcu-guangsheng-swingarm": {id: "mmbcu-guangsheng-swingarm", name: "【廣昇999R CNC 鋁合金排骨】MMBCU車系", price: 7500, image: "images/parts/廣昇999R CNC 鋁合金排骨.webp", category: "sym-mmbcu-appearance", mainCategory: "sym-mmbcu", brand: "廣昇", dateAdded: "2024-06-15"},
-            
-            // Yamaha Cygnus (勁戰)
-            "cygnus-power-up-kit": { id: "cygnus-power-up-kit", name: "勁戰動力套件組 (缸頭+凸輪)", price: 15000, image: "images/parts/cygnus-power-kit.jpg", category: "yamaha-cygnus-power", mainCategory: "yamaha-cygnus", brand: "勁速", dateAdded: "2024-02-01"},
-            "cygnus-yss-rear-shock": { id: "cygnus-yss-rear-shock", name: "YSS G-Series 勁戰後避震 (雙槍)", price: 8500, image: "images/parts/cygnus-yss-shock.jpg", category: "yamaha-cygnus-suspension", mainCategory: "yamaha-cygnus", brand: "YSS", dateAdded: "2024-01-15"},
-            "cygnus-frando-caliper": { id: "cygnus-frando-caliper", name: "【Frando FMF-130 對四卡鉗】勁戰車系", price: 4500, image: "images/parts/placeholder-product.png", category: "yamaha-cygnus-brake", mainCategory: "yamaha-cygnus", brand: "Frando", dateAdded: "2024-03-10"},
-            "cygnus-led-headlight-bulb": {id: "cygnus-led-headlight-bulb", name: "【LED大燈燈泡】勁戰專用 高亮度", price: 1200, image: "images/parts/placeholder-product.png", category: "yamaha-cygnus-appearance", mainCategory: "yamaha-cygnus", brand: "N/A", dateAdded: "2023-12-01"},
-
-            // Yamaha BWS (Example)
-            "bws-adventure-windshield": { id: "bws-adventure-windshield", name: "【BWS越野風格風鏡】高透度材質", price: 2200, image: "images/parts/placeholder-product.png", category: "yamaha-bws-appearance", mainCategory: "yamaha-bws", brand: "AdventureTech", dateAdded: "2024-01-20"},
-            "bws-kn-high-flow-filter": { id: "bws-kn-high-flow-filter", name: "【K&N 高流量空濾】BWS適用", price: 1800, image: "images/parts/placeholder-product.png", category: "yamaha-bws-power", mainCategory: "yamaha-bws", brand: "K&N", dateAdded: "2024-02-22"},
-
-            // Yamaha FORCE/SMAX (Example)
-            "force-smax-malossi-variator": { id: "force-smax-malossi-variator", name: "【Malossi傳動前組】FORCE/SMAX專用", price: 5500, image: "images/parts/placeholder-product.png", category: "yamaha-force-smax-power", mainCategory: "yamaha-force-smax", brand: "Malossi", dateAdded: "2024-03-12"},
-
-            // Yamaha FORCE2.0 (Example)
-            "force2-devilcase-phone-mount": {id: "force2-devilcase-phone-mount", name: "【惡魔騎士手機架】FORCE2.0專用座", price: 1580, image: "images/parts/placeholder-product.png", category: "yamaha-force2-appearance", mainCategory: "yamaha-force2", brand: "DevilCase", dateAdded: "2024-04-28"},
-
-            // KYMCO KRV (Example)
-            // "krv-akrapovic-exhaust-kymco": { id: "krv-akrapovic-exhaust-kymco", name: "【Akrapovic KRV專用排氣管】", price: 27500, image: "images/parts/placeholder-product.png", category: "kymco-krv-power", mainCategory: "kymco-krv", brand: "Akrapovic", dateAdded: "2024-05-15"}, // Removed
-            "krv-nws-svr-exhaust": {id: "krv-nws-svr-exhaust", name: "【牛王SVR排氣管】KRV車系", price: 15000, image: "images/parts/牛王SVR排氣管.webp", category: "kymco-krv-power", mainCategory: "kymco-krv", brand: "牛王", dateAdded: "2024-06-16"}, // Placeholder, assume it's power
-            "krv-snake-sp1-exhaust": {id: "krv-snake-sp1-exhaust", name: "【毒蛇SP1合格砲管】KRV車系", price: 13000, image: "images/parts/毒蛇SP1合格砲管.webp", category: "kymco-krv-power", mainCategory: "kymco-krv", brand: "毒蛇", dateAdded: "2024-06-17"}, // Placeholder, assume it's power
-
-
-            // KYMCO RacingS (Example)
-            "racings-ncy-brake-lever": {id: "racings-ncy-brake-lever", name: "【NCY可調式拉桿】雷霆S適用", price: 1350, image: "images/parts/placeholder-product.png", category: "kymco-racings-brake", mainCategory: "kymco-racings", brand: "NCY", dateAdded: "2024-02-28"}
-            
-            // Removed: Generic Exhaust, Generic Transmission, PROTI Titanium Bolts sections
-        };
-
-        let currentPage = 1;
-        const itemsPerPage = 12; 
-
-        function displayProducts(products) {
-            const productGrid = document.getElementById('product-grid');
-            const productCountSpan = document.getElementById('product-count');
-            productGrid.innerHTML = ''; 
-
-            if (products.length === 0) {
-                productGrid.innerHTML = '<p>此分類目前沒有商品，或請嘗試其他篩選條件。</p>';
-                productCountSpan.textContent = '顯示 0 件商品';
-                updatePagination(0, []);
-                return;
-            }
-            
-            productCountSpan.textContent = `顯示 ${products.length} 件商品`;
-
-            const startIndex = (currentPage - 1) * itemsPerPage;
-            const endIndex = startIndex + itemsPerPage;
-            const paginatedProducts = products.slice(startIndex, endIndex);
-
-            paginatedProducts.forEach(product => {
-                const card = document.createElement('div');
-                card.classList.add('product-card');
-                card.innerHTML = `
-                    <a href="product-detail.html?id=${product.id}" class="product-card-link">
-                        <div class="product-image-container">
-                            <img src="${product.image || 'images/parts/placeholder-product.png'}" alt="${product.name}" class="product-image">
-                        </div>
-                        <div class="product-info">
-                            <h4 class="product-name">${product.name}</h4>
-                            <p class="product-brand">品牌: ${product.brand || 'N/A'}</p>
-                            <p class="product-price">NT$${product.price.toLocaleString()}</p>
-                        </div>
-                    </a>
-                    `;
-                // Removed add-to-cart button for now
-                productGrid.appendChild(card);
-            });
-            updatePagination(products.length, products);
-        }
-        
-        function updatePagination(totalItems, allProducts) {
-            const paginationControls = document.getElementById('pagination');
-            paginationControls.innerHTML = '';
-            const totalPages = Math.ceil(totalItems / itemsPerPage);
-
-            if (totalPages <= 1) return;
-
-            for (let i = 1; i <= totalPages; i++) {
-                const pageLink = document.createElement('a');
-                pageLink.href = '#';
-                pageLink.textContent = i;
-                if (i === currentPage) {
-                    pageLink.classList.add('active');
-                }
-                pageLink.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    currentPage = i;
-                    displayProducts(allProducts);
-                    const displayArea = document.querySelector('.products-display-area');
-                    if (displayArea) {
-                         window.scrollTo(0, displayArea.offsetTop - 80); // Adjust 80 for navbar height
-                    }
-                });
-                paginationControls.appendChild(pageLink);
-            }
-        }
-
-        function getFilteredAndSortedProducts() {
-            const urlParams = new URLSearchParams(window.location.search);
-            // Default to 'sym-jet-power' if no category is in URL, or use 'all' if you want to show all by default
-            const currentCategory = urlParams.get('category') || 'sym-jet-power'; 
-            const currentBrand = urlParams.get('brand'); // Read brand from URL
-            const sortBy = document.getElementById('sort-by').value;
-
-            let filteredProducts = Object.values(mockProductsDB);
-
-            if (currentCategory !== 'all-products') { // 'all-products' can be a virtual category to show everything
-                filteredProducts = filteredProducts.filter(p => p.category === currentCategory || p.mainCategory === currentCategory);
-            }
-
-            // Add brand filtering if a brand is specified in the URL
-            if (currentBrand) {
-                filteredProducts = filteredProducts.filter(p => p.brand && p.brand.toLowerCase() === currentBrand.toLowerCase());
-            }
-
-            switch (sortBy) {
-                case 'latest':
-                    filteredProducts.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
-                    break;
-                case 'oldest':
-                    filteredProducts.sort((a, b) => new Date(a.dateAdded) - new Date(b.dateAdded));
-                    break;
-                case 'price-desc':
-                    filteredProducts.sort((a, b) => b.price - a.price);
-                    break;
-                case 'price-asc':
-                    filteredProducts.sort((a, b) => a.price - b.price);
-                    break;
-            }
-            return filteredProducts;
-        }
-
-        function updateProductView() {
-            currentPage = 1; 
-            const products = getFilteredAndSortedProducts();
-            displayProducts(products);
-            updateActiveCategoryLink();
-        }
-        
-        function updateActiveCategoryLink() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const currentCategory = urlParams.get('category') || 'sym-jet-power'; 
-            
-            document.querySelectorAll('.products-sidebar a').forEach(link => {
-                link.classList.remove('active');
-                const linkCategory = link.dataset.category;
-                if (linkCategory === currentCategory) {
-                    link.classList.add('active');
-                    
-                    // Automatically open parent categories if a sub-category is active
-                    let parent = link.closest('ul.filter-list');
-                    while(parent){
-                        if (!parent.classList.contains('open')) {
-                            const toggleId = parent.id;
-                            const toggleButton = document.querySelector(`.group-title[data-toggle='${toggleId}']`);
-                            if(toggleButton){
-                                parent.classList.add('open');
-                                toggleButton.classList.add('open');
-                            }
-                        }
-                        if(parent.classList.contains('sub-list')){
-                             parent = parent.parentElement.closest('ul.filter-list');
-                        } else {
-                            parent = null; // Stop if it's a top-level list
-                        }
-                    }
-                }
-            });
-        }
+        // 產品資料已遷移到資料庫，使用 API 載入
+        // 保留必要的 UI 邏輯
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Sidebar category toggling for main and sub-groups
-            document.querySelectorAll('.products-sidebar .group-title').forEach(title => {
-                if (!title.classList.contains('static-group')) { // Exclude static groups like "排氣管"
-                    title.addEventListener('click', function() {
-                        const listId = this.dataset.toggle;
-                        const list = document.getElementById(listId);
-                        if (list) {
-                            list.classList.toggle('open');
-                            this.classList.toggle('open'); // Toggle arrow icon
-                        }
-                    });
-                }
-            });
-
-            document.getElementById('sort-by').addEventListener('change', updateProductView);
+            // 處理URL參數
+            const urlParams = new URLSearchParams(window.location.search);
+            const category = urlParams.get('category');
             
-            document.querySelectorAll('.products-sidebar a').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const category = this.dataset.category;
-                    const currentUrlParams = new URLSearchParams(window.location.search);
-                    currentUrlParams.set('category', category);
-                    currentUrlParams.delete('brand'); // Clear brand filter when a category is clicked
-                    window.history.pushState({}, '', `${window.location.pathname}?${currentUrlParams.toString()}`);
-                    updateProductView();
-                });
-            });
-            
-            window.addEventListener('popstate', function() {
-                updateProductView();
-            });
+            // 如果有分類參數，自動展開對應的分類並高亮顯示
+            if (category) {
+                handleCategoryFromURL(category);
+            }
 
-            updateProductView(); 
-
+            // 初始化其他功能
             if (typeof initMobileNav === 'function') initMobileNav();
             if (typeof initAuthState === 'function') initAuthState();
+            
+            // 產品 API 初始化
+            window.productsAPI = new ProductsAPI();
         });
+        
+        // 處理從URL參數來的分類
+        function handleCategoryFromURL(category) {
+            // 分類映射
+            const categoryMapping = {
+                'performance': ['power', '動力系統'],
+                'suspension': ['suspension', '避震', '懸吊'],
+                'visual': ['appearance', '外觀', '燈系'],
+                'comfort': ['comfort', '舒適']
+            };
+            
+            const mapping = categoryMapping[category];
+            if (!mapping) return;
+            
+            // 更新頁面標題
+            const pageTitle = document.querySelector('.page-header h1');
+            const categoryNames = {
+                'performance': '性能升級',
+                'suspension': '懸吊系統',
+                'visual': '外觀改造',
+                'comfort': '舒適度提升'
+            };
+            
+            if (pageTitle && categoryNames[category]) {
+                pageTitle.textContent = `${categoryNames[category]} - 改裝零件`;
+            }
+            
+            // 展開相關的分類選項
+            document.querySelectorAll('.filter-list a').forEach(link => {
+                const linkCategory = link.dataset.category || link.textContent;
+                if (mapping.some(keyword => linkCategory.includes(keyword))) {
+                    // 展開父級分類
+                    let parentList = link.closest('.filter-list');
+                    while (parentList) {
+                        parentList.classList.add('open');
+                        const parentTitle = document.querySelector(`[data-toggle="${parentList.id}"]`);
+                        if (parentTitle) {
+                            parentTitle.classList.add('open');
+                        }
+                        parentList = parentList.parentElement.closest('.filter-list');
+                    }
+                    
+                    // 高亮顯示匹配的連結
+                    link.style.backgroundColor = '#fff3cd';
+                    link.style.borderLeft = '3px solid var(--primary-color)';
+                    link.style.paddingLeft = '0.5rem';
+                }
+            });
+            
+            // 更新產品顯示區域的提示文字
+            const productGrid = document.getElementById('product-grid');
+            if (productGrid && categoryNames[category]) {
+                productGrid.innerHTML = `<p>正在載入 ${categoryNames[category]} 相關產品...</p>`;
+            }
+        }
+
+
     </script>
-    <script src="/js/common.js"></script>
-    <script src="js/auth-state.js"></script>
 </body>
 </html>

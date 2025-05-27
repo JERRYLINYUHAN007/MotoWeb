@@ -260,185 +260,222 @@
 
     <script src="/js/common.js"></script>
     <script src="js/auth-state.js"></script>
+    <script src="js/community-api.js"></script>
     <script>
-        // 模擬的討論文章數據庫
-        const mockDiscussionsDB = {
-            "1": {
-                id: "1",
-                title: "有人嘗試過Akrapovic排氣管嗎？值得裝嗎？",
-                author: "摩托車小子",
-                avatar: "images/avatars/user1.svg",
-                date: "2025-04-20",
-                category: "排氣系統",
-                tags: ["#排氣管", "#動力提升", "#Akrapovic"],
-                content: "<p>最近在考慮升級我的座駕的排氣系統，Akrapovic（天蠍）這個牌子一直在我的雷達上。聽說它的聲音渾厚，性能提升也相當不錯，但價格也確實不便宜。</p><p>想請問社群裡有沒有車友實際安裝使用過 Akrapovic 的排氣管？可以分享一下實際的體驗嗎？例如：</p><ul><li>聲音表現如何？會不會太吵影響日常使用？</li><li>性能提升（馬力、扭力）有感嗎？</li><li>安裝過程是否複雜？</li><li>長期使用的耐用度如何？</li><li>整體來說，你覺得這筆花費值得嗎？</li></ul><p>我的車型是 Yamaha YZF-R3，主要用途是週末跑山和偶爾的賽道日。任何相關的經驗或建議都非常歡迎，感謝大家！</p>",
-                likes: 24,
-                views: 432,
-                comments: [
-                    { author: "排氣管專家", avatar: "images/avatars/user2.svg", date: "2025-04-20", text: "Akrapovic 的品質沒話說，聲音確實銷魂。R3裝上去，拉轉的聲浪會讓你很滿意。性能提升方面，搭配ECU調整效果會更明顯。" },
-                    { author: "R3車友", avatar: "images/avatars/user3.svg", date: "2025-04-21", text: "我R3也是換天蠍，起步加速有變輕快一些，聲音真的很棒，但要注意有些路段可能會被警察關切音量XD。" }
-                ]
-            },
-            "2": {
-                id: "2",
-                title: "懸吊系統調校經驗分享 - Öhlins避震器",
-                author: "改裝達人",
-                avatar: "images/avatars/user2.svg",
-                date: "2025-04-18",
-                category: "懸吊系統",
-                tags: ["#避震器", "#懸吊", "#Öhlins"],
-                content: "<p>Öhlins 避震器一直是許多熱血騎士的夢幻逸品。它的吸震效果、路感回饋和高速穩定性都是頂級水準。</p><p>我最近剛為我的 Kawasaki Z900RS 換上了 Öhlins 的前後避震，並根據自己的騎乘習慣做了詳細調校。整個過程雖然花了不少時間，但成果非常令人滿意。過彎的信心提升很多，路面的碎震也處理得更細膩。想跟大家分享一些調校的心得，以及更換前後的差異比較...</p>",
-                likes: 18,
-                views: 356,
-                comments: [
-                    { author: "新手騎士", avatar: "images/avatars/user4.svg", date: "2025-04-19", text: "感謝分享！正考慮升級避震，Öhlins 感覺很棒但也好貴啊！" }
-                ]
-            },
-            "3": {
-                id: "3",
-                title: "【討論】最省油的機車改裝方式？",
-                author: "省油達人",
-                avatar: "images/avatars/user3.svg",
-                date: "2025-04-17",
-                category: "引擎改裝",
-                tags: ["#引擎調教", "#省油", "#效能"],
-                content: "<p>在油價高漲的時代，如何讓愛車更省油是個重要的課題。除了改變騎乘習慣外，透過適當的改裝也能達到不錯的省油效果。</p><p>大家有沒有什麼推薦的省油改裝方式？例如更換火星塞、調整供油電腦、使用輕量化傳動等等。歡迎分享您的經驗和看法！</p>",
-                likes: 32,
-                views: 528,
-                comments: []
-            },
-            "4": {
-                id: "4",
-                title: "LED大燈改裝 - 增加夜間視野安全",
-                author: "夜行俠",
-                avatar: "images/avatars/user4.svg",
-                date: "2025-04-15",
-                category: "電子系統",
-                tags: ["#車燈", "#LED", "#安全"],
-                content: "<p>原廠的鹵素大燈在夜間騎乘時總覺得不夠亮，尤其是在沒有路燈的山路或鄉間小道。最近升級了 LED 大燈，亮度和照射範圍都有顯著提升，夜間騎乘的安全性大大增加。</p><p>分享一下我選擇的 LED 大燈品牌、安裝過程以及前後比較圖。有興趣的車友可以參考看看。</p>",
-                likes: 15,
-                views: 267,
-                comments: []
-            },
-            "5": {
-                id: "5",
-                title: "新手必學的基礎保養技巧",
-                author: "技師長",
-                avatar: "images/avatars/speaker1.svg",
-                date: "2025-04-14",
-                category: "保養維護",
-                tags: ["#保養", "#機油", "#新手"],
-                content: "<p>擁有一台摩托車是很棒的體驗，但基礎的保養知識也不可少。學會一些簡單的保養技巧，不僅能讓你的愛車保持在最佳狀態，也能省下不少保養費用。</p><p>這篇文章會分享一些新手騎士必須知道的基礎保養項目，例如如何檢查更換機油、清潔鏈條、檢查胎壓等等。希望對剛加入摩托車世界的你有所幫助！</p>",
-                likes: 47,
-                views: 823,
-                comments: []
-            }
-        };
+        // 社群API實例
+        const communityAPI = new CommunityAPI();
+        let currentPost = null;
 
         document.addEventListener('DOMContentLoaded', function() {
             const urlParams = new URLSearchParams(window.location.search);
             const postId = urlParams.get('id');
-            const post = mockDiscussionsDB[postId];
+            
+            if (postId) {
+                loadPost(postId);
+            } else {
+                showError('無效的文章連結');
+            }
+            
+            // 初始化通用功能
+            if (typeof initMobileNav === 'function') initMobileNav();
+            if (typeof initAuthState === 'function') initAuthState();
+        });
 
-            if (post) {
+        // 載入文章
+        async function loadPost(postId) {
+            try {
+                showLoading();
+                
+                const post = await communityAPI.getPostById(postId);
+                currentPost = post;
+                
+                displayPost(post);
+                
+            } catch (error) {
+                console.error('載入文章失敗:', error);
+                showError(error.message || '載入文章失敗');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // 顯示文章
+        function displayPost(post) {
                 document.title = post.title + " - MotoWeb";
                 document.getElementById('post-title').textContent = post.title;
-                document.getElementById('author-avatar').src = post.avatar;
+            document.getElementById('author-avatar').src = post.avatar || 'images/avatars/default-user.svg';
                 document.getElementById('author-avatar').alt = post.author + "的頭像";
                 document.getElementById('author-name').textContent = post.author;
-                document.getElementById('post-date').textContent = post.date;
+            document.getElementById('post-date').textContent = formatDate(post.createdAt);
                 document.getElementById('post-category').textContent = post.category;
                 
+            // 顯示標籤
                 const tagsContainer = document.getElementById('post-tags');
-                tagsContainer.innerHTML = ''; // 清空預設標籤
+            tagsContainer.innerHTML = '';
+            if (post.tags && post.tags.length > 0) {
                 post.tags.forEach(tag => {
                     const tagElement = document.createElement('span');
                     tagElement.className = 'tag';
-                    tagElement.textContent = tag;
+                    tagElement.textContent = '#' + tag;
                     tagsContainer.appendChild(tagElement);
                 });
+            }
 
-                document.getElementById('post-content').innerHTML = post.content; // 使用innerHTML來渲染HTML標籤
-                
-                const likeButton = document.getElementById('like-button');
-                const likeCountSpan = document.getElementById('like-count');
-                likeCountSpan.textContent = post.likes;
-                document.getElementById('view-count').textContent = post.views;
+            // 顯示內容
+            document.getElementById('post-content').innerHTML = post.content;
+            
+            // 顯示統計資料
+            document.getElementById('like-count').textContent = post.likes || 0;
+            document.getElementById('view-count').textContent = post.views || 0;
+            
+            // 顯示評論
+            renderComments(post.comments || []);
+            
+            // 綁定按讚功能
+            bindLikeButton();
+            
+            // 綁定評論功能
+            bindCommentForm();
+        }
 
-                let liked = false; // 模擬按讚狀態
-                likeButton.addEventListener('click', function() {
-                    liked = !liked;
-                    if (liked) {
-                        post.likes++;
-                        likeButton.classList.add('liked');
-                        likeButton.innerHTML = `<i class="fas fa-thumbs-up"></i> ${post.likes}`;
-                    } else {
-                        post.likes--;
-                        likeButton.classList.remove('liked');
-                        likeButton.innerHTML = `<i class="far fa-thumbs-up"></i> ${post.likes}`;
-                    }
-                    // 注意：這裡的更改只在客戶端，刷新頁面會重置
-                });
-
+        // 渲染評論
+        function renderComments(comments) {
                 const commentsList = document.getElementById('comments-list');
                 const commentCountSpan = document.getElementById('comment-count');
                 
-                function renderComments() {
-                    commentsList.innerHTML = ''; // 清空現有評論
-                    if (post.comments && post.comments.length > 0) {
-                        post.comments.forEach(comment => {
+            commentsList.innerHTML = '';
+            
+            if (comments && comments.length > 0) {
+                comments.forEach(comment => {
                             const commentElement = document.createElement('div');
                             commentElement.className = 'comment';
                             commentElement.innerHTML = `
                                 <div class="comment-author">
-                                    <img src="${comment.avatar}" alt="${comment.author}的頭像">
+                            <img src="${comment.avatar || 'images/avatars/default-user.svg'}" alt="${comment.author}的頭像">
                                     ${comment.author}
-                                    <span class="comment-date">${comment.date}</span>
+                            <span class="comment-date">${formatDate(comment.createdAt || comment.date)}</span>
                                 </div>
-                                <div class="comment-text">${comment.text}</div>
+                        <div class="comment-text">${comment.text || comment.content}</div>
                             `;
                             commentsList.appendChild(commentElement);
                         });
                     } else {
                         commentsList.innerHTML = '<p>目前沒有評論。</p>';
                     }
-                    commentCountSpan.textContent = post.comments ? post.comments.length : 0;
+            
+            commentCountSpan.textContent = comments ? comments.length : 0;
                 }
                 
-                renderComments();
+        // 綁定按讚功能
+        function bindLikeButton() {
+            const likeButton = document.getElementById('like-button');
+            let liked = false; // 實際應該從用戶狀態獲取
+            
+            likeButton.addEventListener('click', function() {
+                // 檢查登入狀態
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    alert('請先登入才能按讚');
+                    return;
+                }
+                
+                liked = !liked;
+                if (liked) {
+                    currentPost.likes = (currentPost.likes || 0) + 1;
+                    likeButton.classList.add('liked');
+                    likeButton.innerHTML = `<i class="fas fa-thumbs-up"></i> ${currentPost.likes}`;
+                } else {
+                    currentPost.likes = Math.max(0, (currentPost.likes || 0) - 1);
+                    likeButton.classList.remove('liked');
+                    likeButton.innerHTML = `<i class="far fa-thumbs-up"></i> ${currentPost.likes}`;
+                }
+                
+                // 注意：這裡的更改只在客戶端，實際應該調用API更新
+            });
+        }
 
+        // 綁定評論表單
+        function bindCommentForm() {
                 const commentForm = document.getElementById('comment-form');
+            
                 commentForm.addEventListener('submit', function(e) {
                     e.preventDefault();
+                
+                // 檢查登入狀態
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    alert('請先登入才能發表評論');
+                    return;
+                }
+                
                     const commentTextarea = document.getElementById('comment-text');
                     const commentText = commentTextarea.value.trim();
 
                     if (commentText) {
                         const newComment = {
-                            author: "訪客", // 實際應用中會是登入用戶的名稱
-                            avatar: "images/avatars/user1.svg", // 實際應用中會是登入用戶的頭像
-                            date: new Date().toLocaleDateString('zh-TW', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-'),
+                        author: "用戶", // 實際應該從登入狀態獲取
+                        avatar: "images/avatars/default-user.svg",
+                        createdAt: new Date().toISOString(),
                             text: commentText
                         };
-                        if (!post.comments) {
-                            post.comments = [];
+                    
+                    if (!currentPost.comments) {
+                        currentPost.comments = [];
                         }
-                        post.comments.push(newComment);
-                        renderComments();
-                        commentTextarea.value = ''; // 清空輸入框
-                        // 注意：這裡的更改只在客戶端，刷新頁面會重置
-                    }
-                });
+                    currentPost.comments.push(newComment);
+                    renderComments(currentPost.comments);
+                    commentTextarea.value = '';
+                    
+                    // 注意：這裡的更改只在客戶端，實際應該調用API保存
+                }
+            });
+        }
 
-            } else {
-                document.getElementById('post-title').textContent = "文章不存在";
-                document.getElementById('post-content').innerHTML = "<p>抱歉，您要找的文章可能已被刪除或連結錯誤。</p>";
-            }
+        // 顯示載入狀態
+        function showLoading() {
+            document.getElementById('post-title').textContent = '載入中...';
+            document.getElementById('post-content').innerHTML = '<p>正在載入文章內容...</p>';
+        }
+
+        // 隱藏載入狀態
+        function hideLoading() {
+            // 載入完成後會由displayPost或showError處理
+        }
+
+        // 顯示錯誤
+        function showError(message) {
+            document.getElementById('post-title').textContent = '文章不存在';
+            document.getElementById('post-content').innerHTML = `<p>抱歉，${message}。</p>`;
+            document.getElementById('author-name').textContent = '';
+            document.getElementById('post-date').textContent = '';
+            document.getElementById('post-category').textContent = '';
+            document.getElementById('post-tags').innerHTML = '';
+            document.getElementById('like-count').textContent = '0';
+            document.getElementById('view-count').textContent = '0';
+            document.getElementById('comment-count').textContent = '0';
+            document.getElementById('comments-list').innerHTML = '';
+        }
+
+        // 格式化日期
+        function formatDate(dateString) {
+            if (!dateString) return '';
             
-            // 初始化通用功能，如導航欄等
-            if (typeof initMobileNav === 'function') initMobileNav();
-            if (typeof initAuthState === 'function') initAuthState();
-        });
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffTime = Math.abs(now - date);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays === 1) {
+                return '1天前';
+            } else if (diffDays < 7) {
+                return `${diffDays}天前`;
+            } else if (diffDays < 30) {
+                const weeks = Math.floor(diffDays / 7);
+                return `${weeks}週前`;
+            } else {
+                return date.toLocaleDateString('zh-TW');
+            }
+        }
     </script>
 </body>
 </html> 

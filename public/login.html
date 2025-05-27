@@ -269,50 +269,15 @@
     <script src="js/login.js"></script>
     <script src="js/auth-state.js"></script>
     <script>
-        // 檢查用戶登入狀態
+        // 登入頁面專用：檢查是否已登入，如果是則重定向
         document.addEventListener('DOMContentLoaded', function() {
             const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-            const authButtons = document.querySelector('.auth-buttons');
-            const userMenu = document.querySelector('.user-menu');
             
             if (isLoggedIn) {
-                // 用戶已登入，顯示用戶菜單，隱藏登入/註冊按鈕
-                if (authButtons) authButtons.style.display = 'none';
-                if (userMenu) {
-                    userMenu.style.display = 'block';
-                    
-                    // 從localStorage獲取用戶信息並顯示
-                    const username = localStorage.getItem('username') || '用戶';
-                    const usernameElement = userMenu.querySelector('.username');
-                    if (usernameElement) {
-                        usernameElement.textContent = username;
-                    }
-                    
-                    // 用戶菜單點擊切換
-                    const userAvatar = userMenu.querySelector('.user-avatar');
-                    const dropdownMenu = userMenu.querySelector('.dropdown-menu');
-                    
-                    if (userAvatar && dropdownMenu) {
-                        userAvatar.addEventListener('click', function(e) {
-                            e.stopPropagation();
-                            dropdownMenu.classList.toggle('show');
-                        });
-                        
-                        // 點擊其他地方關閉下拉菜單
-                        document.addEventListener('click', function() {
-                            dropdownMenu.classList.remove('show');
-                        });
-                    }
-                }
-                
                 // 已登入狀態下，自動重定向到首頁
                 setTimeout(function() {
                     window.location.href = 'index.html';
                 }, 1000);
-            } else {
-                // 用戶未登入，顯示登入/註冊按鈕，隱藏用戶菜單
-                if (authButtons) authButtons.style.display = 'flex';
-                if (userMenu) userMenu.style.display = 'none';
             }
         });
     </script>
