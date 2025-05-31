@@ -4,12 +4,11 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install
+RUN npm ci --only=production
 
 COPY . .
 
-# 創建上傳目錄
-RUN mkdir -p public/uploads/showcase public/uploads/avatars public/uploads/gallery
+RUN mkdir -p public/uploads
 
 EXPOSE 3001
 

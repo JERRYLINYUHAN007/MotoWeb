@@ -4,20 +4,12 @@
     {
       "src": "server.js",
       "use": "@vercel/node"
-    },
-    {
-      "src": "public/**/*",
-      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
       "dest": "/server.js"
-    },
-    {
-      "src": "/uploads/(.*)",
-      "dest": "/public/uploads/$1"
     },
     {
       "src": "/(.*)",
@@ -29,7 +21,7 @@
   },
   "functions": {
     "server.js": {
-      "maxDuration": 30
+      "includeFiles": "public/**"
     }
   }
 } 
