@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>文章詳情 - MotoWeb</title>
-    <meta name="description" content="查看摩托車改裝社群討論的詳細內容">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/tech-theme.css">
+    <title>?��?詳�? - MotoWeb</title>
+    <meta name="description" content="?��??��?車改裝社群�?論�?詳細?�容">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/tech-theme.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* 討論詳情頁面專用樣式 - 現代科技風格 */
+        /* 討�?詳�??�面專用�?? - ?�代科�?風格 */
         body {
             background: var(--secondary-color);
             margin-top: 80px;
@@ -347,7 +347,7 @@
             color: var(--carbon-gray);
         }
 
-        /* 返回按鈕 */
+        /* 返�??��? */
         .back-button {
             position: fixed;
             top: 100px;
@@ -379,7 +379,7 @@
                 0 0 30px var(--primary-color);
         }
 
-        /* 響應式設計 */
+        /* ?��?式設�?*/
         @media (max-width: 768px) {
             .discussion-detail-container {
                 margin: 1rem;
@@ -438,38 +438,38 @@
     <nav class="navbar">
         <div class="container nav-container">
             <div class="logo">
-                <a href="index.html" aria-label="motoweb首頁">
+                <a href="index.html" aria-label="motoweb首�?">
                     <img src="MOTOWEB.png" alt="motoweb Logo" class="logo-img">
                     <h1>motoweb</h1>
                 </a>
             </div>
             <div class="nav-links" id="navLinks">
                 <div class="main-nav">
-                    <a href="index.html">首頁</a>
-                    <a href="products.html">改裝零件</a>
-                    <a href="community.html" class="active" aria-current="page">社群討論</a>
-                    <a href="gallery.html">作品展示</a>
-                    <a href="events.html">改裝活動</a>
-                    <a href="about.html">關於我們</a>
+                    <a href="index.html">首�?</a>
+                    <a href="products.html">?��??�件</a>
+                    <a href="community.html" class="active" aria-current="page">社群討�?</a>
+                    <a href="gallery.html">作�?展示</a>
+                    <a href="events.html">?��?活�?</a>
+                    <a href="about.html">?�於?��?/a>
                 </div>
                 <div class="auth-buttons">
-                    <a href="login.html" class="btn btn-secondary">登入</a>
-                    <a href="register.html" class="btn btn-primary">註冊</a>
+                    <a href="login.html" class="btn btn-secondary">?�入</a>
+                    <a href="register.html" class="btn btn-primary">註�?</a>
                 </div>
                 <div class="user-menu" style="display: none;">
                     <div class="user-avatar">
-                        <img src="/images/default-avatar.svg" alt="用戶頭像" class="avatar">
-                        <span class="username">用戶名稱</span>
+                        <img src="/images/default-avatar.svg" alt="?�戶?��?" class="avatar">
+                        <span class="username">?�戶?�稱</span>
                     </div>
                     <div class="dropdown-menu">
-                        <a href="/profile.html"><i class="fas fa-user"></i> 個人資料</a>
-                        <a href="/garage.html"><i class="fas fa-motorcycle"></i> 我的車庫</a>
-                        <a href="/settings.html"><i class="fas fa-cog"></i> 帳號設定</a>
-                        <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> 登出</a>
+                        <a href="/profile.html"><i class="fas fa-user"></i> ?�人資�?</a>
+                        <a href="/garage.html"><i class="fas fa-motorcycle"></i> ?��?車庫</a>
+                        <a href="/settings.html"><i class="fas fa-cog"></i> 帳�?設�?</a>
+                        <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> ?�出</a>
                     </div>
                 </div>
             </div>
-            <button class="menu-toggle" aria-label="展開選單" aria-expanded="false" aria-controls="navLinks">
+            <button class="menu-toggle" aria-label="展�??�單" aria-expanded="false" aria-controls="navLinks">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -477,55 +477,55 @@
         </div>
     </nav>
 
-    <!-- 返回按鈕 -->
-    <button class="back-button" onclick="history.back()" aria-label="返回上一頁">
+    <!-- 返�??��? -->
+    <button class="back-button" onclick="history.back()" aria-label="返�?上�???>
         <i class="fas fa-arrow-left"></i>
     </button>
 
     <main>
     <div class="discussion-detail-container">
         <header class="post-header">
-            <h1 id="post-title" class="post-title">文章標題載入中...</h1>
+            <h1 id="post-title" class="post-title">?��?標�?載入�?..</h1>
             <div class="author-info">
-                <img id="author-avatar" src="images/avatars/user1.svg" alt="作者頭像" class="author-avatar">
-                <span id="author-name">作者名稱</span> - <span id="post-date">日期</span>
+                <img id="author-avatar" src="/images/avatars/user1.svg" alt="作者頭?? class="author-avatar">
+                <span id="author-name">作者�?�?/span> - <span id="post-date">?��?</span>
             </div>
             <div class="post-meta">
-                <span><i class="fas fa-folder"></i> <span id="post-category">分類</span></span>
+                <span><i class="fas fa-folder"></i> <span id="post-category">?��?</span></span>
             </div>
             <div id="post-tags" class="post-tags">
-                <!-- 標籤將動態載入 -->
+                <!-- 標籤將�??��???-->
             </div>
         </header>
 
         <article id="post-content" class="post-content">
-            <p>文章內容載入中...</p>
+            <p>?��??�容載入�?..</p>
         </article>
 
         <div class="post-actions">
             <button id="like-button" class="like-button">
                 <i class="far fa-thumbs-up"></i> <span id="like-count">0</span>
             </button>
-            <span><i class="fas fa-eye"></i> <span id="view-count">0</span> 次查看</span>
+            <span><i class="fas fa-eye"></i> <span id="view-count">0</span> 次查??/span>
         </div>
 
         <section class="comments-section">
-            <h3><span id="comment-count">0</span> 則評論</h3>
+            <h3><span id="comment-count">0</span> ?��?�?/h3>
             <div id="comments-list">
-                <!-- 評論將動態載入 -->
-                <p>目前沒有評論。</p>
+                <!-- 評�?將�??��???-->
+                <p>?��?沒�?評�???/p>
             </div>
             <form id="comment-form" class="comment-form">
-                <h4>發表評論</h4>
-                <textarea id="comment-text" placeholder="分享您的看法..." required></textarea>
-                <button type="submit" class="btn btn-primary">送出評論</button>
+                <h4>?�表評�?</h4>
+                <textarea id="comment-text" placeholder="?�享?��??��?..." required></textarea>
+                <button type="submit" class="btn btn-primary">?�出評�?</button>
             </form>
         </section>
     </div>
     </main>
 
     <footer class="footer">
-        <!-- 頁尾內容與其他頁面一致 -->
+        <!-- ?�尾?�容?�其他�??��???-->
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section about">
@@ -533,7 +533,7 @@
                         <img src="MOTOWEB.png" alt="motoweb Logo" class="footer-logo-img">
                         <h3>motoweb</h3>
                     </div>
-                    <p>專業的摩托車改裝社群平台，為車友提供交流與分享的空間。</p>
+                    <p>專業?�摩?��??��?社群平台，為車�??��?交�??��?享�?空�???/p>
                     <div class="social-links">
                         <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
                         <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
@@ -542,48 +542,48 @@
                     </div>
                 </div>
                 <div class="footer-section links">
-                    <h3>快速連結</h3>
+                    <h3>快速�??</h3>
                     <ul>
-                        <li><a href="about.html">關於我們</a></li>
-                        <li><a href="products.html">改裝零件</a></li>
-                        <li><a href="community.html">社群討論</a></li>
-                        <li><a href="gallery.html">作品展示</a></li>
-                        <li><a href="events.html">改裝活動</a></li>
+                        <li><a href="about.html">?�於?��?/a></li>
+                        <li><a href="products.html">?��??�件</a></li>
+                        <li><a href="community.html">社群討�?</a></li>
+                        <li><a href="gallery.html">作�?展示</a></li>
+                        <li><a href="events.html">?��?活�?</a></li>
                     </ul>
                 </div>
                 <div class="footer-section contact">
-                    <h3>聯絡資訊</h3>
+                    <h3>?�絡資�?</h3>
                     <ul class="contact-info">
                         <li><i class="fas fa-envelope"></i> contact@MotoWeb.com</li>
                         <li><i class="fas fa-phone"></i> (02) 1234-5678</li>
-                        <li><i class="fas fa-map-marker-alt"></i> 台北市信義區松仁路100號</li>
+                        <li><i class="fas fa-map-marker-alt"></i> ?��?市信義�??��?�?00??/li>
                     </ul>
                 </div>
                 <div class="footer-section newsletter">
-                    <h3>訂閱電子報</h3>
-                    <p>獲取最新改裝趨勢與活動資訊</p>
+                    <h3>訂閱?��???/h3>
+                    <p>?��??�?�改裝趨?��?活�?資�?</p>
                     <form class="newsletter-form" action="subscribe.php" method="POST">
-                        <input type="email" name="email" placeholder="您的電子郵件" required>
+                        <input type="email" name="email" placeholder="?��??��??�件" required>
                         <button type="submit" class="btn btn-primary">訂閱</button>
                     </form>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 MotoWeb. 保留所有權利。</p>
+                <p>&copy; 2025 MotoWeb. 保�??�?��??��?/p>
                 <div class="footer-bottom-links">
-                    <a href="privacy.html">隱私政策</a>
+                    <a href="privacy.html">?��??��?</a>
                     <a href="terms.html">使用條款</a>
-                    <a href="cookies.html">Cookie 政策</a>
+                    <a href="cookies.html">Cookie ?��?</a>
                 </div>
             </div>
         </div>
     </footer>
 
     <script src="/js/common.js"></script>
-    <script src="js/auth-state.js"></script>
-    <script src="js/community-api.js"></script>
+    <script src="/js/auth-state.js"></script>
+    <script src="/js/community-api.js"></script>
     <script>
-        // 社群API實例
+        // 社群API實�?
         const communityAPI = new CommunityAPI();
         let currentPost = null;
 
@@ -594,15 +594,15 @@
             if (postId) {
                 loadPost(postId);
             } else {
-                showError('無效的文章連結');
+                showError('?��??��?章�??');
             }
             
-            // 初始化通用功能
+            // ?��??�通用?�能
             if (typeof initMobileNav === 'function') initMobileNav();
             if (typeof initAuthState === 'function') initAuthState();
         });
 
-        // 載入文章
+        // 載入?��?
         async function loadPost(postId) {
             try {
                 showLoading();
@@ -613,19 +613,19 @@
                 displayPost(post);
                 
             } catch (error) {
-                console.error('載入文章失敗:', error);
-                showError(error.message || '載入文章失敗');
+                console.error('載入?��?失�?:', error);
+                showError(error.message || '載入?��?失�?');
             } finally {
                 hideLoading();
             }
         }
 
-        // 顯示文章
+        // 顯示?��?
         function displayPost(post) {
                 document.title = post.title + " - MotoWeb";
                 document.getElementById('post-title').textContent = post.title;
             document.getElementById('author-avatar').src = post.avatar || 'images/avatars/default-user.svg';
-                document.getElementById('author-avatar').alt = post.author + "的頭像";
+                document.getElementById('author-avatar').alt = post.author + "?�頭??;
                 document.getElementById('author-name').textContent = post.author;
             document.getElementById('post-date').textContent = formatDate(post.createdAt);
                 document.getElementById('post-category').textContent = post.category;
@@ -642,24 +642,24 @@
                 });
             }
 
-            // 顯示內容
+            // 顯示?�容
             document.getElementById('post-content').innerHTML = post.content;
             
-            // 顯示統計資料
+            // 顯示統�?資�?
             document.getElementById('like-count').textContent = post.likes || 0;
             document.getElementById('view-count').textContent = post.views || 0;
             
-            // 顯示評論
+            // 顯示評�?
             renderComments(post.comments || []);
             
-            // 綁定按讚功能
+            // 綁�??��??�能
             bindLikeButton();
             
-            // 綁定評論功能
+            // 綁�?評�??�能
             bindCommentForm();
         }
 
-        // 渲染評論
+        // 渲�?評�?
         function renderComments(comments) {
                 const commentsList = document.getElementById('comments-list');
                 const commentCountSpan = document.getElementById('comment-count');
@@ -672,7 +672,7 @@
                             commentElement.className = 'comment';
                             commentElement.innerHTML = `
                                 <div class="comment-author">
-                            <img src="${comment.avatar || 'images/avatars/default-user.svg'}" alt="${comment.author}的頭像">
+                            <img src="${comment.avatar || 'images/avatars/default-user.svg'}" alt="${comment.author}?�頭??>
                                     ${comment.author}
                             <span class="comment-date">${formatDate(comment.createdAt || comment.date)}</span>
                                 </div>
@@ -681,22 +681,20 @@
                             commentsList.appendChild(commentElement);
                         });
                     } else {
-                        commentsList.innerHTML = '<p>目前沒有評論。</p>';
+                        commentsList.innerHTML = '<p>?��?沒�?評�???/p>';
                     }
             
             commentCountSpan.textContent = comments ? comments.length : 0;
                 }
                 
-        // 綁定按讚功能
+        // 綁�??��??�能
         function bindLikeButton() {
             const likeButton = document.getElementById('like-button');
-            let liked = false; // 實際應該從用戶狀態獲取
-            
+            let liked = false; // 實�??�該從用?��??�獲??            
             likeButton.addEventListener('click', function() {
-                // 檢查登入狀態
-                const token = localStorage.getItem('token');
+                // 檢查?�入?�??                const token = localStorage.getItem('token');
                 if (!token) {
-                    alert('請先登入才能按讚');
+                    alert('請�??�入?�能?��?');
                     return;
                 }
                 
@@ -711,21 +709,20 @@
                     likeButton.innerHTML = `<i class="far fa-thumbs-up"></i> ${currentPost.likes}`;
                 }
                 
-                // 注意：這裡的更改只在客戶端，實際應該調用API更新
+                // 注�?：這裡?�更?�只?�客?�端，實?��?該調?�API?�新
             });
         }
 
-        // 綁定評論表單
+        // 綁�?評�?表單
         function bindCommentForm() {
                 const commentForm = document.getElementById('comment-form');
             
                 commentForm.addEventListener('submit', function(e) {
                     e.preventDefault();
                 
-                // 檢查登入狀態
-                const token = localStorage.getItem('token');
+                // 檢查?�入?�??                const token = localStorage.getItem('token');
                 if (!token) {
-                    alert('請先登入才能發表評論');
+                    alert('請�??�入?�能?�表評�?');
                     return;
                 }
                 
@@ -734,8 +731,7 @@
 
                     if (commentText) {
                         const newComment = {
-                        author: "用戶", // 實際應該從登入狀態獲取
-                        avatar: "images/avatars/default-user.svg",
+                        author: "?�戶", // 實�??�該從登?��??�獲??                        avatar: "images/avatars/default-user.svg",
                         createdAt: new Date().toISOString(),
                             text: commentText
                         };
@@ -747,26 +743,24 @@
                     renderComments(currentPost.comments);
                     commentTextarea.value = '';
                     
-                    // 注意：這裡的更改只在客戶端，實際應該調用API保存
+                    // 注�?：這裡?�更?�只?�客?�端，實?��?該調?�API保�?
                 }
             });
         }
 
-        // 顯示載入狀態
-        function showLoading() {
-            document.getElementById('post-title').textContent = '載入中...';
-            document.getElementById('post-content').innerHTML = '<p>正在載入文章內容...</p>';
+        // 顯示載入?�??        function showLoading() {
+            document.getElementById('post-title').textContent = '載入�?..';
+            document.getElementById('post-content').innerHTML = '<p>�?��載入?��??�容...</p>';
         }
 
-        // 隱藏載入狀態
-        function hideLoading() {
-            // 載入完成後會由displayPost或showError處理
+        // ?��?載入?�??        function hideLoading() {
+            // 載入完�?後�??�displayPost?�showError?��?
         }
 
-        // 顯示錯誤
+        // 顯示?�誤
         function showError(message) {
-            document.getElementById('post-title').textContent = '文章不存在';
-            document.getElementById('post-content').innerHTML = `<p>抱歉，${message}。</p>`;
+            document.getElementById('post-title').textContent = '?��?不�???;
+            document.getElementById('post-content').innerHTML = `<p>?��?�?{message}??/p>`;
             document.getElementById('author-name').textContent = '';
             document.getElementById('post-date').textContent = '';
             document.getElementById('post-category').textContent = '';
@@ -777,8 +771,7 @@
             document.getElementById('comments-list').innerHTML = '';
         }
 
-        // 格式化日期
-        function formatDate(dateString) {
+        // ?��??�日??        function formatDate(dateString) {
             if (!dateString) return '';
             
             const date = new Date(dateString);
@@ -787,12 +780,12 @@
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             
             if (diffDays === 1) {
-                return '1天前';
+                return '1天�?';
             } else if (diffDays < 7) {
-                return `${diffDays}天前`;
+                return `${diffDays}天�?`;
             } else if (diffDays < 30) {
                 const weeks = Math.floor(diffDays / 7);
-                return `${weeks}週前`;
+                return `${weeks}?��?`;
             } else {
                 return date.toLocaleDateString('zh-TW');
             }

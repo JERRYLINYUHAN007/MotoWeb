@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>改裝零件 - MotoWeb</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/tech-theme.css">
+    <title>?��??�件 - MotoWeb</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/tech-theme.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* 產品頁面重新設計 - 現代科技美學 */
+        /* ?��??�面?�新設�? - ?�代科�?美學 */
         
-        /* 動畫效果 */
+        /* ?�畫?��? */
         @keyframes scanEffect {
             0% { transform: translateX(-100%); opacity: 0; }
             50% { opacity: 1; }
@@ -41,7 +41,7 @@
                 radial-gradient(circle at 70% 60%, rgba(124, 58, 237, 0.1), transparent);
         }
         
-        /* 頁面標題區域重新設計 */
+        /* ?�面標�??�?��??�設�?*/
         .page-header {
             background: 
                 linear-gradient(135deg, 
@@ -150,7 +150,7 @@
             box-shadow: 0 0 25px rgba(0, 212, 255, 0.5);
         }
 
-        /* 主要內容區域 */
+        /* 主�??�容?�??*/
         .products-main-content {
             display: flex;
             gap: 3rem;
@@ -159,7 +159,7 @@
             margin: 0 auto;
         }
 
-        /* 側邊欄重新設計 */
+        /* ?��?欄�??�設�?*/
         .products-sidebar {
             flex: 0 0 350px;
             background: linear-gradient(145deg, 
@@ -313,7 +313,7 @@
             width: 4px;
         }
 
-        /* 產品展示區域重新設計 */
+        /* ?��?展示?�?��??�設�?*/
         .products-display-area {
             flex: 1;
             background: transparent;
@@ -376,7 +376,7 @@
             box-shadow: 0 0 25px rgba(0, 212, 255, 0.3);
         }
 
-        /* 產品網格重新設計 */
+        /* ?��?網格?�新設�? */
         .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -558,7 +558,7 @@
             box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
         }
 
-        /* 載入動畫 */
+        /* 載入?�畫 */
         .loading {
             text-align: center;
             padding: 6rem 2rem;
@@ -578,7 +578,7 @@
             to { transform: rotate(360deg); }
         }
 
-        /* 響應式設計 */
+        /* ?��?式設�?*/
         @media (max-width: 1400px) {
             .products-main-content {
                 gap: 2rem;
@@ -689,36 +689,36 @@
     <nav class="navbar">
         <div class="container nav-container">
             <div class="logo">
-                <a href="index.html" aria-label="motoweb首頁">
-                    <img src="images/motoweb-logo.svg" alt="motoweb Logo" class="logo-img">
+                <a href="index.html" aria-label="motoweb首�?">
+                    <img src="/images/motoweb-logo.svg" alt="motoweb Logo" class="logo-img">
                 </a>
             </div>
             <div class="nav-links" id="navLinks">
                 <div class="main-nav">
-                    <a href="index.html">首頁</a>
-                    <a href="products.html" class="active" aria-current="page">改裝零件</a>
-                    <a href="community.html">社群討論</a>
-                    <a href="gallery.html">作品展示</a>
-                    <a href="events.html">改裝活動</a>
+                    <a href="index.html">首�?</a>
+                    <a href="products.html" class="active" aria-current="page">?��??�件</a>
+                    <a href="community.html">社群討�?</a>
+                    <a href="gallery.html">作�?展示</a>
+                    <a href="events.html">?��?活�?</a>
                 </div>
                 <div class="auth-buttons">
-                    <a href="login.html" class="btn btn-secondary">登入</a>
-                    <a href="register.html" class="btn btn-primary">註冊</a>
+                    <a href="login.html" class="btn btn-secondary">?�入</a>
+                    <a href="register.html" class="btn btn-primary">註�?</a>
                 </div>
                 <div class="user-menu" style="display: none;">
                     <div class="user-avatar">
-                        <img src="/images/default-avatar.svg" alt="用戶頭像" class="avatar">
-                        <span class="username">用戶名稱</span>
+                        <img src="/images/default-avatar.svg" alt="?�戶?��?" class="avatar">
+                        <span class="username">?�戶?�稱</span>
                     </div>
                     <div class="dropdown-menu">
-                        <a href="/profile.html"><i class="fas fa-user"></i> 個人資料</a>
-                        <a href="/garage.html"><i class="fas fa-motorcycle"></i> 我的車庫</a>
-                        <a href="/settings.html"><i class="fas fa-cog"></i> 帳號設定</a>
-                        <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> 登出</a>
+                        <a href="/profile.html"><i class="fas fa-user"></i> ?�人資�?</a>
+                        <a href="/garage.html"><i class="fas fa-motorcycle"></i> ?��?車庫</a>
+                        <a href="/settings.html"><i class="fas fa-cog"></i> 帳�?設�?</a>
+                        <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> ?�出</a>
                     </div>
                 </div>
             </div>
-            <button class="menu-toggle" aria-label="展開選單" aria-expanded="false" aria-controls="navLinks">
+            <button class="menu-toggle" aria-label="展�??�單" aria-expanded="false" aria-controls="navLinks">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -728,19 +728,19 @@
 
     <div class="main-container">
         <header class="page-header">
-            <h1>極致改裝零件商城</h1>
-            <p>探索頂級改裝零件，打造專屬於您的夢想座駕</p>
+            <h1>極致?��??�件?��?</h1>
+            <p>?�索?��??��??�件，�??��?屬於?��?夢想座�?</p>
         <div class="search-bar">
-                <input type="text" id="search-input" placeholder="搜尋品牌、型號、零件名稱..." autocomplete="off">
+                <input type="text" id="search-input" placeholder="?��??��??��??�、零件�?�?.." autocomplete="off">
                 <button id="search-btn" type="button">
-                    <i class="fas fa-search"></i> 搜尋
+                    <i class="fas fa-search"></i> ?��?
                 </button>
         </div>
     </header>
 
     <main class="products-main-content">
         <aside class="products-sidebar" id="products-sidebar">
-                <h3><i class="fas fa-filter"></i> 商品分類</h3>
+                <h3><i class="fas fa-filter"></i> ?��??��?</h3>
             
             <div class="filter-group">
                     <div class="group-title" data-toggle="sym-series">
@@ -750,14 +750,14 @@
                 <ul class="filter-list" id="sym-series">
                     <li>
                             <div class="group-title sub-group-title" data-toggle="sym-jet">
-                                <span>JET 全車系</span> 
+                                <span>JET ?��?�?/span> 
                                 <i class="fas fa-chevron-right"></i>
                             </div>
                         <ul class="filter-list sub-list" id="sym-jet">
-                               <li><a href="#" data-category="sym-jet-power"><span>JET動力系統升級</span></a></li>
-                               <li><a href="#" data-category="sym-jet-brake"><span>JET煞車制動升級</span></a></li>
-                               <li><a href="#" data-category="sym-jet-suspension"><span>JET避震懸吊升級</span></a></li>
-                               <li><a href="#" data-category="sym-jet-appearance"><span>JET熱門外觀燈系改裝</span></a></li>
+                               <li><a href="#" data-category="sym-jet-power"><span>JET?��?系統?��?</span></a></li>
+                               <li><a href="#" data-category="sym-jet-brake"><span>JET?��??��??��?</span></a></li>
+                               <li><a href="#" data-category="sym-jet-suspension"><span>JET?��??��??��?</span></a></li>
+                               <li><a href="#" data-category="sym-jet-appearance"><span>JET?��?外�??�系?��?</span></a></li>
                         </ul>
                     </li>
                     <li>
@@ -766,10 +766,10 @@
                                 <i class="fas fa-chevron-right"></i>
                             </div>
                         <ul class="filter-list sub-list" id="sym-drg">
-                               <li><a href="#" data-category="sym-drg-power"><span>DRG動力系統升級</span></a></li>
-                               <li><a href="#" data-category="sym-drg-brake"><span>DRG煞車制動升級</span></a></li>
-                               <li><a href="#" data-category="sym-drg-suspension"><span>DRG避震懸吊升級</span></a></li>
-                               <li><a href="#" data-category="sym-drg-appearance"><span>DRG熱門燈系外觀改裝</span></a></li>
+                               <li><a href="#" data-category="sym-drg-power"><span>DRG?��?系統?��?</span></a></li>
+                               <li><a href="#" data-category="sym-drg-brake"><span>DRG?��??��??��?</span></a></li>
+                               <li><a href="#" data-category="sym-drg-suspension"><span>DRG?��??��??��?</span></a></li>
+                               <li><a href="#" data-category="sym-drg-appearance"><span>DRG?��??�系外�??��?</span></a></li>
                         </ul>
                     </li>
                     <li>
@@ -778,10 +778,10 @@
                                 <i class="fas fa-chevron-right"></i>
                             </div>
                         <ul class="filter-list sub-list" id="sym-mmbcu">
-                               <li><a href="#" data-category="sym-mmbcu-power"><span>MMBCU動力系統升級</span></a></li>
-                               <li><a href="#" data-category="sym-mmbcu-brake"><span>MMBCU煞車制動升級</span></a></li>
-                               <li><a href="#" data-category="sym-mmbcu-suspension"><span>MMBCU懸吊避震升級</span></a></li>
-                               <li><a href="#" data-category="sym-mmbcu-appearance"><span>MMBCU熱門外觀燈系改裝</span></a></li>
+                               <li><a href="#" data-category="sym-mmbcu-power"><span>MMBCU?��?系統?��?</span></a></li>
+                               <li><a href="#" data-category="sym-mmbcu-brake"><span>MMBCU?��??��??��?</span></a></li>
+                               <li><a href="#" data-category="sym-mmbcu-suspension"><span>MMBCU?��??��??��?</span></a></li>
+                               <li><a href="#" data-category="sym-mmbcu-appearance"><span>MMBCU?��?外�??�系?��?</span></a></li>
                         </ul>
                     </li>
                 </ul>
@@ -799,10 +799,10 @@
                                 <i class="fas fa-chevron-right"></i>
                             </div>
                         <ul class="filter-list sub-list" id="yamaha-cygnus">
-                               <li><a href="#" data-category="yamaha-cygnus-power"><span>勁戰動力系統升級</span></a></li>
-                               <li><a href="#" data-category="yamaha-cygnus-brake"><span>勁戰煞車制動升級</span></a></li>
-                               <li><a href="#" data-category="yamaha-cygnus-suspension"><span>勁戰避震懸吊升級</span></a></li>
-                               <li><a href="#" data-category="yamaha-cygnus-appearance"><span>勁戰熱門外觀燈系升級</span></a></li>
+                               <li><a href="#" data-category="yamaha-cygnus-power"><span>?�戰?��?系統?��?</span></a></li>
+                               <li><a href="#" data-category="yamaha-cygnus-brake"><span>?�戰?��??��??��?</span></a></li>
+                               <li><a href="#" data-category="yamaha-cygnus-suspension"><span>?�戰?��??��??��?</span></a></li>
+                               <li><a href="#" data-category="yamaha-cygnus-appearance"><span>?�戰?��?外�??�系?��?</span></a></li>
                         </ul>
                     </li>
                     <li>
@@ -811,10 +811,10 @@
                                 <i class="fas fa-chevron-right"></i>
                             </div>
                         <ul class="filter-list sub-list" id="yamaha-force-smax">
-                               <li><a href="#" data-category="yamaha-force-smax-power"><span>FORCE1.0/SMAX動力系統升級</span></a></li>
-                               <li><a href="#" data-category="yamaha-force-smax-brake"><span>FORCE1.0/SMAX煞車制動升級</span></a></li>
-                               <li><a href="#" data-category="yamaha-force-smax-suspension"><span>FORCE1.0/SMAX避震懸吊升級</span></a></li>
-                               <li><a href="#" data-category="yamaha-force-smax-appearance"><span>FORCE1.0/SMAX熱門外觀燈系升級</span></a></li>
+                               <li><a href="#" data-category="yamaha-force-smax-power"><span>FORCE1.0/SMAX?��?系統?��?</span></a></li>
+                               <li><a href="#" data-category="yamaha-force-smax-brake"><span>FORCE1.0/SMAX?��??��??��?</span></a></li>
+                               <li><a href="#" data-category="yamaha-force-smax-suspension"><span>FORCE1.0/SMAX?��??��??��?</span></a></li>
+                               <li><a href="#" data-category="yamaha-force-smax-appearance"><span>FORCE1.0/SMAX?��?外�??�系?��?</span></a></li>
                         </ul>
                     </li>
                      <li>
@@ -823,10 +823,10 @@
                                 <i class="fas fa-chevron-right"></i>
                             </div>
                         <ul class="filter-list sub-list" id="yamaha-force2">
-                               <li><a href="#" data-category="yamaha-force2-power"><span>FORCE2.0動力系統升級</span></a></li>
-                               <li><a href="#" data-category="yamaha-force2-brake"><span>FORCE2.0煞車制動升級</span></a></li>
-                               <li><a href="#" data-category="yamaha-force2-suspension"><span>FORCE2.0避震懸吊升級</span></a></li>
-                               <li><a href="#" data-category="yamaha-force2-appearance"><span>FORCE2.0熱門外觀燈系升級</span></a></li>
+                               <li><a href="#" data-category="yamaha-force2-power"><span>FORCE2.0?��?系統?��?</span></a></li>
+                               <li><a href="#" data-category="yamaha-force2-brake"><span>FORCE2.0?��??��??��?</span></a></li>
+                               <li><a href="#" data-category="yamaha-force2-suspension"><span>FORCE2.0?��??��??��?</span></a></li>
+                               <li><a href="#" data-category="yamaha-force2-appearance"><span>FORCE2.0?��?外�??�系?��?</span></a></li>
                         </ul>
                     </li>
                 </ul>
@@ -844,10 +844,10 @@
                                 <i class="fas fa-chevron-right"></i>
                             </div>
                         <ul class="filter-list sub-list" id="kymco-krv">
-                               <li><a href="#" data-category="kymco-krv-power"><span>KRV動力系統升級</span></a></li>
-                               <li><a href="#" data-category="kymco-krv-brake"><span>KRV煞車制動升級</span></a></li>
-                               <li><a href="#" data-category="kymco-krv-suspension"><span>KRV避震懸吊升級</span></a></li>
-                               <li><a href="#" data-category="kymco-krv-appearance"><span>KRV熱門外觀燈系升級</span></a></li>
+                               <li><a href="#" data-category="kymco-krv-power"><span>KRV?��?系統?��?</span></a></li>
+                               <li><a href="#" data-category="kymco-krv-brake"><span>KRV?��??��??��?</span></a></li>
+                               <li><a href="#" data-category="kymco-krv-suspension"><span>KRV?��??��??��?</span></a></li>
+                               <li><a href="#" data-category="kymco-krv-appearance"><span>KRV?��?外�??�系?��?</span></a></li>
                         </ul>
                     </li>
                 </ul>
@@ -858,17 +858,17 @@
         <section class="products-display-area">
             <div class="products-header">
                 <div class="results-count">
-                    <span id="product-count">顯示 0 件商品</span>
+                    <span id="product-count">顯示 0 件�???/span>
                 </div>
                 <div class="sort-options">
-                    <label for="sort-by">排序：</label>
+                    <label for="sort-by">?��?�?/label>
                     <select id="sort-by" name="sort-by">
-                        <option value="latest">上架時間: 由新到舊</option>
-                        <option value="oldest">上架時間: 由舊到新</option>
-                        <option value="price-desc">價格: 由高至低</option>
-                        <option value="price-asc">價格: 由低至高</option>
-                            <option value="popular">人氣: 由高至低</option>
-                            <option value="rating">評價: 由高至低</option>
+                        <option value="latest">上架?��?: ?�新?��?</option>
+                        <option value="oldest">上架?��?: ?��??�新</option>
+                        <option value="price-desc">?�格: ?��??��?</option>
+                        <option value="price-asc">?�格: ?��??��?</option>
+                            <option value="popular">人氣: ?��??��?</option>
+                            <option value="rating">評價: ?��??��?</option>
                     </select>
                 </div>
             </div>
@@ -876,39 +876,37 @@
             <div class="product-grid" id="product-grid">
                     <div class="loading">
                         <i class="fas fa-spinner"></i>
-                        正在載入精選改裝零件...
+                        �?��載入精選?��??�件...
                     </div>
                 </div>
 
             <div class="pagination" id="pagination">
-                    <!-- 分頁控制會在這裡動態載入 -->
+                    <!-- ?��??�制?�在?�裡?��?載入 -->
             </div>
         </section>
     </main>
     </div>
 
     <footer class="footer">
-        <!-- Footer 內容會由 common.js 插入 -->
+        <!-- Footer ?�容?�由 common.js ?�入 -->
     </footer>
 
-    <button id="backToTop" class="back-to-top" aria-label="返回頁面頂部">
+    <button id="backToTop" class="back-to-top" aria-label="返�??�面?�部">
         <i class="fas fa-chevron-up"></i>
     </button>
 
     <script src="/js/common.js"></script>
-    <script src="js/auth-state.js"></script>
-    <script src="js/products-api.js"></script>
+    <script src="/js/auth-state.js"></script>
+    <script src="/js/products-api.js"></script>
     <script>
-        // 產品數據和功能
-        document.addEventListener('DOMContentLoaded', function() {
-            // 初始化頁面功能
-            initProductsPage();
+        // ?��??��??��???        document.addEventListener('DOMContentLoaded', function() {
+            // ?��??��??��???            initProductsPage();
             initMobileNav();
             initAuthState();
             initBackToTop();
         });
 
-        // 全域變數
+        // ?��?變數
         let allProducts = [];
         let currentProducts = [];
         let currentFilter = 'all';
@@ -916,18 +914,17 @@
         let isLoading = false;
 
         function initProductsPage() {
-            // 綁定事件監聽器
-            bindEventListeners();
+            // 綁�?事件??��??            bindEventListeners();
             
-            // 載入產品
+            // 載入?��?
             loadProducts();
             
-            // 處理URL參數
+            // ?��?URL?�數
             handleURLParams();
         }
 
         function bindEventListeners() {
-            // 分類篩選
+            // ?��?篩選
             document.querySelectorAll('.group-title').forEach(title => {
                 title.addEventListener('click', function() {
                     const targetId = this.dataset.toggle;
@@ -937,7 +934,7 @@
                 });
             });
 
-            // 產品篩選連結
+            // ?��?篩選???
             document.querySelectorAll('.filter-list a').forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -950,14 +947,14 @@
                 });
             });
 
-            // 排序
+            // ?��?
             document.getElementById('sort-by').addEventListener('change', function() {
                 currentSort = this.value;
                 sortProducts();
                 displayProducts();
             });
 
-            // 搜尋
+            // ?��?
             const searchBtn = document.getElementById('search-btn');
             const searchInput = document.getElementById('search-input');
             
@@ -973,8 +970,7 @@
             const targetList = document.getElementById(targetId);
             const isOpen = targetList.classList.contains('open');
             
-            // 切換展開狀態
-            targetList.classList.toggle('open');
+            // ?��?展�??�??            targetList.classList.toggle('open');
             titleElement.classList.toggle('open');
         }
 
@@ -989,11 +985,11 @@
         }
 
         function setActiveFilter(activeLink) {
-            // 移除所有active類別
+            // 移除?�?�active類別
             document.querySelectorAll('.filter-list a').forEach(link => {
                 link.classList.remove('active');
             });
-            // 設置當前active
+            // 設置?��?active
             activeLink.classList.add('active');
         }
 
@@ -1039,40 +1035,38 @@
             const productGrid = document.getElementById('product-grid');
             
             try {
-                // 顯示載入狀態
-                productGrid.innerHTML = `
+                // 顯示載入?�??                productGrid.innerHTML = `
                     <div class="loading">
                         <i class="fas fa-spinner"></i>
-                        正在載入精選改裝零件...
+                        �?��載入精選?��??�件...
                     </div>
                 `;
 
-                // 從 API 載入產品
+                // �?API 載入?��?
                 const response = await fetch('http://localhost:3001/api/products?page=1&limit=100');
                 if (!response.ok) {
-                    throw new Error('API 請求失敗');
+                    throw new Error('API 請�?失�?');
                 }
                 
                 const data = await response.json();
                 allProducts = data.products || [];
                 currentProducts = [...allProducts];
                 
-                console.log('載入產品數量:', allProducts.length);
-                console.log('產品樣本:', allProducts.slice(0, 3));
+                console.log('載入?��??��?:', allProducts.length);
+                console.log('?��?�?��:', allProducts.slice(0, 3));
         
-                // 排序並顯示產品
-                sortProducts();
+                // ?��?並顯示產??                sortProducts();
                 displayProducts();
                 
             } catch (error) {
-                console.error('載入產品失敗:', error);
+                console.error('載入?��?失�?:', error);
                 productGrid.innerHTML = `
                     <div style="grid-column: 1 / -1; text-align: center; padding: 4rem; color: var(--metallic-silver);">
                         <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 1rem; color: #ef4444;"></i>
-                        <h3 style="color: white; margin-bottom: 1rem;">載入產品失敗</h3>
-                        <p>請檢查網路連接或稍後再試</p>
+                        <h3 style="color: white; margin-bottom: 1rem;">載入?��?失�?</h3>
+                        <p>請檢?�網路�?��?��?後�?�?/p>
                         <button onclick="loadProducts()" class="btn btn-primary" style="margin-top: 1rem;">
-                            <i class="fas fa-redo"></i> 重新載入
+                            <i class="fas fa-redo"></i> ?�新載入
                         </button>
                     </div>
                 `;
@@ -1085,34 +1079,32 @@
             const productGrid = document.getElementById('product-grid');
             const productCount = document.getElementById('product-count');
             
-            // 更新計數
-            productCount.textContent = `顯示 ${currentProducts.length} 件商品`;
+            // ?�新計數
+            productCount.textContent = `顯示 ${currentProducts.length} 件�??�`;
             
             if (currentProducts.length === 0) {
                 productGrid.innerHTML = `
                     <div style="grid-column: 1 / -1; text-align: center; padding: 4rem; color: var(--metallic-silver);">
                         <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 1rem; color: var(--primary-color);"></i>
-                        <h3 style="color: white; margin-bottom: 1rem;">找不到符合條件的商品</h3>
-                        <p>請嘗試調整搜尋條件或瀏覽其他分類</p>
+                        <h3 style="color: white; margin-bottom: 1rem;">?��??�符?��?件�??��?</h3>
+                        <p>請�?試調?��?尋�?件�??�覽?��??��?</p>
                     </div>
                 `;
                 return;
             }
 
-            // 立即更新 DOM，避免閃爍
-            productGrid.innerHTML = currentProducts.map(product => {
-                // 確保圖片路徑正確
+            // 立即?�新 DOM，避?��???            productGrid.innerHTML = currentProducts.map(product => {
+                // 確�??��?路�?�?��
                 const imagePath = product.image || 'images/parts/placeholder-product.png';
                 const fullImagePath = imagePath.startsWith('http') ? imagePath : `/${imagePath}`;
                 
-                // 判斷是否為新品或熱銷（基於創建時間和庫存）
-                const isNew = new Date(product.createdAt) > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000); // 30天內
-                const isHot = product.stock < 20; // 庫存少於20視為熱銷
+                // ?�斷?�否?�新?��??�銷（基?�創建�??��?庫�?�?                const isNew = new Date(product.createdAt) > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000); // 30天內
+                const isHot = product.stock < 20; // 庫�?少於20視為?�銷
                 
                 return `
                     <article class="product-card" data-product-id="${product._id || product.id}">
-                        ${isNew ? '<div class="product-badge">新品</div>' : ''}
-                        ${isHot ? '<div class="product-badge" style="background: linear-gradient(45deg, #ff6b6b, #ff8e53);">熱銷</div>' : ''}
+                        ${isNew ? '<div class="product-badge">?��?</div>' : ''}
+                        ${isHot ? '<div class="product-badge" style="background: linear-gradient(45deg, #ff6b6b, #ff8e53);">?�銷</div>' : ''}
                         
                         <div class="product-image">
                             <img src="${fullImagePath}" 
@@ -1124,7 +1116,7 @@
                         <div class="product-info">
                             <div class="product-category">${product.brand || 'MotoWeb'}</div>
                             <h3>${product.name}</h3>
-                            <p class="product-description">${product.description || '優質改裝零件，提升您的騎乘體驗'}</p>
+                            <p class="product-description">${product.description || '?�質?��??�件，�??�您?��?乘�?�?}</p>
                             
                             <div class="product-price">
                                 NT$${product.price ? product.price.toLocaleString() : '0'}
@@ -1137,19 +1129,18 @@
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
                                 <div style="display: flex; align-items: center; gap: 0.5rem;">
                                     <div style="color: #fbbf24;">
-                                        ${'★'.repeat(Math.floor(product.rating || 4.5))}${'☆'.repeat(5 - Math.floor(product.rating || 4.5))}
+                                        ${'??.repeat(Math.floor(product.rating || 4.5))}${'??.repeat(5 - Math.floor(product.rating || 4.5))}
                                     </div>
                                     <span style="color: var(--metallic-silver); font-size: 0.9rem;">(${product.reviews || Math.floor(Math.random() * 200) + 50})</span>
                                 </div>
                                 <span style="color: ${product.stock > 10 ? 'var(--success-color)' : '#ef4444'}; font-size: 0.9rem;">
-                                    庫存: ${product.stock || 0}
+                                    庫�?: ${product.stock || 0}
                                 </span>
                             </div>
                             
                             <div class="product-actions">
                                 <button class="btn btn-primary" onclick="addToCart('${product._id || product.id}')">
-                                    <i class="fas fa-shopping-cart"></i> 加入購物車
-                                </button>
+                                    <i class="fas fa-shopping-cart"></i> ?�入購物�?                                </button>
                                 <button class="btn btn-outline" onclick="toggleWishlist('${product._id || product.id}')">
                                     <i class="far fa-heart"></i>
                                 </button>
@@ -1159,28 +1150,27 @@
                 `;
             }).join('');
 
-            // 移除載入動畫類別，如果有的話
+            // 移除載入?�畫類別，�??��??�話
             productGrid.classList.remove('loading');
         }
 
         function addToCart(productId) {
             const product = allProducts.find(p => p._id === productId || p.id === productId);
             if (product) {
-                // 這裡可以實現加入購物車邏輯
-                showNotification(`${product.name} 已加入購物車！`, 'success');
+                // ?�裡?�以實現?�入購物車�?�?                showNotification(`${product.name} 已�??�購?��?！`, 'success');
             }
         }
 
         function toggleWishlist(productId) {
             const product = allProducts.find(p => p._id === productId || p.id === productId);
             if (product) {
-                // 這裡可以實現願望清單邏輯
-                showNotification(`${product.name} 已加入願望清單！`, 'info');
+                // ?�裡?�以實現願�?清單?�輯
+                showNotification(`${product.name} 已�??��??��??��?`, 'info');
             }
         }
 
         function showNotification(message, type = 'info') {
-            // 創建通知元素
+            // ?�建?�知?��?
             const notification = document.createElement('div');
             notification.style.cssText = `
                 position: fixed;
@@ -1199,12 +1189,12 @@
             
             document.body.appendChild(notification);
             
-            // 動畫顯示
+            // ?�畫顯示
             setTimeout(() => {
                 notification.style.transform = 'translateX(0)';
             }, 100);
             
-            // 自動移除
+            // ?��?移除
             setTimeout(() => {
                 notification.style.transform = 'translateX(100%)';
                 setTimeout(() => {
@@ -1220,7 +1210,7 @@
             const category = urlParams.get('category');
             
             if (category) {
-                // 處理分類參數
+                // ?��??��??�數
                 const categoryMapping = {
                     'performance': 'power',
                     'suspension': 'suspension',
@@ -1231,7 +1221,7 @@
                 const mappedCategory = categoryMapping[category] || category;
                 filterByCategory(mappedCategory);
                 
-                // 自動展開相關分類
+                // ?��?展�??��??��?
                 expandRelatedCategories(mappedCategory);
             }
         }
@@ -1240,7 +1230,7 @@
             document.querySelectorAll('.filter-list a').forEach(link => {
                 const linkCategory = link.dataset.category || '';
                 if (linkCategory.includes(category)) {
-                    // 展開父級分類
+                    // 展�??��??��?
                     let parentList = link.closest('.filter-list');
                     while (parentList) {
                         parentList.classList.add('open');
@@ -1251,8 +1241,7 @@
                         parentList = parentList.parentElement.closest('.filter-list');
                     }
                     
-                    // 設置為活躍狀態
-                    link.classList.add('active');
+                    // 設置?�活躍�???                    link.classList.add('active');
                 }
             });
         }
@@ -1291,8 +1280,7 @@
         }
 
         function initAuthState() {
-            // 檢查登入狀態
-            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            // 檢查?�入?�??            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
             const authButtons = document.querySelector('.auth-buttons');
             const userMenu = document.querySelector('.user-menu');
             
@@ -1300,8 +1288,8 @@
                 authButtons.style.display = 'none';
                 userMenu.style.display = 'block';
                 
-                // 設置用戶名稱
-                const username = localStorage.getItem('username') || '用戶';
+                // 設置?�戶?�稱
+                const username = localStorage.getItem('username') || '?�戶';
                 document.querySelector('.username').textContent = username;
             }
         }

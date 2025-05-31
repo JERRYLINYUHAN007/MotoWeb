@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>個人資料 - MotoWeb</title>
-    <meta name="description" content="查看並編輯您的 MotoWeb 個人資料">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/tech-theme.css">
-    <link rel="stylesheet" href="css/profile.css">
+    <title>?�人資�? - MotoWeb</title>
+    <meta name="description" content="?��?並編輯您??MotoWeb ?�人資�?">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/tech-theme.css">
+    <link rel="stylesheet" href="/css/profile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* 優化後的配色方案 - 科技主題 */
+        /* ?��?後�??�色?��? - 科�?主�? */
         
-        /* 動畫效果 */
+        /* ?�畫?��? */
         @keyframes titleGlow {
             0%, 100% { 
                 text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
@@ -34,7 +34,7 @@
             }
         }
 
-        /* 基本頁面樣式 */
+        /* ?�本?�面�?? */
         .profile-page {
             background: 
                 linear-gradient(135deg, 
@@ -51,7 +51,7 @@
             margin-top: 80px;
         }
 
-        /* 個人資料標題區域 */
+        /* ?�人資�?標�??�??*/
         .profile-header {
             background: linear-gradient(145deg, 
                 rgba(31, 41, 55, 0.9), 
@@ -247,7 +247,7 @@
             margin-top: 0.5rem;
         }
 
-        /* 側邊欄和主要內容 */
+        /* ?��?欄�?主�??�容 */
         .profile-content {
             display: grid;
             grid-template-columns: minmax(280px, 1fr) 3fr;
@@ -380,7 +380,7 @@
             text-align: center;
         }
 
-        /* 主要內容區域 */
+        /* 主�??�容?�??*/
         .profile-main {
             background: linear-gradient(145deg, 
                 rgba(31, 41, 55, 0.8), 
@@ -449,7 +449,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 貼文列表樣式 */
+        /* 貼�??�表�?? */
         .posts-list {
             display: flex;
             flex-direction: column;
@@ -567,7 +567,7 @@
             box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
         }
 
-        /* 車輛網格樣式 */
+        /* 車�?網格�?? */
         .bikes-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -647,7 +647,7 @@
             border: 1px solid var(--primary-color);
         }
 
-        /* 收藏項目樣式 */
+        /* ?��??�目�?? */
         .likes-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -729,7 +729,7 @@
             transform: translateY(-2px);
         }
 
-        /* 模態框樣式 */
+        /* 模�?框樣�?*/
         .modal {
             display: none;
             position: fixed;
@@ -789,7 +789,7 @@
             text-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
         }
 
-        /* 表單樣式 */
+        /* 表單�?? */
         .form-group {
             margin-bottom: 1.5rem;
         }
@@ -893,7 +893,7 @@
             box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
         }
 
-        /* 響應式設計 */
+        /* ?��?式設�?*/
         @media (max-width: 1200px) {
             .profile-content {
                 grid-template-columns: 1fr;
@@ -986,23 +986,23 @@
     <nav class="navbar">
         <div class="container nav-container">
             <div class="logo">
-                <a href="index.html" aria-label="motoweb首頁">
-                    <img src="images/motoweb-logo.svg" alt="motoweb Logo" class="logo-img">
+                <a href="index.html" aria-label="motoweb首�?">
+                    <img src="/images/motoweb-logo.svg" alt="motoweb Logo" class="logo-img">
                 </a>
             </div>
             <div class="nav-links" id="navLinks">
                 <div class="main-nav">
-                    <a href="index.html">首頁</a>
-                    <a href="products.html">改裝零件</a>
-                    <a href="community.html">社群討論</a>
-                    <a href="gallery.html">作品展示</a>
-                    <a href="events.html">改裝活動</a>
+                    <a href="index.html">首�?</a>
+                    <a href="products.html">?��??�件</a>
+                    <a href="community.html">社群討�?</a>
+                    <a href="gallery.html">作�?展示</a>
+                    <a href="events.html">?��?活�?</a>
                 </div>
                 <div class="auth-buttons">
-                    <!-- 這裡將由 auth-state.js 動態更新 -->
+                    <!-- ?�裡將由 auth-state.js ?��??�新 -->
                 </div>
             </div>
-            <button class="menu-toggle" aria-label="展開選單" aria-expanded="false" aria-controls="navLinks">
+            <button class="menu-toggle" aria-label="展�??�單" aria-expanded="false" aria-controls="navLinks">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -1015,33 +1015,33 @@
             <div class="profile-header">
                 <div class="profile-banner">
                     <div class="profile-cover">
-                        <img src="images/profile/profile-cover-default.svg" alt="封面圖片" id="profileCover">
-                        <button class="edit-cover-btn" title="更換封面">
+                        <img src="/images/profile/profile-cover-default.svg" alt="封面?��?" id="profileCover">
+                        <button class="edit-cover-btn" title="?��?封面">
                             <i class="fas fa-camera"></i>
                         </button>
                     </div>
                     <div class="profile-info">
                         <div class="profile-avatar">
-                            <img src="images/default/default-avatar.svg" alt="用戶頭像" id="profileAvatar">
-                            <button class="edit-avatar-btn" title="更改頭像">
+                            <img src="/images/default/default-avatar.svg" alt="?�戶?��?" id="profileAvatar">
+                            <button class="edit-avatar-btn" title="?�改?��?">
                                 <i class="fas fa-camera"></i>
                             </button>
                         </div>
                         <div class="profile-details">
-                            <h1 id="profileName">使用者名稱 <button class="edit-btn" title="編輯個人資料"><i class="fas fa-edit"></i></button></h1>
-                            <p class="user-bio" id="profileBio">分享您的個人簡介...</p>
+                            <h1 id="profileName">使用?��?�?<button class="edit-btn" title="編輯?�人資�?"><i class="fas fa-edit"></i></button></h1>
+                            <p class="user-bio" id="profileBio">?�享?��??�人簡�?...</p>
                             <div class="user-stats">
                                 <div class="stat-item">
                                     <span class="stat-number">12</span>
-                                    <span class="stat-label">改裝作品</span>
+                                    <span class="stat-label">?��?作�?</span>
                                 </div>
                                 <div class="stat-item">
                                     <span class="stat-number">48</span>
-                                    <span class="stat-label">討論貼文</span>
+                                    <span class="stat-label">討�?貼�?</span>
                                 </div>
                                 <div class="stat-item">
                                     <span class="stat-number">156</span>
-                                    <span class="stat-label">獲得讚數</span>
+                                    <span class="stat-label">?��?讚數</span>
                                 </div>
                             </div>
                         </div>
@@ -1052,135 +1052,135 @@
             <div class="profile-content">
                 <div class="profile-sidebar">
                     <div class="profile-section">
-                        <h3>基本資訊</h3>
+                        <h3>?�本資�?</h3>
                         <div class="info-group">
                             <i class="fas fa-map-marker-alt"></i>
-                            <p>台北市</p>
+                            <p>?��?�?/p>
                         </div>
                         <div class="info-group">
                             <i class="fas fa-calendar-alt"></i>
-                            <p>加入於 2024 年 3 月</p>
+                            <p>?�入??2024 �?3 ??/p>
                         </div>
                         <div class="info-group">
                             <i class="fas fa-motorcycle"></i>
-                            <p>3 輛愛車</p>
+                            <p>3 輛�?�?/p>
                         </div>
                     </div>
                     <div class="profile-section">
-                        <h3>興趣標籤</h3>
+                        <h3>?�趣標籤</h3>
                         <div class="tag-cloud">
-                            <span class="tag">速克達</span>
-                            <span class="tag">越野車</span>
-                            <span class="tag">引擎調校</span>
-                            <span class="tag">輪胎</span>
-                            <span class="tag">排氣管</span>
+                            <span class="tag">?��???/span>
+                            <span class="tag">越�?�?/span>
+                            <span class="tag">引�?調校</span>
+                            <span class="tag">輪�?</span>
+                            <span class="tag">?�氣�?/span>
                         </div>
                     </div>
                     <div class="profile-section">
-                        <h3>快速連結</h3>
+                        <h3>快速�??</h3>
                         <ul class="quick-links">
-                            <li><a href="garage.html"><i class="fas fa-warehouse"></i> 我的車庫</a></li>
-                            <li><a href="settings.html"><i class="fas fa-cog"></i> 帳號設定</a></li>
-                            <li><a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> 登出</a></li>
+                            <li><a href="garage.html"><i class="fas fa-warehouse"></i> ?��?車庫</a></li>
+                            <li><a href="settings.html"><i class="fas fa-cog"></i> 帳�?設�?</a></li>
+                            <li><a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> ?�出</a></li>
                         </ul>
                     </div>
                 </div>
                 
                 <div class="profile-main">
                     <div class="profile-tabs">
-                        <button class="tab-btn active" data-tab="posts">我的貼文</button>
-                        <button class="tab-btn" data-tab="bikes">我的愛車</button>
-                        <button class="tab-btn" data-tab="likes">收藏項目</button>
+                        <button class="tab-btn active" data-tab="posts">?��?貼�?</button>
+                        <button class="tab-btn" data-tab="bikes">?��??��?</button>
+                        <button class="tab-btn" data-tab="likes">?��??�目</button>
                     </div>
                     
                     <div class="tab-content" id="postsTab">
                         <div class="posts-list">
                             <div class="post-item" data-post-id="1">
                                 <div class="post-header">
-                                    <h3>改裝CB650R避震器經驗分享</h3>
+                                    <h3>?��?CB650R?��??��?驗�?�?/h3>
                                     <span class="post-date">2024-05-15</span>
                                 </div>
-                                <p class="post-excerpt">最近替我的CB650R換上了Öhlins避震器，騎乘感受有了很大的提升，尤其是過彎時的穩定性...</p>
+                                <p class="post-excerpt">?�近替?��?CB650R?��?了Öhlins?��??��?騎�??��??��?很大?��??��?尤其?��?彎�??�穩定�?..</p>
                                 <div class="post-content" style="display: none;">
-                                    <p>最近替我的CB650R換上了Öhlins避震器，騎乘感受有了很大的提升，尤其是過彎時的穩定性和回饋感都大幅提升。</p>
-                                    <p>選擇Öhlins的STX 46系列，這款避震器針對中型街車設計，提供了優異的阻尼控制和回彈表現。安裝過程並不困難，基本上只需要一個下午的時間就能完成，但建議還是找專業的改裝店進行安裝，以確保一切就位及調校正確。</p>
-                                    <p>騎乘感受方面，最明顯的差異在於過彎時的穩定性，尤其是連續彎道中，車身的起伏感減少了，更能夠精準地控制車輛走向。此外，在遇到路面不平時，避震器對小顛簸的過濾也更加出色，提升了日常騎乘的舒適度。</p>
-                                    <p>價格雖然不算便宜，但就改裝帶來的效果來說，這筆投資絕對值得。如果你也在考慮升級避震器，強烈推薦Öhlins這個選擇！</p>
+                                    <p>?�近替?��?CB650R?��?了Öhlins?��??��?騎�??��??��?很大?��??��?尤其?��?彎�??�穩定性�??��??�都大�??��???/p>
+                                    <p>?��??hlins?�STX 46系�?，這款?��??��?對中?��?車設計�??��?了優?��??�尼?�制?��?彈表?�。�?裝�?程並不困????�本上只?�要�??��??��??��?就能完�?，�?建議?�是?��?業�??��?店進�?安�?，以確�?一?�就位�?調校�?��??/p>
+                                    <p>騎�??��??�面，�??�顯?�差?�在?��?彎�??�穩定性�?尤其?��??彎�?中�?車身?�起伏�?減�?了�??�能夠精準地?�制車�?走�??�此外�??��??�路?��?平�?，避?�器對�?顛簸?��?濾�??��??�色，�??��??�常騎�??��??�度??/p>
+                                    <p>?�格?�然不�?便�?，�?就改裝帶來�??��?來說，這�??��?絕�??��??��??��?也在?�慮?��??��??��?強�??�薦?hlins?�個選?��?</p>
                                 </div>
                                 <div class="post-footer">
                                     <div class="post-stats">
                                         <span><i class="fas fa-comment"></i> 12</span>
                                         <span><i class="fas fa-heart"></i> 34</span>
                                     </div>
-                                    <a href="#" class="post-link preview-btn">預覽</a>
-                                    <a href="community.html?post=1" class="post-link">查看全文</a>
+                                    <a href="#" class="post-link preview-btn">?�覽</a>
+                                    <a href="community.html?post=1" class="post-link">?��??��?</a>
                                 </div>
                             </div>
                             
                             <div class="post-item" data-post-id="2">
                                 <div class="post-header">
-                                    <h3>街車改裝推薦配件大全</h3>
+                                    <h3>街�??��??�薦?�件大全</h3>
                                     <span class="post-date">2024-04-28</span>
                                 </div>
-                                <p class="post-excerpt">整理了適合街車改裝的必備配件，從入門到進階，包含排氣管、腳踏、把手、坐墊等多個方面...</p>
+                                <p class="post-excerpt">?��?了適?��?車改裝�?必�??�件，�??��??�進�?，�??��?�?��?�腳踏、�??�、�?墊�?多個方??..</p>
                                 <div class="post-content" style="display: none;">
-                                    <p>經過多年的街車改裝經驗，我整理了一份從入門到進階的改裝配件清單，希望對新手車友有所幫助。</p>
-                                    <p><strong>入門級改裝：</strong></p>
+                                    <p>經�?多年?��?車改裝�?驗�??�整?��?一份�??��??�進�??�改裝�?件�??��?希�?對新?��??��??�幫助??/p>
+                                    <p><strong>?��?級改裝�?</strong></p>
                                     <ul>
-                                        <li>握把：RIZOMA或Lightech的防滑握把可提升操控手感</li>
-                                        <li>腳踏：CNC加工的防滑腳踏板，提升駕駛穩定性</li>
-                                        <li>尾燈：整合式LED尾燈，提升夜間視線性</li>
-                                        <li>排氣管消音塞：可調整聲浪但不需更換整套排氣系統</li>
+                                        <li>?��?：RIZOMA?�Lightech?�防滑握?�可?��??�控?��?</li>
+                                        <li>?��?：CNC?�工?�防滑腳踏板，�??��?駛穩定�?/li>
+                                        <li>尾�?：整?��?LED尾�?，�??��??��?線�?/li>
+                                        <li>?�氣管�??��?：可調整?�浪但�??�?��??��??�氣系統</li>
                                     </ul>
-                                    <p><strong>進階改裝：</strong></p>
+                                    <p><strong>?��??��?�?/strong></p>
                                     <ul>
-                                        <li>全段排氣管：Akrapovic或SC Project，提升動力輸出</li>
-                                        <li>避震器：Öhlins或YSS避震，改善操控性</li>
-                                        <li>ECU控制器：Power Commander或Rapid Bike，優化油門反應</li>
-                                        <li>碟盤：浮動式碟盤，提升制動性能</li>
+                                        <li>?�段?�氣管�?Akrapovic?�SC Project，�??��??�輸??/li>
+                                        <li>?��??��??hlins?�YSS?��?，改?��??��?/li>
+                                        <li>ECU?�制?��?Power Commander?�Rapid Bike，優?�油?�?��?</li>
+                                        <li>碟盤：浮?��?碟盤，�??�制?�性能</li>
                                     </ul>
-                                    <p>改裝時最重要的是考慮整體性，而不是單獨看每個零件。完美的改裝是讓所有部件協調工作，創造出符合個人風格的騎乘體驗。</p>
+                                    <p>?��??��??��??�是?�慮?��??��??��??�單?��?每個零件。�?美�??��??��??�?�部件�?調工作�??�造出符�??�人風格?��?乘�?驗�?/p>
                                 </div>
                                 <div class="post-footer">
                                     <div class="post-stats">
                                         <span><i class="fas fa-comment"></i> 25</span>
                                         <span><i class="fas fa-heart"></i> 53</span>
                                     </div>
-                                    <a href="#" class="post-link preview-btn">預覽</a>
-                                    <a href="community.html?post=2" class="post-link">查看全文</a>
+                                    <a href="#" class="post-link preview-btn">?�覽</a>
+                                    <a href="community.html?post=2" class="post-link">?��??��?</a>
                                 </div>
                             </div>
                             
                             <div class="post-item" data-post-id="3">
                                 <div class="post-header">
-                                    <h3>輪胎選擇與氣壓調整的重要性</h3>
+                                    <h3>輪�??��??�氣壓調?��??��???/h3>
                                     <span class="post-date">2024-03-19</span>
                                 </div>
-                                <p class="post-excerpt">分享我對不同路況選擇合適輪胎的經驗，以及如何根據載重、天氣調整氣壓，以提升安全性與操控感...</p>
+                                <p class="post-excerpt">?�享?��?不�?路�??��??�適輪�??��?驗�?以�?如�??��?載�??�天�?��?�氣壓�?以�??��??�性�??�控??..</p>
                                 <div class="post-content" style="display: none;">
-                                    <p>輪胎是摩托車上最重要的零件之一，它直接影響了操控性與安全性。經過多年的嘗試，我想分享一些選擇輪胎和調整氣壓的心得。</p>
-                                    <p><strong>適合日常通勤的輪胎：</strong></p>
+                                    <p>輪�??�摩?��?上�??��??�零件�?一，�??�接影響了�??�性�?安全?�。�??��?年�??�試，�??��?享�?些選?�輪?��?調整�???��?得�?/p>
+                                    <p><strong>?��??�常?�勤?�輪?��?</strong></p>
                                     <ul>
-                                        <li>Michelin Road 5：兼顧了耐久性和抓地力，雨天表現優異</li>
-                                        <li>Pirelli Diablo Rosso IV：偏運動化路線，但常溫下很快發揮性能</li>
-                                        <li>Dunlop RoadSmart IV：性價比高，舒適性好</li>
+                                        <li>Michelin Road 5：兼顧�??��??��??�地?��??�天表現?�異</li>
+                                        <li>Pirelli Diablo Rosso IV：�??��??�路線�?但常溫�?很快?�揮?�能</li>
+                                        <li>Dunlop RoadSmart IV：性價比�?，�??�性好</li>
                                     </ul>
-                                    <p><strong>輪胎氣壓調整原則：</strong></p>
+                                    <p><strong>輪�?�??調整?��?�?/strong></p>
                                     <ul>
-                                        <li>標準氣壓：參考車輛說明書，通常前輪約2.3-2.5bar，後輪約2.7-2.9bar</li>
-                                        <li>雨天：可適度降低0.1-0.2bar，增加接觸面積提升抓地力</li>
-                                        <li>高速巡航：可增加0.1-0.2bar，減少輪胎變形，降低油耗</li>
-                                        <li>雙載/滿載：後輪增加0.2-0.3bar，補償額外載重</li>
+                                        <li>標�?�??：�??��?輛說?�書，通常?�輪�?.3-2.5bar，�?輪�?2.7-2.9bar</li>
+                                        <li>?�天：可?�度?��?0.1-0.2bar，�??�接觸面積�??��??��?</li>
+                                        <li>高速巡?��??��???.1-0.2bar，�?少輪?��?形�??��?油�?/li>
+                                        <li>?��?/滿�?：�?輪�???.2-0.3bar，�??��?外�???/li>
                                     </ul>
-                                    <p>特別要注意的是，每個月至少檢查一次胎壓，確保在最佳狀態。正確的胎壓不僅能提升操控性和安全性，還能延長輪胎壽命，節省燃油消耗。</p>
+                                    <p>?�別要注?��??��?每個�??��?檢查一次�?壓�?確�??��?佳�??�。正確�??��?不�??��??��??�性�?安全?��??�能延長輪�?壽命，�??��?油�??��?/p>
                                 </div>
                                 <div class="post-footer">
                                     <div class="post-stats">
                                         <span><i class="fas fa-comment"></i> 18</span>
                                         <span><i class="fas fa-heart"></i> 41</span>
                                     </div>
-                                    <a href="#" class="post-link preview-btn">預覽</a>
-                                    <a href="community.html?post=3" class="post-link">查看全文</a>
+                                    <a href="#" class="post-link preview-btn">?�覽</a>
+                                    <a href="community.html?post=3" class="post-link">?��??��?</a>
                                 </div>
                             </div>
                         </div>
@@ -1190,61 +1190,61 @@
                         <div class="bikes-grid">
                             <div class="bike-card">
                                 <div class="bike-image">
-                                    <img src="images/bikes/DRG.jpg" alt="SYM DRG">
+                                    <img src="/images/bikes/DRG.jpg" alt="SYM DRG">
                                 </div>
                                 <div class="bike-info">
                                     <h3>SYM DRG</h3>
-                                    <p class="bike-details">2024年 / 158cc / 已改裝</p>
+                                    <p class="bike-details">2024�?/ 158cc / 已改�?/p>
                                     <div class="bike-mods">
-                                        <span class="mod-tag">LED 大燈</span>
-                                        <span class="mod-tag">運動型排氣管</span>
+                                        <span class="mod-tag">LED 大�?</span>
+                                        <span class="mod-tag">?��??��?�?��</span>
                                     </div>
-                                    <a href="#" class="btn btn-outline">查看詳情</a>
+                                    <a href="#" class="btn btn-outline">?��?詳�?</a>
                                 </div>
                             </div>
                             
                             <div class="bike-card">
                                 <div class="bike-image">
-                                    <img src="images/bikes/MMBCU.jpg" alt="SYM MMB CU">
+                                    <img src="/images/bikes/MMBCU.jpg" alt="SYM MMB CU">
                                 </div>
                                 <div class="bike-info">
                                     <h3>SYM MMB CU</h3>
-                                    <p class="bike-details">2023年 / 125cc / 已改裝</p>
+                                    <p class="bike-details">2023�?/ 125cc / 已改�?/p>
                                     <div class="bike-mods">
-                                        <span class="mod-tag">LED 方向燈</span>
-                                        <span class="mod-tag">運動型後避震</span>
+                                        <span class="mod-tag">LED ?��???/span>
+                                        <span class="mod-tag">?��??��??��?</span>
                                     </div>
-                                    <a href="#" class="btn btn-outline">查看詳情</a>
+                                    <a href="#" class="btn btn-outline">?��?詳�?</a>
                                 </div>
                             </div>
 
                             <div class="bike-card">
                                 <div class="bike-image">
-                                    <img src="images/bikes/JET.jpg" alt="SYM Jet">
+                                    <img src="/images/bikes/JET.jpg" alt="SYM Jet">
                                 </div>
                                 <div class="bike-info">
                                     <h3>SYM Jet</h3>
-                                    <p class="bike-details">2023年 / 125cc / 已改裝</p>
+                                    <p class="bike-details">2023�?/ 125cc / 已改�?/p>
                                     <div class="bike-mods">
-                                        <span class="mod-tag">LED 大燈</span>
-                                        <span class="mod-tag">運動型排氣管</span>
+                                        <span class="mod-tag">LED 大�?</span>
+                                        <span class="mod-tag">?��??��?�?��</span>
                                     </div>
-                                    <a href="#" class="btn btn-outline">查看詳情</a>
+                                    <a href="#" class="btn btn-outline">?��?詳�?</a>
                                 </div>
                             </div>
 
                             <div class="bike-card">
                                 <div class="bike-image">
-                                    <img src="images/bikes/JET.jpg" alt="SYM Jet">
+                                    <img src="/images/bikes/JET.jpg" alt="SYM Jet">
                                 </div>
                                 <div class="bike-info">
                                     <h3>SYM Jet</h3>
-                                    <p class="bike-details">2024年 / 125cc / 已改裝</p>
+                                    <p class="bike-details">2024�?/ 125cc / 已改�?/p>
                                     <div class="bike-mods">
-                                        <span class="mod-tag">LED 大燈</span>
-                                        <span class="mod-tag">運動型後避震</span>
+                                        <span class="mod-tag">LED 大�?</span>
+                                        <span class="mod-tag">?��??��??��?</span>
                                     </div>
-                                    <a href="#" class="btn btn-outline">查看詳情</a>
+                                    <a href="#" class="btn btn-outline">?��?詳�?</a>
                                 </div>
                             </div>
                         </div>
@@ -1253,49 +1253,49 @@
                     <div class="tab-content hidden" id="likesTab">
                         <div class="likes-grid">
                             <div class="liked-item">
-                                <img src="images/parts/牛王SVR排氣管.webp" alt="Akrapovic 排氣管">
+                                <img src="/images/parts/?��?SVR?�氣�?webp" alt="Akrapovic ?�氣�?>
                                 <div class="liked-item-info">
-                                    <h3>Akrapovic 鈦合金排氣管</h3>
-                                    <p>適用於多款中量級街車，提升引擎輸出與聲浪</p>
+                                    <h3>Akrapovic ?��??��?�?��</h3>
+                                    <p>?�用?��?款中?��?街�?，�??��??�輸?��??�浪</p>
                                     <div class="liked-item-footer">
                                         <span class="price">NT$ 25,800</span>
-                                        <a href="#" class="btn btn-small">查看詳情</a>
+                                        <a href="#" class="btn btn-small">?��?詳�?</a>
                                     </div>
                                 </div>
                             </div>
                             
                             <div class="liked-item">
-                                <img src="images/parts/drg-shock-ohlins.jpg" alt="Öhlins 避震器">
+                                <img src="/images/parts/drg-shock-ohlins.jpg" alt="?hlins ?��???>
                                 <div class="liked-item-info">
-                                    <h3>Öhlins 頂級後避震器</h3>
-                                    <p>全可調式設計，適用於大多數日系街車</p>
+                                    <h3>?hlins ?��?後避?�器</h3>
+                                    <p>?�可調�?設�?，適?�於大�??�日系�?�?/p>
                                     <div class="liked-item-footer">
                                         <span class="price">NT$ 32,500</span>
-                                        <a href="#" class="btn btn-small">查看詳情</a>
+                                        <a href="#" class="btn btn-small">?��?詳�?</a>
                                     </div>
                                 </div>
                             </div>
                             
                             <div class="liked-item">
-                                <img src="images/parts/SIMOTA碳纖維後照鏡.webp" alt="Rizoma 後視鏡">
+                                <img src="/images/parts/SIMOTA碳�?維�??�鏡.webp" alt="Rizoma 後�???>
                                 <div class="liked-item-info">
-                                    <h3>Rizoma 鋁合金後視鏡</h3>
-                                    <p>義大利設計，提升質感與視野範圍</p>
+                                    <h3>Rizoma ?��??��?視鏡</h3>
+                                    <p>義大?�設計�??��?質�??��??��???/p>
                                     <div class="liked-item-footer">
                                         <span class="price">NT$ 5,200</span>
-                                        <a href="#" class="btn btn-small">查看詳情</a>
+                                        <a href="#" class="btn btn-small">?��?詳�?</a>
                                     </div>
                                 </div>
                             </div>
                             
                             <div class="liked-item">
-                                <img src="images/parts/ANC72大對四卡鉗.webp" alt="Brembo 煞車套件">
+                                <img src="/images/parts/ANC72大�??�卡??webp" alt="Brembo ?��?套件">
                                 <div class="liked-item-info">
-                                    <h3>Brembo 高性能煞車套件</h3>
-                                    <p>提升制動性能與手感，適合中大型摩托車</p>
+                                    <h3>Brembo 高性能?��?套件</h3>
+                                    <p>?��??��??�能?��??��??��?中大?�摩?��?</p>
                                     <div class="liked-item-footer">
                                         <span class="price">NT$ 18,900</span>
-                                        <a href="#" class="btn btn-small">查看詳情</a>
+                                        <a href="#" class="btn btn-small">?��?詳�?</a>
                                     </div>
                                 </div>
                             </div>
@@ -1306,46 +1306,46 @@
         </div>
     </main>
 
-    <!-- 編輯個人資料表單 (模態框) -->
+    <!-- 編輯?�人資�?表單 (模�?�? -->
     <div class="modal" id="editProfileModal">
         <div class="modal-content">
             <span class="close-modal">&times;</span>
-            <h2>編輯個人資料</h2>
+            <h2>編輯?�人資�?</h2>
             <form id="profileForm">
                 <div class="form-group">
-                    <label for="displayName">顯示名稱</label>
-                    <input type="text" id="displayName" name="displayName" value="使用者名稱">
+                    <label for="displayName">顯示?�稱</label>
+                    <input type="text" id="displayName" name="displayName" value="使用?��?�?>
                 </div>
                 <div class="form-group">
-                    <label for="bio">個人簡介</label>
-                    <textarea id="bio" name="bio" rows="4">分享您的個人簡介...</textarea>
+                    <label for="bio">?�人簡�?</label>
+                    <textarea id="bio" name="bio" rows="4">?�享?��??�人簡�?...</textarea>
                 </div>
                 <div class="form-group">
-                    <label for="location">所在地</label>
-                    <input type="text" id="location" name="location" value="台北市">
+                    <label for="location">?�?�地</label>
+                    <input type="text" id="location" name="location" value="?��?�?>
                 </div>
-                <h3>隱私設定</h3>
+                <h3>?��?設�?</h3>
                 <div class="form-group checkbox-group">
                     <label>
                         <input type="checkbox" name="showEmail" checked>
-                        <span>顯示我的電子郵件</span>
+                        <span>顯示?��??��??�件</span>
                     </label>
                 </div>
                 <div class="form-group checkbox-group">
                     <label>
                         <input type="checkbox" name="showLocation" checked>
-                        <span>顯示我的所在地</span>
+                        <span>顯示?��??�?�地</span>
                     </label>
                 </div>
                 <div class="form-group checkbox-group">
                     <label>
                         <input type="checkbox" name="publicProfile" checked>
-                        <span>公開資料給所有用戶</span>
+                        <span>?��?資�?給�??�用??/span>
                     </label>
                 </div>
                 <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" id="cancelEdit">取消</button>
-                    <button type="submit" class="btn btn-primary">儲存變更</button>
+                    <button type="button" class="btn btn-secondary" id="cancelEdit">?��?</button>
+                    <button type="submit" class="btn btn-primary">?��?變更</button>
                 </div>
             </form>
         </div>
@@ -1356,10 +1356,10 @@
             <div class="footer-content">
                 <div class="footer-section about">
                     <div class="footer-logo">
-                        <img src="images/motoweb-logo.svg" alt="motoweb Logo" class="footer-logo-img">
+                        <img src="/images/motoweb-logo.svg" alt="motoweb Logo" class="footer-logo-img">
                         <h3>MotoWeb</h3>
                     </div>
-                    <p>專業的摩托車改裝社群平台，為車友提供交流與分享的空間。</p>
+                    <p>專業?�摩?��??��?社群平台，為車�??��?交�??��?享�?空�???/p>
                     <div class="social-links">
                         <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
                         <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
@@ -1369,51 +1369,51 @@
                 </div>
                 
                 <div class="footer-section links">
-                    <h3>快速連結</h3>
+                    <h3>快速�??</h3>
                     <ul>
-                        <li><a href="about.html">關於我們</a></li>
-                        <li><a href="products.html">改裝零件</a></li>
-                        <li><a href="community.html">社群討論</a></li>
-                        <li><a href="gallery.html">作品展示</a></li>
-                        <li><a href="events.html">改裝活動</a></li>
+                        <li><a href="about.html">?�於?��?/a></li>
+                        <li><a href="products.html">?��??�件</a></li>
+                        <li><a href="community.html">社群討�?</a></li>
+                        <li><a href="gallery.html">作�?展示</a></li>
+                        <li><a href="events.html">?��?活�?</a></li>
                     </ul>
                 </div>
                 
                 <div class="footer-section contact">
-                    <h3>聯絡資訊</h3>
+                    <h3>?�絡資�?</h3>
                     <ul class="contact-info">
                         <li><i class="fas fa-envelope"></i> contact@MotoWeb.com</li>
                         <li><i class="fas fa-phone"></i> (02) 1234-5678</li>
-                        <li><i class="fas fa-map-marker-alt"></i> 台北市信義區松仁路100號</li>
+                        <li><i class="fas fa-map-marker-alt"></i> ?��?市信義�??��?�?00??/li>
                     </ul>
                 </div>
                 
                 <div class="footer-section newsletter">
-                    <h3>訂閱電子報</h3>
-                    <p>獲取最新改裝趨勢與活動資訊</p>
+                    <h3>訂閱?��???/h3>
+                    <p>?��??�?�改裝趨?��?活�?資�?</p>
                     <form class="newsletter-form" action="subscribe.php" method="POST">
-                        <input type="email" name="email" placeholder="您的電子郵件" required>
+                        <input type="email" name="email" placeholder="?��??��??�件" required>
                         <button type="submit" class="btn btn-primary">訂閱</button>
                     </form>
                 </div>
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2025 MotoWeb. 保留所有權利。</p>
+                <p>&copy; 2025 MotoWeb. 保�??�?��??��?/p>
                 <div class="footer-bottom-links">
-                    <a href="privacy.html">隱私政策</a>
+                    <a href="privacy.html">?��??��?</a>
                     <a href="terms.html">使用條款</a>
-                    <a href="cookies.html">Cookie 政策</a>
+                    <a href="cookies.html">Cookie ?��?</a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <script src="js/main.js"></script>
-    <script src="js/profile.js"></script>
-    <script src="js/auth-state.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/profile.js"></script>
+    <script src="/js/auth-state.js"></script>
 
-    <!-- 貼文預覽模態框 -->
+    <!-- 貼�??�覽模�?�?-->
     <div class="modal" id="postPreviewModal">
         <div class="modal-content">
             <span class="close-modal">&times;</span>
@@ -1430,8 +1430,8 @@
                     <span><i class="fas fa-eye"></i> <span id="previewViewCount">0</span></span>
                 </div>
                 <div class="post-actions">
-                    <a href="#" class="btn btn-primary" id="goToFullPost">前往完整貼文</a>
-                    <button class="btn btn-secondary" id="closePreview">關閉</button>
+                    <a href="#" class="btn btn-primary" id="goToFullPost">?��?完整貼�?</a>
+                    <button class="btn btn-secondary" id="closePreview">?��?</button>
                 </div>
             </div>
         </div>

@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>登入 - MotoWeb</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/tech-theme.css">
+    <title>?�入 - MotoWeb</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/tech-theme.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* 登入頁面專用樣式 - 與首頁統一的科技風格 */
+        /* ?�入?�面專用�?? - ?��??�統一?��??�風格 */
         body {
             background: var(--secondary-color);
             min-height: 100vh;
@@ -32,7 +32,7 @@
             padding: 2rem 0;
         }
 
-        /* 主登入區域 */
+        /* 主登?��???*/
         .login-section {
             padding: 4rem 5%;
             background: 
@@ -49,7 +49,7 @@
             justify-content: center;
         }
 
-        /* 移除會遮擋資訊的動態背景 */
+        /* 移除?�遮?��?訊�??��??�景 */
         .login-section::before {
             content: '';
             position: absolute;
@@ -121,7 +121,7 @@
             opacity: 0.9;
         }
 
-        /* 表單樣式 */
+        /* 表單�?? */
         .login-form {
             width: 100%;
         }
@@ -201,7 +201,7 @@
             display: none;
         }
 
-        /* 表單選項 */
+        /* 表單?��? */
         .form-options {
             display: flex;
             justify-content: space-between;
@@ -243,7 +243,7 @@
         }
 
         .remember-me input[type="checkbox"]:checked + .checkbox-custom::after {
-            content: '✓';
+            content: '??;
             position: absolute;
             top: 50%;
             left: 50%;
@@ -266,7 +266,7 @@
             text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
         }
 
-        /* 登入按鈕 */
+        /* ?�入?��? */
         .login-submit {
             width: 100%;
             padding: 1.2rem;
@@ -296,7 +296,7 @@
             transform: translateY(0);
         }
 
-        /* 分隔線 */
+        /* ?��?�?*/
         .form-divider {
             display: flex;
             align-items: center;
@@ -317,7 +317,7 @@
             padding: 0 1.5rem;
         }
 
-        /* 社交登入 */
+        /* 社交?�入 */
         .social-login {
             display: flex;
             gap: 1rem;
@@ -349,7 +349,7 @@
             transform: translateY(-2px);
         }
 
-        /* 註冊連結 */
+        /* 註�???? */
         .login-footer {
             text-align: center;
             color: var(--metallic-silver);
@@ -368,7 +368,7 @@
             text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
         }
 
-        /* 響應式設計 */
+        /* ?��?式設�?*/
         @media (max-width: 768px) {
             .login-section {
                 padding: 2rem 1rem;
@@ -428,37 +428,37 @@
     <nav class="navbar">
         <div class="container nav-container">
             <div class="logo">
-                <a href="index.html" aria-label="MotoWeb首頁">
-                    <img src="images/motoweb-logo.svg" alt="MotoWeb Logo" class="logo-img">
+                <a href="index.html" aria-label="MotoWeb首�?">
+                    <img src="/images/motoweb-logo.svg" alt="MotoWeb Logo" class="logo-img">
                     <h1>MotoWeb</h1>
                 </a>
             </div>
             <div class="nav-links" id="navLinks">
                 <div class="main-nav">
-                    <a href="index.html">首頁</a>
-                    <a href="products.html">改裝零件</a>
-                    <a href="community.html">社群討論</a>
-                    <a href="gallery.html">作品展示</a>
-                    <a href="events.html">改裝活動</a>
+                    <a href="index.html">首�?</a>
+                    <a href="products.html">?��??�件</a>
+                    <a href="community.html">社群討�?</a>
+                    <a href="gallery.html">作�?展示</a>
+                    <a href="events.html">?��?活�?</a>
                 </div>
                 <div class="auth-buttons">
-                    <a href="login.html" class="btn login-btn active" aria-current="page">登入</a>
-                    <a href="register.html" class="btn register-btn">註冊</a>
+                    <a href="login.html" class="btn login-btn active" aria-current="page">?�入</a>
+                    <a href="register.html" class="btn register-btn">註�?</a>
                 </div>
                 <div class="user-menu" style="display: none;">
                     <div class="user-avatar">
-                        <img src="/images/default-avatar.svg" alt="用戶頭像" class="avatar">
-                        <span class="username">用戶名稱</span>
+                        <img src="/images/default-avatar.svg" alt="?�戶?��?" class="avatar">
+                        <span class="username">?�戶?�稱</span>
                     </div>
                     <div class="dropdown-menu">
-                        <a href="/profile.html"><i class="fas fa-user"></i> 個人資料</a>
-                        <a href="/garage.html"><i class="fas fa-motorcycle"></i> 我的車庫</a>
-                        <a href="/settings.html"><i class="fas fa-cog"></i> 帳號設定</a>
-                        <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> 登出</a>
+                        <a href="/profile.html"><i class="fas fa-user"></i> ?�人資�?</a>
+                        <a href="/garage.html"><i class="fas fa-motorcycle"></i> ?��?車庫</a>
+                        <a href="/settings.html"><i class="fas fa-cog"></i> 帳�?設�?</a>
+                        <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> ?�出</a>
                     </div>
                 </div>
             </div>
-            <button class="menu-toggle" aria-label="展開選單" aria-expanded="false" aria-controls="navLinks">
+            <button class="menu-toggle" aria-label="展�??�單" aria-expanded="false" aria-controls="navLinks">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -470,16 +470,16 @@
         <section class="login-section">
             <div class="login-container">
                 <div class="login-header">
-                    <h1>歡迎回來</h1>
-                    <p>登入您的 MotoWeb 帳號以繼續改裝之旅</p>
+                    <h1>歡�??��?</h1>
+                    <p>?�入?��? MotoWeb 帳�?以繼續改裝�???/p>
                 </div>
                 
                 <form id="loginForm" class="login-form" novalidate>
                     <div class="form-group">
-                        <label for="email">電子郵件</label>
+                        <label for="email">?��??�件</label>
                         <div class="input-wrapper">
                             <span class="input-icon"><i class="fas fa-envelope"></i></span>
-                            <input type="email" id="email" name="email" placeholder="請輸入您的電子郵件" 
+                            <input type="email" id="email" name="email" placeholder="請輸?�您?�電子郵�? 
                                    autocomplete="email" required>
                         </div>
                         <div class="form-error" id="emailError"></div>
@@ -489,7 +489,7 @@
                         <label for="password">密碼</label>
                         <div class="input-wrapper">
                             <span class="input-icon"><i class="fas fa-lock"></i></span>
-                            <input type="password" id="password" name="password" placeholder="請輸入您的密碼" 
+                            <input type="password" id="password" name="password" placeholder="請輸?�您?��?�? 
                                    autocomplete="current-password" required>
                             <button type="button" class="toggle-password" aria-label="顯示密碼">
                                 <i class="fas fa-eye"></i>
@@ -502,18 +502,18 @@
                         <label class="remember-me">
                             <input type="checkbox" name="remember" id="remember">
                             <span class="checkbox-custom"></span>
-                            <span class="label-text">記住我</span>
+                            <span class="label-text">記�???/span>
                         </label>
-                        <a href="forgot-password.html" class="forgot-password">忘記密碼？</a>
+                        <a href="forgot-password.html" class="forgot-password">忘�?密碼�?/a>
                     </div>
                     
                     <button type="submit" class="btn primary-btn login-submit">
-                        <span>登入</span>
+                        <span>?�入</span>
                         <i class="fas fa-arrow-right"></i>
                     </button>
                     
                     <div class="form-divider">
-                        <span>或</span>
+                        <span>??/span>
                     </div>
                     
                     <div class="social-login">
@@ -529,7 +529,7 @@
                 </form>
                 
                 <div class="login-footer">
-                    <p>還沒有帳號？<a href="register.html" class="register-link">立即註冊</a></p>
+                    <p>?��??�帳?��?<a href="register.html" class="register-link">立即註�?</a></p>
                 </div>
             </div>
         </section>
@@ -540,10 +540,10 @@
             <div class="footer-content">
                 <div class="footer-section about">
                     <div class="footer-logo">
-                        <img src="images/motoweb-logo.svg" alt="MotoWeb Logo" class="footer-logo-img">
+                        <img src="/images/motoweb-logo.svg" alt="MotoWeb Logo" class="footer-logo-img">
                         <h3>MotoWeb</h3>
                     </div>
-                    <p>專業的摩托車改裝社群平台，為車友提供交流與分享的空間。</p>
+                    <p>專業?�摩?��??��?社群平台，為車�??��?交�??��?享�?空�???/p>
                     <div class="social-links">
                         <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
                         <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
@@ -553,52 +553,52 @@
                 </div>
                 
                 <div class="footer-section links">
-                    <h3>快速連結</h3>
+                    <h3>快速�??</h3>
                     <ul>
-                        <li><a href="about.html">關於我們</a></li>
-                        <li><a href="products.html">改裝零件</a></li>
-                        <li><a href="community.html">社群討論</a></li>
-                        <li><a href="gallery.html">作品展示</a></li>
-                        <li><a href="events.html">改裝活動</a></li>
+                        <li><a href="about.html">?�於?��?/a></li>
+                        <li><a href="products.html">?��??�件</a></li>
+                        <li><a href="community.html">社群討�?</a></li>
+                        <li><a href="gallery.html">作�?展示</a></li>
+                        <li><a href="events.html">?��?活�?</a></li>
                     </ul>
                 </div>
                 
                 <div class="footer-section contact">
-                    <h3>聯絡資訊</h3>
+                    <h3>?�絡資�?</h3>
                     <ul class="contact-info">
                         <li><i class="fas fa-envelope"></i> contact@MotoWeb.com</li>
                         <li><i class="fas fa-phone"></i> (02) 1234-5678</li>
-                        <li><i class="fas fa-map-marker-alt"></i> 台北市信義區松仁路100號</li>
+                        <li><i class="fas fa-map-marker-alt"></i> ?��?市信義�??��?�?00??/li>
                     </ul>
                 </div>
                 
                 <div class="footer-section newsletter">
-                    <h3>訂閱電子報</h3>
-                    <p>獲取最新改裝趨勢與活動資訊</p>
+                    <h3>訂閱?��???/h3>
+                    <p>?��??�?�改裝趨?��?活�?資�?</p>
                     <form class="newsletter-form" action="subscribe.php" method="POST">
-                        <input type="email" name="email" placeholder="您的電子郵件" required>
+                        <input type="email" name="email" placeholder="?��??��??�件" required>
                         <button type="submit" class="btn">訂閱</button>
                     </form>
                 </div>
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2025 MotoWeb. 保留所有權利。</p>
+                <p>&copy; 2025 MotoWeb. 保�??�?��??��?/p>
                 <div class="footer-bottom-links">
-                    <a href="privacy.html">隱私政策</a>
+                    <a href="privacy.html">?��??��?</a>
                     <a href="terms.html">使用條款</a>
-                    <a href="cookies.html">Cookie 政策</a>
+                    <a href="cookies.html">Cookie ?��?</a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <script src="js/auth-state.js"></script>
-    <script src="js/login.js"></script>
+    <script src="/js/auth-state.js"></script>
+    <script src="/js/login.js"></script>
     <script>
-        // 登入頁面專用功能
+        // ?�入?�面專用?�能
         document.addEventListener('DOMContentLoaded', function() {
-            // 檢查是否已登入，如果是則重定向
+            // 檢查?�否已登?��?如�??��??��???
             const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
             
             if (isLoggedIn) {
@@ -607,7 +607,7 @@
                 }, 1000);
             }
             
-            // 密碼顯示/隱藏功能
+            // 密碼顯示/?��??�能
             const togglePassword = document.querySelector('.toggle-password');
             const passwordInput = document.getElementById('password');
             
@@ -627,7 +627,7 @@
                 });
             }
             
-            // 表單驗證
+            // 表單驗�?
             const loginForm = document.getElementById('loginForm');
             if (loginForm) {
                 loginForm.addEventListener('submit', function(e) {
@@ -636,25 +636,25 @@
                     const email = document.getElementById('email').value;
                     const password = document.getElementById('password').value;
                     
-                    // 簡單驗證
+                    // 簡單驗�?
                     if (!email || !password) {
-                        alert('請填寫所有必填欄位');
+                        alert('請填寫�??��?填�?�?);
                         return;
                     }
                     
                     if (!isValidEmail(email)) {
-                        showError('emailError', '請輸入有效的電子郵件地址');
+                        showError('emailError', '請輸?��??��??��??�件?��?');
                         return;
                     }
                     
-                    // 這裡應該連接到實際的登入API
-                    console.log('嘗試登入:', { email, password });
+                    // ?�裡?�該??��?�實?��??�入API
+                    console.log('?�試?�入:', { email, password });
                     
-                    // 模擬登入成功
+                    // 模擬?�入?��?
                     localStorage.setItem('isLoggedIn', 'true');
                     localStorage.setItem('username', email.split('@')[0]);
                     
-                    alert('登入成功！');
+                    alert('?�入?��?�?);
                     window.location.href = 'index.html';
                 });
             }
