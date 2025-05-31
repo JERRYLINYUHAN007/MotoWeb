@@ -1,6 +1,6 @@
 /**
- * MotoWeb 註冊頁面功能
- * 處理表單驗證、密碼強度檢查、實際註冊API連接
+ * MotoWeb Registration Page Functionality
+ * Handles form validation, password strength checking, and actual registration API connection
  */
 document.addEventListener('DOMContentLoaded', function() {
     const registerForm = document.getElementById('registerForm');
@@ -8,43 +8,43 @@ document.addEventListener('DOMContentLoaded', function() {
     const confirmPasswordInput = document.getElementById('confirmPassword');
     const togglePasswordBtns = document.querySelectorAll('.toggle-password');
     
-    console.log('註冊頁面JavaScript已載入');
-    console.log('找到的元素:', {
+    console.log('Registration page JavaScript loaded');
+    console.log('Found elements:', {
         registerForm: !!registerForm,
         passwordInput: !!passwordInput,
         confirmPasswordInput: !!confirmPasswordInput,
         togglePasswordBtns: togglePasswordBtns.length
     });
     
-    // 檢查是否已登入，如果是則重定向
+    // Check if already logged in, redirect if so
     const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
     if (isLoggedIn) {
-        console.log('用戶已登入，重定向到首頁...');
-        showNotification('您已登入，正在跳轉到首頁...', 'info');
+        console.log('User already logged in, redirecting to homepage...');
+        showNotification('You are already logged in, redirecting to homepage...', 'info');
         setTimeout(function() {
             window.location.href = 'index.html';
         }, 1000);
         return;
     }
     
-    // 密碼顯示切換
+    // Password toggle functionality
     togglePasswordBtns.forEach(btn => {
         btn.addEventListener('click', function() {
             const input = this.parentElement.querySelector('input');
             const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
             input.setAttribute('type', type);
             
-            // 更新圖標
+            // Update icon
             const icon = this.querySelector('i');
             icon.classList.toggle('fa-eye');
             icon.classList.toggle('fa-eye-slash');
             
-            // 更新無障礙標籤
-            this.setAttribute('aria-label', type === 'password' ? '顯示密碼' : '隱藏密碼');
+            // Update accessibility label
+            this.setAttribute('aria-label', type === 'password' ? 'Show password' : 'Hide password');
         });
     });
     
-    // 密碼強度檢查
+    // Password strength checking
     if (passwordInput) {
         passwordInput.addEventListener('input', function() {
             const strength = checkPasswordStrength(this.value);
@@ -52,20 +52,20 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // 即時表單驗證
+    // Real-time form validation
     initRealTimeValidation();
     
-    // 表單提交處理
+    // Form submission handling
     if (registerForm) {
-        console.log('設置表單提交事件監聽器...');
+        console.log('Setting up form submit event listener...');
         registerForm.addEventListener('submit', async function(e) {
             e.preventDefault();
-            console.log('表單提交事件觸發');
+            console.log('Form submit event triggered');
             
-            // 移除所有錯誤提示
+            // Remove all error messages
             clearErrors();
             
-            // 獲取表單數據
+            // Get form data
             const formData = new FormData(this);
             const firstName = formData.get('firstName')?.trim() || '';
             const lastName = formData.get('lastName')?.trim() || '';
@@ -75,84 +75,84 @@ document.addEventListener('DOMContentLoaded', function() {
             const confirmPassword = formData.get('confirmPassword')?.trim() || '';
             const terms = formData.get('terms') === 'on';
             
-            console.log('表單數據:', { firstName, lastName, username, email, password: '***', confirmPassword: '***', terms });
+            console.log('Form data:', { firstName, lastName, username, email, password: '***', confirmPassword: '***', terms });
             
-            // 驗證表單
+            // Validate form
             let isValid = true;
             
-            // 驗證名字
+            // Validate first name
             if (!firstName) {
-                showError('firstName', '請輸入您的名字');
+                showError('firstName', 'Please enter your first name');
                 isValid = false;
             } else if (firstName.length < 1) {
-                showError('firstName', '名字不能為空');
+                showError('firstName', 'First name cannot be empty');
                 isValid = false;
             }
             
-            // 驗證姓氏
+            // Validate last name
             if (!lastName) {
-                showError('lastName', '請輸入您的姓氏');
+                showError('lastName', 'Please enter your last name');
                 isValid = false;
             } else if (lastName.length < 1) {
-                showError('lastName', '姓氏不能為空');
+                showError('lastName', 'Last name cannot be empty');
                 isValid = false;
             }
             
-            // 驗證用戶名
+            // Validate username
             if (!username) {
-                showError('username', '請輸入用戶名稱');
+                showError('username', 'Please enter a username');
                 isValid = false;
             } else if (username.length < 3) {
-                showError('username', '用戶名稱必須至少包含 3 個字符');
+                showError('username', 'Username must be at least 3 characters long');
                 isValid = false;
             } else if (!/^[a-zA-Z0-9_-]+$/.test(username)) {
-                showError('username', '用戶名稱只能包含字母、數字、底線和破折號');
+                showError('username', 'Username can only contain letters, numbers, underscores and hyphens');
                 isValid = false;
             }
             
-            // 驗證電子郵件
+            // Validate email
             if (!email) {
-                showError('email', '請輸入電子郵件地址');
+                showError('email', 'Please enter your email address');
                 isValid = false;
             } else if (!validateEmail(email)) {
-                showError('email', '請輸入有效的電子郵件地址');
+                showError('email', 'Please enter a valid email address');
                 isValid = false;
             }
             
-            // 驗證密碼
+            // Validate password
             if (!password) {
-                showError('password', '請設置密碼');
+                showError('password', 'Please set a password');
                 isValid = false;
             } else if (password.length < 8) {
-                showError('password', '密碼長度必須至少為 8 個字符');
+                showError('password', 'Password must be at least 8 characters long');
                 isValid = false;
             } else {
                 const passwordStrength = checkPasswordStrength(password);
                 if (passwordStrength.score < 2) {
-                    showError('password', '密碼強度不足，請包含大小寫字母、數字和特殊符號');
+                    showError('password', 'Password strength insufficient, please include uppercase, lowercase, numbers and special characters');
                     isValid = false;
                 }
             }
             
-            // 驗證確認密碼
+            // Validate confirm password
             if (!confirmPassword) {
-                showError('confirmPassword', '請確認您的密碼');
+                showError('confirmPassword', 'Please confirm your password');
                 isValid = false;
             } else if (password !== confirmPassword) {
-                showError('confirmPassword', '兩次輸入的密碼不一致');
+                showError('confirmPassword', 'Passwords do not match');
                 isValid = false;
             }
             
-            // 驗證條款同意
+            // Validate terms agreement
             if (!terms) {
-                showError('terms', '請同意使用條款和隱私政策才能註冊');
+                showError('terms', 'Please agree to the Terms of Service and Privacy Policy to register');
                 isValid = false;
             }
             
-            console.log('表單驗證結果:', isValid);
+            console.log('Form validation result:', isValid);
             
             if (!isValid) {
-                // 滾動到第一個錯誤欄位
+                // Scroll to first error field
                 const firstError = document.querySelector('.form-group.error');
                 if (firstError) {
                     firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -160,16 +160,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            // 顯示載入狀態
+            // Show loading state
             const submitBtn = this.querySelector('button[type="submit"]');
             const originalBtnText = submitBtn.innerHTML;
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 註冊中...';
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registering...';
             
             try {
-                console.log('發送註冊請求...', { username, email, firstName, lastName });
+                console.log('Sending registration request...', { username, email, firstName, lastName });
 
-                // 向後端發送註冊請求
+                // Send registration request to backend
                 const response = await fetch('/api/register', {
                     method: 'POST',
                     headers: {
@@ -185,307 +185,297 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
                 
                 const data = await response.json();
-                console.log('註冊回應:', { success: response.ok, status: response.status });
+                console.log('Registration response:', { success: response.ok, status: response.status });
                 
                 if (response.ok) {
-                    // 註冊成功
-                    console.log('註冊成功，設置認證狀態...');
+                    // Registration successful
+                    console.log('Registration successful, setting authentication state...');
                     
-                    // 設置認證狀態
+                    // Set authentication state
                     localStorage.setItem('isLoggedIn', 'true');
                     localStorage.setItem('token', data.token);
                     localStorage.setItem('username', data.user.username);
                     localStorage.setItem('userEmail', data.user.email);
                     localStorage.setItem('userId', data.user.id);
                     
-                    // 使用auth-state.js設置認證狀態
+                    // Use auth-state.js to set authentication state
                     if (typeof window.authState !== 'undefined' && window.authState.setAuthState) {
                         window.authState.setAuthState(data.user);
                     }
                     
-                    // 顯示成功訊息
-                    showNotification('註冊成功！歡迎加入 MotoWeb 大家庭', 'success');
+                    // Show success message
+                    showNotification('Registration successful! Welcome to MotoWeb', 'success');
                     
-                    console.log('準備跳轉到首頁...');
-                    
-                    // 2秒後重定向到首頁
+                    // Redirect to homepage after 1.5 seconds
                     setTimeout(function() {
-                        console.log('執行頁面跳轉...');
                         window.location.href = 'index.html';
-                    }, 2000);
-                    
+                    }, 1500);
+
                 } else {
-                    // 註冊失敗
-                    console.error('註冊失敗:', data.error);
+                    // Registration failed
+                    console.error('Registration failed:', data.error);
                     
-                    // 根據錯誤類型顯示不同的錯誤訊息
-                    if (data.error.includes('用戶名') && data.error.includes('已被使用')) {
-                        showError('username', '用戶名稱已被其他人使用，請選擇其他名稱');
-                        document.getElementById('username').focus();
-                    } else if (data.error.includes('電子郵件') && data.error.includes('已被使用')) {
-                        showError('email', '此電子郵件地址已被註冊，請使用其他郵件地址或嘗試登入');
-                        document.getElementById('email').focus();
-                    } else if (data.error.includes('用戶名或電子郵件已被使用')) {
-                        showError('username', '用戶名稱已被使用');
-                        showError('email', '電子郵件地址已被註冊');
-                    } else if (data.error.includes('所有欄位為必填')) {
-                        showNotification('請填寫所有必填欄位', 'error');
+                    // Show different error messages based on error type
+                    if (data.error.includes('username')) {
+                        showError('username', data.error || 'Username is already taken');
+                    } else if (data.error.includes('email')) {
+                        showError('email', data.error || 'Email address is already registered');
                     } else {
-                        showNotification(data.error || '註冊失敗，請稍後再試', 'error');
+                        showNotification(data.error || 'Registration failed, please check your information', 'error');
                     }
                 }
-                
+
             } catch (error) {
-                console.error('註冊過程中發生網路錯誤:', error);
+                console.error('Network error during registration:', error);
                 
-                // 網路錯誤處理
+                // Network error handling
                 if (error.name === 'TypeError' && error.message.includes('fetch')) {
-                    showNotification('無法連接到伺服器，請檢查網路連線', 'error');
+                    showNotification('Cannot connect to server, please check your internet connection', 'error');
                 } else {
-                    showNotification('註冊過程中發生錯誤，請稍後再試', 'error');
+                    showNotification('An error occurred during registration, please try again later', 'error');
                 }
                 
             } finally {
-                // 恢復按鈕狀態
+                // Restore button state
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalBtnText;
             }
         });
-    } else {
-        console.error('未找到註冊表單元素 #registerForm');
     }
     
-    // 社群註冊按鈕處理
+    // Initialize social registration
     initSocialRegistration();
 });
 
-/**
- * 初始化即時表單驗證
- */
+// Real-time validation
 function initRealTimeValidation() {
-    // 用戶名即時驗證
-    const usernameInput = document.getElementById('username');
-    if (usernameInput) {
-        usernameInput.addEventListener('blur', function() {
-            const value = this.value.trim();
-            if (value) {
-                if (value.length < 3) {
-                    showError('username', '用戶名稱必須至少包含 3 個字符');
-                } else if (!/^[a-zA-Z0-9_-]+$/.test(value)) {
-                    showError('username', '用戶名稱只能包含字母、數字、底線和破折號');
-                } else {
-                    clearFieldError('username');
-                }
-            }
-        });
-    }
+    const inputs = document.querySelectorAll('#registerForm input');
     
-    // 電子郵件即時驗證
-    const emailInput = document.getElementById('email');
-    if (emailInput) {
-        emailInput.addEventListener('blur', function() {
-            const value = this.value.trim();
-            if (value) {
-                if (!validateEmail(value)) {
-                    showError('email', '請輸入有效的電子郵件地址');
-                } else {
-                    clearFieldError('email');
-                }
-            }
+    inputs.forEach(input => {
+        input.addEventListener('blur', function() {
+            validateField(this);
         });
-    }
+        
+        input.addEventListener('input', function() {
+            // Clear errors on input
+            clearFieldError(this.name);
+        });
+    });
+}
+
+function validateField(input) {
+    const value = input.value.trim();
+    const name = input.name;
     
-    // 密碼確認即時驗證
-    const confirmPasswordInput = document.getElementById('confirmPassword');
-    const passwordInput = document.getElementById('password');
-    if (confirmPasswordInput && passwordInput) {
-        confirmPasswordInput.addEventListener('blur', function() {
-            const password = passwordInput.value;
-            const confirmPassword = this.value;
-            if (confirmPassword && password !== confirmPassword) {
-                showError('confirmPassword', '兩次輸入的密碼不一致');
-            } else if (confirmPassword && password === confirmPassword) {
-                clearFieldError('confirmPassword');
+    clearFieldError(name);
+    
+    switch(name) {
+        case 'firstName':
+            if (!value) {
+                showError(name, 'Please enter your first name');
             }
-        });
+            break;
+        case 'lastName':
+            if (!value) {
+                showError(name, 'Please enter your last name');
+            }
+            break;
+        case 'username':
+            if (!value) {
+                showError(name, 'Please enter a username');
+            } else if (value.length < 3) {
+                showError(name, 'Username must be at least 3 characters');
+            } else if (!/^[a-zA-Z0-9_-]+$/.test(value)) {
+                showError(name, 'Username can only contain letters, numbers, _ and -');
+            }
+            break;
+        case 'email':
+            if (!value) {
+                showError(name, 'Please enter your email');
+            } else if (!validateEmail(value)) {
+                showError(name, 'Please enter a valid email address');
+            }
+            break;
+        case 'password':
+            if (!value) {
+                showError(name, 'Please set a password');
+            } else if (value.length < 8) {
+                showError(name, 'Password must be at least 8 characters');
+            }
+            break;
+        case 'confirmPassword':
+            const password = document.getElementById('password').value;
+            if (!value) {
+                showError(name, 'Please confirm your password');
+            } else if (value !== password) {
+                showError(name, 'Passwords do not match');
+            }
+            break;
     }
 }
 
-/**
- * 初始化社交註冊
- */
+// Initialize social registration
 function initSocialRegistration() {
     const googleBtn = document.querySelector('.google-btn');
     const facebookBtn = document.querySelector('.facebook-btn');
 
     if (googleBtn) {
-        googleBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            // TODO: 實現 Google 註冊邏輯
-            showNotification('Google 註冊功能即將推出', 'info');
+        googleBtn.addEventListener('click', function() {
+            // TODO: Implement Google registration logic
+            showNotification('Google registration feature coming soon', 'info');
         });
     }
 
     if (facebookBtn) {
-        facebookBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            // TODO: 實現 Facebook 註冊邏輯
-            showNotification('Facebook 註冊功能即將推出', 'info');
+        facebookBtn.addEventListener('click', function() {
+            // TODO: Implement Facebook registration logic
+            showNotification('Facebook registration feature coming soon', 'info');
         });
     }
 }
 
-/**
- * 檢查密碼強度
- */
+// Password strength checking
 function checkPasswordStrength(password) {
     let score = 0;
-    let strength = {
-        score: 0,
-        text: '極弱',
-        class: 'strength-weak'
+    let feedback = [];
+    
+    if (password.length === 0) {
+        return { score: 0, feedback: ['Please enter a password'], strength: 'none' };
+    }
+    
+    // Length check
+    if (password.length >= 8) {
+        score += 1;
+    } else {
+        feedback.push('At least 8 characters');
+    }
+    
+    // Lowercase check
+    if (/[a-z]/.test(password)) {
+        score += 1;
+    } else {
+        feedback.push('Include lowercase letters');
+    }
+    
+    // Uppercase check
+    if (/[A-Z]/.test(password)) {
+        score += 1;
+    } else {
+        feedback.push('Include uppercase letters');
+    }
+    
+    // Number check
+    if (/[0-9]/.test(password)) {
+        score += 1;
+    } else {
+        feedback.push('Include numbers');
+    }
+    
+    // Special character check
+    if (/[^a-zA-Z0-9]/.test(password)) {
+        score += 1;
+    } else {
+        feedback.push('Include special characters');
+    }
+    
+    // Determine strength level
+    let strength;
+    if (score === 0) {
+        strength = 'none';
+    } else if (score <= 2) {
+        strength = 'weak';
+    } else if (score <= 3) {
+        strength = 'medium';
+    } else if (score <= 4) {
+        strength = 'strong';
+    } else {
+        strength = 'very-strong';
+    }
+    
+    return { score, feedback, strength };
+}
+
+// Update password strength display
+function updatePasswordStrength(strength) {
+    const strengthMeter = document.querySelector('.password-strength-meter');
+    const strengthText = document.querySelector('.password-strength-text');
+    const strengthBar = document.querySelector('.strength-bar');
+    
+    if (!strengthMeter || !strengthText || !strengthBar) return;
+    
+    // Clear previous classes
+    strengthBar.className = 'strength-bar';
+    strengthBar.classList.add(strength.strength);
+    
+    // Update text
+    const strengthTexts = {
+        'none': 'Password strength: None',
+        'weak': 'Password strength: Weak',
+        'medium': 'Password strength: Medium',
+        'strong': 'Password strength: Strong',
+        'very-strong': 'Password strength: Very Strong'
     };
     
-    if (!password) {
-        return strength;
-    }
+    strengthText.textContent = strengthTexts[strength.strength] || '';
     
-    // 長度檢查
-    if (password.length >= 8) score++;
-    if (password.length >= 12) score++;
-    
-    // 複雜度檢查
-    if (/[A-Z]/.test(password)) score++; // 大寫字母
-    if (/[a-z]/.test(password)) score++; // 小寫字母
-    if (/[0-9]/.test(password)) score++; // 數字
-    if (/[^A-Za-z0-9]/.test(password)) score++; // 特殊符號
-    
-    // 設定強度等級
-    if (score >= 5) {
-        strength = {
-            score: 3,
-            text: '非常強',
-            class: 'strength-very-strong'
-        };
-    } else if (score >= 4) {
-        strength = {
-            score: 3,
-            text: '強',
-            class: 'strength-strong'
-        };
-    } else if (score >= 3) {
-        strength = {
-            score: 2,
-            text: '中等',
-            class: 'strength-medium'
-        };
-    } else if (score >= 1) {
-        strength = {
-            score: 1,
-            text: '弱',
-            class: 'strength-weak'
-        };
-    }
-    
-    return strength;
+    // Show/hide strength meter
+    strengthMeter.style.display = strength.score > 0 ? 'block' : 'none';
 }
 
-/**
- * 更新密碼強度指示器
- */
-function updatePasswordStrength(strength) {
-    const strengthFill = document.getElementById('strengthFill');
-    const strengthText = document.getElementById('strengthText');
-    
-    if (strengthFill && strengthText) {
-        // 移除所有強度類別
-        strengthFill.className = 'strength-fill';
-        
-        // 添加當前強度類別
-        if (strength.class) {
-            strengthFill.classList.add(strength.class);
-        }
-        
-        // 更新強度文字
-        strengthText.textContent = `密碼強度：${strength.text}`;
-        
-        // 如果密碼為空，顯示提示
-        if (!strength.score) {
-            strengthText.textContent = '請輸入至少8個字元的密碼';
-        }
-    }
-}
-
-/**
- * 驗證電子郵件格式
- */
+// Email validation
 function validateEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email.toLowerCase());
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
 }
 
-/**
- * 顯示錯誤訊息
- */
+// Show error for specific field
 function showError(fieldName, message) {
-    const field = document.getElementById(fieldName);
-    if (!field) {
-        console.error('找不到欄位:', fieldName);
-        return;
-    }
+    const field = document.querySelector(`[name="${fieldName}"]`);
+    if (!field) return;
     
-    const formGroup = field.closest('.form-group') || field.closest('.terms-group');
-    if (!formGroup) {
-        console.error('找不到表單群組:', fieldName);
-        return;
-    }
+    const formGroup = field.closest('.form-group');
+    if (!formGroup) return;
     
-    // 添加錯誤樣式
+    // Add error class
     formGroup.classList.add('error');
-    formGroup.classList.remove('success');
     
-    // 為輸入框添加錯誤樣式
-    if (field.tagName === 'INPUT') {
-        field.style.borderColor = '#ff6b6b';
-    }
-    
-    // 檢查是否已存在錯誤訊息元素
+    // Create or update error element
     let errorElement = formGroup.querySelector('.form-error');
     if (!errorElement) {
         errorElement = document.createElement('div');
         errorElement.className = 'form-error';
-        formGroup.appendChild(errorElement);
+        
+        // Insert after input wrapper
+        const inputWrapper = formGroup.querySelector('.input-wrapper');
+        if (inputWrapper) {
+            inputWrapper.parentNode.insertBefore(errorElement, inputWrapper.nextSibling);
+        } else {
+            formGroup.appendChild(errorElement);
+        }
     }
     
     errorElement.textContent = message;
     errorElement.style.display = 'block';
     
-    // 添加搖晃動畫
-    formGroup.style.animation = 'shake 0.5s ease-in-out';
+    // Add shake animation
+    formGroup.classList.add('shake');
     setTimeout(() => {
-        formGroup.style.animation = '';
+        formGroup.classList.remove('shake');
     }, 500);
+    
+    console.log('Error displayed for field:', fieldName, 'Message:', message);
 }
 
-/**
- * 清除特定欄位的錯誤訊息
- */
+// Clear error for specific field
 function clearFieldError(fieldName) {
-    const field = document.getElementById(fieldName);
+    const field = document.querySelector(`[name="${fieldName}"]`);
     if (!field) return;
     
-    const formGroup = field.closest('.form-group') || field.closest('.terms-group');
+    const formGroup = field.closest('.form-group');
     if (!formGroup) return;
     
-    // 移除錯誤樣式
     formGroup.classList.remove('error');
     
-    // 恢復輸入框樣式
-    if (field.tagName === 'INPUT') {
-        field.style.borderColor = '';
-    }
-    
-    // 移除錯誤訊息
     const errorElement = formGroup.querySelector('.form-error');
     if (errorElement) {
         errorElement.style.display = 'none';
@@ -493,42 +483,32 @@ function clearFieldError(fieldName) {
     }
 }
 
-/**
- * 清除所有錯誤訊息
- */
+// Clear all errors
 function clearErrors() {
-    const errorGroups = document.querySelectorAll('.form-group.error, .terms-group.error');
+    const errorGroups = document.querySelectorAll('.form-group.error');
     errorGroups.forEach(group => {
         group.classList.remove('error');
         
-        // 恢復輸入框樣式
-        const input = group.querySelector('input');
-        if (input) {
-            input.style.borderColor = '';
-        }
-        
-        // 移除錯誤訊息
         const errorElement = group.querySelector('.form-error');
         if (errorElement) {
             errorElement.style.display = 'none';
             errorElement.textContent = '';
         }
     });
+    
+    console.log('All errors cleared');
 }
 
-/**
- * 顯示通知訊息
- */
+// Show notification
 function showNotification(message, type = 'info') {
-    // 檢查是否有全域的showNotification函數
+    // Check if global showNotification function exists
     if (typeof window.authState !== 'undefined' && window.authState.showNotification) {
         window.authState.showNotification(message, type);
         return;
     }
     
-    // 檢查是否已存在通知元素
+    // Remove existing notification if any
     let notification = document.querySelector('.notification');
-    
     if (notification) {
         notification.remove();
     }
@@ -536,7 +516,7 @@ function showNotification(message, type = 'info') {
     notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
     
-    // 設置樣式
+    // Set styles
     const colors = {
         success: '#4CAF50',
         error: '#f44336',
@@ -555,7 +535,7 @@ function showNotification(message, type = 'info') {
         border-radius: 8px;
         z-index: 10000;
         box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        font-family: 'Noto Sans TC', sans-serif;
+        font-family: 'Montserrat', sans-serif;
         font-size: 14px;
         line-height: 1.4;
         opacity: 0;
@@ -566,13 +546,13 @@ function showNotification(message, type = 'info') {
     notification.textContent = message;
     document.body.appendChild(notification);
     
-    // 觸發進入動畫
+    // Trigger enter animation
     requestAnimationFrame(() => {
         notification.style.opacity = '1';
         notification.style.transform = 'translateX(0)';
     });
     
-    // 自動移除
+    // Auto remove
     setTimeout(() => {
         notification.style.opacity = '0';
         notification.style.transform = 'translateX(100%)';
@@ -585,7 +565,7 @@ function showNotification(message, type = 'info') {
     }, 4000);
 }
 
-// 添加搖晃動畫CSS
+// Add shake animation CSS
 const style = document.createElement('style');
 style.textContent = `
     @keyframes shake {

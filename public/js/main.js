@@ -1,11 +1,11 @@
 /**
- * MotoWeb 主要JavaScript功能
- * 處理導航、滾動效果、動態載入內容等功能
+ * MotoWeb Main JavaScript Functions
+ * Handles navigation, scroll effects, dynamic content loading, etc.
  */
 
-// DOM準備完成後執行
+// Execute after DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
-    // 初始化所有功能
+    // Initialize all functions
     initMobileNav();
     initBackToTop();
     initSmoothScrolling();
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /**
- * 初始化手機版導航選單
+ * Initialize mobile navigation menu
  */
 function initMobileNav() {
     const menuToggle = document.querySelector('.menu-toggle');
@@ -28,21 +28,21 @@ function initMobileNav() {
             navLinks.classList.toggle('active');
             menuToggle.classList.toggle('active');
             
-            // 設定ARIA屬性
+            // Set ARIA attributes
             const isExpanded = menuToggle.classList.contains('active');
             menuToggle.setAttribute('aria-expanded', isExpanded);
             
-            // 切換漢堡選單動畫
+            // Toggle hamburger menu animation
             const bars = menuToggle.querySelectorAll('.bar');
             bars[0].style.transform = isExpanded ? 'rotate(45deg) translate(5px, 5px)' : '';
             bars[1].style.opacity = isExpanded ? '0' : '1';
             bars[2].style.transform = isExpanded ? 'rotate(-45deg) translate(7px, -6px)' : '';
             
-            // 防止滾動背景
+            // Prevent background scrolling
             document.body.style.overflow = isExpanded ? 'hidden' : '';
         });
         
-        // 點擊導航連結時關閉選單
+        // Close menu when clicking nav links
         const navItems = navLinks.querySelectorAll('a');
         navItems.forEach(item => {
             item.addEventListener('click', function() {
@@ -52,7 +52,7 @@ function initMobileNav() {
                     menuToggle.setAttribute('aria-expanded', false);
                     document.body.style.overflow = '';
                     
-                    // 重置漢堡選單動畫
+                    // Reset hamburger menu animation
                     const bars = menuToggle.querySelectorAll('.bar');
                     bars.forEach(bar => bar.style.transform = '');
                     bars[1].style.opacity = '1';
@@ -60,7 +60,7 @@ function initMobileNav() {
             });
         });
         
-        // 點擊外部時關閉選單
+        // Close menu when clicking outside
         document.addEventListener('click', function(e) {
             if (!menuToggle.contains(e.target) && !navLinks.contains(e.target) && navLinks.classList.contains('active')) {
                 navLinks.classList.remove('active');
@@ -68,7 +68,7 @@ function initMobileNav() {
                 menuToggle.setAttribute('aria-expanded', false);
                 document.body.style.overflow = '';
                 
-                // 重置漢堡選單動畫
+                // Reset hamburger menu animation
                 const bars = menuToggle.querySelectorAll('.bar');
                 bars.forEach(bar => bar.style.transform = '');
                 bars[1].style.opacity = '1';
@@ -78,13 +78,13 @@ function initMobileNav() {
 }
 
 /**
- * 初始化返回頂部按鈕
+ * Initialize back to top button
  */
 function initBackToTop() {
     const backToTopButton = document.getElementById('backToTop');
     
     if (backToTopButton) {
-        // 使用節流函數優化滾動事件
+        // Use throttle function to optimize scroll event
         let ticking = false;
         
         window.addEventListener('scroll', function() {
@@ -108,7 +108,7 @@ function initBackToTop() {
             });
         });
         
-        // 添加鍵盤支持
+        // Add keyboard support
         backToTopButton.addEventListener('keypress', function(e) {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
@@ -122,7 +122,7 @@ function initBackToTop() {
 }
 
 /**
- * 初始化平滑滾動
+ * Initialize smooth scrolling
  */
 function initSmoothScrolling() {
     const scrollLinks = document.querySelectorAll('a[href^="#"]:not([href="#"])');
@@ -143,10 +143,10 @@ function initSmoothScrolling() {
                     behavior: 'smooth'
                 });
                 
-                // 更新 URL 但不滾動
+                // Update URL without scrolling
                 history.pushState(null, '', targetId);
                 
-                // 設定焦點
+                // Set focus
                 targetElement.setAttribute('tabindex', '-1');
                 targetElement.focus({ preventScroll: true });
             }
@@ -155,7 +155,7 @@ function initSmoothScrolling() {
 }
 
 /**
- * 初始化卡片動畫效果
+ * Initialize card animation effects
  */
 function initCardAnimations() {
     if ('IntersectionObserver' in window) {
@@ -183,7 +183,7 @@ function initCardAnimations() {
 }
 
 /**
- * 從API載入最新討論
+ * Load latest discussions from API
  */
 function loadDiscussions() {
     const discussionList = document.querySelector('.discussion-list');
@@ -192,16 +192,16 @@ function loadDiscussions() {
         return;
     }
     
-    // 添加載入中狀態
-    discussionList.innerHTML = '<div class="loading">載入中...</div>';
+    // Add loading state
+    discussionList.innerHTML = '<div class="loading">Loading...</div>';
     
-    // 模擬API請求
+    // Simulate API request
     setTimeout(() => {
         const mockDiscussions = [
             {
                 id: 1,
-                title: '各位車友如何看待電子懸吊的調校？',
-                excerpt: '最近打算替換我的 Ducati 懸吊系統，考慮電子懸吊但擔心可靠性問題...',
+                title: 'Electronic Suspension System Experience',
+                excerpt: 'Recently installed an electronic suspension system, significant improvements in both comfort and handling. Want to share some installation and setup tips...',
                 user: {
                     name: 'RideMaster',
                     avatar: 'images/user-avatar1.webp'
@@ -210,12 +210,12 @@ function loadDiscussions() {
                     replies: 32,
                     views: 256
                 },
-                timestamp: '3 小時前'
+                timestamp: '3 hours ago'
             },
             {
                 id: 2,
-                title: '2025 年值得期待的改裝零件與新技術',
-                excerpt: '整理了今年將推出的頂級改裝零件與革新技術，歡迎一起討論...',
+                title: 'Top Modification Parts and Tech Trends 2025',
+                excerpt: 'Compiled a comprehensive list of premium modification parts and innovative technologies launching this year. Let\'s discuss the future of motorcycle mods...',
                 user: {
                     name: 'SpeedHunter',
                     avatar: 'images/user-avatar2.webp'
@@ -224,21 +224,21 @@ function loadDiscussions() {
                     replies: 47,
                     views: 378
                 },
-                timestamp: '昨天'
+                timestamp: 'Yesterday'
             }
         ];
         
-        // 清除載入中狀態
+        // Clear loading state
         discussionList.innerHTML = '';
         
-        // 渲染討論卡片
+        // Render discussion cards
         mockDiscussions.forEach(discussion => {
             const discussionCard = document.createElement('article');
             discussionCard.className = 'discussion-card fade-in';
             
             discussionCard.innerHTML = `
                 <div class="user-info">
-                    <img src="${discussion.user.avatar}" alt="${discussion.user.name} 的頭像" class="user-avatar" loading="lazy">
+                    <img src="${discussion.user.avatar}" alt="${discussion.user.name}'s avatar" class="user-avatar" loading="lazy">
                     <div class="user-meta">
                         <h4>${discussion.user.name}</h4>
                         <span>${discussion.timestamp}</span>
@@ -247,23 +247,23 @@ function loadDiscussions() {
                 <h3 class="discussion-title">${discussion.title}</h3>
                 <p class="discussion-excerpt">${discussion.excerpt}</p>
                 <div class="discussion-meta">
-                    <span><i class="fas fa-comment"></i> ${discussion.stats.replies} 回覆</span>
-                    <span><i class="fas fa-eye"></i> ${discussion.stats.views} 瀏覽</span>
-                    <a href="discussion.html?id=${discussion.id}" class="discussion-link">參與討論</a>
+                    <span><i class="fas fa-comment"></i> ${discussion.stats.replies} replies</span>
+                    <span><i class="fas fa-eye"></i> ${discussion.stats.views} views</span>
+                    <a href="discussion.html?id=${discussion.id}" class="discussion-link">Join discussion</a>
                 </div>
             `;
             
             discussionList.appendChild(discussionCard);
         });
         
-        // 初始化新加入卡片的動畫
+        // Initialize animations for newly added cards
         initCardAnimations();
         
-    }, 1000); // 模擬網路延遲
+    }, 1000); // Simulate network delay
 }
 
 /**
- * 初始化電子報訂閱表單
+ * Initialize newsletter subscription form
  */
 function initNewsletterForm() {
     const form = document.querySelector('.newsletter-form');
@@ -275,26 +275,26 @@ function initNewsletterForm() {
             const submitButton = this.querySelector('button[type="submit"]');
             
             if (emailInput && emailInput.value) {
-                // 禁用表單元素
+                // Disable form elements
                 emailInput.disabled = true;
                 submitButton.disabled = true;
-                submitButton.innerHTML = '訂閱中...';
+                submitButton.innerHTML = 'Subscribing...';
                 
-                // 模擬API請求
+                // Simulate API request
                 setTimeout(() => {
-                    // 顯示成功訊息
+                    // Show success message
                     const successMessage = document.createElement('div');
                     successMessage.className = 'newsletter-success';
-                    successMessage.innerHTML = '感謝您的訂閱！';
+                    successMessage.innerHTML = 'Thank you for subscribing!';
                     form.appendChild(successMessage);
                     
-                    // 重置表單
+                    // Reset form
                     emailInput.value = '';
                     emailInput.disabled = false;
                     submitButton.disabled = false;
-                    submitButton.innerHTML = '訂閱';
+                    submitButton.innerHTML = 'Subscribe';
                     
-                    // 3秒後移除成功訊息
+                    // Remove success message after 3 seconds
                     setTimeout(() => {
                         successMessage.remove();
                     }, 3000);
@@ -305,17 +305,17 @@ function initNewsletterForm() {
 }
 
 /**
- * 初始化頁面過渡效果
+ * Initialize page transition effects
  */
 function initPageTransitions() {
     const body = document.body;
     
-    // 進入頁面時添加動畫
+    // Add animation when entering page
     body.classList.add('fade-in');
     
-    // 離開頁面時添加動畫
+    // Add animation when leaving page
     document.addEventListener('click', function(e) {
-        const target = e.target.closest('a'); // 使用 closest 來處理點擊到 a 標籤內的元素
+        const target = e.target.closest('a'); // Use closest to handle clicks on elements inside a tag
         
         if (target && 
             target.hostname === window.location.hostname && 
@@ -325,10 +325,10 @@ function initPageTransitions() {
             e.preventDefault();
             const href = target.getAttribute('href');
             
-            // 添加淡出動畫
+            // Add fade out animation
             body.classList.add('fade-out');
             
-            // 動畫結束後導航到新頁面
+            // Navigate to new page after animation ends
             setTimeout(function() {
                 window.location.href = href;
             }, 300);
@@ -336,7 +336,7 @@ function initPageTransitions() {
     });
 }
 
-// 首頁輪播功能
+// Homepage slider functionality
 function initHeroSlider() {
     const sliderTrack = document.querySelector('.slider-track');
     const slides = document.querySelectorAll('.slider-slide');
@@ -349,18 +349,18 @@ function initHeroSlider() {
     const slideCount = slides.length;
     let autoplayInterval;
     
-    // 更新輪播位置
+    // Update slider position
     function updateSliderPosition() {
         sliderTrack.style.transform = `translateX(-${currentIndex * 25}%)`;
     }
     
-    // 更新按鈕狀態
+    // Update button state
     function updateButtonState() {
         prevBtn.disabled = currentIndex === 0;
         nextBtn.disabled = currentIndex === slideCount - 1;
     }
     
-    // 開始自動輪播
+    // Start autoplay
     function startAutoplay() {
         autoplayInterval = setInterval(() => {
             if (currentIndex < slideCount - 1) {
@@ -373,12 +373,12 @@ function initHeroSlider() {
         }, 5000);
     }
     
-    // 停止自動輪播
+    // Stop autoplay
     function stopAutoplay() {
         clearInterval(autoplayInterval);
     }
     
-    // 上一張
+    // Previous slide
     prevBtn.addEventListener('click', () => {
         if (currentIndex > 0) {
             currentIndex--;
@@ -387,7 +387,7 @@ function initHeroSlider() {
         }
     });
     
-    // 下一張
+    // Next slide
     nextBtn.addEventListener('click', () => {
         if (currentIndex < slideCount - 1) {
             currentIndex++;
@@ -396,15 +396,12 @@ function initHeroSlider() {
         }
     });
     
-    // 滑鼠懸停時暫停自動輪播
-    sliderTrack.addEventListener('mouseenter', stopAutoplay);
-    
-    // 滑鼠離開時恢復自動輪播
-    sliderTrack.addEventListener('mouseleave', startAutoplay);
-    
-    // 初始化按鈕狀態
+    // Initialize
+    updateSliderPosition();
     updateButtonState();
-    
-    // 開始自動輪播
     startAutoplay();
+    
+    // Pause autoplay on hover
+    sliderTrack.addEventListener('mouseenter', stopAutoplay);
+    sliderTrack.addEventListener('mouseleave', startAutoplay);
 } 

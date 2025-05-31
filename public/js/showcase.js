@@ -1,21 +1,25 @@
+/**
+ * MotoWeb Showcase Page Functionality
+ * Handles modification showcase display, filtering, and interactions
+ */
 document.addEventListener('DOMContentLoaded', () => {
-    // 初始化改裝前後對比滑塊
+    // Initialize comparison sliders
     initializeComparisonSliders();
     
-    // 初始化高級搜尋面板
+    // Initialize advanced search panel
     initializeAdvancedSearch();
     
-    // 初始化展示卡片點擊事件
+    // Initialize showcase card click events
     initializeShowcaseCards();
     
-    // 初始化載入更多功能
+    // Initialize load more functionality
     initializeLoadMore();
     
-    // 初始化篩選功能
+    // Initialize filtering functionality
     initializeFilters();
 });
 
-// 改裝前後對比滑塊功能
+// Before/after comparison slider functionality
 function initializeComparisonSliders() {
     document.querySelectorAll('.comparison-slider').forEach(slider => {
         const handle = slider.querySelector('.slider-handle');
@@ -37,7 +41,7 @@ function initializeComparisonSliders() {
         window.addEventListener('mousemove', moveSlider);
         window.addEventListener('mouseup', () => isDragging = false);
         
-        // 觸控支援
+        // Touch support
         handle.addEventListener('touchstart', (e) => {
             isDragging = true;
             e.preventDefault();
@@ -59,7 +63,7 @@ function initializeComparisonSliders() {
     });
 }
 
-// 高級搜尋面板功能
+// Advanced search panel functionality
 function initializeAdvancedSearch() {
     const advancedSearchBtn = document.querySelector('.advanced-search-btn');
     const advancedSearchPanel = document.querySelector('.advanced-search-panel');
@@ -69,12 +73,12 @@ function initializeAdvancedSearch() {
             advancedSearchPanel.style.display = 
                 advancedSearchPanel.style.display === 'none' ? 'block' : 'none';
             advancedSearchBtn.textContent = 
-                advancedSearchPanel.style.display === 'none' ? '高級搜尋' : '收起高級搜尋';
+                advancedSearchPanel.style.display === 'none' ? 'Advanced Search' : 'Hide Advanced Search';
         });
     }
 }
 
-// 展示卡片點擊事件
+// Showcase card click events
 function initializeShowcaseCards() {
     const modal = document.querySelector('.modal');
     const closeModal = document.querySelector('.close-modal');
@@ -103,7 +107,7 @@ function initializeShowcaseCards() {
     });
 }
 
-// 載入展示詳細資訊
+// Load showcase details
 async function loadShowcaseDetails(showcaseId) {
     try {
         const response = await fetch(`/api/showcase/${showcaseId}`);
@@ -116,17 +120,17 @@ async function loadShowcaseDetails(showcaseId) {
     }
 }
 
-// 更新模態框內容
+// Update modal content
 function updateModalContent(data) {
     const modalContent = document.querySelector('.modal-content');
     
-    // 更新展示詳細資訊
-    // 這裡需要根據實際API返回的數據結構進行調整
+    // Update showcase details
+    // This needs to be adjusted based on the actual API data structure
     modalContent.querySelector('.showcase-title').textContent = data.title;
     modalContent.querySelector('.author-name').textContent = data.author;
     modalContent.querySelector('.project-description').textContent = data.description;
     
-    // 更新零件列表
+    // Update parts list
     const partsList = modalContent.querySelector('.parts-list');
     partsList.innerHTML = data.parts.map(part => `
         <div class="part-item">
@@ -135,7 +139,7 @@ function updateModalContent(data) {
         </div>
     `).join('');
     
-    // 更新規格資訊
+    // Update specifications
     const specs = modalContent.querySelector('.specs');
     specs.innerHTML = Object.entries(data.specifications).map(([key, value]) => `
         <div class="spec-item">
@@ -145,7 +149,7 @@ function updateModalContent(data) {
     `).join('');
 }
 
-// 初始化圖片庫
+// Initialize gallery
 function initializeGallery(images) {
     const mainImage = document.querySelector('.main-image img');
     const thumbnailStrip = document.querySelector('.thumbnail-strip');
@@ -154,14 +158,14 @@ function initializeGallery(images) {
     
     let currentImageIndex = 0;
     
-    // 更新縮圖列表
+    // Update thumbnail strip
     thumbnailStrip.innerHTML = images.map((image, index) => `
         <img src="${image}" alt="Gallery thumbnail ${index + 1}"
              class="${index === 0 ? 'active' : ''}"
              onclick="changeMainImage(${index})">
     `).join('');
     
-    // 更新主圖片
+    // Update main image
     function updateMainImage() {
         mainImage.src = images[currentImageIndex];
         thumbnailStrip.querySelectorAll('img').forEach((thumb, index) => {
@@ -169,7 +173,7 @@ function initializeGallery(images) {
         });
     }
     
-    // 切換圖片事件
+    // Image switching events
     prevBtn.addEventListener('click', () => {
         currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
         updateMainImage();
@@ -180,14 +184,14 @@ function initializeGallery(images) {
         updateMainImage();
     });
     
-    // 縮圖點擊事件
+    // Thumbnail click event
     window.changeMainImage = (index) => {
         currentImageIndex = index;
         updateMainImage();
     };
 }
 
-// 載入更多功能
+// Load more functionality
 function initializeLoadMore() {
     const loadMoreBtn = document.getElementById('loadMoreBtn');
     let page = 1;
@@ -214,7 +218,7 @@ function initializeLoadMore() {
     }
 }
 
-// 添加新的展示卡片
+// Add new showcase cards
 function appendShowcases(showcases) {
     const showcaseGrid = document.querySelector('.showcase-grid');
     
@@ -250,13 +254,13 @@ function appendShowcases(showcases) {
     });
 }
 
-// 初始化篩選功能
+// Initialize filtering functionality
 function initializeFilters() {
     const filterForm = document.querySelector('.search-filters form');
     const searchInput = document.querySelector('.search-bar input');
     let filterTimeout;
     
-    // 搜尋輸入防抖
+    // Search input debouncing
     searchInput.addEventListener('input', () => {
         clearTimeout(filterTimeout);
         filterTimeout = setTimeout(() => {
@@ -264,7 +268,7 @@ function initializeFilters() {
         }, 500);
     });
     
-    // 篩選表單提交
+    // Filter form submission
     filterForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const formData = new FormData(filterForm);
@@ -282,14 +286,14 @@ function initializeFilters() {
                 initializeComparisonSliders();
                 initializeShowcaseCards();
             } else {
-                showcaseGrid.innerHTML = '<p class="no-results">沒有找到符合條件的改裝案例</p>';
+                showcaseGrid.innerHTML = '<p class="no-results">No modification cases found matching your criteria</p>';
             }
         } catch (error) {
             console.error('Error filtering showcases:', error);
         }
     });
     
-    // 監聽篩選器變更
+    // Listen for filter changes
     document.querySelectorAll('.filter-group select').forEach(select => {
         select.addEventListener('change', () => {
             filterForm.dispatchEvent(new Event('submit'));
@@ -297,22 +301,22 @@ function initializeFilters() {
     });
 }
 
-// 展示案例資料
+// Showcase case data
 const showcaseItems = [
     {
         id: 1,
-        title: 'SYM DRG 運動改裝',
+        title: 'SYM DRG Sport Modification',
         image: 'images/bikes/DRG.jpg',
         author: {
-            name: '小志',
+            name: 'Jack',
             avatar: 'images/avatars/user1.jpg'
         },
         category: 'scooter',
         style: 'street',
         model: 'SYM DRG',
-        description: '升級LED大燈、運動型排氣管與懸吊，提升操控與外觀。',
+        description: 'Upgraded LED headlight, sport exhaust system and suspension for improved handling and appearance.',
         date: '2025-04-10',
-        tags: ['LED大燈', '排氣管', '懸吊', 'SYM'],
+        tags: ['LED Headlight', 'Exhaust', 'Suspension', 'SYM'],
         stats: {
             likes: 120,
             comments: 8,
@@ -321,18 +325,18 @@ const showcaseItems = [
     },
     {
         id: 2,
-        title: 'SYM MMBCU 日常通勤改裝',
+        title: 'SYM MMBCU Daily Commute Modification',
         image: 'images/bikes/MMBCU.jpg',
         author: {
-            name: '阿明',
+            name: 'Mike',
             avatar: 'images/avatars/user2.jpg'
         },
         category: 'scooter',
         style: 'street',
         model: 'SYM MMBCU',
-        description: '換裝LED方向燈與運動型後避震，兼顧安全與舒適。',
+        description: 'Installed LED turn signals and sport rear shock absorber, balancing safety and comfort.',
         date: '2025-04-09',
-        tags: ['方向燈', '避震', 'SYM'],
+        tags: ['Turn Signals', 'Shock Absorber', 'SYM'],
         stats: {
             likes: 85,
             comments: 5,
@@ -341,18 +345,18 @@ const showcaseItems = [
     },
     {
         id: 3,
-        title: 'SYM SL 街頭風格改裝',
+        title: 'SYM SL Street Style Modification',
         image: 'images/bikes/JET.jpg',
         author: {
-            name: '小美',
+            name: 'Amy',
             avatar: 'images/avatars/user3.jpg'
         },
         category: 'scooter',
         style: 'street',
         model: 'SYM SL',
-        description: '外觀升級與排氣管改裝，展現個人風格。',
+        description: 'Exterior upgrades and exhaust modification to showcase personal style.',
         date: '2025-04-08',
-        tags: ['外觀', '排氣管', 'SYM'],
+        tags: ['Exterior', 'Exhaust', 'SYM'],
         stats: {
             likes: 60,
             comments: 3,
@@ -361,18 +365,18 @@ const showcaseItems = [
     },
     {
         id: 4,
-        title: 'SYM SR 都會通勤改裝',
+        title: 'SYM SR Urban Commute Modification',
         image: 'images/bikes/JET.jpg',
         author: {
-            name: '阿宏',
+            name: 'Hong',
             avatar: 'images/avatars/user4.jpg'
         },
         category: 'scooter',
         style: 'street',
         model: 'SYM SR',
-        description: '加裝LED大燈與避震，提升夜間安全與舒適性。',
+        description: 'Added LED headlight and shock absorbers to improve night safety and comfort.',
         date: '2025-04-07',
-        tags: ['LED大燈', '避震', 'SYM'],
+        tags: ['LED Headlight', 'Shock Absorber', 'SYM'],
         stats: {
             likes: 45,
             comments: 2,

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>?æ‰??∞È???- MotoWeb</title>
+    <title>Page Not Found - MotoWeb</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/tech-theme.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* 404 ?ÅÈù¢Â∞àÁî®Ê®?? - ?æ‰ª£ÁßëÊ?È¢®Ê†º */
+        /* 404 page specific styles - Modern tech theme */
         body {
             background: var(--secondary-color);
             min-height: 100vh;
@@ -128,7 +128,7 @@
             padding: 1rem 2rem;
         }
 
-        /* ?åÊôØ?ïÁï´ */
+        /* Background animations */
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-20px); }
@@ -138,7 +138,7 @@
             animation: float 6s ease-in-out infinite;
         }
 
-        /* ?øÊ?ÂºèË®≠Ë®?*/
+        /* Responsive styles */
         @media (max-width: 768px) {
             .error-title {
                 font-size: 8rem;
@@ -181,37 +181,37 @@
     <nav class="navbar">
         <div class="container nav-container">
             <div class="logo">
-                <a href="index.html" aria-label="MotoWebÈ¶ñÈ?">
+                <a href="index.html" aria-label="MotoWeb Homepage">
                     <img src="/images/motoweb-logo.svg" alt="MotoWeb Logo" class="logo-img">
                     <h1>MotoWeb</h1>
                 </a>
             </div>
             <div class="nav-links" id="navLinks">
                 <div class="main-nav">
-                    <a href="index.html">È¶ñÈ?</a>
-                    <a href="products.html">?πË??∂‰ª∂</a>
-                    <a href="community.html">Á§æÁæ§Ë®éË?</a>
-                    <a href="gallery.html">‰ΩúÂ?Â±ïÁ§∫</a>
-                    <a href="events.html">?πË?Ê¥ªÂ?</a>
+                    <a href="index.html">Home</a>
+                    <a href="products.html">Modification Parts</a>
+                    <a href="community.html">Community</a>
+                    <a href="gallery.html">Gallery</a>
+                    <a href="events.html">Events</a>
                 </div>
                 <div class="auth-buttons">
-                    <a href="login.html" class="btn btn-secondary">?ªÂÖ•</a>
-                    <a href="register.html" class="btn btn-primary">Ë®ªÂ?</a>
+                    <a href="login.html" class="btn btn-secondary">Login</a>
+                    <a href="register.html" class="btn btn-primary">Register</a>
                 </div>
                 <div class="user-menu" style="display: none;">
                     <div class="user-avatar">
-                        <img src="/images/default-avatar.svg" alt="?®Êà∂?≠Â?" class="avatar">
-                        <span class="username">?®Êà∂?çÁ®±</span>
+                        <img src="/images/default-avatar.svg" alt="User Avatar" class="avatar">
+                        <span class="username">User Name</span>
                     </div>
                     <div class="dropdown-menu">
-                        <a href="/profile.html"><i class="fas fa-user"></i> ?ã‰∫∫Ë≥áÊ?</a>
-                        <a href="/garage.html"><i class="fas fa-motorcycle"></i> ?ëÁ?ËªäÂ∫´</a>
-                        <a href="/settings.html"><i class="fas fa-cog"></i> Â∏≥Ë?Ë®≠Â?</a>
-                        <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> ?ªÂá∫</a>
+                        <a href="/profile.html"><i class="fas fa-user"></i> Profile</a>
+                        <a href="/garage.html"><i class="fas fa-motorcycle"></i> Garage</a>
+                        <a href="/settings.html"><i class="fas fa-cog"></i> Settings</a>
+                        <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </div>
                 </div>
             </div>
-            <button class="menu-toggle" aria-label="Â±ïÈ??∏ÂñÆ" aria-expanded="false" aria-controls="navLinks">
+            <button class="menu-toggle" aria-label="Toggle Menu" aria-expanded="false">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -221,32 +221,24 @@
 
     <main class="error-container">
         <div class="error-content">
-        <h1 class="error-title">404</h1>
-        <h2 class="error-subtitle">?æ‰??∞È???/h2>
-        <p class="error-text">ÂæàÊä±Ê≠âÔ??®Â??æÁ??ÅÈù¢‰∏çÂ??®Ê?Â∑≤Ë¢´ÁßªÈô§?ÇË?Á¢∫Ë??®Ëº∏?•Á?Á∂≤Â??ØÂê¶Ê≠?¢∫ÔºåÊ?ËøîÂ?È¶ñÈ?ÁπºÁ??èË¶Ω??/p>
+            <h1 class="error-title">404</h1>
+            <h2 class="error-subtitle">Page Not Found</h2>
+            <p class="error-text">Sorry, the page you are looking for could not be found. It might have been removed, renamed, or it is temporarily unavailable. Please return to the homepage or use the back button to go to the previous page.</p>
             <div class="error-icon">
                 <i class="fas fa-motorcycle"></i>
             </div>
             <div class="error-actions">
                 <a href="index.html" class="btn btn-primary">
-                    <i class="fas fa-home"></i> ËøîÂ?È¶ñÈ?
+                    <i class="fas fa-home"></i> Return to Homepage
                 </a>
                 <a href="javascript:history.back()" class="btn btn-outline">
-                    <i class="fas fa-arrow-left"></i> ?ûÂà∞‰∏äÈ?
+                    <i class="fas fa-arrow-left"></i> Go Back
                 </a>
             </div>
         </div>
     </main>
-    
-    <!-- JavaScript -->
+
     <script src="/js/common.js"></script>
     <script src="/js/auth-state.js"></script>
-    <script>
-        // ?ùÂ???        document.addEventListener('DOMContentLoaded', function() {
-            // ?ùÂ??ñÈÄöÁî®?üËÉΩ
-            if (typeof initMobileNav === 'function') initMobileNav();
-            if (typeof initAuthState === 'function') initAuthState();
-        });
-    </script>
 </body>
 </html> 

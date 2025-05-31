@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>‰ΩúÂ?Â±ïÁ§∫ - MotoWeb</title>
-    <meta name="description" content="?¢Á¥¢Á≤æÂΩ©?ÑÊë©?òË??πË?‰ΩúÂ?ÔºåÂ??æÈ??üÔ??Ü‰∫´?®Á??ë‰?">
+    <title>Gallery - MotoWeb</title>
+    <meta name="description" content="Explore amazing motorcycle modification works, share and discover unique creations">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/tech-theme.css">
     <link rel="stylesheet" href="/css/gallery.css">
@@ -13,9 +13,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* Gallery?ÅÈù¢ÁßëÊ?È¢®Ê†ºÊ®ôÈ? */
+        /* Gallery page tech theme styles */
         
-        /* ?ïÁï´?àÊ? */
+        /* Animations */
         @keyframes scanEffect {
             0% { transform: translateX(-100%); opacity: 0; }
             50% { opacity: 1; }
@@ -30,10 +30,10 @@
             50% { 
                 background-position: 100% 50%;
                 filter: brightness(1.2) drop-shadow(0 0 30px rgba(124, 58, 237, 0.8));
-        }
+            }
         }
 
-        /* ‰∏ªÂÆπ?®Ê®£Âº?*/
+        /* Main container styles */
         .main-container {
             margin-top: 80px;
             min-height: 100vh;
@@ -45,7 +45,7 @@
                 radial-gradient(circle at 70% 60%, rgba(124, 58, 237, 0.1), transparent);
         }
         
-        /* ?ÅÈù¢Ê®ôÈ??ÄÂ°äÊ®£Âº?*/
+        /* Gallery hero styles */
         .gallery-hero {
             background: 
                 linear-gradient(135deg, 
@@ -201,7 +201,7 @@
             transform: translateY(-3px);
         }
 
-        /* ?øÊ?ÂºèË®≠Ë®?*/
+        /* Responsive styles */
         @media (max-width: 968px) {
             .gallery-hero h1 {
                 font-size: 2.5rem;
@@ -250,40 +250,40 @@
 </head>
 
 <body class="gallery-page">
-    <!-- Â∞éËà™??-->
+    <!-- Navigation -->
     <nav class="navbar">
         <div class="container nav-container">
             <div class="logo">
-                <a href="index.html" aria-label="motowebÈ¶ñÈ?">
-                    <img src="/images/motoweb-logo.svg" alt="motoweb Logo" class="logo-img">
+                <a href="index.html" aria-label="MotoWeb homepage">
+                    <img src="images/motoweb-logo.svg" alt="MotoWeb Logo" class="logo-img">
                 </a>
             </div>
             <div class="nav-links" id="navLinks">
                 <div class="main-nav">
-                    <a href="index.html">È¶ñÈ?</a>
-                    <a href="products.html">?πË??∂‰ª∂</a>
-                    <a href="community.html">Á§æÁæ§Ë®éË?</a>
-                    <a href="gallery.html" class="active" aria-current="page">‰ΩúÂ?Â±ïÁ§∫</a>
-                    <a href="events.html">?πË?Ê¥ªÂ?</a>
+                    <a href="index.html">Home</a>
+                    <a href="products.html">Modification Parts</a>
+                    <a href="community.html">Community</a>
+                    <a href="gallery.html" class="active" aria-current="page">Gallery</a>
+                    <a href="events.html">Events</a>
                 </div>
                 <div class="auth-buttons">
-                    <a href="login.html" class="btn btn-secondary">?ªÂÖ•</a>
-                    <a href="register.html" class="btn btn-primary">Ë®ªÂ?</a>
+                    <a href="login.html" class="btn btn-secondary">Login</a>
+                    <a href="register.html" class="btn btn-primary">Register</a>
                 </div>
                 <div class="user-menu" style="display: none;">
                     <div class="user-avatar">
-                        <img src="/images/default-avatar.svg" alt="?®Êà∂?≠Â?" class="avatar">
-                        <span class="username">?®Êà∂?çÁ®±</span>
+                        <img src="/images/default-avatar.svg" alt="User Avatar" class="avatar">
+                        <span class="username">Username</span>
                     </div>
                     <div class="dropdown-menu">
-                        <a href="/profile.html"><i class="fas fa-user"></i> ?ã‰∫∫Ë≥áÊ?</a>
-                        <a href="/garage.html"><i class="fas fa-motorcycle"></i> ?ëÁ?ËªäÂ∫´</a>
-                        <a href="/settings.html"><i class="fas fa-cog"></i> Â∏≥Ë?Ë®≠Â?</a>
-                        <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> ?ªÂá∫</a>
+                        <a href="/profile.html"><i class="fas fa-user"></i> Profile</a>
+                        <a href="/garage.html"><i class="fas fa-motorcycle"></i> My Garage</a>
+                        <a href="/settings.html"><i class="fas fa-cog"></i> Settings</a>
+                        <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </div>
                 </div>
             </div>
-            <button class="menu-toggle" aria-label="Â±ïÈ??∏ÂñÆ" aria-expanded="false" aria-controls="navLinks">
+            <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -291,204 +291,226 @@
         </div>
     </nav>
 
-    <!-- ‰∏ªÂÖßÂÆ?-->
+    <!-- Main content -->
     <div class="main-container">
-        <!-- ?ÅÈù¢Ê®ôÈ??Ä??-->
+        <!-- Gallery hero -->
         <div class="gallery-hero">
             <div class="container">
-            <h1>‰ΩúÂ?Â±ïÁ§∫</h1>
-            <p>?¢Á¥¢Á≤æÂΩ©?ÑÊë©?òË??πË?‰ΩúÂ?ÔºåÂ??æÈ??üÔ??Ü‰∫´?®Á??ë‰?</p>
+            <h1>Modification Masterpieces</h1>
+            <p>Discover and share amazing motorcycle modification works</p>
                 
-                <!-- ?ï‰??âÈ? -->
+                <!-- Hero actions -->
             <div class="hero-actions">
                     <div class="search-bar">
-                        <input type="text" placeholder="?úÂ?‰ΩúÂ?..." id="searchInput">
-                        <button class="search-btn" onclick="searchGallery()">
-                            <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search by bike model, style, or creator..." aria-label="Search gallery">
+                        <button type="button" class="search-btn">
+                            <i class="fas fa-search"></i> Search
                         </button>
                     </div>
                     
                     <div class="action-buttons">
-                        <button class="btn btn-primary upload-btn" onclick="openUploadModal()">
-                            <i class="fas fa-plus"></i>
-                    ‰∏äÂÇ≥‰ΩúÂ?
-                </button>
-                        <button class="btn secondary-btn" onclick="viewMyGallery()">
-                            <i class="fas fa-user"></i>
-                            ?ëÁ?‰ΩúÂ?
-                    </button>
+                        <button class="btn btn-primary upload-btn" id="uploadBtn">
+                            <i class="fas fa-cloud-upload-alt"></i> Share Your Work
+                        </button>
+                        <button class="btn secondary-btn" id="filterBtn">
+                            <i class="fas fa-filter"></i> Filter Gallery
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ‰ΩúÂ?Â±ïÁ§∫?ßÂÆπ -->
+        <!-- Gallery content -->
         <div class="gallery-content">
                 <div class="gallery-layout">
-                <!-- ?¥È?Ê¨ÑÁØ©?∏Âô® -->
+                <!-- Gallery filters -->
                     <aside class="gallery-sidebar">
-                    <h3>ÁØ©ÈÅ∏‰ΩúÂ?</h3>
+                    <h3>Categories</h3>
                         
-                    <!-- ?ÜÈ?ÁØ©ÈÅ∏ -->
+                    <!-- Category filters -->
                     <div class="filter-group">
                         <div class="group-title" onclick="toggleFilterGroup(this)">
-                            <span>ËªäÁ®Æ?ÜÈ?</span>
+                            <span>Categories</span>
                                 <i class="fas fa-chevron-right"></i>
                             </div>
                             <ul class="filter-list">
-                            <li><a href="#" onclick="filterByCategory('all')" class="active">?®ÈÉ®</a></li>
-                            <li><a href="#" onclick="filterByCategory('sport')">?ãÂ?Ëª?/a></li>
-                            <li><a href="#" onclick="filterByCategory('cruiser')">Â∑°Ëà™Ëª?/a></li>
-                            <li><a href="#" onclick="filterByCategory('adventure')">?íÈö™Ëª?/a></li>
-                            <li><a href="#" onclick="filterByCategory('street')">Ë°óË?</a></li>
-                            <li><a href="#" onclick="filterByCategory('touring')">?ÖË?Ëª?/a></li>
+                            <li><a href="#" onclick="filterByCategory('all')" class="active">All Works</a></li>
+                            <li><a href="#" onclick="filterByCategory('performance')">Performance Upgrades</a></li>
+                            <li><a href="#" onclick="filterByCategory('visual')">Visual Styling</a></li>
+                            <li><a href="#" onclick="filterByCategory('suspension')">Suspension Systems</a></li>
+                            <li><a href="#" onclick="filterByCategory('exhaust')">Exhaust Modifications</a></li>
                             </ul>
                         </div>
 
-                    <!-- ?πË?È¢®Ê†ºÁØ©ÈÅ∏ -->
+                    <!-- Bike brand filters -->
                     <div class="filter-group">
                         <div class="group-title" onclick="toggleFilterGroup(this)">
-                                <span>?πË?È¢®Ê†º</span>
+                                <span>Motorcycle Brands</span>
                                 <i class="fas fa-chevron-right"></i>
                             </div>
                             <ul class="filter-list">
-                            <li><a href="#" onclick="filterByStyle('all')" class="active">?®ÈÉ®</a></li>
-                            <li><a href="#" onclick="filterByStyle('cafe-racer')">?ñÂï°Ë≥ΩË?</a></li>
-                            <li><a href="#" onclick="filterByStyle('bobber')">?≠Â∞æËª?/a></li>
-                            <li><a href="#" onclick="filterByStyle('scrambler')">?Ä?¨Ë?</a></li>
-                            <li><a href="#" onclick="filterByStyle('tracker')">ËøΩËπ§Ëª?/a></li>
-                            <li><a href="#" onclick="filterByStyle('custom')">ÂÆ¢Ë£Ω??/a></li>
+                            <li><a href="#" onclick="filterByBrand('all')" class="active">All Brands</a></li>
+                            <li><a href="#" onclick="filterByBrand('SYM')">SYM</a></li>
+                            <li><a href="#" onclick="filterByBrand('YAMAHA')">YAMAHA</a></li>
+                            <li><a href="#" onclick="filterByBrand('KYMCO')">KYMCO</a></li>
+                            <li><a href="#" onclick="filterByBrand('AUGUR')">AUGUR</a></li>
                             </ul>
                         </div>
 
-                    <!-- Â∑≤Ê??®Á?ÁØ©ÈÅ∏Ê¢ù‰ª∂ -->
+                    <!-- Style filters -->
+                    <div class="filter-group">
+                        <div class="group-title" onclick="toggleFilterGroup(this)">
+                                <span>Modification Styles</span>
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                            <ul class="filter-list">
+                            <li><a href="#" onclick="filterByStyle('all')" class="active">All Styles</a></li>
+                            <li><a href="#" onclick="filterByStyle('sport')">Sport Style</a></li>
+                            <li><a href="#" onclick="filterByStyle('racing')">Racing Style</a></li>
+                            <li><a href="#" onclick="filterByStyle('custom')">Custom Style</a></li>
+                            <li><a href="#" onclick="filterByStyle('retro')">Retro Classic</a></li>
+                            <li><a href="#" onclick="filterByStyle('vintage')">Vintage Style</a></li>
+                            </ul>
+                        </div>
+
+                    <!-- Sort by filters -->
+                    <div class="filter-group">
+                        <h3>Sort By</h3>
+                        <select class="sort-select">
+                            <option value="latest">Latest Uploads</option>
+                            <option value="popular">Most Popular</option>
+                            <option value="likes">Most Liked</option>
+                            <option value="comments">Most Discussed</option>
+                        </select>
+                    </div>
+
+                    <!-- Applied filters -->
                     <div class="applied-filters">
-                        <h4>Â∑≤ÈÅ∏ÁØ©ÈÅ∏Ê¢ù‰ª∂</h4>
+                        <h4>Applied Filters</h4>
                         <div class="filter-tags" id="appliedFilters">
-                            <!-- ?ïÊ??üÊ??ÑÁØ©?∏Ê?Á±?-->
+                            <!-- Applied filters will be dynamically added here -->
                         </div>
                         </div>
                     </aside>
 
-                <!-- ‰∏ªË??ßÂÆπ?Ä??-->
+                <!-- Main gallery content -->
                 <main class="gallery-main">
-                    <!-- ÁµêÊ?Áµ±Ë??åÊ™¢Ë¶ñÈÅ∏??-->
+                    <!-- Gallery header -->
                         <div class="gallery-header">
-                        <div class="results-count" id="gallery-count">??0 ?ã‰???/div>
+                        <div class="results-count" id="gallery-count">0 results</div>
                             <div class="view-options">
                             <button class="view-toggle active" onclick="switchView('grid')" data-view="grid">
                                     <i class="fas fa-th"></i>
-                                Á∂≤Ê†ºÊ™¢Ë?
+                                 Grid View
                                 </button>
                             <button class="view-toggle" onclick="switchView('list')" data-view="list">
                                     <i class="fas fa-list"></i>
-                                ?óË°®Ê™¢Ë?
+                                List View
                                 </button>
                             </div>
                         </div>
 
-                    <!-- ‰ΩúÂ?Á∂≤Ê†º -->
+                    <!-- Gallery items -->
                         <div class="gallery-items" id="galleryItems">
-                        <!-- ‰ΩúÂ??ÖÁõÆÂ∞áÈÄöÈ?JavaScript?ïÊ?ËºâÂÖ• -->
+                        <!-- Gallery items will be dynamically loaded here -->
                         </div>
                         
-                    <!-- ËºâÂÖ•?¥Â??âÈ? -->
+                    <!-- Load more button -->
                         <div class="load-more-container">
-                        <button class="btn btn-outline" id="loadMoreBtn" onclick="loadMoreItems()">
-                            ËºâÂÖ•?¥Â?‰ΩúÂ?
-                    </button>
+                        <button class="btn btn-outline" id="loadMoreBtn">
+                            Load More
+                        </button>
                     </div>
                 </main>
             </div>
         </div>
     </div>
 
-    <!-- ‰∏äÂÇ≥Ê®°Ê?Ê°?-->
+    <!-- Upload modal -->
     <div class="modal" id="uploadModal">
         <div class="upload-modal-content">
             <button class="close-upload" onclick="closeUploadModal()">&times;</button>
-            <h2 style="color: white; text-align: center; margin-bottom: 2rem; text-shadow: 0 0 15px var(--primary-color);">‰∏äÂÇ≥?®Á??πË?‰ΩúÂ?</h2>
+            <h2 style="color: white; text-align: center; margin-bottom: 2rem; text-shadow: 0 0 15px var(--primary-color);">Upload Your Work</h2>
             
             <form id="uploadForm" enctype="multipart/form-data">
-                <!-- ?ñÁ?‰∏äÂÇ≥?Ä??-->
+                <!-- Upload area -->
                 <div class="upload-area" onclick="document.getElementById('imageInput').click()">
                     <input type="file" id="imageInput" name="images" accept="image/*" multiple hidden>
                     <i class="fas fa-cloud-upload-alt"></i>
-                    <p>ÈªûÊ??ñÊ??æÂ??áÂà∞Ê≠§Ë?</p>
-                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">?ØÊè¥Â§öÂºµ?ñÁ?‰∏äÂÇ≥</p>
+                    <p>Click or drag and drop files here</p>
+                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">Supports multiple image uploads</p>
                 </div>
 
-                <!-- ?ñÁ??êË¶Ω -->
+                <!-- Image preview -->
                 <div class="upload-preview" id="imagePreview"></div>
                 
-                <!-- ‰ΩúÂ?Ë≥áË? -->
+                <!-- Work details -->
                 <div class="upload-fields">
                     <div class="field-group">
-                        <label for="workTitle">‰ΩúÂ?Ê®ôÈ? *</label>
+                        <label for="workTitle">Work Title *</label>
                         <input type="text" id="workTitle" name="title" required>
                     </div>
                     
                     <div class="field-row">
                         <div class="field-group">
-                            <label for="bikeModel">ËªäË??ãË?</label>
-                            <input type="text" id="bikeModel" name="model" placeholder="‰æãÂ?ÔºöYamaha MT-07">
+                            <label for="bikeModel">Bike Model</label>
+                            <input type="text" id="bikeModel" name="model" placeholder="Example: Yamaha MT-07">
                         </div>
                         <div class="field-group">
-                            <label for="workCategory">ËªäÁ®Æ?ÜÈ?</label>
+                            <label for="workCategory">Category</label>
                             <select id="workCategory" name="category">
-                                <option value="sport">?ãÂ?Ëª?/option>
-                                <option value="cruiser">Â∑°Ëà™Ëª?/option>
-                                <option value="adventure">?íÈö™Ëª?/option>
-                                <option value="street">Ë°óË?</option>
-                                <option value="touring">?ÖË?Ëª?/option>
+                                <option value="performance">Performance Mods</option>
+                                <option value="visual">Visual Customization</option>
+                                <option value="suspension">Suspension & Handling</option>
+                                <option value="exhaust">Exhaust Systems</option>
                             </select>
                         </div>
                         </div>
                         
                     <div class="field-row">
                         <div class="field-group">
-                            <label for="workStyle">?πË?È¢®Ê†º</label>
+                            <label for="workStyle">Style</label>
                             <select id="workStyle" name="style">
-                                <option value="cafe-racer">?ñÂï°Ë≥ΩË?</option>
-                                <option value="bobber">?≠Â∞æËª?/option>
-                                <option value="scrambler">?Ä?¨Ë?</option>
-                                <option value="tracker">ËøΩËπ§Ëª?/option>
-                                <option value="custom">ÂÆ¢Ë£Ω??/option>
+                                <option value="cafe-racer">Cafe Racer</option>
+                                <option value="bobber">Bobber</option>
+                                <option value="scrambler">Scrambler</option>
+                                <option value="tracker">Tracker</option>
+                                <option value="custom">Custom</option>
                             </select>
                         </div>
                         <div class="field-group">
-                            <label for="workYear">?πË?Âπ¥‰ªΩ</label>
+                            <label for="workYear">Year</label>
                             <input type="number" id="workYear" name="year" min="1900" max="2024" value="2024">
                         </div>
                     </div>
                     
                     <div class="field-group">
-                        <label for="workDescription">‰ΩúÂ??èËø∞ *</label>
-                        <textarea id="workDescription" name="description" rows="4" required placeholder="Ë´ãÊ?Ëø∞ÊÇ®?ÑÊîπË£ùÁ?ÂøµÂ??éÁ?..."></textarea>
+                        <label for="workDescription">Description *</label>
+                        <textarea id="workDescription" name="description" rows="4" required placeholder="Please describe your modification ideas..."></textarea>
                     </div>
                     
                     <div class="field-group">
-                        <label for="workTags">Ê®ôÁ±§</label>
+                        <label for="workTags">Tags</label>
                         <div class="tag-container" onclick="document.getElementById('tagInput').focus()">
-                            <input type="text" id="tagInput" placeholder="Ëº∏ÂÖ•Ê®ôÁ±§ÂæåÊ?Enter">
+                            <input type="text" id="tagInput" placeholder="Enter tags and press Enter">
                         </div>
                         <input type="hidden" id="tagsData" name="tags">
                     </div>
                 </div>
                 
-                <!-- ?âÈ? -->
+                <!-- Upload actions -->
                 <div class="upload-actions">
-                    <button type="button" class="btn btn-outline" onclick="closeUploadModal()">?ñÊ?</button>
-                    <button type="submit" class="btn btn-primary" id="submitUpload">‰∏äÂÇ≥‰ΩúÂ?</button>
+                    <button type="button" class="btn btn-outline" onclick="closeUploadModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="submitUpload">Upload Work</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- ‰ΩúÂ??êË¶ΩÊ®°Ê?Ê°?-->
+    <!-- Image preview modal -->
     <div class="modal" id="imagePreview">
         <div class="preview-content">
-            <button class="close-preview" aria-label="?úÈ?">&times;</button>
+            <button class="close-preview" aria-label="Close">&times;</button>
             <div class="preview-main">
                 <img src="" alt="" id="previewImage">
                 <div class="preview-info">
@@ -512,7 +534,7 @@
                             </button>
                             <button id="shareBtn" class="stat-btn">
                                 <i class="fas fa-share"></i>
-                                ?Ü‰∫´
+                                Share
                             </button>
                         </div>
                     </div>
@@ -521,21 +543,21 @@
                 </div>
             </div>
             
-            <!-- Ë©ïË??Ä??-->
+            <!-- Comments section -->
             <div class="comments-section" id="commentsSection">
-                <h3>Ë©ïË?</h3>
+                <h3>Comments</h3>
                 <div class="comments-list">
-                    <!-- Ë©ïË??ßÂÆπÂ∞áÂ??ãË???-->
+                    <!-- Comments content will be dynamically added here -->
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ?Ü‰∫´Ê®°Ê?Ê°?-->
+    <!-- Share modal -->
     <div class="modal" id="shareModal">
         <div class="share-modal-content">
             <button class="close-share" onclick="closeShareModal()">&times;</button>
-            <h3>?Ü‰∫´?ôÂÄã‰???/h3>
+            <h3>Share Your Work</h3>
             <div class="share-options">
                 <button class="share-option" data-platform="facebook">
                     <i class="fab fa-facebook"></i>
@@ -556,7 +578,7 @@
             </div>
             <div class="share-link">
                 <input type="text" id="shareLink" readonly>
-                <button id="copyLink" class="btn btn-small">Ë§áË£Ω???</button>
+                <button id="copyLink" class="btn btn-small">Copy Link</button>
             </div>
         </div>
     </div>
@@ -566,9 +588,9 @@
             <div class="footer-content">
                 <div class="footer-section about">
                     <div class="footer-logo">
-                        <img src="/images/motoweb-logo.svg" alt="motoweb Logo" class="footer-logo-img">
+                        <img src="/images/motoweb-logo.svg" alt="MotoWeb Logo" class="footer-logo-img">
                     </div>
-                    <p>Â∞àÊ•≠?ÑÊë©?òË??πË?Á§æÁæ§Âπ≥Âè∞ÔºåÁÇ∫ËªäÂ??ê‰?‰∫§Ê??áÂ?‰∫´Á?Á©∫È???/p>
+                    <p>Professional motorcycle modification community platform, providing a space for riders to communicate and share.</p>
                     <div class="social-links">
                         <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
                         <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
@@ -577,48 +599,48 @@
                     </div>
                 </div>
                 <div class="footer-section links">
-                    <h3>Âø´ÈÄüÈÄ??</h3>
+                    <h3>Quick Links</h3>
                     <ul>
-                        <li><a href="about.html">?úÊñº?ëÂÄ?/a></li>
-                        <li><a href="products.html">?πË??∂‰ª∂</a></li>
-                        <li><a href="community.html">Á§æÁæ§Ë®éË?</a></li>
-                        <li><a href="gallery.html">‰ΩúÂ?Â±ïÁ§∫</a></li>
-                        <li><a href="events.html">?πË?Ê¥ªÂ?</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="products.html">Modification Parts</a></li>
+                        <li><a href="community.html">Community Forum</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="events.html">Events</a></li>
                     </ul>
                 </div>
                 <div class="footer-section contact">
-                    <h3>?ØÁµ°Ë≥áË?</h3>
+                    <h3>Contact Info</h3>
                     <ul class="contact-info">
                         <li><i class="fas fa-envelope"></i> contact@MotoWeb.com</li>
                         <li><i class="fas fa-phone"></i> (02) 1234-5678</li>
-                        <li><i class="fas fa-map-marker-alt"></i> ?∞Â?Â∏Ç‰ø°Áæ©Â??æ‰?Ë∑?00??/li>
+                        <li><i class="fas fa-map-marker-alt"></i> No. 100, Songren Rd., Xinyi Dist., Taipei City</li>
                     </ul>
                 </div>
                 <div class="footer-section newsletter">
-                    <h3>Ë®ÇÈñ±?ªÂ???/h3>
-                    <p>?≤Â??Ä?∞ÊîπË£ùË∂®?¢Ë?Ê¥ªÂ?Ë≥áË?</p>
+                    <h3>Newsletter</h3>
+                    <p>Get the latest modification trends and event information</p>
                     <form class="newsletter-form" action="subscribe.php" method="POST">
-                        <input type="email" name="email" placeholder="?®Á??ªÂ??µ‰ª∂" required>
-                        <button type="submit" class="btn btn-primary">Ë®ÇÈñ±</button>
+                        <input type="email" name="email" placeholder="Your email" required>
+                        <button type="submit" class="btn btn-primary">Subscribe</button>
                     </form>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 MotoWeb. ‰øùÁ??Ä?âÊ??©„Ä?/p>
+                <p>&copy; 2025 MotoWeb. All rights reserved.</p>
                 <div class="footer-bottom-links">
-                    <a href="privacy.html">?±Á??øÁ?</a>
-                    <a href="terms.html">‰ΩøÁî®Ê¢ùÊ¨æ</a>
-                    <a href="cookies.html">Cookie ?øÁ?</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Use</a>
+                    <a href="cookies.html">Cookie Policy</a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <button id="backToTop" class="back-to-top" aria-label="ËøîÂ??ÅÈù¢?ÇÈÉ®">
+    <button id="backToTop" class="back-to-top" aria-label="Back to top">
         <i class="fas fa-chevron-up"></i>
     </button>
 
-    <script src="/js/main.js"></script>
+    <script src="/js/common.js"></script>
     <script src="/js/gallery.js"></script>
     <script src="/js/auth-state.js"></script>
 </body>

@@ -1,9 +1,20 @@
 function renderGalleryItems(items) {
     const galleryContainer = document.getElementById('galleryItems');
     
-    // 如果沒有作品
+    // 如果沒有作品，顯示空狀態
     if (items.length === 0) {
-        galleryContainer.innerHTML = '<div class="no-results">目前沒有符合條件的作品</div>';
+        galleryContainer.innerHTML = `
+            <div class="no-results">
+                <div class="empty-state">
+                    <i class="fas fa-images"></i>
+                    <h3>還沒有作品展示</h3>
+                    <p>目前沒有符合條件的改裝作品，快來分享您的創作吧！</p>
+                    <button class="btn btn-primary upload-btn" onclick="document.getElementById('uploadBtn').click()">
+                        <i class="fas fa-cloud-upload-alt"></i> 上傳您的作品
+                    </button>
+                </div>
+            </div>
+        `;
         return;
     }
     
@@ -68,13 +79,13 @@ function renderGalleryItems(items) {
  */
 function getCategoryName(category) {
     const categories = {
-        'scooter': '速克達車系',
-        'sport': '運動車系',
-        'naked': '街車系',
-        'cruiser': '巡航車系',
-        'adventure': '冒險車系',
-        'touring': '旅行車系',
-        'custom': '客製化'
+        'scooter': 'Scooter Series',
+        'sport': 'Sport Series',
+        'naked': 'Naked Series',
+        'cruiser': 'Cruiser Series',
+        'adventure': 'Adventure Series',
+        'touring': 'Touring Series',
+        'custom': 'Custom'
     };
     
     return categories[category] || category;
@@ -87,20 +98,170 @@ function getCategoryName(category) {
  */
 function getStyleName(style) {
     const styles = {
-        'racing': '競技風格',
-        'street': '街頭風格',
-        'custom': '客製化',
-        'japanese': '日系風格',
-        'adventure': '冒險風格',
-        'retro': '復古風格',
-        'maintenance': '保養升級',
-        'cafe': '咖啡風格',
-        'touring': '旅行風格',
-        'scrambler': '越野風格',
-        'bobber': '短尾風格'
+        'racing': 'Racing Style',
+        'street': 'Street Style',
+        'custom': 'Custom',
+        'japanese': 'Japanese Style',
+        'adventure': 'Adventure Style',
+        'retro': 'Retro Style',
+        'maintenance': 'Maintenance Upgrade',
+        'cafe': 'Cafe Style',
+        'touring': 'Touring Style',
+        'scrambler': 'Scrambler Style',
+        'bobber': 'Bobber Style'
     };
     
     return styles[style] || style;
+}
+
+/**
+ * 更新篩選標籤顯示
+ */
+function updateFilterTags() {
+    const filterTagsContainer = document.getElementById('appliedFilters');
+    if (!filterTagsContainer) return;
+    
+    // 清空現有標籤
+    const tagsContainer = filterTagsContainer.querySelector('.filter-tags');
+    if (tagsContainer) {
+        tagsContainer.innerHTML = '';
+    }
+    
+    let hasActiveFilters = false;
+    
+    // 獲取當前活動的分類篩選
+    const activeCategory = document.querySelector('.filter-group:first-child .filter-list a.active');
+    if (activeCategory) {
+        const onclick = activeCategory.getAttribute('onclick');
+        if (onclick && !onclick.includes("'all'")) {
+            const categoryMatch = onclick.match(/filterByCategory\('([^']+)'\)/);
+            if (categoryMatch) {
+                const categoryValue = categoryMatch[1];
+                const categoryName = getCategoryDisplayName(categoryValue);
+                addFilterTag(tagsContainer, 'Category', categoryName, () => {
+                    filterByCategory('all');
+                });
+                hasActiveFilters = true;
+            }
+        }
+    }
+    
+    // 獲取當前活動的品牌篩選
+    const activeBrand = document.querySelector('.filter-group:nth-child(2) .filter-list a.active');
+    if (activeBrand) {
+        const onclick = activeBrand.getAttribute('onclick');
+        if (onclick && !onclick.includes("'all'")) {
+            const brandMatch = onclick.match(/filterByBrand\('([^']+)'\)/);
+            if (brandMatch) {
+                const brandValue = brandMatch[1];
+                addFilterTag(tagsContainer, 'Brand', brandValue, () => {
+                    filterByBrand('all');
+                });
+                hasActiveFilters = true;
+            }
+        }
+    }
+    
+    // 獲取當前活動的風格篩選
+    const activeStyle = document.querySelector('.filter-group:nth-child(3) .filter-list a.active');
+    if (activeStyle) {
+        const onclick = activeStyle.getAttribute('onclick');
+        if (onclick && !onclick.includes("'all'")) {
+            const styleMatch = onclick.match(/filterByStyle\('([^']+)'\)/);
+            if (styleMatch) {
+                const styleValue = styleMatch[1];
+                const styleName = getStyleDisplayName(styleValue);
+                addFilterTag(tagsContainer, 'Style', styleName, () => {
+                    filterByStyle('all');
+                });
+                hasActiveFilters = true;
+            }
+        }
+    }
+    
+    // 獲取當前排序設置
+    const sortSelect = document.querySelector('.sort-select');
+    if (sortSelect && sortSelect.value !== 'latest') {
+        const sortName = getSortDisplayName(sortSelect.value);
+        addFilterTag(tagsContainer, 'Sort', sortName, () => {
+            sortSelect.value = 'latest';
+            handleSortChange();
+        });
+        hasActiveFilters = true;
+    }
+    
+    // 如果有篩選標籤，顯示清除全部按鈕
+    if (hasActiveFilters && tagsContainer) {
+        const clearAllBtn = document.createElement('button');
+        clearAllBtn.className = 'btn btn-outline btn-small clear-all-filters';
+        clearAllBtn.innerHTML = '<i class="fas fa-times"></i> 清除全部';
+        clearAllBtn.addEventListener('click', clearAllFilters);
+        tagsContainer.appendChild(clearAllBtn);
+    }
+}
+
+/**
+ * 添加篩選標籤
+ */
+function addFilterTag(container, type, value, removeCallback) {
+    if (!container) return;
+    
+    const tag = document.createElement('span');
+    tag.className = 'filter-tag';
+    tag.innerHTML = `
+        ${type}: ${value}
+        <button class="remove-tag" aria-label="移除篩選">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+    
+    // 添加移除事件
+    const removeBtn = tag.querySelector('.remove-tag');
+    removeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        removeCallback();
+    });
+    
+    container.appendChild(tag);
+}
+
+/**
+ * 獲取分類顯示名稱
+ */
+function getCategoryDisplayName(category) {
+    const categories = {
+        'performance': 'Performance Upgrades',
+        'visual': 'Visual Styling',
+        'suspension': 'Suspension Systems',
+        'exhaust': 'Exhaust Modifications'
+    };
+    return categories[category] || category;
+}
+
+/**
+ * 獲取風格顯示名稱
+ */
+function getStyleDisplayName(style) {
+    const styles = {
+        'sport': 'Sport Style',
+        'racing': 'Racing Style',
+        'custom': 'Custom Style',
+        'retro': 'Retro Classic',
+        'vintage': 'Vintage Style'
+    };
+    return styles[style] || style;
+}
+
+/**
+ * 獲取排序顯示名稱
+ */
+function getSortDisplayName(sort) {
+    const sorts = {
+        'popular': 'Most Popular',
+        'likes': 'Most Liked',
+        'comments': 'Most Discussed'
+    };
+    return sorts[sort] || sort;
 }
 
 /**
@@ -246,7 +407,7 @@ function initLoadMore() {
     if (loadMoreBtn) {
         loadMoreBtn.addEventListener('click', function() {
             // 顯示載入中狀態
-            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 載入中...';
+            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
             this.disabled = true;
             
             // 模擬載入延遲
@@ -255,13 +416,13 @@ function initLoadMore() {
                 // 這裡僅模擬載入更多作品
                 
                 // 恢復按鈕狀態
-                this.innerHTML = '載入更多';
+                this.innerHTML = 'Load More';
                 this.disabled = false;
                 
                 // 模擬已載入全部作品
                 const randomNum = Math.floor(Math.random() * 3);
                 if (randomNum === 0) {
-                    this.innerHTML = '已載入全部作品';
+                    this.innerHTML = 'All works loaded';
                     this.disabled = true;
                 }
             }, 1500);
@@ -426,7 +587,7 @@ function initImagePreview() {
                 
                 // 顯示已複製提示
                 const originalText = this.innerHTML;
-                this.innerHTML = '<i class="fas fa-check"></i> 已複製';
+                this.innerHTML = '<i class="fas fa-check"></i> Copied';
                 
                 setTimeout(() => {
                     this.innerHTML = originalText;
@@ -701,45 +862,45 @@ function initUploadFeature() {
     
     // 處理選擇的文件
     function handleFiles(files) {
-        console.log('處理文件:', files.length, '個文件');
+        console.log('Processing files:', files.length, 'files');
         
-        // 清空預覽
+        // Clear preview
         if (uploadPreview) {
             uploadPreview.innerHTML = '';
         }
         
-        // 檢查文件數量
+        // Check file count
         if (files.length > 5) {
-            alert('最多只能上傳5張圖片');
+            alert('Maximum 5 images can be uploaded');
             return;
         }
         
-        // 檢查文件類型和大小
+        // Check file type and size
         Array.from(files).forEach(file => {
             if (!file.type.startsWith('image/')) {
-                alert('請只上傳圖片文件');
+                alert('Please upload image files only');
                 return;
             }
             
             if (file.size > 5 * 1024 * 1024) {
-                alert('圖片大小不能超過5MB');
+                alert('Image size cannot exceed 5MB');
                 return;
             }
             
-            // 創建預覽
+            // Create preview
             const reader = new FileReader();
             
             reader.onload = function(e) {
                 const previewItem = document.createElement('div');
                 previewItem.className = 'preview-item';
                 previewItem.innerHTML = `
-                    <img src="${e.target.result}" alt="預覽圖片">
-                    <button type="button" class="preview-remove" aria-label="移除圖片">
+                    <img src="${e.target.result}" alt="Preview image">
+                    <button type="button" class="preview-remove" aria-label="Remove image">
                         <i class="fas fa-times"></i>
                     </button>
                 `;
                 
-                // 移除圖片按鈕
+                // Remove image button
                 const removeBtn = previewItem.querySelector('.preview-remove');
                 removeBtn.addEventListener('click', function() {
                     previewItem.remove();
@@ -754,7 +915,7 @@ function initUploadFeature() {
         });
     }
     
-    // 標籤輸入功能
+    // Tag input functionality
     const tagInput = document.getElementById('tagInput');
     const tagContainer = document.getElementById('tagContainer');
     const maxTags = 5;
@@ -764,40 +925,40 @@ function initUploadFeature() {
             if (e.key === 'Enter' && this.value.trim() !== '') {
                 e.preventDefault();
                 
-                // 檢查標籤數量是否已達上限
+                // Check if tag limit reached
                 const currentTags = tagContainer.querySelectorAll('.tag-item');
                 if (currentTags.length >= maxTags) {
-                    alert('最多只能新增5個標籤');
+                    alert('Maximum 5 tags can be added');
                     return;
                 }
                 
                 const tagText = this.value.trim();
                 
-                // 確認標籤不重複
+                // Check tag doesn't already exist
                 const existingTags = Array.from(currentTags).map(tag => 
                     tag.querySelector('span').textContent
                 );
                 
                 if (existingTags.includes(tagText)) {
-                    alert('此標籤已存在');
+                    alert('This tag already exists');
                     return;
                 }
                 
-                // 創建新標籤
+                // Create new tag
                 const tagItem = document.createElement('div');
                 tagItem.className = 'tag-item';
                 tagItem.innerHTML = `
                     <span>${tagText}</span>
-                    <button type="button" class="tag-remove" aria-label="移除標籤">&times;</button>
+                    <button type="button" class="tag-remove" aria-label="Remove tag">&times;</button>
                 `;
                 
-                // 插入標籤到輸入框前面
+                // Insert tag before input field
                 tagContainer.insertBefore(tagItem, this);
                 
-                // 清空輸入框
+                // Clear input field
                 this.value = '';
                 
-                // 綁定標籤刪除事件
+                // Bind tag remove event
                 const removeBtn = tagItem.querySelector('.tag-remove');
                 removeBtn.addEventListener('click', function() {
                     tagContainer.removeChild(tagItem);
@@ -806,13 +967,13 @@ function initUploadFeature() {
         });
     }
     
-    // 表單提交
+    // Form submission
     if (uploadForm) {
         uploadForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            console.log('表單提交被觸發');
+            console.log('Form submission triggered');
             
-            // 簡單表單驗證
+            // Simple form validation
             const title = document.getElementById('uploadTitle').value;
             const description = document.getElementById('uploadDescription').value;
             const category = document.getElementById('uploadCategory').value;
@@ -821,27 +982,27 @@ function initUploadFeature() {
             const previewItems = uploadPreview ? uploadPreview.querySelectorAll('.preview-item') : [];
             
             if (!title || !description || !category || !style || !model) {
-                alert('請填寫所有必填欄位');
+                alert('Please fill in all required fields');
                 return;
             }
             
             if (previewItems.length === 0) {
-                alert('請至少上傳一張圖片');
+                alert('Please upload at least one image');
                 return;
             }
             
-            // 檢查用戶是否已登入 (暫時跳過檢查)
+            // Check if user is logged in (temporarily skip check)
             // const token = localStorage.getItem('token');
             // if (!token) {
-            //     alert('請先登入後再上傳作品');
+            //     alert('Please login before uploading works');
             //     return;
             // }
             
-            // 獲取所有標籤
+            // Get all tags
             const tagItems = tagContainer ? tagContainer.querySelectorAll('.tag-item span') : [];
             const tags = Array.from(tagItems).map(item => item.textContent);
             
-            // 建立 FormData 物件
+            // Create FormData object
             const formData = new FormData();
             formData.append('title', title);
             formData.append('description', description);
@@ -850,47 +1011,47 @@ function initUploadFeature() {
             formData.append('model', model);
             formData.append('tags', JSON.stringify(tags));
             
-            // 添加圖片檔案
+            // Add image files
             const files = fileInput.files;
             for (let i = 0; i < files.length; i++) {
                 formData.append('images', files[i]);
             }
             
-            // 上傳狀態管理
+            // Upload status management
             const submitBtn = document.getElementById('submitUpload');
             const originalText = submitBtn.textContent;
             
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 上傳中...';
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
             
-            // 模擬上傳 (在實際應用中這裡應該向後端 API 發送請求)
+            // Simulate upload (in actual application this should send request to backend API)
             setTimeout(() => {
-                alert('作品上傳成功！');
+                alert('Work uploaded successfully!');
                 closeModal(uploadModal);
                 
-                // 重置表單
+                // Reset form
                 uploadForm.reset();
                 if (uploadPreview) {
                     uploadPreview.innerHTML = '';
                 }
                 
-                // 清除所有標籤
+                // Clear all tags
                 if (tagContainer) {
                     const tagItems = tagContainer.querySelectorAll('.tag-item');
                     tagItems.forEach(item => item.remove());
                 }
                 
-                // 恢復按鈕狀態
+                // Restore button state
                 submitBtn.disabled = false;
                 submitBtn.textContent = originalText;
                 
-                // 重新載入作品集
+                // Reload gallery
                 loadGalleryItems();
             }, 2000);
         });
     }
     
-    console.log('上傳功能初始化完成');
+    console.log('Upload functionality initialization complete');
 }
 
 // 測試按鈕功能
@@ -944,9 +1105,9 @@ function formatDate(dateString) {
         const hours = Math.floor(diff / (60 * 60 * 1000));
         if (hours < 1) {
             const minutes = Math.floor(diff / (60 * 1000));
-            return `${minutes} 分鐘前`;
+            return `${minutes} minutes ago`;
         }
-        return `${hours} 小時前`;
+        return `${hours} hours ago`;
     }
     
     // 超過24小時顯示具體日期
@@ -999,6 +1160,12 @@ function initGalleryPage() {
     
     // 添加側邊欄初始化
     initSidebar();
+    
+    // 初始化排序選擇器
+    handleSortChange();
+    
+    // 初始化篩選標籤
+    updateFilterTags();
 }
 
 /**
@@ -1008,6 +1175,11 @@ function initGalleryPage() {
 function loadGalleryItems(params) {
     // 顯示載入中指示器
     const galleryContainer = document.getElementById('galleryItems');
+    if (!galleryContainer) {
+        console.error('找不到galleryItems容器');
+        return;
+    }
+    
     galleryContainer.innerHTML = `
         <div class="loading-indicator">
             <i class="fas fa-spinner fa-spin"></i>
@@ -1015,15 +1187,26 @@ function loadGalleryItems(params) {
         </div>
     `;
     
+    // 構建API請求URL
+    let apiUrl = '/api/gallery';
+    if (params && params.toString()) {
+        apiUrl += '?' + params.toString();
+    }
+    
+    console.log('發送API請求:', apiUrl);
+    
     // 從 API 獲取作品數據
-    fetch(`/api/gallery${params ? '?' + params.toString() : ''}`)
+    fetch(apiUrl)
         .then(response => {
+            console.log('API響應狀態:', response.status);
             if (!response.ok) {
-                throw new Error('獲取作品列表失敗');
+                throw new Error(`獲取作品列表失敗: ${response.status}`);
             }
             return response.json();
         })
         .then(data => {
+            console.log('收到作品數據:', data);
+            
             // 清空載入指示器
             galleryContainer.innerHTML = '';
             
@@ -1049,7 +1232,8 @@ function loadGalleryItems(params) {
             galleryContainer.innerHTML = `
                 <div class="no-results">
                     <i class="fas fa-exclamation-triangle"></i>
-                    <p>載入作品時出現錯誤，請稍後再試</p>
+                    <p>載入作品時出現錯誤：${error.message}</p>
+                    <p>請檢查網路連接或稍後再試</p>
                     <button class="btn btn-primary" onclick="loadGalleryItems()">重新載入</button>
                 </div>
             `;
@@ -1113,7 +1297,7 @@ function updateFilterTagsFromSidebar() {
     
     // 添加分類標籤
     if (activeCategoryLink && activeCategoryLink.dataset.category !== 'all') {
-        addFilterTagFromSidebar('分類', getCategoryName(activeCategoryLink.dataset.category), () => {
+        addFilterTagFromSidebar('Category', getCategoryName(activeCategoryLink.dataset.category), () => {
             activeCategoryLink.classList.remove('active');
             document.querySelector('[data-category="all"]').classList.add('active');
             applyFiltersFromSidebar();
@@ -1122,7 +1306,7 @@ function updateFilterTagsFromSidebar() {
     
     // 添加風格標籤
     if (activeStyleLink && activeStyleLink.dataset.style !== 'all') {
-        addFilterTagFromSidebar('風格', getStyleName(activeStyleLink.dataset.style), () => {
+        addFilterTagFromSidebar('Style', getStyleName(activeStyleLink.dataset.style), () => {
             activeStyleLink.classList.remove('active');
             document.querySelector('[data-style="all"]').classList.add('active');
             applyFiltersFromSidebar();
@@ -1132,11 +1316,13 @@ function updateFilterTagsFromSidebar() {
     // 添加排序標籤
     if (activeSortLink && activeSortLink.dataset.sort !== 'latest') {
         const sortLabels = {
-            'popular': '最受歡迎',
-            'views': '最多瀏覽',
-            'comments': '最多評論'
+            'popular': 'Most Popular',
+            'oldest': 'Oldest First',
+            'newest': 'Newest First'
         };
-        addFilterTagFromSidebar('排序', sortLabels[activeSortLink.dataset.sort], () => {
+        
+        const sortText = sortLabels[activeSortLink.dataset.sort] || activeSortLink.textContent;
+        addFilterTagFromSidebar('Sort', sortText, () => {
             activeSortLink.classList.remove('active');
             document.querySelector('[data-sort="latest"]').classList.add('active');
             applyFiltersFromSidebar();
@@ -1145,24 +1331,49 @@ function updateFilterTagsFromSidebar() {
 }
 
 /**
- * 添加側邊欄篩選標籤
+ * Add filter tag from sidebar
  */
 function addFilterTagFromSidebar(type, value, removeCallback) {
     const filterTagsContainer = document.getElementById('filterTags');
-    const tag = document.createElement('div');
+    if (!filterTagsContainer) return;
+    
+    const tag = document.createElement('span');
     tag.className = 'filter-tag';
     tag.innerHTML = `
-        <span>${type}: ${value}</span>
-        <button class="remove-tag" aria-label="移除篩選">
+        ${type}: ${value}
+        <button class="remove-tag" aria-label="Remove filter">
             <i class="fas fa-times"></i>
         </button>
     `;
     
-    // 綁定移除按鈕事件
+    // Bind remove event
     const removeBtn = tag.querySelector('.remove-tag');
     removeBtn.addEventListener('click', removeCallback);
     
     filterTagsContainer.appendChild(tag);
+}
+
+/**
+ * Check if user is logged in and show my gallery
+ */
+function viewMyGallery() {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    
+    if (!isLoggedIn) {
+        alert('Please login first to view your works');
+        return;
+    }
+    
+    // Check if user has uploaded works
+    const userWorks = []; // In actual application, fetch from API
+    
+    if (userWorks.length === 0) {
+        alert('You haven\'t uploaded any works yet, share your modification results now!');
+        return;
+    }
+    
+    // Navigate to user's gallery page
+    // window.location.href = '/my-gallery.html';
 }
 
 /**
@@ -1293,47 +1504,381 @@ function initSidebar() {
         const list = group.querySelector('.filter-list');
         
         if (title && list) {
-            title.addEventListener('click', () => {
-                // 切換展開/收合狀態
-                const isOpen = title.classList.toggle('open');
-                list.classList.toggle('open');
+            // 預設展開第一個篩選組
+            if (group === filterGroups[0]) {
+                title.classList.add('open');
+                list.classList.add('open');
+                list.style.maxHeight = list.scrollHeight + 'px';
                 
-                // 更新箭頭圖標
                 const icon = title.querySelector('i');
                 if (icon) {
-                    icon.className = isOpen ? 'fas fa-chevron-right rotate-90' : 'fas fa-chevron-right';
+                    icon.classList.remove('fa-chevron-right');
+                    icon.classList.add('fa-chevron-down');
                 }
+            } else {
+                // 其他組預設收合
+                list.style.maxHeight = '0';
+            }
+            
+            // 綁定點擊事件 - 不使用 onclick，改用 addEventListener
+            title.addEventListener('click', () => {
+                toggleFilterGroup(title);
             });
         }
     });
+    
+    // 初始化篩選連結事件 - 不依賴 onclick
+    initFilterLinks();
 }
 
-// 查看我的作品
-function viewMyGallery() {
-    // 檢查登入狀態
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    if (!isLoggedIn) {
-        alert('請先登入查看您的作品');
-        window.location.href = 'login.html';
-        return;
+/**
+ * 初始化篩選連結事件
+ */
+function initFilterLinks() {
+    // 為所有篩選連結添加點擊事件監聽器，同時保留onclick屬性
+    document.querySelectorAll('.filter-list a[onclick]').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault(); // 防止頁面跳轉到頂部
+            
+            const onclickAttr = link.getAttribute('onclick');
+            
+            // 解析 onclick 內容並執行對應的函數
+            if (onclickAttr.includes('filterByCategory')) {
+                const categoryMatch = onclickAttr.match(/filterByCategory\('([^']+)'\)/);
+                if (categoryMatch) {
+                    const category = categoryMatch[1];
+                    filterByCategory(category);
+                }
+            } else if (onclickAttr.includes('filterByBrand')) {
+                const brandMatch = onclickAttr.match(/filterByBrand\('([^']+)'\)/);
+                if (brandMatch) {
+                    const brand = brandMatch[1];
+                    filterByBrand(brand);
+                }
+            } else if (onclickAttr.includes('filterByStyle')) {
+                const styleMatch = onclickAttr.match(/filterByStyle\('([^']+)'\)/);
+                if (styleMatch) {
+                    const style = styleMatch[1];
+                    filterByStyle(style);
+                }
+            } else if (onclickAttr.includes('filterByModel')) {
+                // 向後兼容舊的filterByModel函數
+                const modelMatch = onclickAttr.match(/filterByModel\('([^']+)'\)/);
+                if (modelMatch) {
+                    const model = modelMatch[1];
+                    filterByModel(model);
+                }
+            }
+        });
+    });
+}
+
+/**
+ * 按分類篩選
+ */
+function filterByCategory(category) {
+    console.log('按分類篩選:', category);
+    
+    // 更新活動狀態 - 先移除所有分類連結的active狀態
+    document.querySelectorAll('.filter-group:first-child .filter-list a').forEach(link => {
+        link.classList.remove('active');
+    });
+    
+    // 找到對應的分類連結並設為活動狀態
+    const categoryLinks = document.querySelectorAll('.filter-group:first-child .filter-list a');
+    categoryLinks.forEach(link => {
+        const onclick = link.getAttribute('onclick');
+        if (onclick && onclick.includes(`'${category}'`)) {
+            link.classList.add('active');
+        }
+    });
+    
+    // 構建查詢參數
+    const params = new URLSearchParams();
+    if (category !== 'all') {
+        params.set('category', category);
     }
     
-    // 篩選當前用戶的作品
-    const currentUser = localStorage.getItem('username') || '用戶';
-    const userWorks = galleryData.filter(item => item.author === currentUser);
-    
-    if (userWorks.length === 0) {
-        alert('您還沒有上傳任何作品，快來分享您的改裝成果吧！');
-        openUploadModal();
-        return;
+    // 獲取當前活動的品牌篩選
+    const activeBrand = document.querySelector('.filter-group:nth-child(2) .filter-list a.active');
+    if (activeBrand) {
+        const onclick = activeBrand.getAttribute('onclick');
+        if (onclick && !onclick.includes("'all'")) {
+            const brandMatch = onclick.match(/filterByBrand\('([^']+)'\)/);
+            if (brandMatch) {
+                params.set('brand', brandMatch[1]);
+            }
+        }
     }
     
-    // 顯示用戶作品
-    filterByAuthor(currentUser);
-    
-    // 更新頁面標題提示
-    const countElement = document.getElementById('gallery-count');
-    if (countElement) {
-        countElement.textContent = `共 ${userWorks.length} 個我的作品`;
+    // 獲取當前活動的風格篩選
+    const activeStyle = document.querySelector('.filter-group:nth-child(3) .filter-list a.active');
+    if (activeStyle) {
+        const onclick = activeStyle.getAttribute('onclick');
+        if (onclick && !onclick.includes("'all'")) {
+            const styleMatch = onclick.match(/filterByStyle\('([^']+)'\)/);
+            if (styleMatch) {
+                params.set('style', styleMatch[1]);
+            }
+        }
     }
+    
+    // 獲取當前排序設置
+    const sortSelect = document.querySelector('.sort-select');
+    if (sortSelect && sortSelect.value !== 'latest') {
+        params.set('sort', sortSelect.value);
+    }
+    
+    // 重新載入作品
+    loadGalleryItems(params);
+    
+    // 更新篩選標籤
+    updateFilterTags();
+}
+
+/**
+ * 按品牌篩選
+ */
+function filterByBrand(brand) {
+    console.log('按品牌篩選:', brand);
+    
+    // 更新活動狀態 - 先移除所有品牌連結的active狀態
+    document.querySelectorAll('.filter-group:nth-child(2) .filter-list a').forEach(link => {
+        link.classList.remove('active');
+    });
+    
+    // 找到對應的品牌連結並設為活動狀態
+    const brandLinks = document.querySelectorAll('.filter-group:nth-child(2) .filter-list a');
+    brandLinks.forEach(link => {
+        const onclick = link.getAttribute('onclick');
+        if (onclick && onclick.includes(`'${brand}'`)) {
+            link.classList.add('active');
+        }
+    });
+    
+    // 構建查詢參數
+    const params = new URLSearchParams();
+    if (brand !== 'all') {
+        params.set('brand', brand);
+    }
+    
+    // 獲取當前活動的分類篩選
+    const activeCategory = document.querySelector('.filter-group:first-child .filter-list a.active');
+    if (activeCategory) {
+        const onclick = activeCategory.getAttribute('onclick');
+        if (onclick && !onclick.includes("'all'")) {
+            const categoryMatch = onclick.match(/filterByCategory\('([^']+)'\)/);
+            if (categoryMatch) {
+                params.set('category', categoryMatch[1]);
+            }
+        }
+    }
+    
+    // 獲取當前活動的風格篩選
+    const activeStyle = document.querySelector('.filter-group:nth-child(3) .filter-list a.active');
+    if (activeStyle) {
+        const onclick = activeStyle.getAttribute('onclick');
+        if (onclick && !onclick.includes("'all'")) {
+            const styleMatch = onclick.match(/filterByStyle\('([^']+)'\)/);
+            if (styleMatch) {
+                params.set('style', styleMatch[1]);
+            }
+        }
+    }
+    
+    // 獲取當前排序設置
+    const sortSelect = document.querySelector('.sort-select');
+    if (sortSelect && sortSelect.value !== 'latest') {
+        params.set('sort', sortSelect.value);
+    }
+    
+    // 重新載入作品
+    loadGalleryItems(params);
+    
+    // 更新篩選標籤
+    updateFilterTags();
+}
+
+/**
+ * 按風格篩選
+ */
+function filterByStyle(style) {
+    console.log('按風格篩選:', style);
+    
+    // 更新活動狀態 - 先移除所有風格連結的active狀態
+    document.querySelectorAll('.filter-group:nth-child(3) .filter-list a').forEach(link => {
+        link.classList.remove('active');
+    });
+    
+    // 找到對應的風格連結並設為活動狀態
+    const styleLinks = document.querySelectorAll('.filter-group:nth-child(3) .filter-list a');
+    styleLinks.forEach(link => {
+        const onclick = link.getAttribute('onclick');
+        if (onclick && onclick.includes(`'${style}'`)) {
+            link.classList.add('active');
+        }
+    });
+    
+    // 構建查詢參數
+    const params = new URLSearchParams();
+    if (style !== 'all') {
+        params.set('style', style);
+    }
+    
+    // 獲取當前活動的分類篩選
+    const activeCategory = document.querySelector('.filter-group:first-child .filter-list a.active');
+    if (activeCategory) {
+        const onclick = activeCategory.getAttribute('onclick');
+        if (onclick && !onclick.includes("'all'")) {
+            const categoryMatch = onclick.match(/filterByCategory\('([^']+)'\)/);
+            if (categoryMatch) {
+                params.set('category', categoryMatch[1]);
+            }
+        }
+    }
+    
+    // 獲取當前活動的品牌篩選
+    const activeBrand = document.querySelector('.filter-group:nth-child(2) .filter-list a.active');
+    if (activeBrand) {
+        const onclick = activeBrand.getAttribute('onclick');
+        if (onclick && !onclick.includes("'all'")) {
+            const brandMatch = onclick.match(/filterByBrand\('([^']+)'\)/);
+            if (brandMatch) {
+                params.set('brand', brandMatch[1]);
+            }
+        }
+    }
+    
+    // 獲取當前排序設置
+    const sortSelect = document.querySelector('.sort-select');
+    if (sortSelect && sortSelect.value !== 'latest') {
+        params.set('sort', sortSelect.value);
+    }
+    
+    // 重新載入作品
+    loadGalleryItems(params);
+    
+    // 更新篩選標籤
+    updateFilterTags();
+}
+
+/**
+ * 按車型篩選 (舊函數，保留向後兼容)
+ */
+function filterByModel(model) {
+    console.log('按車型篩選 (舊版):', model);
+    // 轉換為品牌篩選
+    filterByBrand(model.toUpperCase());
+}
+
+/**
+ * 切換篩選組展開/收合
+ */
+function toggleFilterGroup(element) {
+    console.log('切換篩選組:', element);
+    
+    const filterGroup = element.closest('.filter-group');
+    const filterList = filterGroup.querySelector('.filter-list');
+    const icon = element.querySelector('i');
+    
+    if (filterList) {
+        // 切換展開/收合狀態
+        const isOpen = filterList.classList.toggle('open');
+        element.classList.toggle('open');
+        
+        // 更新箭頭圖標
+        if (icon) {
+            if (isOpen) {
+                icon.classList.remove('fa-chevron-right');
+                icon.classList.add('fa-chevron-down');
+            } else {
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-right');
+            }
+        }
+        
+        // 添加動畫效果
+        if (isOpen) {
+            filterList.style.maxHeight = filterList.scrollHeight + 'px';
+        } else {
+            filterList.style.maxHeight = '0';
+        }
+    }
+}
+
+/**
+ * 處理排序選擇變更
+ */
+function handleSortChange() {
+    const sortSelect = document.querySelector('.sort-select');
+    if (!sortSelect) return;
+    
+    sortSelect.addEventListener('change', function() {
+        console.log('排序變更:', this.value);
+        
+        // 構建查詢參數
+        const params = new URLSearchParams();
+        
+        // 添加當前的篩選條件
+        const activeCategory = document.querySelector('.filter-group:first-child .filter-list a.active');
+        if (activeCategory) {
+            const onclick = activeCategory.getAttribute('onclick');
+            if (onclick && !onclick.includes("'all'")) {
+                const categoryMatch = onclick.match(/filterByCategory\('([^']+)'\)/);
+                if (categoryMatch) {
+                    params.set('category', categoryMatch[1]);
+                }
+            }
+        }
+        
+        const activeModel = document.querySelector('.filter-group:nth-child(2) .filter-list a.active');
+        if (activeModel) {
+            const onclick = activeModel.getAttribute('onclick');
+            if (onclick && !onclick.includes("'yamaha'")) {
+                const modelMatch = onclick.match(/filterByModel\('([^']+)'\)/);
+                if (modelMatch) {
+                    params.set('model', modelMatch[1]);
+                }
+            }
+        }
+        
+        // 添加排序參數
+        if (this.value !== 'latest') {
+            params.set('sort', this.value);
+        }
+        
+        // 重新載入作品
+        loadGalleryItems(params);
+        
+        // 更新篩選標籤
+        updateFilterTags();
+    });
+}
+
+/**
+ * 清除所有篩選
+ */
+function clearAllFilters() {
+    console.log('清除所有篩選');
+    
+    // 重置分類篩選到All
+    filterByCategory('all');
+    
+    // 重置品牌篩選到All
+    filterByBrand('all');
+    
+    // 重置風格篩選到All
+    filterByStyle('all');
+    
+    // 重置排序選擇
+    const sortSelect = document.querySelector('.sort-select');
+    if (sortSelect) {
+        sortSelect.value = 'latest';
+    }
+    
+    // 重新載入作品
+    loadGalleryItems();
+    
+    // 更新篩選標籤
+    updateFilterTags();
 }

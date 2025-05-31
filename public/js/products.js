@@ -1,198 +1,289 @@
-// 產品資料 - 實際應用中這可能來自API或後端
-const products = [
-    {
-        id: 1,
-        name: "【牛王SVR排氣管】",
-        category: "exhaust",
-        brand: "牛王",
-        price: 12800,
-        bikeType: ["sport", "naked"],
-        rating: 4.8,
-        reviews: 124,
-        image: "images/parts/牛王SVR排氣管.webp",
-        description: "高性能鈦合金排氣管，提升馬力並減輕重量"
-    },
-    {
-        id: 2,
-        name: "【毒蛇SP1合格砲管】",
-        category: "exhaust",
-        brand: "毒蛇",
-        price: 9800,
-        bikeType: ["sport", "naked", "adventure"],
-        rating: 4.9,
-        reviews: 98,
-        image: "images/parts/毒蛇SP1合格砲管.webp",
-        description: "毒蛇SP1合格排氣管，通過噪音檢測，提供優質聲浪和動力"
-    },
-    {
-        id: 3,
-        name: "【怪獸工廠ZR後避震】",
-        category: "suspension",
-        brand: "怪獸工廠",
-        price: 12800,
-        bikeType: ["sport"],
-        rating: 4.7,
-        reviews: 76,
-        image: "images/parts/怪獸工廠ZR後避震.webp",
-        description: "怪獸工廠ZR後避震，全可調設計，提供卓越的操控性和舒適度"
-    },
-    {
-        id: 4,
-        name: "【ANC72大對四卡鉗】",
-        category: "brakes",
-        brand: "ANC",
-        price: 7800,
-        bikeType: ["sport", "naked"],
-        rating: 4.8,
-        reviews: 112,
-        image: "images/parts/ANC72大對四卡鉗.webp",
-        description: "大對四活塞卡鉗，提供強勁且線性的制動力"
-    },
-    {
-        id: 5,
-        name: "【KOSO燻黑透明空濾蓋】",
-        category: "engine",
-        brand: "KOSO",
-        price: 1800,
-        bikeType: ["sport", "naked", "cruiser", "adventure"],
-        rating: 4.5,
-        reviews: 203,
-        image: "images/parts/KOSO燻黑透明空濾蓋.webp",
-        description: "KOSO燻黑透明空濾蓋，展現引擎內部美學"
-    },
-    {
-        id: 6,
-        name: "【APEXX GT防燙蓋】",
-        category: "exhaust",
-        brand: "APEXX",
-        price: 2200,
-        bikeType: ["sport", "naked"],
-        rating: 4.6,
-        reviews: 87,
-        image: "images/parts/APEXX GT防燙蓋.webp",
-        description: "APEXX GT系列排氣管防燙蓋，有效降低燙傷風險"
-    },
-    {
-        id: 7,
-        name: "【怪獸工廠Z2 PRO前叉】",
-        category: "suspension",
-        brand: "怪獸工廠",
-        price: 18800,
-        bikeType: ["sport", "naked"],
-        rating: 4.7,
-        reviews: 65,
-        image: "images/parts/怪獸工廠Z2 PRO前叉.webp",
-        description: "專為JET車系設計的高性能Z2 PRO前避震器，提供卓越的操控性和舒適度"
-    },
-    {
-        id: 8,
-        name: "【廣昇999R CNC 鋁合金排骨】",
-        category: "engine",
-        brand: "廣昇",
-        price: 4500,
-        bikeType: ["sport", "naked", "cruiser", "adventure"],
-        rating: 4.6,
-        reviews: 175,
-        image: "images/parts/廣昇999R CNC 鋁合金排骨.webp",
-        description: "廣昇CNC切削鋁合金排骨，提升引擎動力輸出"
-    }
-];
+// 產品頁面JavaScript - 從API獲取產品資料
+let products = [];
+let allProducts = [];
+let currentFilters = {};
+let isLoading = false;
 
-// DOM 元素
+// DOM elements
 const searchInput = document.querySelector('.search-bar input');
 const searchButton = document.querySelector('.search-btn');
 const productsGrid = document.querySelector('.products-grid');
-const priceRangeInput = document.querySelector('.range-slider input');
-const priceRangeValue = document.querySelector('.range-value');
-const brandCheckboxes = document.querySelectorAll('.filter-group:nth-child(1) input[type="checkbox"]');
-const bikeTypeCheckboxes = document.querySelectorAll('.filter-group:nth-child(3) input[type="checkbox"]');
+const priceRangeInput = document.querySelector('.price-slider');
+const minPriceInput = document.querySelector('.min-price');
+const maxPriceInput = document.querySelector('.max-price');
+const brandCheckboxes = document.querySelectorAll('input[name="brand"]');
+const categoryCheckboxes = document.querySelectorAll('input[name="category"]');
+const bikeTypeCheckboxes = document.querySelectorAll('input[name="bikeType"]');
+const applyFiltersBtn = document.querySelector('.apply-filters');
 
-// 初始化頁面
+// Initialize page
 document.addEventListener('DOMContentLoaded', () => {
-    // 渲染所有產品
-    renderProducts(products);
-    
-    // 設置價格滑桿事件
+    // 初始化過濾器功能
     setupPriceRangeSlider();
-    
-    // 設置搜尋事件
     setupSearch();
-    
-    // 設置篩選器事件
     setupFilters();
-    
-    // 設置分類導航事件
     setupCategoryNavigation();
+    
+    // 載入所有產品
+    loadProducts();
+    
+    // 載入分類資料
+    loadCategories();
 });
 
-// 渲染產品卡片
+// 從API載入產品資料
+async function loadProducts(filters = {}) {
+    if (isLoading) return;
+    
+    isLoading = true;
+    showLoading();
+    
+    try {
+        const params = new URLSearchParams();
+        
+        // 添加過濾參數
+        if (filters.category) params.append('category', filters.category);
+        if (filters.mainCategory) params.append('mainCategory', filters.mainCategory);
+        if (filters.brand) params.append('brand', filters.brand);
+        if (filters.bikeType) params.append('bikeType', filters.bikeType);
+        if (filters.minPrice) params.append('minPrice', filters.minPrice);
+        if (filters.maxPrice) params.append('maxPrice', filters.maxPrice);
+        if (filters.search) params.append('search', filters.search);
+        if (filters.sort) params.append('sort', filters.sort);
+        if (filters.page) params.append('page', filters.page);
+        if (filters.limit) params.append('limit', filters.limit);
+        
+        const response = await fetch(`/api/products?${params.toString()}`);
+        
+        if (!response.ok) {
+            throw new Error('載入產品失敗');
+        }
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            products = result.data.products;
+            if (!filters.page || filters.page === 1) {
+                allProducts = [...products];
+            }
+            
+            renderProducts(products);
+            updateProductCount(result.data.pagination);
+        } else {
+            throw new Error(result.error || '載入產品失敗');
+        }
+        
+    } catch (error) {
+        console.error('載入產品錯誤:', error);
+        showError('載入產品失敗，請稍後再試');
+    } finally {
+        isLoading = false;
+        hideLoading();
+    }
+}
+
+// 從API載入分類資料
+async function loadCategories() {
+    try {
+        const response = await fetch('/api/categories');
+        
+        if (!response.ok) {
+            throw new Error('載入分類失敗');
+        }
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            updateCategoryFilters(result.data);
+        }
+        
+    } catch (error) {
+        console.error('載入分類錯誤:', error);
+    }
+}
+
+// 更新分類過濾器
+function updateCategoryFilters(categories) {
+    // 更新品牌過濾器
+    const brandContainer = document.querySelector('input[name="brand"]').closest('.filter-options');
+    if (brandContainer && categories.brands) {
+        brandContainer.innerHTML = '';
+        categories.brands.forEach(brand => {
+            const label = document.createElement('label');
+            label.className = 'filter-option';
+            label.innerHTML = `
+                <input type="checkbox" name="brand" value="${brand.id}">
+                ${brand.name}
+            `;
+            brandContainer.appendChild(label);
+        });
+    }
+    
+    // 重新綁定事件
+    setupFilters();
+}
+
+// Render product cards
 function renderProducts(productsToRender) {
+    if (!productsGrid) return;
+    
     productsGrid.innerHTML = '';
     
     if (productsToRender.length === 0) {
-        productsGrid.innerHTML = '<div class="no-results"><h3>沒有符合條件的產品</h3><p>請嘗試調整搜尋條件</p></div>';
+        productsGrid.innerHTML = `
+            <div class="no-results" style="grid-column: 1 / -1; text-align: center; padding: 4rem 2rem;">
+                <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                <h3 style="color: white; margin-bottom: 0.5rem;">沒有找到符合條件的產品</h3>
+                <p>請嘗試調整搜尋條件或過濾器</p>
+            </div>
+        `;
         return;
     }
     
     productsToRender.forEach(product => {
-        const productCard = document.createElement('div');
-        productCard.className = 'product-card';
-        productCard.setAttribute('data-category', product.category);
-        
-        // 假設性產品圖片路徑，實際應用中應替換為真實路徑
-        const imagePlaceholder = product.image || 'images/product-placeholder.jpg';
-        
-        productCard.innerHTML = `
-            <div class="product-image">
-                <img src="${imagePlaceholder}" alt="${product.name}" loading="lazy">
-                <div class="product-actions">
-                    <button class="action-btn" aria-label="加入收藏"><i class="far fa-heart"></i></button>
-                    <button class="action-btn" aria-label="加入購物車"><i class="fas fa-shopping-cart"></i></button>
-                    <button class="action-btn" aria-label="查看詳情"><i class="fas fa-eye"></i></button>
-                </div>
-            </div>
-            <div class="product-info">
-                <div class="product-category">${getCategoryName(product.category)}</div>
-                <h3 class="product-name">${product.name}</h3>
-                <div class="product-rating">
-                    ${generateStarRating(product.rating)}
-                    <span class="review-count">(${product.reviews})</span>
-                </div>
-                <div class="product-price">NT$ ${product.price.toLocaleString()}</div>
-                <button class="btn btn-primary product-btn">查看詳情</button>
-            </div>
-        `;
-        
+        const productCard = createProductCard(product);
         productsGrid.appendChild(productCard);
     });
     
-    // 添加點擊事件到產品卡片
+    // 添加產品卡片點擊事件
+    addProductCardEvents();
+}
+
+// 創建產品卡片
+function createProductCard(product) {
+    const productCard = document.createElement('div');
+    productCard.className = 'product-card';
+    productCard.setAttribute('data-product-id', product.id);
+    
+    // 處理圖片路徑
+    const imagePath = product.image || '/images/parts/placeholder-product.png';
+    
+    // 生成星級評分
+    const starRating = generateStarRating(product.rating);
+    
+    // 處理價格顯示
+    const priceHTML = product.originalPrice 
+        ? `<span class="original-price">NT$ ${product.originalPrice.toLocaleString()}</span>
+           <span class="sale-price">NT$ ${product.price.toLocaleString()}</span>`
+        : `<span class="current-price">NT$ ${product.price.toLocaleString()}</span>`;
+    
+    // 產品標籤
+    const badges = [];
+    if (product.isHot) badges.push('<span class="product-badge hot">熱門</span>');
+    if (product.isNew) badges.push('<span class="product-badge new">新品</span>');
+    if (product.originalPrice) badges.push('<span class="product-badge sale">特價</span>');
+    
+    productCard.innerHTML = `
+        <div class="product-image">
+            ${badges.join('')}
+            <img src="${imagePath}" alt="${product.name}" loading="lazy" onerror="this.src='/images/parts/placeholder-product.png'">
+            <div class="product-actions">
+                <button class="action-btn" aria-label="加入最愛" data-action="favorite">
+                    <i class="far fa-heart"></i>
+                </button>
+                <button class="action-btn" aria-label="加入購物車" data-action="cart">
+                    <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button class="action-btn" aria-label="查看詳情" data-action="view">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+        </div>
+        <div class="product-info">
+            <div class="product-category">${getCategoryName(product.category)}</div>
+            <h3 class="product-title">${product.name}</h3>
+            <div class="product-rating">
+                ${starRating}
+                <span class="review-count">(${product.reviews})</span>
+            </div>
+            <div class="product-description">${product.description}</div>
+            <div class="product-price">${priceHTML}</div>
+            <div class="product-actions">
+                <button class="btn btn-primary" data-action="detail">查看詳情</button>
+                <button class="btn btn-outline" data-action="cart">
+                    <i class="fas fa-cart-plus"></i>
+                </button>
+            </div>
+        </div>
+    `;
+    
+    return productCard;
+}
+
+// 添加產品卡片事件
+function addProductCardEvents() {
     document.querySelectorAll('.product-card').forEach(card => {
+        // 主要點擊事件
         card.addEventListener('click', function(e) {
-            // 排除點擊按鈕的情況
-            if (!e.target.closest('.action-btn') && !e.target.closest('.product-btn')) {
-                // 在這裡可以導向到產品詳情頁面
-                const productName = this.querySelector('.product-name').textContent;
-                console.log(`查看產品: ${productName}`);
-                // 實際應用中應該導向到對應的產品詳情頁面
-                // window.location.href = `product-details.html?id=${this.dataset.id}`;
-            }
+            // 排除按鈕點擊
+            if (e.target.closest('.action-btn, .btn')) return;
+            
+            const productId = this.getAttribute('data-product-id');
+            viewProductDetail(productId);
+        });
+        
+        // 按鈕事件
+        card.querySelectorAll('[data-action]').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const action = this.getAttribute('data-action');
+                const productId = card.getAttribute('data-product-id');
+                const product = products.find(p => p.id === productId);
+                
+                handleProductAction(action, product);
+            });
         });
     });
 }
 
-// 獲取分類名稱
+// 處理產品動作
+function handleProductAction(action, product) {
+    switch (action) {
+        case 'favorite':
+            toggleFavorite(product);
+            break;
+        case 'cart':
+            addToCart(product);
+            break;
+        case 'view':
+        case 'detail':
+            viewProductDetail(product.id);
+            break;
+    }
+}
+
+// 查看產品詳情
+function viewProductDetail(productId) {
+    // 導航到產品詳情頁
+    window.location.href = `product-detail.html?id=${productId}`;
+}
+
+// 切換最愛
+function toggleFavorite(product) {
+    console.log('切換最愛:', product.name);
+    showNotification(`${product.name} 已加入最愛`, 'success');
+}
+
+// 加入購物車
+function addToCart(product) {
+    console.log('加入購物車:', product.name);
+    showNotification(`${product.name} 已加入購物車`, 'success');
+}
+
+// Get category name (中文化)
 function getCategoryName(categoryKey) {
     const categories = {
-        'engine': '引擎系統',
+        'engine': '動力系統',
         'exhaust': '排氣系統',
-        'suspension': '懸吊系統',
-        'brakes': '煞車系統'
+        'suspension': '避震系統',
+        'brakes': '煞車系統',
+        'appearance': '外觀改裝',
+        'electronics': '電子系統'
     };
     return categories[categoryKey] || categoryKey;
 }
 
-// 生成星級評分
+// Generate star rating
 function generateStarRating(rating) {
     const fullStars = Math.floor(rating);
     const halfStar = rating % 1 >= 0.5;
@@ -200,17 +291,17 @@ function generateStarRating(rating) {
     
     let starsHTML = '';
     
-    // 添加實心星星
+    // Full stars
     for (let i = 0; i < fullStars; i++) {
         starsHTML += '<i class="fas fa-star"></i>';
     }
     
-    // 添加半顆星星
+    // Half star
     if (halfStar) {
         starsHTML += '<i class="fas fa-star-half-alt"></i>';
     }
     
-    // 添加空心星星
+    // Empty stars
     for (let i = 0; i < emptyStars; i++) {
         starsHTML += '<i class="far fa-star"></i>';
     }
@@ -218,156 +309,304 @@ function generateStarRating(rating) {
     return starsHTML;
 }
 
-// 設置價格範圍滑桿
+// Setup price range slider
 function setupPriceRangeSlider() {
-    // 更新價格顯示
-    priceRangeInput.addEventListener('input', function() {
-        priceRangeValue.textContent = `NT$ ${parseInt(this.value).toLocaleString()}`;
-    });
-    
-    // 價格篩選
-    priceRangeInput.addEventListener('change', function() {
-        applyFilters();
-    });
+    if (priceRangeInput && minPriceInput && maxPriceInput) {
+        // 設定價格範圍
+        priceRangeInput.min = 0;
+        priceRangeInput.max = 50000;
+        priceRangeInput.value = 50000;
+        
+        minPriceInput.value = 0;
+        maxPriceInput.value = 50000;
+        
+        priceRangeInput.addEventListener('input', function() {
+            const value = parseInt(this.value);
+            maxPriceInput.value = value;
+            minPriceInput.value = Math.floor(value * 0.1); // 最小值為最大值的10%
+        });
+        
+        [minPriceInput, maxPriceInput].forEach(input => {
+            input.addEventListener('change', function() {
+                const min = parseInt(minPriceInput.value) || 0;
+                const max = parseInt(maxPriceInput.value) || 50000;
+                
+                if (min > max) {
+                    minPriceInput.value = max;
+                    maxPriceInput.value = min;
+                }
+                
+                priceRangeInput.value = Math.max(parseInt(maxPriceInput.value), parseInt(minPriceInput.value));
+            });
+        });
+    }
 }
 
-// 設置搜尋功能
+// Setup search functionality
 function setupSearch() {
-    // 點擊搜尋按鈕
-    searchButton.addEventListener('click', () => {
-        applyFilters();
-    });
-    
-    // 按下 Enter 鍵進行搜尋
-    searchInput.addEventListener('keyup', function(e) {
-        if (e.key === 'Enter') {
-            applyFilters();
+    if (searchInput && searchButton) {
+        searchButton.addEventListener('click', performSearch);
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+        
+        // 搜尋建議功能
+        let searchTimeout;
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                if (this.value.length >= 2) {
+                    loadSearchSuggestions(this.value);
+                }
+            }, 300);
+        });
+    }
+}
+
+// 載入搜尋建議
+async function loadSearchSuggestions(query) {
+    try {
+        const response = await fetch(`/api/search/suggestions?q=${encodeURIComponent(query)}`);
+        const result = await response.json();
+        
+        if (result.success && result.data.length > 0) {
+            showSearchSuggestions(result.data);
         }
-    });
+    } catch (error) {
+        console.error('載入搜尋建議失敗:', error);
+    }
 }
 
-// 設置篩選器
+// 顯示搜尋建議
+function showSearchSuggestions(suggestions) {
+    // 實作搜尋建議下拉選單
+    console.log('搜尋建議:', suggestions);
+}
+
+function performSearch() {
+    const searchTerm = searchInput?.value.trim();
+    currentFilters.search = searchTerm;
+    loadProducts(currentFilters);
+}
+
+// Setup filter functionality
 function setupFilters() {
-    // 品牌篩選
-    brandCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', applyFilters);
+    // 品牌過濾器
+    document.querySelectorAll('input[name="brand"]').forEach(checkbox => {
+        checkbox.addEventListener('change', updateFilters);
     });
     
-    // 車型篩選
-    bikeTypeCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', applyFilters);
+    // 分類過濾器
+    document.querySelectorAll('input[name="category"]').forEach(checkbox => {
+        checkbox.addEventListener('change', updateFilters);
     });
+    
+    // 車系過濾器
+    document.querySelectorAll('input[name="bikeType"]').forEach(checkbox => {
+        checkbox.addEventListener('change', updateFilters);
+    });
+    
+    // 應用過濾器按鈕
+    if (applyFiltersBtn) {
+        applyFiltersBtn.addEventListener('click', applyFilters);
+    }
 }
 
-// 應用所有篩選條件
+// 更新過濾器
+function updateFilters() {
+    // 收集選中的品牌
+    const selectedBrands = Array.from(document.querySelectorAll('input[name="brand"]:checked'))
+        .map(cb => cb.value);
+    
+    // 收集選中的分類
+    const selectedCategories = Array.from(document.querySelectorAll('input[name="category"]:checked'))
+        .map(cb => cb.value);
+    
+    // 收集車系
+    const selectedBikeTypes = Array.from(document.querySelectorAll('input[name="bikeType"]:checked'))
+        .map(cb => cb.value);
+    
+    // 收集價格範圍
+    const minPrice = parseInt(minPriceInput?.value) || 0;
+    const maxPrice = parseInt(maxPriceInput?.value) || 50000;
+    
+    // 更新當前過濾器
+    currentFilters = {
+        ...currentFilters,
+        brand: selectedBrands.length > 0 ? selectedBrands.join(',') : undefined,
+        category: selectedCategories.length > 0 ? selectedCategories.join(',') : undefined,
+        bikeType: selectedBikeTypes.length > 0 ? selectedBikeTypes.join(',') : undefined,
+        minPrice: minPrice > 0 ? minPrice : undefined,
+        maxPrice: maxPrice < 50000 ? maxPrice : undefined
+    };
+}
+
+// Apply all filters
 function applyFilters() {
-    // 獲取搜尋關鍵字
-    const searchTerm = searchInput.value.trim().toLowerCase();
-    
-    // 獲取價格範圍
-    const maxPrice = parseInt(priceRangeInput.value);
-    
-    // 獲取選取的品牌
-    const selectedBrands = Array.from(brandCheckboxes)
-        .filter(checkbox => checkbox.checked)
-        .map(checkbox => checkbox.value);
-    
-    // 獲取選取的車型
-    const selectedBikeTypes = Array.from(bikeTypeCheckboxes)
-        .filter(checkbox => checkbox.checked)
-        .map(checkbox => checkbox.value);
-    
-    // 篩選產品
-    const filteredProducts = products.filter(product => {
-        // 搜尋關鍵字篩選
-        const matchesSearch = searchTerm === '' || 
-            product.name.toLowerCase().includes(searchTerm) || 
-            product.description.toLowerCase().includes(searchTerm);
-        
-        // 價格篩選
-        const matchesPrice = product.price <= maxPrice;
-        
-        // 品牌篩選
-        const matchesBrand = selectedBrands.length === 0 || selectedBrands.includes(product.brand);
-        
-        // 車型篩選
-        const matchesBikeType = selectedBikeTypes.length === 0 || 
-            selectedBikeTypes.some(type => product.bikeType.includes(type));
-        
-        return matchesSearch && matchesPrice && matchesBrand && matchesBikeType;
-    });
-    
-    // 渲染篩選後的產品
-    renderProducts(filteredProducts);
+    updateFilters();
+    loadProducts(currentFilters);
 }
 
-// 設置分類導航
+// Setup category navigation
 function setupCategoryNavigation() {
-    const categoryLinks = document.querySelectorAll('.category-card');
+    const categoryLinks = document.querySelectorAll('.categories-nav a');
     
     categoryLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
             
-            // 獲取分類ID
-            const categoryId = this.getAttribute('href').substring(1);
+            // Remove active class from all links
+            categoryLinks.forEach(l => l.classList.remove('active'));
+            // Add active class to clicked link
+            this.classList.add('active');
             
-            // 重設所有篩選條件
-            resetFilters();
+            const category = this.dataset.category;
             
-            // 根據分類篩選產品
-            const filteredProducts = products.filter(product => product.category === categoryId);
+            currentFilters = {
+                mainCategory: category === 'all' ? undefined : category
+            };
             
-            // 渲染篩選後的產品
-            renderProducts(filteredProducts);
-            
-            // 滾動到產品列表
-            document.querySelector('.products-list').scrollIntoView({ behavior: 'smooth' });
+            loadProducts(currentFilters);
         });
     });
 }
 
-// 重設所有篩選條件
-function resetFilters() {
-    // 清空搜尋欄
-    searchInput.value = '';
-    
-    // 重設價格範圍
-    priceRangeInput.value = priceRangeInput.max;
-    priceRangeValue.textContent = `NT$ ${parseInt(priceRangeInput.value).toLocaleString()}`;
-    
-    // 取消選取所有品牌
-    brandCheckboxes.forEach(checkbox => {
-        checkbox.checked = false;
-    });
-    
-    // 取消選取所有車型
-    bikeTypeCheckboxes.forEach(checkbox => {
-        checkbox.checked = false;
-    });
+// 更新產品數量顯示
+function updateProductCount(pagination) {
+    const resultsCount = document.querySelector('.results-count');
+    if (resultsCount && pagination) {
+        resultsCount.innerHTML = `顯示 <span>${pagination.count}</span> 項產品`;
+    }
 }
 
-// 可選功能：處理排序功能
-function sortProducts(products, sortBy) {
-    const sortedProducts = [...products];
+// 顯示載入中
+function showLoading() {
+    if (productsGrid) {
+        productsGrid.innerHTML = `
+            <div class="loading" style="grid-column: 1 / -1; text-align: center; padding: 4rem 2rem;">
+                <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary-color);"></i>
+                <p style="color: var(--metallic-silver); margin-top: 1rem;">載入產品中...</p>
+            </div>
+        `;
+    }
+}
+
+// 隱藏載入中
+function hideLoading() {
+    const loading = document.querySelector('.loading');
+    if (loading) {
+        loading.remove();
+    }
+}
+
+// 顯示錯誤訊息
+function showError(message) {
+    if (productsGrid) {
+        productsGrid.innerHTML = `
+            <div class="error-message" style="grid-column: 1 / -1; text-align: center; padding: 4rem 2rem;">
+                <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #ff6b6b; margin-bottom: 1rem;"></i>
+                <h3 style="color: white; margin-bottom: 0.5rem;">載入失敗</h3>
+                <p style="color: var(--metallic-silver);">${message}</p>
+                <button class="btn btn-primary" onclick="loadProducts()" style="margin-top: 1rem;">重新載入</button>
+            </div>
+        `;
+    }
+}
+
+// 顯示通知
+function showNotification(message, type = 'info') {
+    // 創建通知元素
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
     
-    switch (sortBy) {
-        case 'price-low':
-            sortedProducts.sort((a, b) => a.price - b.price);
-            break;
-        case 'price-high':
-            sortedProducts.sort((a, b) => b.price - a.price);
-            break;
-        case 'rating':
-            sortedProducts.sort((a, b) => b.rating - a.rating);
-            break;
-        case 'popularity':
-            sortedProducts.sort((a, b) => b.reviews - a.reviews);
-            break;
-        default:
-            // 默認不做任何排序
-            break;
+    const colors = {
+        success: 'linear-gradient(135deg, #4CAF50, #00C851)',
+        error: 'linear-gradient(135deg, #f44336, #ff6b6b)',
+        warning: 'linear-gradient(135deg, #ff9800, #ffc107)',
+        info: 'linear-gradient(135deg, #2196F3, #00d4ff)'
+    };
+    
+    const icons = {
+        success: 'fas fa-check-circle',
+        error: 'fas fa-exclamation-circle',
+        warning: 'fas fa-exclamation-triangle',
+        info: 'fas fa-info-circle'
+    };
+    
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        max-width: 400px;
+        padding: 16px 20px;
+        background: ${colors[type] || colors.info};
+        color: white;
+        border-radius: 12px;
+        z-index: 10000;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        font-family: 'Montserrat', sans-serif;
+        font-size: 14px;
+        line-height: 1.4;
+        opacity: 0;
+        transform: translateX(100%);
+        transition: all 0.4s ease;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    `;
+    
+    notification.innerHTML = `
+        <i class="${icons[type] || icons.info}" style="font-size: 18px;"></i>
+        <span>${message}</span>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // 觸發動畫
+    requestAnimationFrame(() => {
+        notification.style.opacity = '1';
+        notification.style.transform = 'translateX(0)';
+    });
+    
+    // 自動移除
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        notification.style.transform = 'translateX(100%)';
+        
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 400);
+    }, 4000);
+}
+
+// Reset all filters
+function resetFilters() {
+    // Clear search
+    if (searchInput) searchInput.value = '';
+    
+    // Reset price range
+    if (priceRangeInput && minPriceInput && maxPriceInput) {
+        priceRangeInput.value = priceRangeInput.max;
+        minPriceInput.value = 0;
+        maxPriceInput.value = 50000;
     }
     
-    return sortedProducts;
+    // Uncheck all checkboxes
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        checkbox.checked = false;
+    });
+    
+    // Reset filters and reload
+    currentFilters = {};
+    loadProducts();
+}
+
+// Sort products
+function sortProducts(sortBy) {
+    currentFilters.sort = sortBy;
+    loadProducts(currentFilters);
 }

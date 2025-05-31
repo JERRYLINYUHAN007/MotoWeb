@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>?πË??∂‰ª∂ - MotoWeb</title>
+    <title>Modification Parts - MotoWeb</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/tech-theme.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -11,9 +11,26 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* ?¢Â??ÅÈù¢?çÊñ∞Ë®≠Ë? - ?æ‰ª£ÁßëÊ?ÁæéÂ≠∏ */
+        /* Products page new design - Modern tech aesthetics */
         
-        /* ?ïÁï´?àÊ? */
+        /* CSSÈáçÁΩÆÂíåÂÑ™ÂÖàÁ¥öË®≠ÂÆö */
+        .main-container {
+            margin-top: 80px !important;
+            min-height: 100vh !important;
+            background: 
+                linear-gradient(135deg, 
+                    rgba(10, 10, 10, 0.95), 
+                    rgba(31, 41, 55, 0.9)),
+                radial-gradient(circle at 30% 40%, rgba(0, 212, 255, 0.1), transparent),
+                radial-gradient(circle at 70% 60%, rgba(124, 58, 237, 0.1), transparent) !important;
+        }
+        
+        /* Á¢∫‰øùÂ∞éËà™ÂàóÊ≠£Á¢∫È°ØÁ§∫ */
+        .navbar {
+            z-index: 1000 !important;
+        }
+        
+        /* Animations */
         @keyframes scanEffect {
             0% { transform: translateX(-100%); opacity: 0; }
             50% { opacity: 1; }
@@ -30,18 +47,9 @@
             100% { text-shadow: 0 0 25px rgba(0, 255, 136, 0.8); }
         }
 
-        .main-container {
-            margin-top: 80px;
-            min-height: 100vh;
-            background: 
-                linear-gradient(135deg, 
-                    rgba(10, 10, 10, 0.95), 
-                    rgba(31, 41, 55, 0.9)),
-                radial-gradient(circle at 30% 40%, rgba(0, 212, 255, 0.1), transparent),
-                radial-gradient(circle at 70% 60%, rgba(124, 58, 237, 0.1), transparent);
-        }
+        /* Main container styles */
         
-        /* ?ÅÈù¢Ê®ôÈ??Ä?üÈ??∞Ë®≠Ë®?*/
+        /* Page header unified style */
         .page-header {
             background: 
                 linear-gradient(135deg, 
@@ -150,23 +158,24 @@
             box-shadow: 0 0 25px rgba(0, 212, 255, 0.5);
         }
 
-        /* ‰∏ªË??ßÂÆπ?Ä??*/
+        /* Main content styles */
         .products-main-content {
             display: flex;
             gap: 3rem;
             padding: 3rem 5%;
             max-width: 1600px;
             margin: 0 auto;
+            min-height: calc(100vh - 80px);
         }
 
-        /* ?¥È?Ê¨ÑÈ??∞Ë®≠Ë®?*/
+        /* Sidebar styles */
         .products-sidebar {
-            flex: 0 0 350px;
+            flex: 0 0 300px;
             background: linear-gradient(145deg, 
                 rgba(31, 41, 55, 0.8), 
                 rgba(17, 24, 39, 0.9));
-            padding: 2.5rem;
-            border-radius: 25px;
+            padding: 2rem;
+            border-radius: 20px;
             height: fit-content;
             box-shadow: 
                 0 15px 40px rgba(0, 0, 0, 0.5),
@@ -174,7 +183,7 @@
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
             border: 2px solid var(--carbon-gray);
             position: sticky;
-            top: 120px;
+            top: 100px;
             backdrop-filter: blur(20px);
         }
 
@@ -190,133 +199,173 @@
         }
 
         .filter-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
+            background: rgba(17, 24, 39, 0.5);
+            border-radius: 15px;
+            border: 1px solid var(--carbon-gray);
+            overflow: hidden;
         }
 
         .group-title {
-            font-weight: 700;
-            color: white;
-            margin: 0 0 1rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             padding: 1rem 1.5rem;
             background: linear-gradient(145deg, 
                 rgba(55, 65, 81, 0.8), 
                 rgba(31, 41, 55, 0.9));
-            border-radius: 15px;
-            border: 1px solid var(--carbon-gray);
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .group-title::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, 
-                transparent, 
-                rgba(0, 212, 255, 0.1), 
-                transparent);
-            transition: left 0.6s ease;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid var(--carbon-gray);
         }
 
         .group-title:hover {
             background: linear-gradient(145deg, 
                 rgba(0, 212, 255, 0.2), 
                 rgba(124, 58, 237, 0.2));
+        }
+
+        .group-title i {
+            transition: transform 0.3s ease;
+            color: var(--primary-color);
+        }
+
+        .group-title.active i {
+            transform: rotate(90deg);
+        }
+
+        .filter-options {
+            padding: 1rem;
+        }
+
+        .filter-option {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            color: var(--metallic-silver);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+
+        .filter-option:hover {
+            background: rgba(0, 212, 255, 0.1);
+            color: white;
+        }
+
+        .filter-option input[type="checkbox"] {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            border: 2px solid var(--carbon-gray);
+            appearance: none;
+            -webkit-appearance: none;
+            background: rgba(17, 24, 39, 0.8);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-option input[type="checkbox"]:checked {
+            background: var(--primary-color);
             border-color: var(--primary-color);
+        }
+
+        .filter-option input[type="checkbox"]:checked::after {
+            content: '‚úì';
+            position: absolute;
+            color: white;
+            font-size: 12px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .price-range {
+            padding: 0.5rem 1rem 1.5rem;
+        }
+
+        .price-slider {
+            width: 100%;
+            height: 4px;
+            background: var(--carbon-gray);
+            border-radius: 2px;
+            outline: none;
+            -webkit-appearance: none;
+            margin: 1rem 0;
+        }
+
+        .price-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+        }
+
+        .price-inputs {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .price-inputs input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--carbon-gray);
+            background: rgba(17, 24, 39, 0.8);
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .price-inputs span {
+            color: var(--metallic-silver);
+            font-weight: 600;
+        }
+
+        .apply-filters {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+
+        .apply-filters:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
         }
 
-        .group-title:hover::before {
-            left: 100%;
+        .apply-filters i {
+            font-size: 1.1rem;
         }
 
-        .group-title i {
-            transition: all 0.3s ease;
-            color: var(--success-color);
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
-        }
-
-        .group-title.open i {
-            transform: rotate(90deg);
-            color: var(--primary-color);
-        }
-
-        .filter-list {
-            list-style: none;
-            padding-left: 0;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease-out;
-        }
-
-        .filter-list.sub-list {
-            padding-left: 1.5rem;
-        }
-
-        .filter-list.open {
-            max-height: 1000px;
-        }
-
-        .filter-list li a {
-            text-decoration: none;
-            color: var(--metallic-silver);
-            display: block;
-            padding: 1rem 1.5rem;
-            transition: all 0.3s ease;
-            border-radius: 12px;
-            margin-bottom: 0.8rem;
-            border: 1px solid transparent;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .filter-list li a::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 0;
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-            transition: width 0.3s ease;
-            z-index: 0;
-        }
-
-        .filter-list li a span {
-            position: relative;
-            z-index: 1;
-        }
-
-        .filter-list li a:hover,
-        .filter-list li a.active {
-            color: white;
-            background: linear-gradient(45deg, 
-                rgba(0, 212, 255, 0.2), 
-                rgba(124, 58, 237, 0.2));
-            border-color: var(--primary-color);
-            font-weight: 600;
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
-            transform: translateX(8px);
-        }
-
-        .filter-list li a:hover::before,
-        .filter-list li a.active::before {
-            width: 4px;
-        }
-
-        /* ?¢Â?Â±ïÁ§∫?Ä?üÈ??∞Ë®≠Ë®?*/
-        .products-display-area {
+        /* Products display area styles */
+        .products-grid {
             flex: 1;
-            background: transparent;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            align-content: start;
         }
 
         .products-header {
@@ -376,7 +425,7 @@
             box-shadow: 0 0 25px rgba(0, 212, 255, 0.3);
         }
 
-        /* ?¢Â?Á∂≤Ê†º?çÊñ∞Ë®≠Ë? */
+        /* Product grid styles */
         .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -387,88 +436,96 @@
             background: linear-gradient(145deg, 
                 rgba(31, 41, 55, 0.9), 
                 rgba(17, 24, 39, 0.8));
-            border-radius: 25px;
+            border-radius: 20px;
             overflow: hidden;
             box-shadow: 
-                0 15px 40px rgba(0, 0, 0, 0.5),
-                0 0 30px rgba(0, 212, 255, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                0 15px 30px rgba(0, 0, 0, 0.3),
+                0 0 20px rgba(0, 212, 255, 0.1);
+            transition: all 0.4s ease;
             border: 2px solid var(--carbon-gray);
-            position: relative;
-            backdrop-filter: blur(20px);
-        }
-
-        .product-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, 
-                var(--primary-color), 
-                var(--accent-color), 
-                var(--success-color));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .product-card::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: radial-gradient(circle, rgba(0, 212, 255, 0.1), transparent);
-            transition: all 0.6s ease;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            z-index: 0;
-        }
-
-        .product-card:hover {
-            transform: translateY(-15px) scale(1.03);
-            box-shadow: 
-                0 30px 60px rgba(0, 0, 0, 0.6),
-                0 0 50px rgba(0, 212, 255, 0.4),
-                0 0 80px rgba(124, 58, 237, 0.3);
-            border-color: var(--primary-color);
-            animation: hoverGlow 2s ease-in-out infinite;
-        }
-
-        .product-card:hover::before {
-            opacity: 1;
-        }
-
-        .product-card:hover::after {
-            width: 400px;
-            height: 400px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
 
         .product-image {
             position: relative;
-            height: 280px;
+            height: 240px;
             overflow: hidden;
-            background: linear-gradient(135deg, 
-                rgba(55, 65, 81, 0.5), 
-                rgba(31, 41, 55, 0.7));
         }
 
         .product-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: all 0.5s ease;
-            filter: brightness(0.9) contrast(1.1);
+            transition: transform 0.4s ease;
         }
 
         .product-card:hover .product-image img {
-            transform: scale(1.15);
-            filter: brightness(1.2) contrast(1.3);
+            transform: scale(1.1);
         }
-        
+
+        .product-info {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-category {
+            color: var(--success-color);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .product-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .product-description {
+            color: var(--metallic-silver);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+            flex: 1;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--success-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .product-actions .btn {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .product-actions .btn-primary {
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            color: white;
+        }
+
+        .product-actions .btn-outline {
+            border: 1px solid var(--carbon-gray);
+            color: var(--metallic-silver);
+        }
+
         .product-badge {
             position: absolute;
             top: 15px;
@@ -485,80 +542,60 @@
             z-index: 2;
         }
 
-        .product-info {
-            padding: 2.5rem;
-            color: white;
-            position: relative;
-            z-index: 1;
+        .product-badge.hot {
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.5);
         }
 
-        .product-category {
-            color: var(--success-color);
-            font-size: 0.95rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        .product-badge.new {
+            background: linear-gradient(45deg, var(--success-color), #00ff88);
+            box-shadow: 0 6px 20px rgba(0, 255, 136, 0.5);
         }
 
-        .product-info h3 {
-            margin: 0 0 1.2rem;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: white;
-            line-height: 1.3;
+        .product-badge.sale {
+            background: linear-gradient(45deg, #e91e63, #ff4081);
+            box-shadow: 0 6px 20px rgba(233, 30, 99, 0.5);
         }
 
-        .product-description {
+        .product-badge + .product-badge {
+            top: 55px;
+        }
+
+        .original-price {
+            text-decoration: line-through;
             color: var(--metallic-silver);
-            line-height: 1.7;
-            margin-bottom: 2rem;
-            font-size: 1rem;
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
         }
 
-        .product-price {
-            font-size: 1.8rem;
-            font-weight: 700;
+        .sale-price {
             color: var(--success-color);
-            margin-bottom: 2rem;
-            text-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
-            animation: priceShine 2s ease-in-out infinite alternate;
+            font-weight: 700;
         }
 
-        .product-actions {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .product-actions .btn {
-            flex: 1;
-            padding: 1rem 1.5rem;
-            font-size: 1rem;
-            border-radius: 25px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .product-actions .btn-primary {
-            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
-            border: 2px solid var(--primary-color);
+        .current-price {
+            color: var(--success-color);
+            font-weight: 700;
         }
 
         .product-actions .btn-outline {
             background: transparent;
             border: 2px solid var(--carbon-gray);
             color: var(--metallic-silver);
+            width: 50px;
+            padding: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .product-actions .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
+        .product-actions .btn-outline:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background: rgba(0, 212, 255, 0.1);
         }
 
-        /* ËºâÂÖ•?ïÁï´ */
+        /* Loading styles */
         .loading {
             text-align: center;
             padding: 6rem 2rem;
@@ -578,7 +615,7 @@
             to { transform: rotate(360deg); }
         }
 
-        /* ?øÊ?ÂºèË®≠Ë®?*/
+        /* Responsive styles */
         @media (max-width: 1400px) {
             .products-main-content {
                 gap: 2rem;
@@ -591,9 +628,17 @@
         }
 
         @media (max-width: 1200px) {
-            .product-grid {
-                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            .products-main-content {
                 gap: 2rem;
+                padding: 2rem 3%;
+            }
+            
+            .products-sidebar {
+                flex: 0 0 280px;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             }
         }
 
@@ -608,39 +653,56 @@
             
             .products-main-content {
                 flex-direction: column;
-                padding: 2rem 4%;
             }
-
+            
             .products-sidebar {
-                flex: none;
                 position: static;
+                width: 100%;
                 margin-bottom: 2rem;
             }
-
-            .products-header {
-                flex-direction: column;
-                gap: 1.5rem;
-                align-items: stretch;
-                padding: 1.5rem 2rem;
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             }
-
-            .sort-options {
-                justify-content: space-between;
+            
+            .filter-group {
+                margin-bottom: 1.5rem;
             }
-
-            .product-grid {
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-                gap: 1.5rem;
+            
+            .filter-options {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 0.5rem;
+            }
+            
+            .filter-option {
+                margin-bottom: 0;
             }
         }
 
         @media (max-width: 768px) {
+            .main-container {
+                margin-top: 70px !important;
+            }
+            
+            .products-main-content {
+                flex-direction: column;
+                gap: 1.5rem;
+                padding: 2rem 3%;
+            }
+            
+            .products-sidebar {
+                flex: none;
+                position: static;
+                top: auto;
+            }
+            
             .page-header {
-                padding: 4rem 5% 3rem;
+                padding: 4rem 3% 3rem;
             }
             
             .page-header h1 {
-                font-size: 2rem;
+                font-size: 2.5rem;
             }
             
             .search-bar {
@@ -653,34 +715,51 @@
                 border-radius: 15px;
             }
             
-            .products-main-content {
-                padding: 1.5rem 3%;
-            }
-            
-            .product-grid {
+            .products-grid {
                 grid-template-columns: 1fr;
             }
         }
 
         @media (max-width: 480px) {
-            .page-header {
-                padding: 3rem 5% 2rem;
+            .main-container {
+                margin-top: 70px !important;
+            }
+            
+            .products-main-content {
+                padding: 1.5rem 4%;
             }
             
             .page-header h1 {
-                font-size: 1.8rem;
+                font-size: 2rem;
             }
             
-            .products-sidebar {
-                padding: 2rem 1.5rem;
+            .products-grid {
+                grid-template-columns: 1fr;
             }
             
             .product-info {
-                padding: 2rem 1.5rem;
+                padding: 1.25rem;
             }
             
             .product-actions {
                 flex-direction: column;
+            }
+            
+            .product-image {
+                height: 200px;
+            }
+            
+            .filter-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .price-inputs {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .price-inputs input {
+                width: 100%;
             }
         }
     </style>
@@ -689,36 +768,36 @@
     <nav class="navbar">
         <div class="container nav-container">
             <div class="logo">
-                <a href="index.html" aria-label="motowebÈ¶ñÈ?">
-                    <img src="/images/motoweb-logo.svg" alt="motoweb Logo" class="logo-img">
+                <a href="index.html" aria-label="MotoWeb homepage">
+                    <img src="images/motoweb-logo.svg" alt="MotoWeb Logo" class="logo-img">
                 </a>
             </div>
             <div class="nav-links" id="navLinks">
                 <div class="main-nav">
-                    <a href="index.html">È¶ñÈ?</a>
-                    <a href="products.html" class="active" aria-current="page">?πË??∂‰ª∂</a>
-                    <a href="community.html">Á§æÁæ§Ë®éË?</a>
-                    <a href="gallery.html">‰ΩúÂ?Â±ïÁ§∫</a>
-                    <a href="events.html">?πË?Ê¥ªÂ?</a>
+                    <a href="index.html">Home</a>
+                    <a href="products.html" class="active" aria-current="page">Modification Parts</a>
+                    <a href="community.html">Community</a>
+                    <a href="gallery.html">Gallery</a>
+                    <a href="events.html">Events</a>
                 </div>
                 <div class="auth-buttons">
-                    <a href="login.html" class="btn btn-secondary">?ªÂÖ•</a>
-                    <a href="register.html" class="btn btn-primary">Ë®ªÂ?</a>
+                    <a href="login.html" class="btn btn-secondary">Login</a>
+                    <a href="register.html" class="btn btn-primary">Register</a>
                 </div>
                 <div class="user-menu" style="display: none;">
                     <div class="user-avatar">
-                        <img src="/images/default-avatar.svg" alt="?®Êà∂?≠Â?" class="avatar">
-                        <span class="username">?®Êà∂?çÁ®±</span>
+                        <img src="/images/default-avatar.svg" alt="User Avatar" class="avatar">
+                        <span class="username">Username</span>
                     </div>
                     <div class="dropdown-menu">
-                        <a href="/profile.html"><i class="fas fa-user"></i> ?ã‰∫∫Ë≥áÊ?</a>
-                        <a href="/garage.html"><i class="fas fa-motorcycle"></i> ?ëÁ?ËªäÂ∫´</a>
-                        <a href="/settings.html"><i class="fas fa-cog"></i> Â∏≥Ë?Ë®≠Â?</a>
-                        <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> ?ªÂá∫</a>
+                        <a href="/profile.html"><i class="fas fa-user"></i> Profile</a>
+                        <a href="/garage.html"><i class="fas fa-motorcycle"></i> My Garage</a>
+                        <a href="/settings.html"><i class="fas fa-cog"></i> Settings</a>
+                        <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </div>
                 </div>
             </div>
-            <button class="menu-toggle" aria-label="Â±ïÈ??∏ÂñÆ" aria-expanded="false" aria-controls="navLinks">
+            <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -728,571 +807,299 @@
 
     <div class="main-container">
         <header class="page-header">
-            <h1>Ê•µËá¥?πË??∂‰ª∂?ÜÂ?</h1>
-            <p>?¢Á¥¢?ÇÁ??πË??∂‰ª∂ÔºåÊ??†Â?Â±¨Êñº?®Á?Â§¢ÊÉ≥Â∫ßÈ?</p>
-        <div class="search-bar">
-                <input type="text" id="search-input" placeholder="?úÂ??ÅÁ??ÅÂ??ü„ÄÅÈõ∂‰ª∂Â?Á®?.." autocomplete="off">
-                <button id="search-btn" type="button">
-                    <i class="fas fa-search"></i> ?úÂ?
+            <h1>Premium Modification Parts</h1>
+            <p>Explore high-quality aftermarket accessories from renowned global manufacturers</p>
+            <div class="search-bar">
+                <input type="text" placeholder="Search parts or brands..." aria-label="Search">
+                <button type="button">
+                    <i class="fas fa-search"></i> Search
                 </button>
-        </div>
-    </header>
-
-    <main class="products-main-content">
-        <aside class="products-sidebar" id="products-sidebar">
-                <h3><i class="fas fa-filter"></i> ?ÜÂ??ÜÈ?</h3>
-            
-            <div class="filter-group">
-                    <div class="group-title" data-toggle="sym-series">
-                        <span>SYMËªäÁ≥ª</span> 
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                <ul class="filter-list" id="sym-series">
-                    <li>
-                            <div class="group-title sub-group-title" data-toggle="sym-jet">
-                                <span>JET ?®Ë?Á≥?/span> 
-                                <i class="fas fa-chevron-right"></i>
-                            </div>
-                        <ul class="filter-list sub-list" id="sym-jet">
-                               <li><a href="#" data-category="sym-jet-power"><span>JET?ïÂ?Á≥ªÁµ±?áÁ?</span></a></li>
-                               <li><a href="#" data-category="sym-jet-brake"><span>JET?ûË??∂Â??áÁ?</span></a></li>
-                               <li><a href="#" data-category="sym-jet-suspension"><span>JET?øÈ??∏Â??áÁ?</span></a></li>
-                               <li><a href="#" data-category="sym-jet-appearance"><span>JET?±È?Â§ñË??àÁ≥ª?πË?</span></a></li>
-                        </ul>
-                    </li>
-                    <li>
-                            <div class="group-title sub-group-title" data-toggle="sym-drg">
-                                <span>DRG</span> 
-                                <i class="fas fa-chevron-right"></i>
-                            </div>
-                        <ul class="filter-list sub-list" id="sym-drg">
-                               <li><a href="#" data-category="sym-drg-power"><span>DRG?ïÂ?Á≥ªÁµ±?áÁ?</span></a></li>
-                               <li><a href="#" data-category="sym-drg-brake"><span>DRG?ûË??∂Â??áÁ?</span></a></li>
-                               <li><a href="#" data-category="sym-drg-suspension"><span>DRG?øÈ??∏Â??áÁ?</span></a></li>
-                               <li><a href="#" data-category="sym-drg-appearance"><span>DRG?±È??àÁ≥ªÂ§ñË??πË?</span></a></li>
-                        </ul>
-                    </li>
-                    <li>
-                            <div class="group-title sub-group-title" data-toggle="sym-mmbcu">
-                                <span>ÈªëÊõºÂ∑¥MMBCU</span> 
-                                <i class="fas fa-chevron-right"></i>
-                            </div>
-                        <ul class="filter-list sub-list" id="sym-mmbcu">
-                               <li><a href="#" data-category="sym-mmbcu-power"><span>MMBCU?ïÂ?Á≥ªÁµ±?áÁ?</span></a></li>
-                               <li><a href="#" data-category="sym-mmbcu-brake"><span>MMBCU?ûË??∂Â??áÁ?</span></a></li>
-                               <li><a href="#" data-category="sym-mmbcu-suspension"><span>MMBCU?∏Â??øÈ??áÁ?</span></a></li>
-                               <li><a href="#" data-category="sym-mmbcu-appearance"><span>MMBCU?±È?Â§ñË??àÁ≥ª?πË?</span></a></li>
-                        </ul>
-                    </li>
-                </ul>
             </div>
+        </header>
 
-            <div class="filter-group">
-                    <div class="group-title" data-toggle="yamaha-series">
-                        <span>YAMAHAËªäÁ≥ª</span> 
-                        <i class="fas fa-chevron-right"></i>
+        <main class="products-main-content">
+            <aside class="products-sidebar">
+                <h3>Filter Options</h3>
+                
+                <div class="filter-group">
+                    <div class="group-title">
+                        Motorcycle Models <i class="fas fa-chevron-right"></i>
                     </div>
-                <ul class="filter-list" id="yamaha-series">
-                    <li>
-                            <div class="group-title sub-group-title" data-toggle="yamaha-cygnus">
-                                <span>CYGNUS GRYPHUS</span> 
-                                <i class="fas fa-chevron-right"></i>
-                            </div>
-                        <ul class="filter-list sub-list" id="yamaha-cygnus">
-                               <li><a href="#" data-category="yamaha-cygnus-power"><span>?ÅÊà∞?ïÂ?Á≥ªÁµ±?áÁ?</span></a></li>
-                               <li><a href="#" data-category="yamaha-cygnus-brake"><span>?ÅÊà∞?ûË??∂Â??áÁ?</span></a></li>
-                               <li><a href="#" data-category="yamaha-cygnus-suspension"><span>?ÅÊà∞?øÈ??∏Â??áÁ?</span></a></li>
-                               <li><a href="#" data-category="yamaha-cygnus-appearance"><span>?ÅÊà∞?±È?Â§ñË??àÁ≥ª?áÁ?</span></a></li>
-                        </ul>
-                    </li>
-                    <li>
-                            <div class="group-title sub-group-title" data-toggle="yamaha-force-smax">
-                                <span>FORCE1.0/SMAX</span> 
-                                <i class="fas fa-chevron-right"></i>
-                            </div>
-                        <ul class="filter-list sub-list" id="yamaha-force-smax">
-                               <li><a href="#" data-category="yamaha-force-smax-power"><span>FORCE1.0/SMAX?ïÂ?Á≥ªÁµ±?áÁ?</span></a></li>
-                               <li><a href="#" data-category="yamaha-force-smax-brake"><span>FORCE1.0/SMAX?ûË??∂Â??áÁ?</span></a></li>
-                               <li><a href="#" data-category="yamaha-force-smax-suspension"><span>FORCE1.0/SMAX?øÈ??∏Â??áÁ?</span></a></li>
-                               <li><a href="#" data-category="yamaha-force-smax-appearance"><span>FORCE1.0/SMAX?±È?Â§ñË??àÁ≥ª?áÁ?</span></a></li>
-                        </ul>
-                    </li>
-                     <li>
-                            <div class="group-title sub-group-title" data-toggle="yamaha-force2">
-                                <span>FORCE2.0</span> 
-                                <i class="fas fa-chevron-right"></i>
-                            </div>
-                        <ul class="filter-list sub-list" id="yamaha-force2">
-                               <li><a href="#" data-category="yamaha-force2-power"><span>FORCE2.0?ïÂ?Á≥ªÁµ±?áÁ?</span></a></li>
-                               <li><a href="#" data-category="yamaha-force2-brake"><span>FORCE2.0?ûË??∂Â??áÁ?</span></a></li>
-                               <li><a href="#" data-category="yamaha-force2-suspension"><span>FORCE2.0?øÈ??∏Â??áÁ?</span></a></li>
-                               <li><a href="#" data-category="yamaha-force2-appearance"><span>FORCE2.0?±È?Â§ñË??àÁ≥ª?áÁ?</span></a></li>
-                        </ul>
-                    </li>
-                </ul>
-                </div>
-
-            <div class="filter-group">
-                    <div class="group-title" data-toggle="kymco-series">
-                        <span>KYMCOËªäÁ≥ª</span> 
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                <ul class="filter-list" id="kymco-series">
-                     <li>
-                            <div class="group-title sub-group-title" data-toggle="kymco-krv">
-                                <span>KRV</span> 
-                                <i class="fas fa-chevron-right"></i>
-                            </div>
-                        <ul class="filter-list sub-list" id="kymco-krv">
-                               <li><a href="#" data-category="kymco-krv-power"><span>KRV?ïÂ?Á≥ªÁµ±?áÁ?</span></a></li>
-                               <li><a href="#" data-category="kymco-krv-brake"><span>KRV?ûË??∂Â??áÁ?</span></a></li>
-                               <li><a href="#" data-category="kymco-krv-suspension"><span>KRV?øÈ??∏Â??áÁ?</span></a></li>
-                               <li><a href="#" data-category="kymco-krv-appearance"><span>KRV?±È?Â§ñË??àÁ≥ª?áÁ?</span></a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-
-        </aside>
-
-        <section class="products-display-area">
-            <div class="products-header">
-                <div class="results-count">
-                    <span id="product-count">È°ØÁ§∫ 0 ‰ª∂Â???/span>
-                </div>
-                <div class="sort-options">
-                    <label for="sort-by">?íÂ?Ôº?/label>
-                    <select id="sort-by" name="sort-by">
-                        <option value="latest">‰∏äÊû∂?ÇÈ?: ?±Êñ∞?∞Ë?</option>
-                        <option value="oldest">‰∏äÊû∂?ÇÈ?: ?±Ë??∞Êñ∞</option>
-                        <option value="price-desc">?πÊ†º: ?±È??≥‰?</option>
-                        <option value="price-asc">?πÊ†º: ?±‰??≥È?</option>
-                            <option value="popular">‰∫∫Ê∞£: ?±È??≥‰?</option>
-                            <option value="rating">Ë©ïÂÉπ: ?±È??≥‰?</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="product-grid" id="product-grid">
-                    <div class="loading">
-                        <i class="fas fa-spinner"></i>
-                        Ê≠?ú®ËºâÂÖ•Á≤æÈÅ∏?πË??∂‰ª∂...
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" name="bikeType" value="sym-jet">
+                            SYM JET Series
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="bikeType" value="sym-drg">
+                            SYM DRG Series
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="bikeType" value="sym-mmbcu">
+                            SYM Black Mamba MMBCU
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="bikeType" value="yamaha-cygnus">
+                            YAMAHA Cygnus Series
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="bikeType" value="yamaha-force">
+                            YAMAHA FORCE Series
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="bikeType" value="kymco-krv">
+                            KYMCO KRV Series
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="bikeType" value="augur">
+                            AUGUR Series
+                        </label>
                     </div>
                 </div>
 
-            <div class="pagination" id="pagination">
-                    <!-- ?ÜÈ??ßÂà∂?ÉÂú®?ôË£°?ïÊ?ËºâÂÖ• -->
-            </div>
-        </section>
-    </main>
+                <div class="filter-group">
+                    <div class="group-title">
+                        Product Categories <i class="fas fa-chevron-right"></i>
+                    </div>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" name="category" value="engine">
+                            Engine Performance Upgrades
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="category" value="suspension">
+                            Suspension & Shock Upgrades
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="category" value="exhaust">
+                            Exhaust Systems
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="category" value="brakes">
+                            Brake System Upgrades
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="category" value="appearance">
+                            Aesthetic Modifications
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="category" value="electronics">
+                            Electronic Systems
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <div class="group-title">
+                        Brands <i class="fas fa-chevron-right"></i>
+                    </div>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" name="brand" value="ARACER">
+                            ARACER
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="brand" value="KOSO">
+                            KOSO
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="brand" value="Monster Factory">
+                            Monster Factory
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="brand" value="MASA">
+                            MASA
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="brand" value="SIMOTA">
+                            SIMOTA
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="brand" value="Baphomet">
+                            Baphomet
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="brand" value="SKUNY">
+                            SKUNY
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="brand" value="APEXX">
+                            APEXX
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <div class="group-title">
+                        Price Range <i class="fas fa-chevron-right"></i>
+                    </div>
+                    <div class="filter-options">
+                        <div class="price-range">
+                            <input type="range" min="0" max="50000" step="1000" class="price-slider" value="50000">
+                            <div class="price-inputs">
+                                <input type="number" class="min-price" placeholder="Min Price" min="0" value="0">
+                                <span>-</span>
+                                <input type="number" class="max-price" placeholder="Max Price" min="0" value="50000">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="apply-filters">
+                    <i class="fas fa-filter"></i>
+                    Apply Filters
+                </button>
+            </aside>
+
+            <section class="products-grid">
+                <!-- Products will be dynamically loaded here -->
+            </section>
+        </main>
     </div>
 
     <footer class="footer">
-        <!-- Footer ?ßÂÆπ?ÉÁî± common.js ?íÂÖ• -->
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section about">
+                    <div class="footer-logo">
+                        <img src="images/motoweb-logo.svg" alt="MotoWeb Logo" class="footer-logo-img">
+                    </div>
+                    <p>Professional motorcycle modification community platform, providing a space for riders to communicate and share.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="products.html">Modification Parts</a></li>
+                        <li><a href="community.html">Community Forum</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="events.html">Events</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section contact">
+                    <h3>Contact Info</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-envelope"></i> contact@MotoWeb.com</li>
+                        <li><i class="fas fa-phone"></i> (02) 1234-5678</li>
+                        <li><i class="fas fa-map-marker-alt"></i> No. 100, Songren Rd., Xinyi Dist., Taipei City</li>
+                    </ul>
+                </div>
+                <div class="footer-section newsletter">
+                    <h3>Newsletter</h3>
+                    <p>Get the latest modification trends and event information</p>
+                    <form class="newsletter-form" action="subscribe.php" method="POST">
+                        <input type="email" name="email" placeholder="Your email" required>
+                        <button type="submit" class="btn btn-primary">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MotoWeb. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Use</a>
+                    <a href="cookies.html">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
     </footer>
 
-    <button id="backToTop" class="back-to-top" aria-label="ËøîÂ??ÅÈù¢?ÇÈÉ®">
+    <button id="backToTop" class="back-to-top" aria-label="Back to top">
         <i class="fas fa-chevron-up"></i>
     </button>
 
     <script src="/js/common.js"></script>
+    <script src="/js/products.js"></script>
     <script src="/js/auth-state.js"></script>
-    <script src="/js/products-api.js"></script>
     <script>
-        // ?¢Â??∏Ê??åÂ???        document.addEventListener('DOMContentLoaded', function() {
-            // ?ùÂ??ñÈ??¢Â???            initProductsPage();
-            initMobileNav();
-            initAuthState();
-            initBackToTop();
-        });
-
-        // ?®Â?ËÆäÊï∏
-        let allProducts = [];
-        let currentProducts = [];
-        let currentFilter = 'all';
-        let currentSort = 'latest';
-        let isLoading = false;
-
-        function initProductsPage() {
-            // Á∂ÅÂ?‰∫ã‰ª∂??ÅΩ??            bindEventListeners();
-            
-            // ËºâÂÖ•?¢Â?
-            loadProducts();
-            
-            // ?ïÁ?URL?ÉÊï∏
-            handleURLParams();
-        }
-
-        function bindEventListeners() {
-            // ?ÜÈ?ÁØ©ÈÅ∏
-            document.querySelectorAll('.group-title').forEach(title => {
-                title.addEventListener('click', function() {
-                    const targetId = this.dataset.toggle;
-                    if (targetId) {
-                        toggleFilterGroup(targetId, this);
-                    }
-                });
-            });
-
-            // ?¢Â?ÁØ©ÈÅ∏???
-            document.querySelectorAll('.filter-list a').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const category = this.dataset.category;
-            
-            if (category) {
-                        filterByCategory(category);
-                        setActiveFilter(this);
-                    }
-                });
-            });
-
-            // ?íÂ?
-            document.getElementById('sort-by').addEventListener('change', function() {
-                currentSort = this.value;
-                sortProducts();
-                displayProducts();
-            });
-
-            // ?úÂ?
-            const searchBtn = document.getElementById('search-btn');
-            const searchInput = document.getElementById('search-input');
-            
-            searchBtn.addEventListener('click', performSearch);
-            searchInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    performSearch();
-                }
-            });
-        }
-
-        function toggleFilterGroup(targetId, titleElement) {
-            const targetList = document.getElementById(targetId);
-            const isOpen = targetList.classList.contains('open');
-            
-            // ?áÊ?Â±ïÈ??Ä??            targetList.classList.toggle('open');
-            titleElement.classList.toggle('open');
-        }
-
-        function filterByCategory(category) {
-            currentFilter = category;
-            currentProducts = allProducts.filter(product => 
-                product.category.includes(category) || 
-                product.mainCategory.includes(category) ||
-                product.brand.toLowerCase().includes(category.toLowerCase())
-            );
-            displayProducts();
-        }
-
-        function setActiveFilter(activeLink) {
-            // ÁßªÈô§?Ä?âactiveÈ°ûÂà•
-            document.querySelectorAll('.filter-list a').forEach(link => {
-                link.classList.remove('active');
-            });
-            // Ë®≠ÁΩÆ?∂Â?active
-            activeLink.classList.add('active');
-        }
-
-        function performSearch() {
-            const query = document.getElementById('search-input').value.toLowerCase().trim();
-            if (!query) {
-                currentProducts = [...allProducts];
-            } else {
-                currentProducts = allProducts.filter(product =>
-                    product.name.toLowerCase().includes(query) ||
-                    product.brand.toLowerCase().includes(query) ||
-                    product.description.toLowerCase().includes(query) ||
-                    (product.tags && product.tags.some(tag => tag.toLowerCase().includes(query)))
-                );
-            }
-            displayProducts();
-        }
-
-        function sortProducts() {
-            currentProducts.sort((a, b) => {
-                switch (currentSort) {
-                    case 'price-asc':
-                        return a.price - b.price;
-                    case 'price-desc':
-                        return b.price - a.price;
-                    case 'popular':
-                        return (b.popularity || 0) - (a.popularity || 0);
-                    case 'rating':
-                        return (b.rating || 0) - (a.rating || 0);
-                    case 'oldest':
-                        return new Date(a.createdAt) - new Date(b.createdAt);
-                    case 'latest':
-                    default:
-                        return new Date(b.createdAt) - new Date(a.createdAt);
-                }
-            });
-        }
-
-        async function loadProducts() {
-            if (isLoading) return;
-            
-            isLoading = true;
-            const productGrid = document.getElementById('product-grid');
-            
-            try {
-                // È°ØÁ§∫ËºâÂÖ•?Ä??                productGrid.innerHTML = `
-                    <div class="loading">
-                        <i class="fas fa-spinner"></i>
-                        Ê≠?ú®ËºâÂÖ•Á≤æÈÅ∏?πË??∂‰ª∂...
-                    </div>
-                `;
-
-                // Âæ?API ËºâÂÖ•?¢Â?
-                const response = await fetch('http://localhost:3001/api/products?page=1&limit=100');
-                if (!response.ok) {
-                    throw new Error('API Ë´ãÊ?Â§±Ê?');
-                }
+        document.addEventListener('DOMContentLoaded', function() {
+            // ÂÅ¥Ê¨ÑÈÅéÊøæÂô®ÁµÑÁöÑÂ±ïÈñã/Êî∂Ëµ∑ÂäüËÉΩ
+            const groupTitles = document.querySelectorAll('.group-title');
+            groupTitles.forEach(title => {
+                const options = title.nextElementSibling;
+                options.style.display = 'none'; // ÂàùÂßãÁãÄÊÖãÁÇ∫Êî∂Ëµ∑
                 
-                const data = await response.json();
-                allProducts = data.products || [];
-                currentProducts = [...allProducts];
-                
-                console.log('ËºâÂÖ•?¢Â??∏È?:', allProducts.length);
-                console.log('?¢Â?Ê®?ú¨:', allProducts.slice(0, 3));
-        
-                // ?íÂ?‰∏¶È°ØÁ§∫Áî¢??                sortProducts();
-                displayProducts();
-                
-            } catch (error) {
-                console.error('ËºâÂÖ•?¢Â?Â§±Ê?:', error);
-                productGrid.innerHTML = `
-                    <div style="grid-column: 1 / -1; text-align: center; padding: 4rem; color: var(--metallic-silver);">
-                        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 1rem; color: #ef4444;"></i>
-                        <h3 style="color: white; margin-bottom: 1rem;">ËºâÂÖ•?¢Â?Â§±Ê?</h3>
-                        <p>Ë´ãÊ™¢?•Á∂≤Ë∑ØÈÄ?é•?ñÁ?ÂæåÂ?Ë©?/p>
-                        <button onclick="loadProducts()" class="btn btn-primary" style="margin-top: 1rem;">
-                            <i class="fas fa-redo"></i> ?çÊñ∞ËºâÂÖ•
-                        </button>
-                    </div>
-                `;
-            } finally {
-                isLoading = false;
-            }
-        }
-
-        function displayProducts() {
-            const productGrid = document.getElementById('product-grid');
-            const productCount = document.getElementById('product-count');
-            
-            // ?¥Êñ∞Ë®àÊï∏
-            productCount.textContent = `È°ØÁ§∫ ${currentProducts.length} ‰ª∂Â??Å`;
-            
-            if (currentProducts.length === 0) {
-                productGrid.innerHTML = `
-                    <div style="grid-column: 1 / -1; text-align: center; padding: 4rem; color: var(--metallic-silver);">
-                        <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 1rem; color: var(--primary-color);"></i>
-                        <h3 style="color: white; margin-bottom: 1rem;">?æ‰??∞Á¨¶?àÊ?‰ª∂Á??ÜÂ?</h3>
-                        <p>Ë´ãÂ?Ë©¶Ë™ø?¥Ê?Â∞ãÊ?‰ª∂Ê??èË¶Ω?∂‰??ÜÈ?</p>
-                    </div>
-                `;
-                return;
-            }
-
-            // Á´ãÂç≥?¥Êñ∞ DOMÔºåÈÅø?çÈ???            productGrid.innerHTML = currentProducts.map(product => {
-                // Á¢∫‰??ñÁ?Ë∑ØÂ?Ê≠?¢∫
-                const imagePath = product.image || 'images/parts/placeholder-product.png';
-                const fullImagePath = imagePath.startsWith('http') ? imagePath : `/${imagePath}`;
-                
-                // ?§Êñ∑?ØÂê¶?∫Êñ∞?ÅÊ??±Èä∑ÔºàÂü∫?ºÂâµÂª∫Ê??ìÂ?Â∫´Â?Ôº?                const isNew = new Date(product.createdAt) > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000); // 30Â§©ÂÖß
-                const isHot = product.stock < 20; // Â∫´Â?Â∞ëÊñº20Ë¶ñÁÇ∫?±Èä∑
-                
-                return `
-                    <article class="product-card" data-product-id="${product._id || product.id}">
-                        ${isNew ? '<div class="product-badge">?∞Â?</div>' : ''}
-                        ${isHot ? '<div class="product-badge" style="background: linear-gradient(45deg, #ff6b6b, #ff8e53);">?±Èä∑</div>' : ''}
-                        
-                        <div class="product-image">
-                            <img src="${fullImagePath}" 
-                                 alt="${product.name}" 
-                                 loading="lazy" 
-                                 onerror="this.src='/images/parts/placeholder-product.png'">
-                        </div>
-                        
-                        <div class="product-info">
-                            <div class="product-category">${product.brand || 'MotoWeb'}</div>
-                            <h3>${product.name}</h3>
-                            <p class="product-description">${product.description || '?™Ë≥™?πË??∂‰ª∂ÔºåÊ??áÊÇ®?ÑÈ?‰πòÈ?È©?}</p>
-                            
-                            <div class="product-price">
-                                NT$${product.price ? product.price.toLocaleString() : '0'}
-                                ${product.originalPrice && product.originalPrice > product.price ? 
-                                    `<span style="text-decoration: line-through; color: var(--metallic-silver); font-size: 0.8em; margin-left: 0.5rem;">NT$${product.originalPrice.toLocaleString()}</span>` 
-                                    : ''
-                                }
-                            </div>
-                            
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                    <div style="color: #fbbf24;">
-                                        ${'??.repeat(Math.floor(product.rating || 4.5))}${'??.repeat(5 - Math.floor(product.rating || 4.5))}
-                                    </div>
-                                    <span style="color: var(--metallic-silver); font-size: 0.9rem;">(${product.reviews || Math.floor(Math.random() * 200) + 50})</span>
-                                </div>
-                                <span style="color: ${product.stock > 10 ? 'var(--success-color)' : '#ef4444'}; font-size: 0.9rem;">
-                                    Â∫´Â?: ${product.stock || 0}
-                                </span>
-                            </div>
-                            
-                            <div class="product-actions">
-                                <button class="btn btn-primary" onclick="addToCart('${product._id || product.id}')">
-                                    <i class="fas fa-shopping-cart"></i> ?†ÂÖ•Ë≥ºÁâ©Ëª?                                </button>
-                                <button class="btn btn-outline" onclick="toggleWishlist('${product._id || product.id}')">
-                                    <i class="far fa-heart"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </article>
-                `;
-            }).join('');
-
-            // ÁßªÈô§ËºâÂÖ•?ïÁï´È°ûÂà•ÔºåÂ??úÊ??ÑË©±
-            productGrid.classList.remove('loading');
-        }
-
-        function addToCart(productId) {
-            const product = allProducts.find(p => p._id === productId || p.id === productId);
-            if (product) {
-                // ?ôË£°?Ø‰ª•ÂØ¶Áèæ?†ÂÖ•Ë≥ºÁâ©ËªäÈ?Ëº?                showNotification(`${product.name} Â∑≤Â??•Ë≥º?©Ë?ÔºÅ`, 'success');
-            }
-        }
-
-        function toggleWishlist(productId) {
-            const product = allProducts.find(p => p._id === productId || p.id === productId);
-            if (product) {
-                // ?ôË£°?Ø‰ª•ÂØ¶ÁèæÈ°òÊ?Ê∏ÖÂñÆ?èËºØ
-                showNotification(`${product.name} Â∑≤Â??•È??õÊ??ÆÔ?`, 'info');
-            }
-        }
-
-        function showNotification(message, type = 'info') {
-            // ?µÂª∫?öÁü•?ÉÁ?
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: ${type === 'success' ? 'linear-gradient(45deg, var(--success-color), #10b981)' : 'linear-gradient(45deg, var(--primary-color), var(--accent-color))'};
-                color: white;
-                padding: 1rem 1.5rem;
-                border-radius: 10px;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-                z-index: 1000;
-                transform: translateX(100%);
-                transition: transform 0.3s ease;
-            `;
-            notification.textContent = message;
-            
-            document.body.appendChild(notification);
-            
-            // ?ïÁï´È°ØÁ§∫
-            setTimeout(() => {
-                notification.style.transform = 'translateX(0)';
-            }, 100);
-            
-            // ?™Â?ÁßªÈô§
-            setTimeout(() => {
-                notification.style.transform = 'translateX(100%)';
-                setTimeout(() => {
-                    if (notification.parentNode) {
-                        document.body.removeChild(notification);
-                    }
-                }, 300);
-            }, 3000);
-        }
-
-        function handleURLParams() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const category = urlParams.get('category');
-            
-            if (category) {
-                // ?ïÁ??ÜÈ??ÉÊï∏
-                const categoryMapping = {
-                    'performance': 'power',
-                    'suspension': 'suspension',
-                    'visual': 'appearance',
-                    'electronics': 'electronic'
-            };
-            
-                const mappedCategory = categoryMapping[category] || category;
-                filterByCategory(mappedCategory);
-                
-                // ?™Â?Â±ïÈ??∏È??ÜÈ?
-                expandRelatedCategories(mappedCategory);
-            }
-        }
-
-        function expandRelatedCategories(category) {
-            document.querySelectorAll('.filter-list a').forEach(link => {
-                const linkCategory = link.dataset.category || '';
-                if (linkCategory.includes(category)) {
-                    // Â±ïÈ??∂Á??ÜÈ?
-                    let parentList = link.closest('.filter-list');
-                    while (parentList) {
-                        parentList.classList.add('open');
-                        const parentTitle = document.querySelector(`[data-toggle="${parentList.id}"]`);
-                        if (parentTitle) {
-                            parentTitle.classList.add('open');
-                        }
-                        parentList = parentList.parentElement.closest('.filter-list');
-                    }
+                title.addEventListener('click', () => {
+                    const isActive = title.classList.contains('active');
                     
-                    // Ë®≠ÁΩÆ?∫Ê¥ªË∫çÁ???                    link.classList.add('active');
-                }
-            });
-        }
-
-        function initBackToTop() {
-            const backToTopButton = document.getElementById('backToTop');
-            
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 300) {
-                    backToTopButton.classList.add('visible');
-                } else {
-                    backToTopButton.classList.remove('visible');
-                }
-            });
-
-            backToTopButton.addEventListener('click', () => {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
+                    // Êî∂Ëµ∑ÂÖ∂‰ªñÊâÄÊúâÈÅ∏È†Ö
+                    groupTitles.forEach(otherTitle => {
+                        if (otherTitle !== title) {
+                            otherTitle.classList.remove('active');
+                            otherTitle.nextElementSibling.style.display = 'none';
+                        }
+                    });
+                    
+                    // ÂàáÊèõÁï∂ÂâçÈÅ∏È†ÖÁöÑÁãÄÊÖã
+                    title.classList.toggle('active');
+                    options.style.display = isActive ? 'none' : 'block';
                 });
             });
-        }
 
-        function initMobileNav() {
-            const menuToggle = document.querySelector('.menu-toggle');
-            const navLinks = document.querySelector('.nav-links');
+            // ÂÉπÊ†ºÁØÑÂúçÊªëÂ°äÁöÑÂäüËÉΩ
+            const priceSlider = document.querySelector('.price-slider');
+            const minPriceInput = document.querySelector('.min-price');
+            const maxPriceInput = document.querySelector('.max-price');
 
-            if (menuToggle && navLinks) {
-                menuToggle.addEventListener('click', () => {
-                    navLinks.classList.toggle('active');
-                    menuToggle.setAttribute('aria-expanded', 
-                        menuToggle.getAttribute('aria-expanded') === 'false' ? 'true' : 'false'
-                    );
+            if (priceSlider && minPriceInput && maxPriceInput) {
+                // Êõ¥Êñ∞ÂÉπÊ†ºËº∏ÂÖ•Ê°Ü
+                priceSlider.addEventListener('input', (e) => {
+                    const value = e.target.value;
+                    const min = Math.floor(value * 0.4); // Á§∫‰æãÔºöÊúÄÂ∞èÂÄºÁÇ∫ÊªëÂ°äÂÄºÁöÑ40%
+                    const max = value;
+                    
+                    minPriceInput.value = min;
+                    maxPriceInput.value = max;
+                });
+
+                // ÂêåÊ≠•ÂÉπÊ†ºËº∏ÂÖ•Ê°ÜÂíåÊªëÂ°ä
+                [minPriceInput, maxPriceInput].forEach(input => {
+                    input.addEventListener('change', () => {
+                        const min = parseInt(minPriceInput.value) || 0;
+                        const max = parseInt(maxPriceInput.value) || 100000;
+                        
+                        if (min > max) {
+                            // Â¶ÇÊûúÊúÄÂ∞èÂÄºÂ§ßÊñºÊúÄÂ§ßÂÄºÔºå‰∫§ÊèõÂÆÉÂÄë
+                            minPriceInput.value = max;
+                            maxPriceInput.value = min;
+                        }
+                        
+                        priceSlider.value = max;
+                    });
                 });
             }
-        }
 
-        function initAuthState() {
-            // Ê™¢Êü•?ªÂÖ•?Ä??            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-            const authButtons = document.querySelector('.auth-buttons');
-            const userMenu = document.querySelector('.user-menu');
-            
-            if (isLoggedIn) {
-                authButtons.style.display = 'none';
-                userMenu.style.display = 'block';
-                
-                // Ë®≠ÁΩÆ?®Êà∂?çÁ®±
-                const username = localStorage.getItem('username') || '?®Êà∂';
-                document.querySelector('.username').textContent = username;
+            // ÊáâÁî®ÈÅéÊøæÂô®ÊåâÈàïÁöÑÂäüËÉΩ
+            const applyFiltersBtn = document.querySelector('.apply-filters');
+            if (applyFiltersBtn) {
+                applyFiltersBtn.addEventListener('click', () => {
+                    // Êî∂ÈõÜÊâÄÊúâÈÅ∏‰∏≠ÁöÑÈÅéÊøæÂô®
+                    const selectedCategories = Array.from(document.querySelectorAll('input[name="category"]:checked'))
+                        .map(input => input.value);
+                    
+                    const selectedBrands = Array.from(document.querySelectorAll('input[name="brand"]:checked'))
+                        .map(input => input.value);
+                    
+                    const priceRange = {
+                        min: parseInt(minPriceInput.value) || 0,
+                        max: parseInt(maxPriceInput.value) || 100000
+                    };
+
+                    // ÈÄôË£°ÂèØ‰ª•Ê∑ªÂä†ÈÅéÊøæÁî¢ÂìÅÁöÑÈÇèËºØ
+                    console.log('Selected filters:', {
+                        categories: selectedCategories,
+                        brands: selectedBrands,
+                        priceRange: priceRange
+                    });
+                });
             }
-        }
+        });
     </script>
 </body>
 </html>

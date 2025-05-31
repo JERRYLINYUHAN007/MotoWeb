@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MotoWeb - 摩托車改裝社群</title>
-    <meta name="description" content="MotoWeb是台灣最大的摩托車改裝社群平台，提供改裝零件展示、經驗分享與交流">
+    <title>MotoWeb - Motorcycle Modification Community</title>
+    <meta name="description" content="MotoWeb is Taiwan's largest motorcycle modification community platform, providing modification parts showcase, experience sharing and communication">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/tech-theme.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -12,9 +12,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* 首頁專用樣式 - 現代科技風格 */
+        /* Homepage-specific styles - Modern tech style */
         
-        /* 首頁特殊動畫 */
+        /* Homepage special animations */
         @keyframes scanLine {
             0% { transform: translateY(-100%); opacity: 0; }
             50% { opacity: 1; }
@@ -49,13 +49,13 @@
         }
         }
 
-        /* 主要區域樣式 */
+        /* Main area styles */
         .main-container {
             margin-top: 80px;
             background: var(--secondary-color);
         }
 
-        /* 英雄區域 - 全新設計 */
+        /* Hero section - New design */
         .hero-section {
             height: 100vh;
             background: 
@@ -236,7 +236,7 @@
             margin: 0;
         }
 
-        /* 區段標題統一樣式 */
+        /* Section header unified style */
         .section-header {
             text-align: center;
             margin-bottom: 4rem;
@@ -266,7 +266,7 @@
             line-height: 1.6;
         }
 
-        /* 特色區域 - 重新設計 */
+        /* Features section - Redesigned */
         .features-section {
             padding: 8rem 5%;
             background: 
@@ -391,7 +391,7 @@
             z-index: 2;
         }
 
-        /* 分類區域 - 全新設計 */
+        /* Categories section - New design */
         .categories-section {
             padding: 8rem 5%;
             background: 
@@ -479,13 +479,7 @@
             font-size: 1rem;
         }
 
-        /* 區段底部按鈕 */
-        .section-footer {
-            text-align: center;
-            margin-top: 4rem;
-        }
-
-        /* CTA區域 - 重新設計 */
+        /* CTA section - Redesigned */
         .cta-section {
             padding: 8rem 5%;
             background: 
@@ -555,185 +549,7 @@
             min-width: 200px;
         }
 
-        /* 響應式設計增強 */
-        @media (max-width: 968px) {
-            .hero-features {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 1.5rem;
-            }
-            
-            .hero-feature {
-                padding: 1.5rem 1rem;
-                min-height: 180px;
-            }
-
-            .hero-feature i {
-                font-size: 2.5rem;
-                margin-bottom: 1rem;
-            }
-
-            .hero-feature h3 {
-                font-size: 1.1rem;
-                margin-bottom: 0.6rem;
-            }
-
-            .hero-feature p {
-                font-size: 0.9rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .hero-content {
-                min-height: 85vh;
-                padding: 0 1.5rem;
-                text-align: center;
-            }
-
-            .hero-title {
-                font-size: 2.8rem;
-                margin-bottom: 1.2rem;
-                text-align: center;
-                width: 100%;
-                margin-left: auto;
-                margin-right: auto;
-            }
-
-            .hero-subtitle {
-                font-size: 1.2rem;
-                margin-bottom: 2rem;
-                text-align: center;
-                width: 100%;
-                margin-left: auto;
-                margin-right: auto;
-            }
-
-            .hero-buttons {
-                flex-direction: column;
-                align-items: center;
-                gap: 1rem;
-                margin-bottom: 2.5rem;
-                width: 100%;
-            }
-
-            .hero-buttons .btn {
-                width: 100%;
-                max-width: 280px;
-                font-size: 1rem;
-                padding: 0.9rem 1.5rem;
-            }
-
-            .hero-features {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
-            .hero-feature {
-                padding: 1.5rem 1.2rem;
-                min-height: auto;
-            }
-
-            .hero-feature i {
-                font-size: 2.5rem;
-                margin-bottom: 1rem;
-            }
-
-            .hero-feature h3 {
-                font-size: 1.1rem;
-                margin-bottom: 0.6rem;
-            }
-
-            .hero-feature p {
-                font-size: 0.9rem;
-            }
-
-            .features-grid {
-                grid-template-columns: 1fr;
-            gap: 2rem;
-        }
-
-            .categories-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .section-header h2 {
-                font-size: 2.2rem;
-            }
-
-            .section-header p {
-                font-size: 1.1rem;
-            }
-
-            .cta-content {
-                padding: 3rem 2rem;
-            }
-
-            .cta-content h2 {
-                font-size: 2.2rem;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
-                gap: 1rem;
-            }
-
-            .cta-buttons .btn {
-                width: 100%;
-                max-width: 300px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero-content {
-                min-height: 90vh;
-                padding: 0 1rem;
-                text-align: center;
-            }
-
-            .hero-title {
-                font-size: 2.2rem;
-                line-height: 1.3;
-                text-align: center;
-                width: 100%;
-                margin-left: auto;
-                margin-right: auto;
-                word-wrap: break-word;
-            }
-
-            .hero-subtitle {
-                font-size: 1.1rem;
-                text-align: center;
-                width: 100%;
-                margin-left: auto;
-                margin-right: auto;
-            }
-
-            .hero-features {
-                gap: 1.2rem;
-            }
-
-            .hero-feature {
-                padding: 1.2rem 1rem;
-            }
-
-            .hero-feature i {
-                font-size: 2.2rem;
-            }
-
-            .categories-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .feature-card {
-                padding: 2rem 1.5rem;
-            }
-
-            .feature-icon {
-                font-size: 3.5rem;
-            }
-        }
-
-        /* 社群討論區域 */
+        /* Community discussion section */
         .community-section {
             padding: 8rem 5%;
             background: 
@@ -874,42 +690,48 @@
             color: var(--success-color);
             transform: translateX(5px);
         }
+
+        /* Section footer button */
+        .section-footer {
+            text-align: center;
+            margin-top: 4rem;
+        }
     </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="container nav-container">
             <div class="logo">
-                <a href="index.html" aria-label="motoweb首頁">
-                    <img src="images/motoweb-logo.svg" alt="motoweb Logo" class="logo-img">
+                <a href="index.html" aria-label="MotoWeb homepage">
+                    <img src="images/motoweb-logo.svg" alt="MotoWeb Logo" class="logo-img">
                 </a>
             </div>
             <div class="nav-links" id="navLinks">
                 <div class="main-nav">
-                    <a href="index.html" class="active" aria-current="page">首頁</a>
-                    <a href="products.html">改裝零件</a>
-                    <a href="community.html">社群討論</a>
-                    <a href="gallery.html">作品展示</a>
-                    <a href="events.html">改裝活動</a>
+                    <a href="index.html" class="active" aria-current="page">Home</a>
+                    <a href="products.html">Modification Parts</a>
+                    <a href="community.html">Community</a>
+                    <a href="gallery.html">Gallery</a>
+                    <a href="events.html">Events</a>
                 </div>
                 <div class="auth-buttons">
-                    <a href="login.html" class="btn btn-secondary">登入</a>
-                    <a href="register.html" class="btn btn-primary">註冊</a>
+                    <a href="login.html" class="btn btn-secondary">Login</a>
+                    <a href="register.html" class="btn btn-primary">Register</a>
                 </div>
                 <div class="user-menu" style="display: none;">
                     <div class="user-avatar">
-                        <img src="/images/default-avatar.svg" alt="用戶頭像" class="avatar">
-                        <span class="username">用戶名稱</span>
+                        <img src="/images/default-avatar.svg" alt="User Avatar" class="avatar">
+                        <span class="username">Username</span>
                     </div>
                     <div class="dropdown-menu">
-                        <a href="/profile.html"><i class="fas fa-user"></i> 個人資料</a>
-                        <a href="/garage.html"><i class="fas fa-motorcycle"></i> 我的車庫</a>
-                        <a href="/settings.html"><i class="fas fa-cog"></i> 帳號設定</a>
-                        <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> 登出</a>
+                        <a href="/profile.html"><i class="fas fa-user"></i> Profile</a>
+                        <a href="/garage.html"><i class="fas fa-motorcycle"></i> My Garage</a>
+                        <a href="/settings.html"><i class="fas fa-cog"></i> Settings</a>
+                        <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </div>
                 </div>
             </div>
-            <button class="menu-toggle" aria-label="展開選單" aria-expanded="false" aria-controls="navLinks">
+            <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -921,31 +743,31 @@
         <header class="hero-section">
         <div class="container">
             <div class="hero-content">
-                    <h1 class="hero-title">摩托車改裝的科技殿堂</h1>
-                    <p class="hero-subtitle">融合科技美學與機械工藝，打造專屬於你的終極騎乘體驗</p>
+                    <h1 class="hero-title">Tech Temple of Motorcycle Modification</h1>
+                    <p class="hero-subtitle">Combining technological aesthetics with mechanical craftsmanship to create your ultimate riding experience</p>
                 <div class="hero-buttons">
                         <a href="#featured" class="btn btn-primary">
-                            <i class="fas fa-rocket"></i> 探索改裝世界
+                            <i class="fas fa-rocket"></i> Explore Modifications
                         </a>
                         <a href="community.html" class="btn btn-outline">
-                            <i class="fas fa-users"></i> 加入社群
+                            <i class="fas fa-users"></i> Join Community
                         </a>
                 </div>
                     <div class="hero-features">
                         <div class="hero-feature">
                             <i class="fas fa-bolt"></i>
-                            <h3>極速性能</h3>
-                            <p>突破極限的動力提升</p>
+                            <h3>Extreme Performance</h3>
+                            <p>Breaking limits with power upgrades</p>
                         </div>
                         <div class="hero-feature">
                             <i class="fas fa-palette"></i>
-                            <h3>視覺美學</h3>
-                            <p>獨特的外觀設計理念</p>
+                            <h3>Visual Aesthetics</h3>
+                            <p>Unique exterior design concepts</p>
                         </div>
                         <div class="hero-feature">
                             <i class="fas fa-shield-alt"></i>
-                            <h3>安全保障</h3>
-                            <p>專業的改裝品質認證</p>
+                            <h3>Safety Assurance</h3>
+                            <p>Professional modification quality certification</p>
                         </div>
                     </div>
             </div>
@@ -956,29 +778,29 @@
             <section id="featured" class="features-section">
             <div class="container">
                 <div class="section-header">
-                        <h2>精選改裝傑作</h2>
-                        <p>來自全球頂尖改裝師的創意結晶，每一台都是藝術品級的存在</p>
+                        <h2>Featured Masterpieces</h2>
+                        <p>Creative works from top modifiers worldwide, each one is a work of art</p>
                 </div>
                     <div class="features-grid">
                         <article class="feature-card">
                             <div class="feature-icon"><i class="fas fa-fire"></i></div>
-                            <h3>超跑級性能改裝</h3>
-                            <p>透過精密的引擎調校和空力套件，讓您的愛車擁有超跑般的性能表現，在道路上成為眾人矚目的焦點。</p>
+                            <h3>Supercar-level Performance Mods</h3>
+                            <p>Through precise engine tuning and aerodynamic kits, give your bike supercar-like performance and become the center of attention on the road.</p>
                         </article>
                         <article class="feature-card">
                             <div class="feature-icon"><i class="fas fa-gem"></i></div>
-                            <h3>奢華外觀定製</h3>
-                            <p>採用頂級材質和先進工藝，打造獨一無二的視覺效果，讓每一個細節都展現您的品味和個性。</p>
+                            <h3>Luxury Appearance Customization</h3>
+                            <p>Using premium materials and advanced craftsmanship to create unique visual effects that showcase your taste and personality in every detail.</p>
                         </article>
                         <article class="feature-card">
                             <div class="feature-icon"><i class="fas fa-cog"></i></div>
-                            <h3>智能科技整合</h3>
-                            <p>融合最新的電子科技，從智能儀表到輔助系統，讓傳統機械與現代科技完美結合。</p>
+                            <h3>Smart Technology Integration</h3>
+                            <p>Incorporating the latest electronic technology, from smart dashboards to assistance systems, perfectly combining traditional mechanics with modern tech.</p>
                         </article>
                 </div>
                 <div class="section-footer">
                         <a href="gallery.html" class="btn btn-primary">
-                            <i class="fas fa-images"></i> 查看所有作品
+                            <i class="fas fa-images"></i> View All Works
                         </a>
                 </div>
             </div>
@@ -987,34 +809,34 @@
         <section class="categories-section">
             <div class="container">
                 <div class="section-header">
-                        <h2>改裝專業領域</h2>
-                        <p>從動力心臟到外觀美學，全方位的改裝解決方案</p>
+                        <h2>Professional Modification Areas</h2>
+                        <p>From power systems to aesthetic enhancements, comprehensive modification solutions</p>
                 </div>
                 <div class="categories-grid">
                     <a href="products.html?category=performance" class="category-card">
                         <div class="category-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            <h3>動力系統</h3>
-                            <p>引擎調校 • 渦輪增壓 • 排氣系統 • ECU優化</p>
+                            <h3>Power Systems</h3>
+                            <p>Engine Tuning • Turbochargers • Exhaust Systems • ECU Optimization</p>
                     </a>
                     <a href="products.html?category=suspension" class="category-card">
                             <div class="category-icon"><i class="fas fa-road"></i></div>
-                            <h3>底盤懸吊</h3>
-                            <p>避震器 • 煞車系統 • 輪胎輪框 • 穩定桿</p>
+                            <h3>Chassis & Suspension</h3>
+                            <p>Shock Absorbers • Brake Systems • Tires & Rims • Stabilizers</p>
                     </a>
                     <a href="products.html?category=visual" class="category-card">
                         <div class="category-icon"><i class="fas fa-paint-brush"></i></div>
-                            <h3>外觀套件</h3>
-                            <p>車身空力 • 燈具改裝 • 塗裝貼膜 • 裝飾配件</p>
+                            <h3>Appearance Kits</h3>
+                            <p>Body Aerodynamics • Lighting Mods • Paint & Wraps • Decorative Accessories</p>
                     </a>
                         <a href="products.html?category=electronics" class="category-card">
                             <div class="category-icon"><i class="fas fa-microchip"></i></div>
-                            <h3>電子系統</h3>
-                            <p>儀表板 • 音響系統 • 導航設備 • 智能配件</p>
+                            <h3>Electronic Systems</h3>
+                            <p>Dashboards • Audio Systems • Navigation • Smart Accessories</p>
                     </a>
                 </div>
                 <div class="section-footer">
                         <a href="products.html" class="btn btn-primary">
-                            <i class="fas fa-shopping-cart"></i> 瀏覽所有商品
+                            <i class="fas fa-shopping-cart"></i> Browse All Products
                         </a>
                 </div>
             </div>
@@ -1023,15 +845,15 @@
         <section class="community-section">
             <div class="container">
                 <div class="section-header">
-                        <h2>活躍社群動態</h2>
-                        <p>與全球改裝愛好者分享經驗，探討最新改裝趨勢</p>
+                        <h2>Active Community Updates</h2>
+                        <p>Share experiences with global modification enthusiasts and discuss the latest trends</p>
                 </div>
                 <div class="discussion-list">
-                    <!-- 動態載入的討論卡片 -->
+                    <!-- Dynamically loaded discussion cards -->
                 </div>
                 <div class="section-footer">
                         <a href="community.html" class="btn btn-primary">
-                            <i class="fas fa-comments"></i> 參與所有討論
+                            <i class="fas fa-comments"></i> Join All Discussions
                         </a>
                 </div>
             </div>
@@ -1040,14 +862,14 @@
         <section class="cta-section">
             <div class="container">
                 <div class="cta-content">
-                        <h2>開啟您的改裝之旅</h2>
-                        <p>加入我們的專業改裝社群，獲得專家建議、分享改裝心得，與志同道合的車友一起探索無限可能</p>
+                        <h2>Start Your Modification Journey</h2>
+                        <p>Join our professional modification community, get expert advice, share modification experiences, and explore unlimited possibilities with like-minded riders</p>
                     <div class="cta-buttons">
                             <a href="register.html" class="btn btn-primary">
-                                <i class="fas fa-user-plus"></i> 立即註冊
+                                <i class="fas fa-user-plus"></i> Register Now
                             </a>
                             <a href="about.html" class="btn btn-outline">
-                                <i class="fas fa-info-circle"></i> 了解更多
+                                <i class="fas fa-info-circle"></i> Learn More
                             </a>
                     </div>
                 </div>
@@ -1061,9 +883,9 @@
             <div class="footer-content">
                 <div class="footer-section about">
                     <div class="footer-logo">
-                        <img src="images/motoweb-logo.svg" alt="motoweb Logo" class="footer-logo-img">
+                        <img src="images/motoweb-logo.svg" alt="MotoWeb Logo" class="footer-logo-img">
                     </div>
-                    <p>專業的摩托車改裝社群平台，為車友提供交流與分享的空間。</p>
+                    <p>Professional motorcycle modification community platform, providing a space for riders to communicate and share.</p>
                     <div class="social-links">
                         <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
                         <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
@@ -1072,44 +894,44 @@
                     </div>
                 </div>
                 <div class="footer-section links">
-                    <h3>快速連結</h3>
+                    <h3>Quick Links</h3>
                     <ul>
-                        <li><a href="about.html">關於我們</a></li>
-                        <li><a href="products.html">改裝零件</a></li>
-                        <li><a href="community.html">社群討論</a></li>
-                        <li><a href="gallery.html">作品展示</a></li>
-                        <li><a href="events.html">改裝活動</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="products.html">Modification Parts</a></li>
+                        <li><a href="community.html">Community Forum</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="events.html">Events</a></li>
                     </ul>
                 </div>
                 <div class="footer-section contact">
-                    <h3>聯絡資訊</h3>
+                    <h3>Contact Info</h3>
                     <ul class="contact-info">
                         <li><i class="fas fa-envelope"></i> contact@MotoWeb.com</li>
                         <li><i class="fas fa-phone"></i> (02) 1234-5678</li>
-                        <li><i class="fas fa-map-marker-alt"></i> 台北市信義區松仁路100號</li>
+                        <li><i class="fas fa-map-marker-alt"></i> No. 100, Songren Rd., Xinyi Dist., Taipei City</li>
                     </ul>
                 </div>
                 <div class="footer-section newsletter">
-                    <h3>訂閱電子報</h3>
-                    <p>獲取最新改裝趨勢與活動資訊</p>
+                    <h3>Newsletter</h3>
+                    <p>Get the latest modification trends and event information</p>
                     <form class="newsletter-form" action="subscribe.php" method="POST">
-                        <input type="email" name="email" placeholder="您的電子郵件" required>
-                        <button type="submit" class="btn btn-primary">訂閱</button>
+                        <input type="email" name="email" placeholder="Your email" required>
+                        <button type="submit" class="btn btn-primary">Subscribe</button>
                     </form>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 MotoWeb. 保留所有權利。</p>
+                <p>&copy; 2025 MotoWeb. All rights reserved.</p>
                 <div class="footer-bottom-links">
-                    <a href="privacy.html">隱私政策</a>
-                    <a href="terms.html">使用條款</a>
-                    <a href="cookies.html">Cookie 政策</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Use</a>
+                    <a href="cookies.html">Cookie Policy</a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <button id="backToTop" class="back-to-top" aria-label="返回頁面頂部">
+    <button id="backToTop" class="back-to-top" aria-label="Back to top">
         <i class="fas fa-chevron-up"></i>
     </button>
 
@@ -1118,19 +940,19 @@
     <script src="/js/api.js"></script>
     <script src="/js/gallery.js"></script>
     <script>
-        // 首頁專用功能
+        // Homepage-specific functions
         document.addEventListener('DOMContentLoaded', function() {
-            // 檢查登入狀態以決定是否顯示CTA區域
+            // Check login status to determine whether to show CTA section
             const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
             const ctaSection = document.querySelector('.cta-section');
             
             if (isLoggedIn && ctaSection) {
-                // 已登入用戶隱藏註冊CTA區域
+                // Hide registration CTA section for logged-in users
                 ctaSection.style.display = 'none';
             }
         });
         
-        // 載入精選改裝作品
+        // Load featured modification works
         async function loadFeaturedWorks() {
             try {
                 const response = await fetch('/api/featured-works');
@@ -1147,7 +969,7 @@
                             <div class="card-meta">
                                 <span class="meta-item"><i class="fas fa-heart"></i> ${work.likes}</span>
                                 <span class="meta-item"><i class="fas fa-comment"></i> ${work.comments}</span>
-                                <a href="project.html?id=${work.id}" class="card-link">查看詳情</a>
+                                <a href="project.html?id=${work.id}" class="card-link">View Details</a>
                         </div>
                     `;
                     featuredGrid.appendChild(card);
@@ -1157,52 +979,52 @@
             }
         }
 
-        // 載入熱門討論 - 優化版本
+        // Load hot discussions - Optimized version
         async function loadHotDiscussions() {
             try {
-                // 使用模擬數據，如果API可用的話替換為真實API調用
+                // Using mock data, replace with real API calls if available
                 const mockDiscussions = [
                     {
                         id: 1,
-                        title: 'Akrapovic排氣管改裝心得分享',
-                        excerpt: '最近安裝了Akrapovic鈦合金排氣管，聲浪和動力提升都很明顯，想分享一些安裝和調校的經驗...',
-                        userName: '摩托車達人',
+                        title: 'Akrapovic Exhaust Installation Experience',
+                        excerpt: 'Recently installed Akrapovic titanium exhaust, both sound and power improvement are obvious, want to share some installation and tuning experience...',
+                        userName: 'Moto Expert',
                         userAvatar: '/images/avatars/user1.svg',
-                        timeAgo: '2小時前',
+                        timeAgo: '2 hours ago',
                         replies: 24,
                         views: 432,
-                        category: '排氣系統',
-                        categoryLink: 'community.html?category=排氣系統'
+                        category: 'Exhaust Systems',
+                        categoryLink: 'community.html?category=Exhaust%20Systems'
                     },
                     {
                         id: 2,
-                        title: '新手必看：懸吊系統基礎調校指南',
-                        excerpt: '從零開始學習懸吊調校，包括彈簧預載、阻尼調整、高度設定等實用技巧和注意事項...',
-                        userName: '技師小王',
+                        title: 'Beginner\'s Guide: Basic Suspension Tuning',
+                        excerpt: 'Learn suspension tuning from scratch, including spring preload, damping adjustment, height settings and other practical tips...',
+                        userName: 'Tech Wang',
                         userAvatar: '/images/avatars/user2.svg',
-                        timeAgo: '5小時前',
+                        timeAgo: '5 hours ago',
                         replies: 18,
                         views: 356,
-                        category: '懸吊系統',
-                        categoryLink: 'community.html?category=懸吊系統'
+                        category: 'Suspension',
+                        categoryLink: 'community.html?category=Suspension'
                     },
                     {
                         id: 3,
-                        title: 'LED車燈升級改裝全攻略',
-                        excerpt: '分享LED大燈、方向燈、煞車燈的改裝經驗，包括線路配置、散熱處理和法規注意事項...',
-                        userName: '燈光專家',
+                        title: 'Complete LED Lighting Upgrade Guide',
+                        excerpt: 'Sharing LED headlight, turn signal, brake light modification experience, including wiring, cooling and regulatory considerations...',
+                        userName: 'Lighting Pro',
                         userAvatar: '/images/avatars/user3.svg',
-                        timeAgo: '1天前',
+                        timeAgo: '1 day ago',
                         replies: 32,
                         views: 528,
-                        category: '電子系統',
-                        categoryLink: 'community.html?category=電子系統'
+                        category: 'Electronics',
+                        categoryLink: 'community.html?category=Electronics'
                     }
                 ];
-
+                
                 const discussionList = document.querySelector('.discussion-list');
                 
-                // 清空現有內容
+                // Clear existing content
                 discussionList.innerHTML = '';
                 
                 mockDiscussions.forEach((discussion, index) => {
@@ -1210,9 +1032,9 @@
                     card.className = 'discussion-card';
                     card.style.animationDelay = `${index * 0.1}s`;
                     
-                                        card.innerHTML = `
+                    card.innerHTML = `
                         <div class="user-info">
-                            <img src="${discussion.userAvatar}" alt="${discussion.userName}的頭像" class="discussion-user-avatar" loading="lazy">
+                            <img src="${discussion.userAvatar}" alt="${discussion.userName}'s avatar" class="discussion-user-avatar" loading="lazy">
                             <div class="user-meta">
                                 <h4>${discussion.userName}</h4>
                                 <span><i class="fas fa-clock"></i> ${discussion.timeAgo}</span>
@@ -1226,7 +1048,7 @@
                                 <span><i class="fas fa-eye"></i> ${discussion.views}</span>
                             </div>
                             <a href="${discussion.categoryLink || 'community.html'}" class="discussion-link">
-                                參與討論 <i class="fas fa-arrow-right"></i>
+                                Join Discussion <i class="fas fa-arrow-right"></i>
                             </a>
                         </div>
                     `;
@@ -1235,23 +1057,23 @@
                 });
                 
             } catch (error) {
-                console.error('載入熱門討論時出錯:', error);
+                console.error('Error loading hot discussions:', error);
                 const discussionList = document.querySelector('.discussion-list');
                 discussionList.innerHTML = `
                     <div style="text-align: center; padding: 3rem; color: #64748b;">
                         <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 1rem; color: #f59e0b;"></i>
-                        <p>載入討論內容時發生錯誤，請稍後再試。</p>
+                        <p>Error loading discussion content, please try again later.</p>
                     </div>
                 `;
             }
         }
 
-        // 頁面載入時執行
+        // Page load time execution
         document.addEventListener('DOMContentLoaded', function() {
-            // 載入熱門討論
+            // Load hot discussions
             loadHotDiscussions();
             
-            // 添加滾動動畫
+            // Add scroll animation
             const observerOptions = {
                 threshold: 0.1,
                 rootMargin: '0px 0px -50px 0px'
@@ -1266,7 +1088,7 @@
                 });
             }, observerOptions);
 
-            // 觀察所有討論卡片
+            // Observe all discussion cards
             setTimeout(() => {
                 document.querySelectorAll('.discussion-card').forEach(card => {
                     card.style.opacity = '0';
@@ -1277,7 +1099,7 @@
             }, 100);
         });
 
-        // 返回頂部按鈕功能
+        // Back to top button functionality
         const backToTopButton = document.getElementById('backToTop');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 300) {
@@ -1296,13 +1118,13 @@
         
 
         
-        // 頁面載入時初始化
+        // Page load time initialization
         document.addEventListener('DOMContentLoaded', function() {
             loadFeaturedWorks();
             loadHotDiscussions();
         });
         
-        // 手機版選單切換
+        // Mobile menu switch
         const menuToggle = document.querySelector('.menu-toggle');
         const navLinks = document.querySelector('.nav-links');
 

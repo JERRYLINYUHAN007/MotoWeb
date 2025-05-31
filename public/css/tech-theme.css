@@ -17,6 +17,24 @@
     --background-color: #f8fafc;
     --text-color: #333;
     --text-color-light: #666;
+    
+    /* 導航列相關變數 */
+    --navbar-bg: linear-gradient(145deg, 
+        rgba(17, 24, 39, 0.98), 
+        rgba(31, 41, 55, 0.95));
+    --navbar-text: #e5e7eb;
+    
+    /* 連結相關變數 */
+    --link-color: #00d4ff;
+    --link-hover-color: #7c3aed;
+    
+    /* 表單相關變數 */
+    --light-color: #ffffff;
+    --section-alt-bg: rgba(31, 41, 55, 0.8);
+    
+    /* 危險色彩 */
+    --danger-color: #ff3b30;
+    --error-color: #e74c3c;
 }
 
 /* 全局樣式增強 */
@@ -79,6 +97,7 @@ body {
 .user-menu {
     position: relative;
     cursor: pointer;
+    z-index: 1001;
 }
 
 .user-avatar {
@@ -93,6 +112,10 @@ body {
     box-shadow: 
         0 4px 15px rgba(0, 212, 255, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 .user-avatar:hover {
@@ -101,6 +124,13 @@ body {
         0 8px 25px rgba(0, 212, 255, 0.4),
         0 0 30px var(--primary-color);
     transform: translateY(-2px);
+}
+
+.user-avatar:active {
+    transform: translateY(0);
+    box-shadow: 
+        0 4px 15px rgba(0, 212, 255, 0.3),
+        0 0 20px var(--primary-color);
 }
 
 .user-avatar .avatar,
@@ -113,6 +143,7 @@ body {
     border: 2px solid var(--success-color);
     transition: all 0.3s ease;
     box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+    pointer-events: none;
 }
 
 .user-avatar:hover .avatar,
@@ -129,11 +160,12 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 0.95rem;
+    pointer-events: none;
 }
 
 .dropdown-menu {
     position: absolute;
-    top: 100%;
+    top: calc(100% + 10px);
     right: 0;
     width: 200px;
     background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
@@ -143,13 +175,42 @@ body {
         0 0 20px rgba(0, 212, 255, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
     padding: 12px 0;
-    z-index: 100;
+    z-index: 1002;
     display: none;
     border: 1px solid var(--primary-color);
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
 }
 
 .dropdown-menu.show {
     display: block;
+    opacity: 1;
+    transform: translateY(0);
+    animation: dropdownSlideIn 0.3s ease-out;
+}
+
+@keyframes dropdownSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdown-menu::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    right: 20px;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid var(--primary-color);
 }
 
 .dropdown-menu a {
@@ -159,6 +220,20 @@ body {
     text-decoration: none;
     transition: all 0.3s ease;
     border-left: 3px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.dropdown-menu a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    transition: width 0.3s ease;
+    z-index: -1;
 }
 
 .dropdown-menu a:hover {
@@ -168,11 +243,21 @@ body {
     box-shadow: inset 0 0 10px rgba(0, 212, 255, 0.3);
 }
 
+.dropdown-menu a:hover::before {
+    width: 100%;
+}
+
 .dropdown-menu i {
     width: 18px;
     margin-right: 10px;
     text-align: center;
     color: var(--success-color);
+    transition: all 0.3s ease;
+}
+
+.dropdown-menu a:hover i {
+    color: white;
+    transform: scale(1.1);
 }
 
 /* 導航欄樣式 - 現代科技風格 */
@@ -665,8 +750,18 @@ body {
 }
 
 main {
-    margin-top: 80px;
     min-height: calc(100vh - 80px);
+}
+
+/* 針對沒有main-container的頁面，確保正確的上邊距 */
+body > main:not(.main-container) {
+    margin-top: 80px;
+}
+
+/* 針對有main-container的頁面，避免重複的上邊距 */
+.main-container {
+    margin-top: 80px;
+    min-height: 100vh;
 }
 
 /* 確保所有容器的一致性 */

@@ -1,117 +1,55 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>‰ΩøÁî®Ê¢ùÊ¨æ - MotoWeb ?©Ê?ËªäÊîπË£ùÁ§æÁæ?/title>
-    <meta name="description" content="MotoWeb ‰ΩøÁî®Ê¢ùÊ¨æ - ‰ΩøÁî®?ëÂÄëÊ??ôÂ?Ë´ãË©≥?±Áõ∏?úË?ÁØ?>
+    <title>Terms of Service - MotoWeb</title>
+    <meta name="description" content="MotoWeb Terms of Service - Please read our terms carefully before using our platform">
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/tech-theme.css">
+    <link rel="stylesheet" href="/css/legal.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        .legal-page {
-            padding-top: 80px;
-            padding-bottom: 4rem;
-        }
-        
-        .legal-header {
-            background: var(--background-color);
-            padding: 4rem 0;
-            text-align: center;
-        }
-        
-        .legal-header h1 {
-            font-size: 2.5rem;
-            color: var(--secondary-color);
-            margin-bottom: 1rem;
-        }
-        
-        .legal-content {
-            max-width: 800px;
-            margin: 4rem auto;
-            padding: 0 2rem;
-            line-height: 1.8;
-        }
-        
-        .legal-content h2 {
-            color: var(--secondary-color);
-            margin: 2rem 0 1rem;
-            font-size: 1.5rem;
-        }
-        
-        .legal-content h3 {
-            color: var(--secondary-color);
-            margin: 1.5rem 0 1rem;
-            font-size: 1.2rem;
-        }
-        
-        .legal-content p {
-            margin-bottom: 1rem;
-        }
-        
-        .legal-content ul {
-            margin: 1rem 0;
-            padding-left: 2rem;
-        }
-        
-        .legal-content li {
-            margin-bottom: 0.5rem;
-        }
-        
-        .highlight-box {
-            background: #f8f9fa;
-            border-left: 4px solid var(--primary-color);
-            padding: 1rem;
-            margin: 2rem 0;
-        }
-        
-        .warning-box {
-            background: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 1rem;
-            margin: 2rem 0;
-        }
-        
-        .contact-info {
-            background: var(--primary-color);
-            color: white;
-            padding: 2rem;
-            border-radius: 8px;
-            margin: 2rem 0;
-        }
-        
-        .last-updated {
-            font-style: italic;
-            color: #666;
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-    </style>
 </head>
-<body class="legal-page">
+<body>
+    <!-- Navigation -->
     <nav class="navbar">
         <div class="container nav-container">
             <div class="logo">
-                <a href="index.html" aria-label="motowebÈ¶ñÈ?">
-                    <img src="/images/motoweb-logo.svg" alt="motoweb Logo" class="logo-img">
+                <a href="index.html" aria-label="MotoWeb homepage">
+                    <img src="images/motoweb-logo.svg" alt="MotoWeb Logo" class="logo-img">
                 </a>
             </div>
             <div class="nav-links" id="navLinks">
                 <div class="main-nav">
-                    <a href="index.html">È¶ñÈ?</a>
-                    <a href="products.html">?πË??∂‰ª∂</a>
-                    <a href="community.html">Á§æÁæ§Ë®éË?</a>
-                    <a href="gallery.html">‰ΩúÂ?Â±ïÁ§∫</a>
-                    <a href="events.html">?πË?Ê¥ªÂ?</a>
+                    <a href="index.html">Home</a>
+                    <a href="products.html">Modification Parts</a>
+                    <a href="community.html">Community</a>
+                    <a href="gallery.html">Gallery</a>
+                    <a href="events.html">Events</a>
                 </div>
-                <div class="auth-buttons">
-                    <a href="login.html" class="btn btn-secondary">?ªÂÖ•</a>
-                    <a href="register.html" class="btn btn-primary">Ë®ªÂ?</a>
+                <div class="auth-section">
+                    <div class="auth-buttons">
+                        <a href="login.html" class="btn btn-secondary">Login</a>
+                        <a href="register.html" class="btn btn-primary">Register</a>
+                    </div>
+                    <div class="user-menu" style="display: none;">
+                        <button class="user-avatar">
+                            <img src="images/default-avatar.svg" alt="User avatar">
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+                            <a href="garage.html"><i class="fas fa-warehouse"></i> My Garage</a>
+                            <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+                            <hr>
+                            <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <button class="menu-toggle" aria-label="Â±ïÈ??∏ÂñÆ" aria-expanded="false" aria-controls="navLinks">
+            <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -119,240 +57,365 @@
         </div>
     </nav>
 
-    <main>
-        <section class="legal-header">
+    <!-- Main Content -->
+    <main class="legal-main">
+        <!-- Hero Section -->
+        <section class="legal-hero">
+            <div class="hero-bg"></div>
             <div class="container">
-                <h1>‰ΩøÁî®Ê¢ùÊ¨æ</h1>
-                <p>‰ΩøÁî® MotoWeb ?çÂ??çÔ?Ë´ãË©≥Á¥∞Èñ±ËÆÄ‰∏¶Â??è‰ª•‰∏ãÊ?Ê¨?/p>
+                <div class="hero-content">
+                    <h1 class="hero-title">Terms of Service</h1>
+                    <p class="hero-subtitle">Please read these terms carefully before using MotoWeb</p>
+                    <div class="last-updated">
+                        <i class="fas fa-calendar-alt"></i> Last Updated: May 2025
+                    </div>
+                </div>
             </div>
         </section>
 
-        <div class="container">
-            <div class="legal-content">
-                <p class="last-updated">?ÄÂæåÊõ¥?∞Êó•?üÔ?2025Âπ???5??/p>
+        <!-- Legal Content -->
+        <section class="legal-content-section">
+            <div class="container">
+                <div class="legal-content">
+                    <!-- Important Notice -->
+                    <div class="notice-card important">
+                        <div class="notice-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="notice-content">
+                            <h3>Important Notice</h3>
+                            <p>By using the MotoWeb platform, you acknowledge that you have read, understood, and agree to these terms of service. If you do not agree with any part of these terms, please do not use our services.</p>
+                        </div>
+                    </div>
 
-                <div class="highlight-box">
-                    <p><strong>?çË??≤Ê?Ôº?/strong>‰ΩøÁî® MotoWeb Âπ≥Âè∞?≥Ë°®Á§∫ÊÇ®Â∑≤Èñ±ËÆÄ?ÅÁ?Ëß?∏¶?åÊ??µÂ??¨‰Ωø?®Ê?Ê¨æ„ÄÇÂ?‰∏çÂ??è‰ªª‰ΩïÊ?Ê¨æÂÖßÂÆπÔ?Ë´ãÂãø‰ΩøÁî®?ëÂÄëÁ??çÂ???/p>
-                </div>
+                    <!-- Service Description -->
+                    <div class="content-section">
+                        <h2><span class="section-number">1</span>Service Description</h2>
+                        <p>MotoWeb is an online community platform for motorcycle enthusiasts, offering the following services:</p>
+                        <div class="feature-grid">
+                            <div class="feature-item">
+                                <i class="fas fa-motorcycle"></i>
+                                <span>Motorcycle modification showcase and sharing</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-users"></i>
+                                <span>Community discussions and experience exchange</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-tools"></i>
+                                <span>Modification parts information and purchasing</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>Event information and registration</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-warehouse"></i>
+                                <span>Personal garage management features</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-headset"></i>
+                                <span>Expert consultation and technical support</span>
+                            </div>
+                        </div>
+                    </div>
 
-                <h2>1. ?çÂ?Ë™™Ê?</h2>
-                <p>MotoWeb ?ØÂ??∫Êë©?òË??õÂ•Ω?ÖÊ??†Á?Á∑ö‰?Á§æÁæ§Âπ≥Âè∞ÔºåÊ?‰æõ‰ª•‰∏ãÊ??ôÔ?</p>
-                <ul>
-                    <li>?©Ê?ËªäÊîπË£ù‰??ÅÂ?Á§∫Ë??Ü‰∫´</li>
-                    <li>Á§æÁæ§Ë®éË??áÁ?È©ó‰∫§Êµ?/li>
-                    <li>?πË??∂‰ª∂Ë≥áË??áË≥ºË≤∑Ê???/li>
-                    <li>?πË?Ê¥ªÂ?Ë≥áË??ºÂ?</li>
-                    <li>?ã‰∫∫ËªäÂ∫´ÁÆ°Á??üËÉΩ</li>
-                    <li>Â∞àÂÆ∂Ë´ÆË©¢?áÊ?Ë°ìÊîØ??/li>
-                </ul>
+                    <!-- User Eligibility -->
+                    <div class="content-section">
+                        <h2><span class="section-number">2</span>User Eligibility</h2>
+                        
+                        <div class="subsection">
+                            <h3>2.1 Age Restrictions</h3>
+                            <ul class="styled-list">
+                                <li>Users must be at least 13 years old</li>
+                                <li>Users aged 13-18 require parental or guardian consent</li>
+                                <li>Accounts with false age information will be terminated</li>
+                            </ul>
+                        </div>
 
-                <h2>2. ‰ΩøÁî®?ÖË???/h2>
-                <h3>2.1 Âπ¥ÈΩ°?êÂà∂</h3>
-                <ul>
-                    <li>‰ΩøÁî®?ÖÂ??àÂπ¥Êª?13 Ê≠?/li>
-                    <li>13-18 Ê≠≤Êú™?êÂπ¥‰∫∫È?Ë¶ÅÁà∂ÊØçÊ???≠∑‰∫∫Â???/li>
-                    <li>?ê‰??õÂ?Âπ¥ÈΩ°Ë≥áË?Â∞áÂ??¥Â∏≥?∂Â???/li>
-                </ul>
+                        <div class="subsection">
+                            <h3>2.2 Account Responsibilities</h3>
+                            <ul class="styled-list">
+                                <li>Limited to one account per person</li>
+                                <li>Must provide accurate and truthful registration information</li>
+                                <li>Protect account password security, no sharing with others</li>
+                                <li>Responsible for all account activities</li>
+                            </ul>
+                        </div>
+                    </div>
 
-                <h3>2.2 Â∏≥Êà∂Ë≤¨‰ªª</h3>
-                <ul>
-                    <li>ÊØè‰∫∫?êÂà∂Ë®ªÂ?‰∏Ä?ãÂ∏≥??/li>
-                    <li>?ê‰??üÂØ¶?ÅÊ?Á¢∫Á?Ë®ªÂ?Ë≥áË?</li>
-                    <li>‰øùË≠∑Â∏≥Êà∂ÂØÜÁ¢ºÂÆâÂÖ®Ôºå‰?ÂæóË?‰ªñ‰∫∫?±Áî®</li>
-                    <li>Â∞çÂ∏≥?∂‰??ÑÊ??âÊ¥ª?ïË?Ë≤?/li>
-                </ul>
+                    <!-- Usage Rules -->
+                    <div class="content-section">
+                        <h2><span class="section-number">3</span>Usage Rules</h2>
+                        
+                        <div class="subsection">
+                            <h3>3.1 Prohibited Conduct</h3>
+                            <p>While using our services, you must not:</p>
+                            <div class="prohibited-grid">
+                                <div class="prohibited-item">
+                                    <i class="fas fa-ban"></i>
+                                    <strong>Post inappropriate content:</strong>
+                                    <span>Including violence, discrimination, or harassment</span>
+                                </div>
+                                <div class="prohibited-item">
+                                    <i class="fas fa-copyright"></i>
+                                    <strong>Violate rights:</strong>
+                                    <span>Plagiarize or infringe on others' intellectual property</span>
+                                </div>
+                                <div class="prohibited-item">
+                                    <i class="fas fa-ad"></i>
+                                    <strong>Commercial abuse:</strong>
+                                    <span>Unauthorized advertising or spam</span>
+                                </div>
+                                <div class="prohibited-item">
+                                    <i class="fas fa-virus"></i>
+                                    <strong>Technical abuse:</strong>
+                                    <span>Hacking, virus distribution, or system damage</span>
+                                </div>
+                                <div class="prohibited-item">
+                                    <i class="fas fa-fake-news"></i>
+                                    <strong>False information:</strong>
+                                    <span>Spread misinformation or defamation</span>
+                                </div>
+                                <div class="prohibited-item">
+                                    <i class="fas fa-user-slash"></i>
+                                    <strong>Harassment:</strong>
+                                    <span>Stalking or harassing other users</span>
+                                </div>
+                            </div>
+                        </div>
 
-                <h2>3. ‰ΩøÁî®Ë¶èÁ?</h2>
-                <h3>3.1 Á¶ÅÊ≠¢Ë°åÁÇ∫</h3>
-                <p>‰ΩøÁî®?ëÂÄëÁ??çÂ??ÇÔ??®‰?ÂæóÔ?</p>
-                <ul>
-                    <li><strong>?ºÂ?‰∏çÁï∂?ßÂÆπÔº?/strong>?≤Ê??ÅÊö¥?õ„ÄÅÊ≠ßË¶ñ„ÄÅ‰??®Ë?Ë´?/li>
-                    <li><strong>‰æµÁäØÊ¨äÂà©Ôº?/strong>?ÑË•≤?ÅÁ??®‰?‰∫∫‰??ÅÊ??ã‰∫∫Ë≥áÊ?</li>
-                    <li><strong>?ÜÊ•≠Êø´Áî®Ôº?/strong>?™Á??àÊ??ÑÂª£?ä„ÄÅÂ??æË???/li>
-                    <li><strong>?ÄË°ìÊø´?®Ô?</strong>Èß≠ÂÆ¢?ªÊ??ÅÁ?ÊØíÂÇ≥?≠„ÄÅÁ≥ªÁµ±Á†¥Â£?/li>
-                    <li><strong>?õÂ?Ë≥áË?Ôº?/strong>???‰∏çÂØ¶Ê∂àÊÅØ?ÅÂ??í‰?‰∫∫Ë∫´‰ª?/li>
-                    <li><strong>È®∑ÊìæË°åÁÇ∫Ôº?/strong>?∏Â??ÅÊ??á„ÄÅË?Ëπ§ÂÖ∂‰ªñ‰Ωø?®ËÄ?/li>
-                    <li><strong>?ïÊ?Ê¥ªÂ?Ôº?/strong>‰ªª‰??ïÂ?Ê≥ïÂ?Ê≥ïË??ÑË???/li>
-                </ul>
+                        <div class="subsection">
+                            <h3>3.2 Content Standards</h3>
+                            <p>All content must be:</p>
+                            <div class="standards-grid">
+                                <div class="standard-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Motorcycle-related and on-topic</span>
+                                </div>
+                                <div class="standard-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Accurate and constructive</span>
+                                </div>
+                                <div class="standard-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Respectful of others' rights</span>
+                                </div>
+                                <div class="standard-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Compliant with social ethics</span>
+                                </div>
+                                <div class="standard-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Free from malicious intent</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                <h3>3.2 ?ßÂÆπÊ®ôÊ?</h3>
-                <p>?ºÂ??ÑÂÖßÂÆπÂ??àÔ?</p>
-                <ul>
-                    <li>?áÊë©?òË??πË?‰∏ªÈ??∏È?</li>
-                    <li>?üÂØ¶?ÅÊ?Á¢∫‰??âÂª∫Ë®≠ÊÄ?/li>
-                    <li>Â∞äÈ?‰ªñ‰∫∫?±Á??åÊ???/li>
-                    <li>Á¨¶Â?Á§æÊ??ìÂæ∑Ê®ôÊ?</li>
-                    <li>‰∏çÂ??´ÊÉ°?èÈÄ???ñÁ?ÊØ?/li>
-                </ul>
+                    <!-- Continue with other sections... -->
+                    <div class="content-section">
+                        <h2><span class="section-number">4</span>Intellectual Property</h2>
+                        
+                        <div class="ip-grid">
+                            <div class="ip-card">
+                                <h3>4.1 Platform Rights</h3>
+                                <ul class="styled-list">
+                                    <li>MotoWeb logos and design elements belong to the company</li>
+                                    <li>Platform software and code protected by intellectual property laws</li>
+                                    <li>No copying, modification, or redistribution allowed</li>
+                                </ul>
+                            </div>
+                            <div class="ip-card">
+                                <h3>4.2 User Content</h3>
+                                <ul class="styled-list">
+                                    <li>You retain ownership of your original content</li>
+                                    <li>Grant us license to use and display your content</li>
+                                    <li>Ensure uploaded content doesn't infringe third-party rights</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
 
-                <h2>4. ?∫ÊÖßË≤°Áî¢Ê¨?/h2>
-                <h3>4.1 Âπ≥Âè∞Ê¨äÂà©</h3>
-                <ul>
-                    <li>MotoWeb ?ÜÊ??ÅÊ?Ë™å„ÄÅ‰??¢Ë®≠Ë®àÊ≠∏?¨ÂÖ¨?∏Ê???/li>
-                    <li>Âπ≥Âè∞ËªüÈ??ÅÁ?ÂºèÁ¢º?óÊô∫?ßË≤°?¢Ê?Ê≥ï‰?Ë≠?/li>
-                    <li>?™Á??àÊ?‰∏çÂ?Ë§áË£Ω?Å‰øÆ?πÊ??ÜÁôº</li>
-                </ul>
+                    <!-- Privacy Protection -->
+                    <div class="content-section">
+                        <h2><span class="section-number">5</span>Privacy Protection</h2>
+                        <div class="privacy-card">
+                            <p>We value your privacy, please refer to our <a href="privacy.html" class="link">Privacy Policy</a> for more details.</p>
+                            <ul class="styled-list">
+                                <li>We collect necessary personal information</li>
+                                <li>We use industry-standard measures to protect your data</li>
+                                <li>We do not sell your personal information</li>
+                                <li>You can manage your data preferences</li>
+                            </ul>
+                        </div>
+                    </div>
 
-                <h3>4.2 ‰ΩøÁî®?ÖÂÖßÂÆ?/h3>
-                <ul>
-                    <li>?®‰??ôÂ??™Â∑±?µ‰??ßÂÆπ?ÑÊ??âÊ?</li>
-                    <li>?àÊ??ëÂÄëÂú®Âπ≥Âè∞‰∏ä‰Ωø?®„ÄÅÂ?Á§∫ÊÇ®?ÑÂÖßÂÆ?/li>
-                    <li>Á¢∫‰?‰∏äÂÇ≥?ßÂÆπ‰∏ç‰æµ?ØÁ¨¨‰∏âÊñπÊ¨äÂà©</li>
-                    <li>?ëÂÄëÊ?Ê¨äÁßª?§Ê?Â´å‰æµÊ¨äÁ??ßÂÆπ</li>
-                </ul>
+                    <!-- Service Changes -->
+                    <div class="content-section">
+                        <h2><span class="section-number">6</span>Service Changes</h2>
+                        
+                        <div class="changes-grid">
+                            <div class="change-card">
+                                <h3>6.1 Modifications</h3>
+                                <ul class="styled-list">
+                                    <li>We may modify or temporarily suspend the service at any time</li>
+                                    <li>Major changes will be notified to users 30 days in advance</li>
+                                    <li>Emergency maintenance may occur without prior notice</li>
+                                </ul>
+                            </div>
+                            <div class="change-card warning">
+                                <h3>6.2 Account Termination</h3>
+                                <p>We may temporarily or permanently terminate your account under the following circumstances:</p>
+                                <ul class="styled-list">
+                                    <li>Violation of terms of service</li>
+                                    <li>Harmful or malicious activities</li>
+                                    <li>Inactive accounts older than 2 years</li>
+                                    <li>Account security risks or compromises</li>
+                                </ul>
+                            </div>
+                        </div>
 
-                <h2>5. ?±Á?‰øùË≠∑</h2>
-                <p>?ëÂÄëÈ?Ë¶ñÊÇ®?ÑÈö±ÁßÅÊ?ÔºåË©≥Á¥∞Á?Ë≥áÊ??ïÁ??πÂ?Ë´ãÂ??±„Ä?a href="privacy.html" style="color: var(--primary-color);">?±Á??øÁ?</a>?ãÔ?</p>
-                <ul>
-                    <li>?ÖÊî∂?ÜÂ?Ë¶ÅÁ??ã‰∫∫Ë≥áÊ?</li>
-                    <li>?°Áî®Ê•≠Á?Ê®ôÊ??ÑÂ??®Êé™??/li>
-                    <li>‰∏çÊ??™Á??åÊ??∫ÂîÆ?®Á?Ë≥áÊ?</li>
-                    <li>?®ÂèØ?®Ê?ÁÆ°Á??±Á?Ë®≠Â?</li>
-                </ul>
+                        <div class="notice-card warning">
+                            <div class="notice-icon">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="notice-content">
+                                <h3>Important Note</h3>
+                                <p>If your account is terminated, your content may be permanently deleted and cannot be restored</p>
+                            </div>
+                        </div>
+                    </div>
 
-                <h2>6. ?çÂ?ËÆäÊõ¥?á‰∏≠??/h2>
-                <h3>6.1 ?çÂ?‰øÆÊîπ</h3>
-                <ul>
-                    <li>?ëÂÄë‰??ôÈö®?Ç‰øÆ?π„ÄÅÊö´?úÊ?ÁµÇÊ≠¢?çÂ??ÑÊ???/li>
-                    <li>?çÂ§ßËÆäÊõ¥Â∞áÊ???30 Â§©ÈÄöÁü•‰ΩøÁî®??/li>
-                    <li>Á∑äÊÄ•Á∂≠Ë≠∑ÂèØ?ΩÂ??¥Ê??ôËá®?Ç‰∏≠??/li>
-                </ul>
+                    <!-- Liability -->
+                    <div class="content-section">
+                        <h2><span class="section-number">7</span>Liability</h2>
+                        
+                        <div class="liability-grid">
+                            <div class="liability-card">
+                                <h3>7.1 Service Quality</h3>
+                                <ul class="styled-list">
+                                    <li>MotoWeb does not guarantee absolute accuracy of information</li>
+                                    <li>We do not guarantee uninterrupted service availability</li>
+                                    <li>Users assume risks from using the service</li>
+                                </ul>
+                            </div>
+                            <div class="liability-card">
+                                <h3>7.2 Content Liability</h3>
+                                <ul class="styled-list">
+                                    <li>Users are responsible for their own content</li>
+                                    <li>We do not guarantee accuracy of user-generated content</li>
+                                    <li>Technical advice implementation is at user's own risk</li>
+                                    <li>Users should verify information independently</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
 
-                <h3>6.2 Â∏≥Êà∂ÁµÇÊ≠¢</h3>
-                <p>?®‰ª•‰∏ãÊ?Ê≥Å‰?ÔºåÊ??ëÂèØ?ΩÊö´?úÊ?ÁµÇÊ≠¢?®Á?Â∏≥Êà∂Ôº?/p>
-                <ul>
-                    <li>?ïÂ??¨‰Ωø?®Ê?Ê¨?/li>
-                    <li>Âæû‰??ûÊ??ñÊ?ÂÆ≥Ê¥ª??/li>
-                    <li>?∑Ê??™‰Ωø?®Â∏≥?∂Ô?Ë∂ÖÈ? 2 Âπ¥Ô?</li>
-                    <li>Â∏≥Êà∂Â≠òÂú®ÂÆâÂÖ®È¢®Èö™</li>
-                </ul>
+                    <!-- Contact Information -->
+                    <div class="contact-section">
+                        <h2><span class="section-number">8</span>Contact Information</h2>
+                        <div class="contact-card">
+                            <h3>Questions about these Terms?</h3>
+                            <p>If you have any questions about these terms of service, please contact us:</p>
+                            <div class="contact-grid">
+                                <div class="contact-item">
+                                    <i class="fas fa-envelope"></i>
+                                    <div>
+                                        <strong>Email</strong>
+                                        <span>legal@motoweb.com</span>
+                                    </div>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fas fa-phone"></i>
+                                    <div>
+                                        <strong>Phone</strong>
+                                        <span>(02) 1234-5678</span>
+                                    </div>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <div>
+                                        <strong>Address</strong>
+                                        <span>Taipei City, Xinyi District</span>
+                                    </div>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fas fa-clock"></i>
+                                    <div>
+                                        <strong>Business Hours</strong>
+                                        <span>Monday to Friday, 09:00-18:00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="warning-box">
-                    <p><strong>Ê≥®Ê?Ôº?/strong>Â∏≥Êà∂Ë¢´Á?Ê≠¢Â?ÔºåÊ??âÁõ∏?úË??ôÂ?Ë¢´Âà™?§‰??°Ê??¢Âæ©?ÇË?ÂÆöÊ??ô‰ªΩ?çË??ßÂÆπ??/p>
-                </div>
-
-                <h2>7. ?çË≤¨?≤Ê?</h2>
-                <h3>7.1 ?çÂ??ßË≥™</h3>
-                <ul>
-                    <li>?çÂ??â„ÄåÁèæ?Ä?çÊ?‰æõÔ?‰∏ç‰?Ë≠âÁ?Â∞çÂ?Áæ?/li>
-                    <li>‰∏ç‰?Ë≠âÊ??ôÊ∞∏?†ÂèØ?®Ê??°ÈåØË™?/li>
-                    <li>‰ΩøÁî®?ÖËá™Ë°åÊâø?î‰Ωø?®È¢®??/li>
-                </ul>
-
-                <h3>7.2 ?ßÂÆπË≤¨‰ªª</h3>
-                <ul>
-                    <li>‰ΩøÁî®?ÖÂÖßÂÆπ‰?‰ª?°® MotoWeb Á´ãÂ†¥</li>
-                    <li>?ëÂÄë‰?Â∞ç‰Ωø?®ËÄÖÂÖßÂÆπÁ?Ê∫ñÁ¢∫?ßË?Ë≤?/li>
-                    <li>?ÄË°ìÂª∫Ë≠∞Â?‰æõÂ??ÉÔ?ÂØ¶ÊñΩÈ¢®Èö™?™Ë?</li>
-                    <li>?πË?Ê¥ªÂ?ÂÆâÂÖ®?±Â??áËÄÖËá™Ë°åË?Ë≤?/li>
-                </ul>
-
-                <h2>8. Ë≤¨‰ªª?êÂà∂</h2>
-                <p>?®Ê?ÂæãÂ?Ë®±Á??ÄÂ§ßÁ??çÂÖßÔº?/p>
-                <ul>
-                    <li>?ëÂÄë‰?Â∞çÈ??•„ÄÅÁâπÊÆäÊ??≤ÁΩ∞?ßÊ?ÂÆ≥Ë?Ë≤?/li>
-                    <li>Á∏ΩË≤¨‰ªª‰?Ë∂ÖÈ??®ÊîØ‰ªòÁ??çÂ?Ë≤ªÁî®</li>
-                    <li>‰∏çÊâø?îÂ??çÂ?‰∏≠Êñ∑?†Ê??ÑÊ?Â§?/li>
-                    <li>‰∏çÂ?Á¨¨‰??πÂÖßÂÆπÊ?Ë°åÁÇ∫Ë≤†Ë≤¨</li>
-                </ul>
-
-                <h2>9. ?≠Ë≠∞Ëß?±∫</h2>
-                <h3>9.1 ?©Áî®Ê≥ïÂ?</h3>
-                <p>?¨Ê?Ê¨æÂ?‰∏≠ËèØÊ∞ëÂ?Ê≥ïÂ?ÁÆ°Ë?ÔºåÊ??§Ê?ÂæãË?Á™ÅÂ??á„Ä?/p>
-
-                <h3>9.2 ÁÆ°Ë?Ê≥ïÈô¢</h3>
-                <p>?†Êú¨Ê¢ùÊ¨æ?¢Á??ÑÁà≠Ë≠∞Ô??ôÊñπ?åÊ?‰ª•Âè∞?óÂú∞?πÊ??¢ÁÇ∫Á¨¨‰?ÂØ©ÁÆ°ËΩÑÊ??¢„Ä?/p>
-
-                <h3>9.3 ?≠Ë≠∞?ïÁ?Á®ãÂ?</h3>
-                <ol>
-                    <li><strong>?îÂ??éÊÆµÔº?/strong>?™Â??èÈ??ãÂ•Ω?îÂ?Ëß?±∫</li>
-                    <li><strong>Ë™øËß£?éÊÆµÔº?/strong>ÂøÖË??ÇÂ?Ê±ÇÁ¨¨‰∏âÊñπË™øËß£</li>
-                    <li><strong>Ë®¥Ë??éÊÆµÔº?/strong>?ÄÂæåÊ?ÊÆµÁÇ∫Ê≥ïÈô¢Ë®¥Ë?</li>
-                </ol>
-
-                <h2>10. Ê¢ùÊ¨æ‰øÆÊîπ</h2>
-                <p>?ëÂÄëÂèØ?ΩÊ?ÂÆöÊ??¥Êñ∞?¨‰Ωø?®Ê?Ê¨æÔ?</p>
-                <ul>
-                    <li>?çÂ§ß‰øÆÊîπÂ∞áÊ???30 Â§©ÂÖ¨??/li>
-                    <li>ÁπºÁ?‰ΩøÁî®?çÂ??≥Ë°®Á§∫Â??èÊñ∞Ê¢ùÊ¨æ</li>
-                    <li>‰∏çÂ??è‰øÆ?πÂèØ?∏Ê??úÊ≠¢‰ΩøÁî®?çÂ?</li>
-                    <li>‰øÆÊîπ?•Ê?Â∞áÂú®?ÅÈù¢?ÇÈÉ®?¥Êñ∞</li>
-                </ul>
-
-                <h2>11. ?∂‰?Ê¢ùÊ¨æ</h2>
-                <h3>11.1 Ê¢ùÊ¨æ?®Á???/h3>
-                <p>Â¶ÇÊú¨Ê¢ùÊ¨æ‰ªª‰??®Â?Ë¢´Ë?ÂÆöÁÑ°?àÔ??∂È??®Â?‰ªçÁÑ∂?âÊ???/p>
-
-                <h3>11.2 ÂÆåÊï¥?îË≠∞</h3>
-                <p>?¨Ê?Ê¨æÊ??êÊÇ®??MotoWeb ‰πãÈ??ÑÂ??¥Â?Ë≠∞Ô??ñ‰ª£?Ä?âÂ??çÁ??îË≠∞??/p>
-
-                <h3>11.3 Ë™ûË??àÊú¨</h3>
-                <p>?¨Ê?Ê¨æ‰ª•ÁπÅÈ?‰∏≠Ê??∫Ê?ÔºåÂÖ∂‰ªñË?Ë®Ä?àÊú¨?Ö‰??ÉËÄÉ„Ä?/p>
-
-                <div class="contact-info">
-                    <h2 style="color: white; margin-top: 0;">12. ?ØÁµ°Ë≥áË?</h2>
-                    <p>Â¶ÇÂ??¨‰Ωø?®Ê?Ê¨æÊ?‰ªª‰??ëÂ?ÔºåË??ØÁµ°?ëÂÄëÔ?</p>
-                    <p><i class="fas fa-envelope"></i> <strong>?ªÂ??µ‰ª∂Ôº?/strong> legal@motoweb.com</p>
-                    <p><i class="fas fa-phone"></i> <strong>ÂÆ¢Ê??ªË©±Ôº?/strong> (02) 1234-5678</p>
-                    <p><i class="fas fa-map-marker-alt"></i> <strong>?öË??∞Â?Ôº?/strong> ?∞Â?Â∏Ç‰ø°Áæ©Â??æ‰?Ë∑?00??/p>
-                    <p><i class="fas fa-clock"></i> <strong>?çÂ??ÇÈ?Ôº?/strong> ?±‰??≥ÈÄ±‰? 09:00-18:00</p>
-                </div>
-
-                <div class="highlight-box">
-                    <p><strong>?üË??®Á??ØÊ?Ôº?/strong>?üË??®ÈÅ∏??MotoWeb ‰ΩúÁÇ∫?®Á??©Ê?ËªäÊîπË£ùÁ§æÁæ§Âπ≥?∞„ÄÇÊ??ëËá¥?õÊñº?∫Ê??âË??ãÊ?‰æõÂ??®„ÄÅÂ??Ñ„ÄÅÂ?Ê•≠Á?‰∫§Ê??∞Â???/p>
+                    <!-- Final Notice -->
+                    <div class="notice-card info">
+                        <div class="notice-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="notice-content">
+                            <h3>Thank You</h3>
+                            <p>Thank you for choosing MotoWeb as your motorcycle modification community platform. MotoWeb is designed for motorcycle enthusiasts to share their passion and knowledge.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
     </main>
 
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section about">
                     <div class="footer-logo">
-                        <img src="/images/motoweb-logo.svg" alt="motoweb Logo" class="footer-logo-img">
+                        <img src="images/motoweb-logo.svg" alt="MotoWeb Logo" class="footer-logo-img">
                     </div>
-                    <p>Â∞àÊ•≠?ÑÊë©?òË??πË?Á§æÁæ§Âπ≥Âè∞ÔºåÁÇ∫ËªäÂ??ê‰?‰∫§Ê??áÂ?‰∫´Á?Á©∫È???/p>
+                    <p>Professional motorcycle community platform, providing a space for motorcycle enthusiasts to share and exchange</p>
                 </div>
                 <div class="footer-section links">
-                    <h3>Âø´ÈÄüÈÄ??</h3>
+                    <h3>Quick Links</h3>
                     <ul>
-                        <li><a href="about.html">?úÊñº?ëÂÄ?/a></li>
-                        <li><a href="products.html">?πË??∂‰ª∂</a></li>
-                        <li><a href="community.html">Á§æÁæ§Ë®éË?</a></li>
-                        <li><a href="gallery.html">‰ΩúÂ?Â±ïÁ§∫</a></li>
-                        <li><a href="events.html">?πË?Ê¥ªÂ?</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="products.html">Modification Parts</a></li>
+                        <li><a href="community.html">Community</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="events.html">Events</a></li>
                     </ul>
                 </div>
                 <div class="footer-section contact">
-                    <h3>?ØÁµ°Ë≥áË?</h3>
+                    <h3>Contact Information</h3>
                     <ul class="contact-info">
-                        <li><i class="fas fa-envelope"></i> contact@MotoWeb.com</li>
+                        <li><i class="fas fa-envelope"></i> contact@motoweb.com</li>
                         <li><i class="fas fa-phone"></i> (02) 1234-5678</li>
-                        <li><i class="fas fa-map-marker-alt"></i> ?∞Â?Â∏Ç‰ø°Áæ©Â??æ‰?Ë∑?00??/li>
+                        <li><i class="fas fa-map-marker-alt"></i> Taipei City, Xinyi District</li>
                     </ul>
                 </div>
                 <div class="footer-section newsletter">
-                    <h3>Ë®ÇÈñ±?ªÂ???/h3>
-                    <p>?≤Â??Ä?∞ÊîπË£ùË∂®?¢Ë?Ê¥ªÂ?Ë≥áË?</p>
+                    <h3>Subscribe</h3>
+                    <p>Get the latest motorcycle modification trends and event information</p>
                     <form class="newsletter-form" action="subscribe.php" method="POST">
-                        <input type="email" name="email" placeholder="?®Á??ªÂ??µ‰ª∂" required>
-                        <button type="submit" class="btn btn-primary">Ë®ÇÈñ±</button>
+                        <input type="email" name="email" placeholder="Email" required>
+                        <button type="submit" class="btn btn-primary">Subscribe</button>
                     </form>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 MotoWeb. ‰øùÁ??Ä?âÊ??©„Ä?/p>
+                <p>&copy; 2025 MotoWeb. All rights reserved.</p>
                 <div class="footer-bottom-links">
-                    <a href="privacy.html">?±Á??øÁ?</a>
-                    <a href="terms.html">‰ΩøÁî®Ê¢ùÊ¨æ</a>
-                    <a href="cookies.html">Cookie ?øÁ?</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                    <a href="cookies.html">Cookie Policy</a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <script src="/js/main.js"></script>
-    <script src="/js/auth-state.js"></script>
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/auth-state.js"></script>
 </body>
 </html> 

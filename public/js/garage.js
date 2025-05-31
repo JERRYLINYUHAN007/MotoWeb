@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (!isLoggedIn || !hasToken) {
         // 如果未登入，顯示提示並跳轉到登入頁面
-        alert('請先登入以使用車庫功能');
+        alert('Please login first to use garage functionality');
         window.location.href = 'login.html';
         return;
     }
@@ -170,13 +170,13 @@ function handleFileUpload(e) {
     
     // Check if file is an image
     if (!file.type.match('image.*')) {
-        alert('請上傳圖片檔案！');
+        alert('Please upload an image file!');
         return;
     }
     
     // Check file size (max 5MB)
     if (file.size > 5 * 1024 * 1024) {
-        alert('檔案大小不能超過5MB！');
+        alert('File size cannot exceed 5MB!');
         return;
     }
     
@@ -203,13 +203,13 @@ function handleEditFileUpload(e) {
     
     // Check if file is an image
     if (!file.type.match('image.*')) {
-        showToast('請上傳圖片檔案！', 'error');
+        showToast('Please upload an image file!', 'error');
         return;
     }
     
     // Check file size (max 5MB)
     if (file.size > 5 * 1024 * 1024) {
-        showToast('檔案大小不能超過5MB！', 'error');
+        showToast('File size cannot exceed 5MB!', 'error');
         return;
     }
     
@@ -241,7 +241,7 @@ function handleFormSubmit(e) {
     const year = formData.get('year');
     
     if (!brand || !model || !year) {
-        alert('請填寫必填欄位！');
+        alert('Please fill in required fields!');
         return;
     }
     
@@ -249,12 +249,12 @@ function handleFormSubmit(e) {
     const submitBtn = vehicleForm.querySelector('button[type="submit"]');
     const originalText = submitBtn.textContent;
     submitBtn.disabled = true;
-    submitBtn.textContent = '處理中...';
+    submitBtn.textContent = 'Processing...';
     
-    // 模擬服務器響應而不是實際發送請求
+    // Simulate server response instead of actual request
     setTimeout(() => {
         try {
-            // 創建模擬的車輛數據
+            // Create mock vehicle data
             const newBike = {
                 _id: Date.now().toString(),
                 brand: formData.get('brand'),
@@ -262,14 +262,14 @@ function handleFormSubmit(e) {
                 year: parseInt(formData.get('year')),
                 cc: parseInt(formData.get('cc')) || 0,
                 category: formData.get('category'),
-                imagePath: 'images/bikes/JET.jpg', // 使用現有的預設圖片
+                imagePath: 'images/bikes/JET.jpg', // Use existing default image
                 isMainBike: formData.get('isMainBike') === 'on',
                 mileage: 0,
                 updatedAt: new Date().toISOString(),
                 modifications: []
             };
             
-            alert('車輛資料新增成功！');
+            alert('Vehicle data added successfully!');
         
         // Reset form and close modal
         vehicleForm.reset();
@@ -291,18 +291,18 @@ function handleFormSubmit(e) {
             });
         }
             
-            // 只為新添加的卡片設置事件
+            // Set events only for newly added cards
             attachBikeCardEvents(bikeCard);
             
         } catch (error) {
         console.error('Error:', error);
-            alert('新增車輛失敗，請稍後再試');
+            alert('Failed to add vehicle, please try again later');
         } finally {
         // Restore submit button
         submitBtn.disabled = false;
         submitBtn.textContent = originalText;
         }
-    }, 1500); // 模擬網路延遲
+    }, 1500); // Simulate network delay
 }
 
 // Edit Form Submit Handler
@@ -318,7 +318,7 @@ function handleEditFormSubmit(e) {
     const year = formData.get('year');
     
     if (!brand || !model || !year) {
-        showToast('請填寫必填欄位！', 'error');
+        showToast('Please fill in required fields!', 'error');
         return;
     }
     
@@ -326,18 +326,18 @@ function handleEditFormSubmit(e) {
     const submitBtn = editVehicleForm.querySelector('button[type="submit"]');
     const originalText = submitBtn.textContent;
     submitBtn.disabled = true;
-    submitBtn.textContent = '更新中...';
+    submitBtn.textContent = 'Updating...';
     
-    // 模擬服務器響應
+    // Simulate server response
     setTimeout(() => {
         try {
-            // 找到要編輯的車輛
+            // Find vehicle to edit
             const bikeIndex = userBikes.findIndex(bike => bike._id === editingBikeId);
             if (bikeIndex === -1) {
-                throw new Error('找不到要編輯的車輛');
+                throw new Error('Cannot find vehicle to edit');
             }
             
-            // 更新車輛數據
+            // Update vehicle data
             const updatedBike = {
                 ...userBikes[bikeIndex],
                 brand: formData.get('brand'),
@@ -350,17 +350,17 @@ function handleEditFormSubmit(e) {
                 updatedAt: new Date().toISOString()
             };
             
-            // 如果上傳了新圖片，更新圖片路徑
+            // If new image uploaded, update image path
             if (formData.get('image') && formData.get('image').size > 0) {
-                // 在實際應用中，這裡會上傳圖片到服務器
-                // 現在使用現有的圖片作為示例
+                // In actual application, this would upload image to server
+                // Now using existing image as example
                 updatedBike.imagePath = userBikes[bikeIndex].imagePath;
             }
             
-            // 更新數組中的車輛數據
+            // Update vehicle data in array
             userBikes[bikeIndex] = updatedBike;
             
-            // 如果設為主要車輛，更新其他車輛狀態
+            // If set as main vehicle, update other vehicles status
             if (updatedBike.isMainBike) {
                 userBikes.forEach((bike, index) => {
                     if (index !== bikeIndex) {
@@ -369,10 +369,10 @@ function handleEditFormSubmit(e) {
                 });
             }
             
-            // 更新車輛卡片
+            // Update vehicle card
             updateBikeCard(editingBikeId, updatedBike);
             
-            showToast('車輛資料更新成功！', 'success');
+            showToast('Vehicle data updated successfully!', 'success');
             
             // Reset form and close modal
             editVehicleForm.reset();
@@ -383,13 +383,13 @@ function handleEditFormSubmit(e) {
             
         } catch (error) {
             console.error('Error:', error);
-            showToast('更新車輛失敗，請稍後再試', 'error');
+            showToast('Failed to update vehicle, please try again later', 'error');
         } finally {
             // Restore submit button
             submitBtn.disabled = false;
             submitBtn.textContent = originalText;
         }
-    }, 1500); // 模擬網路延遲
+    }, 1500); // Simulate network delay
 }
 
 // Add a new bike to the grid
@@ -605,15 +605,15 @@ async function updateBike(bikeId, formData) {
 
 // 刪除車輛
 async function deleteBike(bikeId) {
-    if (!confirm('確定要刪除這輛車嗎？')) return;
+    if (!confirm('Are you sure you want to delete this vehicle?')) return;
     
     try {
         await api.garage.deleteBike(bikeId);
         userBikes = userBikes.filter(b => b._id !== bikeId);
         renderBikesList();
     } catch (error) {
-        console.error('刪除車輛失敗:', error);
-        alert('刪除車輛失敗，請稍後再試');
+        console.error('Failed to delete vehicle:', error);
+        alert('Failed to delete vehicle, please try again later');
     }
 }
 
@@ -631,8 +631,8 @@ async function setMainBike(bikeId) {
         
         renderBikesList();
     } catch (error) {
-        console.error('設定主力車失敗:', error);
-        alert('設定主力車失敗，請稍後再試');
+        console.error('Failed to set main vehicle:', error);
+        alert('Failed to set main vehicle, please try again later');
     }
 }
 
@@ -692,14 +692,14 @@ function setupBikeActionButtons() {
             const bikeCard = btn.closest('.bike-card');
             const bikeId = bikeCard.dataset.id;
             
-            // 找到要編輯的車輛數據
+            // Find vehicle data to edit
             const bike = userBikes.find(b => b._id === bikeId);
             if (!bike) {
-                showToast('找不到車輛資料', 'error');
+                showToast('Vehicle data not found', 'error');
                 return;
             }
             
-            // 打開編輯模態框
+            // Open edit modal
             openEditModal(bike);
         });
     });
@@ -712,14 +712,14 @@ function setupBikeActionButtons() {
             const bikeCard = btn.closest('.bike-card');
             const bikeId = bikeCard.dataset.id;
             
-            // 找到要分享的車輛數據
+            // Find vehicle data to share
             const bike = userBikes.find(b => b._id === bikeId);
             if (!bike) {
-                showToast('找不到車輛資料', 'error');
+                showToast('Vehicle data not found', 'error');
                 return;
             }
             
-            // 打開分享模態框
+            // Open share modal
             openShareModal(bike);
         });
     });
@@ -731,7 +731,7 @@ function setupBikeActionButtons() {
             e.preventDefault();
             const bikeCard = link.closest('.bike-card');
             const bikeName = bikeCard.querySelector('.bike-title h3').textContent;
-            showToast(`查看車輛詳情: ${bikeName}`, 'info');
+            showToast(`View vehicle details: ${bikeName}`, 'info');
             // In a real app, this would navigate to the bike details page
         });
     });
@@ -742,7 +742,7 @@ function setupBikeActionButtons() {
         btn.addEventListener('click', (e) => {
             const bikeCard = btn.closest('.bike-card');
             const bikeName = bikeCard.querySelector('.bike-title h3').textContent;
-            showToast(`為 ${bikeName} 新增改裝項目`, 'info');
+            showToast(`Add modification for ${bikeName}`, 'info');
             // In a real app, this would open the add modification form
         });
     });
@@ -873,24 +873,24 @@ function setupShareButtons(bike, shareUrl, shareText) {
         window.open(lineUrl, '_blank', 'width=600,height=400');
     };
     
-    // 複製連結
+    // Copy link
     document.getElementById('copyShareLink').onclick = () => {
         copyToClipboard(shareUrl);
-        showToast('連結已複製到剪貼簿！', 'success');
+        showToast('Link copied to clipboard!', 'success');
     };
     
-    // 複製連結按鈕
+    // Copy link button
     document.getElementById('copyLinkBtn').onclick = () => {
         copyToClipboard(shareUrl);
-        showToast('連結已複製到剪貼簿！', 'success');
+        showToast('Link copied to clipboard!', 'success');
     };
 }
 
-// 複製到剪貼簿
+// Copy to clipboard
 function copyToClipboard(text) {
     if (navigator.clipboard) {
         navigator.clipboard.writeText(text).catch(err => {
-            console.error('複製失敗:', err);
+            console.error('Copy failed:', err);
             fallbackCopyTextToClipboard(text);
         });
     } else {
@@ -898,7 +898,7 @@ function copyToClipboard(text) {
     }
 }
 
-// 備用複製方法
+// Fallback copy method
 function fallbackCopyTextToClipboard(text) {
     const textArea = document.createElement("textarea");
     textArea.value = text;
@@ -912,7 +912,7 @@ function fallbackCopyTextToClipboard(text) {
     try {
         document.execCommand('copy');
     } catch (err) {
-        console.error('Fallback: 複製失敗', err);
+        console.error('Fallback: Copy failed', err);
     }
     
     document.body.removeChild(textArea);

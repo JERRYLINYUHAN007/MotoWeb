@@ -847,6 +847,10 @@ function getStatusText(status) {
 // 頁面初始化
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Events page initializing...');
+    console.log('DOM elements check:');
+    console.log('eventsGrid:', document.getElementById('eventsGrid'));
+    console.log('eventsTableBody:', document.getElementById('eventsTableBody'));
+    console.log('EventsAPI available:', typeof window.eventsAPI);
     
     // 確保EventsAPI已經載入
     if (typeof window.eventsAPI === 'undefined') {
@@ -1238,6 +1242,22 @@ async function loadEvents() {
             );
             
             console.log('Formatted events:', formattedEvents);
+            
+            // 更新結果計數
+            const resultsCount = document.getElementById('eventsCount');
+            if (resultsCount) {
+                const total = response.total || 0;
+                const currentStart = ((response.page || 1) - 1) * (response.limit || 12) + 1;
+                const currentEnd = Math.min(currentStart + formattedEvents.length - 1, total);
+                
+                if (total === 0) {
+                    resultsCount.textContent = '找不到活動';
+                } else if (total === formattedEvents.length) {
+                    resultsCount.textContent = `顯示全部 ${total} 個活動`;
+                } else {
+                    resultsCount.textContent = `顯示 ${currentStart}-${currentEnd} 共 ${total} 個活動`;
+                }
+            }
             
             // 渲染活動列表
             renderEventsGrid(formattedEvents);

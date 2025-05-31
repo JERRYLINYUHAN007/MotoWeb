@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>?ëÁ?ËªäÂ∫´ - MotoWeb</title>
-    <meta name="description" content="ÁÆ°Á??®Âú® MotoWeb Âπ≥Âè∞‰∏äÁ??õË??áÊîπË£ùÁ???>
+    <title>My Garage - MotoWeb</title>
+    <meta name="description" content="Manage your motorcycle modifications on the MotoWeb platform">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/tech-theme.css">
     <link rel="stylesheet" href="/css/garage.css">
@@ -13,9 +13,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* ËªäÂ∫´?ÅÈù¢?™Â? - ?æ‰ª£ÁßëÊ?‰∏ªÈ? */
+        /* Garage page styles - Modern tech theme */
         
-        /* ?ïÁï´?àÊ? */
+        /* Animations */
         @keyframes titleGlow {
             0%, 100% { 
                 text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
@@ -40,7 +40,7 @@
             100% { transform: translateX(100%); opacity: 0; }
         }
 
-        /* ?∫Êú¨?ÅÈù¢Ê®?? */
+        /* Basic page styles */
         .garage-page {
             background: 
                 linear-gradient(135deg, 
@@ -57,7 +57,7 @@
             margin-top: 80px;
         }
 
-        /* ËªäÂ∫´Ê®ôÈ??Ä??*/
+        /* Garage header styles */
         .garage-header {
             display: flex;
             justify-content: space-between;
@@ -134,14 +134,14 @@
             transform: translateY(-3px);
         }
 
-        /* ËªäÂ∫´?ßÂÆπ‰ΩàÂ? */
+        /* Garage content layout */
         .garage-content {
             display: grid;
             grid-template-columns: 350px 1fr;
             gap: 2.5rem;
         }
 
-        /* ?¥È?Ê¨ÑÊ®£Âº?*/
+        /* Sidebar styles */
         .garage-sidebar {
             display: flex;
             flex-direction: column;
@@ -200,984 +200,32 @@
                 rgba(0, 212, 255, 0.2), 
                 rgba(124, 58, 237, 0.2));
             border-color: var(--primary-color);
-            transform: translateX(8px);
-            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.2);
-        }
-
-        .sidebar-nav a.active {
-            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
-            color: white;
-            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+            transform: translateX(5px);
         }
 
         .sidebar-nav a i {
             margin-right: 1rem;
-            color: var(--success-color);
-            width: 20px;
-            text-align: center;
-            font-size: 1.1rem;
-        }
-
-        .sidebar-nav a.active i {
-            color: white;
-        }
-
-        /* Áµ±Ë?Ë≥áË?Ê®?? */
-        .stat-group {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
-        }
-
-        .stat-item {
-            display: flex;
-            align-items: center;
-            padding: 1.2rem 1.5rem;
-            background: linear-gradient(145deg, 
-                rgba(55, 65, 81, 0.5), 
-                rgba(31, 41, 55, 0.7));
-            border-radius: 15px;
-            border: 1px solid var(--carbon-gray);
-            transition: all 0.3s ease;
-        }
-
-        .stat-item:hover {
-            background: linear-gradient(145deg, 
-                rgba(0, 212, 255, 0.1), 
-                rgba(124, 58, 237, 0.1));
-            border-color: var(--primary-color);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.2);
-        }
-
-        .stat-icon {
-            font-size: 2rem;
             color: var(--primary-color);
-            margin-right: 1.5rem;
-            text-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
         }
 
-        .stat-info {
-            flex: 1;
-        }
-
-        .stat-number {
-            display: block;
-            font-size: 1.8rem;
-            font-weight: 700;
+        .sidebar-nav a:hover i {
             color: var(--success-color);
-            line-height: 1.2;
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+            transform: scale(1.1);
         }
 
-        .stat-label {
-            display: block;
-            font-size: 0.9rem;
-            color: var(--metallic-silver);
-            margin-top: 0.25rem;
-        }
-
-        /* ‰∏ªË?ËªäË?Â±ïÁ§∫ */
-        .main-bike {
-            display: flex;
-            align-items: center;
+        .sidebar-nav a.active {
             background: linear-gradient(145deg, 
-                rgba(0, 212, 255, 0.1), 
-                rgba(124, 58, 237, 0.1));
-            border-radius: 15px;
-            padding: 1.5rem;
-            border: 2px solid var(--primary-color);
-            animation: pulseGlow 3s ease-in-out infinite;
-        }
-
-        .main-bike img {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 15px;
-            margin-right: 1.5rem;
-            border: 2px solid var(--success-color);
-            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.3);
-        }
-
-        .main-bike-info h3 {
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-            color: white;
-            font-weight: 700;
-        }
-
-        .main-bike-info p {
-            font-size: 1rem;
-            color: var(--metallic-silver);
-            margin-bottom: 0.8rem;
-        }
-
-        .main-bike-info .status {
-            display: inline-block;
-            padding: 0.4rem 1rem;
-            background: linear-gradient(45deg, var(--success-color), var(--primary-color));
-            color: white;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.3);
-        }
-
-        /* ‰∏ªË??ßÂÆπ?Ä??*/
-        .garage-main {
-            background: linear-gradient(145deg, 
-                rgba(31, 41, 55, 0.8), 
-                rgba(17, 24, 39, 0.9));
-            border-radius: 20px;
-            padding: 2.5rem;
-            box-shadow: 
-                0 15px 40px rgba(0, 0, 0, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            border: 2px solid var(--carbon-gray);
-            backdrop-filter: blur(20px);
-        }
-
-        /* ÁØ©ÈÅ∏?®Ê®£Âº?*/
-        .garage-filter {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            margin-bottom: 2.5rem;
-            padding: 2rem;
-            background: linear-gradient(145deg, 
-                rgba(55, 65, 81, 0.3), 
-                rgba(31, 41, 55, 0.5));
-            border-radius: 15px;
-            border: 1px solid var(--carbon-gray);
-        }
-
-        .filter-group {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .filter-group label {
-            color: white;
-            font-size: 0.95rem;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
-        .filter-group select {
-            padding: 0.8rem 1.2rem;
-            background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
-            border: 2px solid var(--carbon-gray);
-            border-radius: 12px;
-            color: white;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            min-width: 150px;
-        }
-
-        .filter-group select:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
-        }
-
-        .search-box {
-            display: flex;
-            background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
-            border-radius: 25px;
-            border: 2px solid var(--carbon-gray);
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .search-box:focus-within {
-            border-color: var(--primary-color);
+                rgba(0, 212, 255, 0.3), 
+                rgba(124, 58, 237, 0.3));
+            border-color: var(--success-color);
             box-shadow: 0 0 25px rgba(0, 212, 255, 0.3);
         }
 
-        .search-box input {
-            padding: 0.8rem 1.5rem;
-            border: none;
-            background: transparent;
-            color: white;
-            font-size: 1rem;
-            outline: none;
-            min-width: 200px;
-        }
-
-        .search-box input::placeholder {
-            color: var(--metallic-silver);
-        }
-
-        .search-btn {
-            padding: 0.8rem 1.2rem;
-            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
-            border: none;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .search-btn:hover {
-            background: linear-gradient(45deg, var(--accent-color), var(--success-color));
-        }
-
-        /* ËªäË?Á∂≤Ê†ºÊ®?? */
-        .bikes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 2rem;
-        }
-
-        .bike-card {
-            background: linear-gradient(145deg, 
-                rgba(55, 65, 81, 0.5), 
-                rgba(31, 41, 55, 0.7));
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 
-                0 8px 25px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            border: 2px solid var(--carbon-gray);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-        }
-
-        .bike-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, 
-                var(--primary-color), 
-                var(--accent-color), 
-                var(--success-color));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .bike-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 
-                0 25px 50px rgba(0, 0, 0, 0.5),
-                0 0 40px rgba(0, 212, 255, 0.3),
-                0 0 60px rgba(124, 58, 237, 0.2);
-            border-color: var(--primary-color);
-        }
-
-        .bike-card:hover::before {
-            opacity: 1;
-        }
-
-        .bike-header {
-            position: relative;
-            padding: 1.5rem;
-            padding-bottom: 0;
-        }
-
-        .bike-actions {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            display: flex;
-            gap: 0.5rem;
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-
-        .bike-card:hover .bike-actions {
-            opacity: 1;
-        }
-
-        .btn-icon {
-            width: 40px;
-            height: 40px;
-            border: none;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            font-size: 0.9rem;
-        }
-
-        .edit-bike {
-            background: linear-gradient(45deg, 
-                rgba(0, 212, 255, 0.2), 
-                rgba(124, 58, 237, 0.2));
-            color: var(--primary-color);
-            border: 1px solid var(--primary-color);
-        }
-
-        .edit-bike:hover {
-            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
-            color: white;
-            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.4);
-            transform: scale(1.1);
-        }
-
-        .share-bike {
-            background: linear-gradient(45deg, 
-                rgba(0, 255, 136, 0.2), 
-                rgba(0, 212, 255, 0.2));
+        .sidebar-nav a.active i {
             color: var(--success-color);
-            border: 1px solid var(--success-color);
-        }
-
-        .share-bike:hover {
-            background: linear-gradient(45deg, var(--success-color), var(--primary-color));
-            color: white;
-            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.4);
-            transform: scale(1.1);
-        }
-
-        .delete-bike {
-            background: linear-gradient(45deg, 
-                rgba(239, 68, 68, 0.2), 
-                rgba(220, 38, 38, 0.2));
-            color: #ef4444;
-            border: 1px solid #ef4444;
-        }
-
-        .delete-bike:hover {
-            background: linear-gradient(45deg, #ef4444, #dc2626);
-            color: white;
-            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.4);
-            transform: scale(1.1);
-        }
-
-        .bike-image {
-            height: 220px;
-            overflow: hidden;
-            margin: 0 1.5rem;
-            border-radius: 15px;
-            position: relative;
-        }
-
-        .bike-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .bike-card:hover .bike-image img {
-            transform: scale(1.1);
-        }
-
-        .bike-info {
-            padding: 1.5rem;
-        }
-
-        .bike-title {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1rem;
-        }
-
-        .bike-title h3 {
-            color: white;
-            font-size: 1.4rem;
-            margin: 0;
-            font-weight: 700;
-        }
-
-        .main-badge {
-            padding: 0.3rem 0.8rem;
-            background: linear-gradient(45deg, var(--success-color), var(--primary-color));
-            color: white;
-            border-radius: 15px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .bike-specs {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.8rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .spec-item {
-            display: flex;
-            flex-direction: column;
-            padding: 0.8rem;
-            background: linear-gradient(145deg, 
-                rgba(55, 65, 81, 0.3), 
-                rgba(31, 41, 55, 0.5));
-            border-radius: 10px;
-            border: 1px solid var(--carbon-gray);
-        }
-
-        .spec-label {
-            font-size: 0.8rem;
-            color: var(--metallic-silver);
-            margin-bottom: 0.3rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .spec-value {
-            font-size: 1rem;
-            color: white;
-            font-weight: 600;
-        }
-
-        .bike-mods {
-            margin-bottom: 1.5rem;
-        }
-
-        .bike-mods h4 {
-            color: white;
-            font-size: 1rem;
-            margin-bottom: 0.8rem;
-            font-weight: 600;
-        }
-
-        .mod-count {
-            padding: 0.4rem 1rem;
-            background: linear-gradient(45deg, 
-                rgba(0, 212, 255, 0.2), 
-                rgba(124, 58, 237, 0.2));
-            color: var(--primary-color);
-            border-radius: 15px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            border: 1px solid var(--primary-color);
-        }
-
-        .mod-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 0.8rem;
-        }
-
-        .mod-tag {
-            padding: 0.3rem 0.8rem;
-            background: linear-gradient(45deg, 
-                rgba(0, 255, 136, 0.2), 
-                rgba(0, 212, 255, 0.2));
-            color: var(--success-color);
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            border: 1px solid var(--success-color);
-        }
-
-        .bike-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 1rem;
-            border-top: 1px solid var(--carbon-gray);
-        }
-
-        .view-details {
-            padding: 0.8rem 1.5rem;
-            background: transparent;
-            color: var(--primary-color);
-            border: 2px solid var(--primary-color);
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .view-details:hover {
-            background: var(--primary-color);
-            color: white;
-            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .add-mod-btn {
-            padding: 0.8rem 1.5rem;
-            background: linear-gradient(45deg, var(--success-color), var(--primary-color));
-            color: white;
-            border: none;
-            border-radius: 25px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .add-mod-btn:hover {
-            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
-            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
-            transform: translateY(-2px);
-        }
-
-        /* Ê®°Ê?Ê°ÜÊ®£Âº?*/
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-        }
-
-        .modal.show {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background: linear-gradient(145deg, 
-                rgba(31, 41, 55, 0.95), 
-                rgba(17, 24, 39, 0.95));
-            border-radius: 25px;
-            padding: 2.5rem;
-            max-width: 700px;
-            width: 90%;
-            max-height: 85vh;
-            overflow-y: auto;
-            box-shadow: 
-                0 25px 60px rgba(0, 0, 0, 0.6),
-                0 0 40px rgba(0, 212, 255, 0.2);
-            border: 2px solid var(--primary-color);
-            position: relative;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 1rem;
-            right: 1.5rem;
-            background: none;
-            border: none;
-            font-size: 2rem;
-            color: var(--metallic-silver);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .close-modal:hover {
-            color: var(--primary-color);
-            transform: scale(1.2);
-        }
-
-        .modal h2 {
-            color: white;
-            margin-bottom: 2rem;
-            font-weight: 700;
-            text-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
-            font-size: 1.8rem;
-        }
-
-        /* Ë°®ÂñÆÊ®?? */
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .form-group label {
-            display: block;
-            color: white;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 1rem;
-            background: linear-gradient(145deg, 
-                rgba(55, 65, 81, 0.5), 
-                rgba(31, 41, 55, 0.7));
-            border: 2px solid var(--carbon-gray);
-            border-radius: 15px;
-            color: white;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
-        }
-
-        .form-group input::placeholder,
-        .form-group textarea::placeholder {
-            color: var(--metallic-silver);
-        }
-
-        .file-upload {
-            position: relative;
-        }
-
-        .file-upload input[type="file"] {
-            position: absolute;
-            opacity: 0;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-        }
-
-        .file-label {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            background: linear-gradient(145deg, 
-                rgba(55, 65, 81, 0.3), 
-                rgba(31, 41, 55, 0.5));
-            border: 2px dashed var(--primary-color);
-            border-radius: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: white;
-        }
-
-        .file-label:hover {
-            background: linear-gradient(145deg, 
-                rgba(0, 212, 255, 0.1), 
-                rgba(124, 58, 237, 0.1));
-            border-color: var(--accent-color);
-        }
-
-        .file-label i {
-            font-size: 2rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .checkbox-group input[type="checkbox"] {
-            width: auto;
-            margin: 0;
-        }
-
-        .checkbox-group span {
-            color: white;
-            font-weight: 500;
-        }
-
-        .form-actions {
-            display: flex;
-            gap: 1rem;
-            justify-content: flex-end;
-            margin-top: 2rem;
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .btn-primary {
-            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: linear-gradient(45deg, var(--accent-color), var(--success-color));
-            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--metallic-silver);
-            border: 2px solid var(--carbon-gray);
-        }
-
-        .btn-secondary:hover {
-            background: var(--carbon-gray);
-            color: white;
-            border-color: var(--primary-color);
-        }
-
-        /* ?Ü‰∫´Ê®°Ê?Ê°ÜÊ®£Âº?*/
-        .share-content {
-            color: white;
-        }
-
-        .share-preview {
-            display: flex;
-            align-items: center;
-            padding: 1.5rem;
-            background: linear-gradient(145deg, 
-                rgba(55, 65, 81, 0.5), 
-                rgba(31, 41, 55, 0.7));
-            border-radius: 15px;
-            margin-bottom: 2rem;
-            border: 1px solid var(--carbon-gray);
-        }
-
-        .share-preview img {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 12px;
-            margin-right: 1.5rem;
-            border: 2px solid var(--primary-color);
-        }
-
-        .share-info h3 {
-            color: white;
-            margin-bottom: 0.5rem;
-            font-weight: 700;
-        }
-
-        .share-info p {
-            color: var(--metallic-silver);
-            margin-bottom: 0.8rem;
-        }
-
-        .share-stats span {
-            padding: 0.3rem 0.8rem;
-            background: linear-gradient(45deg, 
-                rgba(0, 212, 255, 0.2), 
-                rgba(124, 58, 237, 0.2));
-            color: var(--primary-color);
-            border-radius: 12px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        .share-options h4 {
-            color: white;
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-
-        .share-buttons {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .share-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.8rem;
-            padding: 1rem;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-        }
-
-        .share-btn.facebook {
-            background: linear-gradient(45deg, #1877f2, #42a5f5);
-            color: white;
-        }
-
-        .share-btn.twitter {
-            background: linear-gradient(45deg, #1da1f2, #42a5f5);
-            color: white;
-        }
-
-        .share-btn.line {
-            background: linear-gradient(45deg, #00c300, #4caf50);
-            color: white;
-        }
-
-        .share-btn.copy-link {
-            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
-            color: white;
-        }
-
-        .share-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-        }
-
-        .share-link-section,
-        .share-text-section {
-            margin-bottom: 1.5rem;
-        }
-
-        .share-link-section label,
-        .share-text-section label {
-            display: block;
-            color: white;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-
-        .share-link-input {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .share-link-input input {
-            flex: 1;
-        }
-
-        .share-text-section textarea {
-            resize: vertical;
-        }
-
-        .modal-actions {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 2rem;
-        }
-
-        /* Toast ?öÁü•Ê®?? */
-        .toast {
-            position: fixed;
-            top: 100px;
-            right: 20px;
-            padding: 1rem 1.5rem;
-            border-radius: 12px;
-            color: white;
-            font-weight: 600;
-            z-index: 10000;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .toast.show {
-            transform: translateX(0);
-        }
-
-        .toast.success {
-            background: linear-gradient(45deg, var(--success-color), #10b981);
-        }
-
-        .toast.error {
-            background: linear-gradient(45deg, #ef4444, #dc2626);
-        }
-
-        .toast.info {
-            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
-        }
-
-        /* ?øÊ?ÂºèË®≠Ë®?*/
-        @media (max-width: 1200px) {
-            .garage-content {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-            
-            .garage-sidebar {
-                grid-row: 2;
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                flex-direction: row;
-                overflow-x: auto;
-            }
-            
-            .garage-main {
-                grid-row: 1;
-            }
-        }
-
-        @media (max-width: 900px) {
-            .garage-header {
-                flex-direction: column;
-                gap: 1.5rem;
-                align-items: stretch;
-                text-align: center;
-            }
-            
-            .bikes-grid {
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            }
-        }
-
-        @media (max-width: 768px) {
-            .garage-filter {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .filter-group {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 0.5rem;
-            }
-            
-            .search-box {
-                order: -1;
-            }
-            
-            .bikes-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .bike-specs {
-                grid-template-columns: 1fr;
-            }
-            
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-            
-            .share-buttons {
-                grid-template-columns: 1fr;
-            }
-            
-            .modal-content {
-                padding: 2rem;
-                margin: 1rem;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .garage-header {
-                padding: 2rem 1.5rem;
-            }
-            
-            .header-content h1 {
-                font-size: 2.2rem;
-            }
-            
-            .sidebar-section {
-                padding: 1.5rem;
-            }
-            
-            .garage-main {
-                padding: 1.5rem;
-            }
-            
-            .bike-card {
-                margin: 0 -0.5rem;
-            }
         }
     </style>
 </head>
@@ -1185,23 +233,25 @@
     <nav class="navbar">
         <div class="container nav-container">
             <div class="logo">
-                <a href="index.html" aria-label="motowebÈ¶ñÈ?">
-                    <img src="/images/motoweb-logo.svg" alt="motoweb Logo" class="logo-img">
+                <a href="index.html" aria-label="MotoWeb Homepage">
+                    <img src="/images/motoweb-logo.svg" alt="MotoWeb Logo" class="logo-img">
+                    <h1>MotoWeb</h1>
                 </a>
             </div>
             <div class="nav-links" id="navLinks">
                 <div class="main-nav">
-                    <a href="index.html">È¶ñÈ?</a>
-                    <a href="products.html">?πË??∂‰ª∂</a>
-                    <a href="community.html">Á§æÁæ§Ë®éË?</a>
-                    <a href="gallery.html">‰ΩúÂ?Â±ïÁ§∫</a>
-                    <a href="events.html">?πË?Ê¥ªÂ?</a>
+                    <a href="index.html">Home</a>
+                    <a href="products.html">Modification Parts</a>
+                    <a href="community.html">Community</a>
+                    <a href="gallery.html">Gallery</a>
+                    <a href="events.html">Events</a>
                 </div>
                 <div class="auth-buttons">
-                    <!-- ?ôË£°Â∞áÁî± auth-state.js ?ïÊ??¥Êñ∞ -->
+                    <a href="login.html" class="btn btn-secondary">Login</a>
+                    <a href="register.html" class="btn btn-primary">Register</a>
                 </div>
             </div>
-            <button class="menu-toggle" aria-label="Â±ïÈ??∏ÂñÆ" aria-expanded="false" aria-controls="navLinks">
+            <button class="menu-toggle" aria-label="Toggle Menu" aria-expanded="false">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -1213,363 +263,38 @@
         <div class="container">
             <div class="garage-header">
                 <div class="header-content">
-                    <h1>?ëÁ?ËªäÂ∫´</h1>
-                    <p>ÁÆ°Á??®Á??õË??áÊîπË£ùÁ???/p>
+                    <h1>My Garage</h1>
+                    <p>Manage and showcase your motorcycle modifications</p>
                 </div>
                 <div class="header-actions">
-                    <button class="btn btn-primary" id="addBikeBtn">
+                    <button class="btn" id="addBikeBtn">
                         <i class="fas fa-plus"></i>
-                        Ê∑ªÂ??∞Ë?Ëº?
+                        Add New Motorcycle
                     </button>
                 </div>
             </div>
 
             <div class="garage-content">
-                <div class="garage-sidebar">
+                <aside class="garage-sidebar">
                     <div class="sidebar-section">
-                        <h2>Âø´ÈÄüÂ???/h2>
+                        <h2>Navigation</h2>
                         <ul class="sidebar-nav">
-                            <li><a href="profile.html"><i class="fas fa-user-circle"></i> ?ã‰∫∫Ë≥áÊ?</a></li>
-                            <li><a href="garage.html" class="active"><i class="fas fa-warehouse"></i> ?ëÁ?ËªäÂ∫´</a></li>
-                            <li><a href="settings.html"><i class="fas fa-cog"></i> Â∏≥Ë?Ë®≠Â?</a></li>
+                            <li><a href="#overview" class="active"><i class="fas fa-home"></i>Overview</a></li>
+                            <li><a href="#motorcycles"><i class="fas fa-motorcycle"></i>My Motorcycles</a></li>
+                            <li><a href="#modifications"><i class="fas fa-tools"></i>Modifications</a></li>
+                            <li><a href="#maintenance"><i class="fas fa-wrench"></i>Maintenance</a></li>
+                            <li><a href="#parts"><i class="fas fa-cogs"></i>Parts Inventory</a></li>
+                            <li><a href="#gallery"><i class="fas fa-images"></i>Photo Gallery</a></li>
+                            <li><a href="#documents"><i class="fas fa-file-alt"></i>Documents</a></li>
                         </ul>
                     </div>
-                    <div class="sidebar-section">
-                        <h2>Áµ±Ë?Ë≥áË?</h2>
-                        <div class="stat-group">
-                            <div class="stat-item">
-                                <div class="stat-icon"><i class="fas fa-motorcycle"></i></div>
-                                <div class="stat-info">
-                                    <span class="stat-number">3</span>
-                                    <span class="stat-label">ËªäË?Á∏ΩÊï∏</span>
-                                </div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-icon"><i class="fas fa-tools"></i></div>
-                                <div class="stat-info">
-                                    <span class="stat-number">24</span>
-                                    <span class="stat-label">?πË??∂‰ª∂</span>
-                                </div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-icon"><i class="fas fa-wrench"></i></div>
-                                <div class="stat-info">
-                                    <span class="stat-number">8</span>
-                                    <span class="stat-label">Á∂≠‰øÆÁ¥Ä??/span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="sidebar-section">
-                        <h2>‰∏ªË?ËªäÊ¨æ</h2>
-                        <div class="main-bike">
-                            <img src="/images/bikes/DRG.jpg" alt="SYM DRG">
-                            <div class="main-bike-info">
-                                <h3>SYM DRG</h3>
-                                <p>2024 Âπ?¬∑ 158cc</p>
-                                <span class="status">‰∏ªË?ËªäË?</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="garage-main">
-                    <div class="garage-filter">
-                        <div class="filter-group">
-                            <label for="bikeFilter">ËªäË?ÁØ©ÈÅ∏:</label>
-                            <select id="bikeFilter">
-                                <option value="all">?Ä?âË?Ëº?/option>
-                                <option value="street">Ë°óË?</option>
-                                <option value="sport">?ãÂ?Ëª?/option>
-                                <option value="scooter">?üÂ???/option>
-                            </select>
-                        </div>
-                        <div class="filter-group">
-                            <label for="sortOrder">?íÂ??πÂ?:</label>
-                            <select id="sortOrder">
-                                <option value="newest">?Ä?∞Ê∑ª??/option>
-                                <option value="oldest">?Ä?©Ê∑ª??/option>
-                                <option value="name">?çÁ®± A-Z</option>
-                            </select>
-                        </div>
-                        <div class="filter-group">
-                            <div class="search-box">
-                                <input type="text" placeholder="?úÂ?ËªäË?...">
-                                <button class="search-btn"><i class="fas fa-search"></i></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bikes-grid">
-                        <!-- ËªäË??ÉÁî±JavaScript?ïÊ?ËºâÂÖ• -->
-                    </div>
-                </div>
+                </aside>
             </div>
         </div>
     </main>
 
-    <!-- Ê∑ªÂ?ËªäË?Ê®°Ê?Ê°?-->
-    <div class="modal" id="addBikeModal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2>Ê∑ªÂ??∞Ë?Ëº?/h2>
-            <form id="addBikeForm">
-                <div class="form-group">
-                    <label for="bikeBrand">?ÅÁ?</label>
-                    <input type="text" id="bikeBrand" name="brand" required>
-                </div>
-                <div class="form-group">
-                    <label for="bikeModel">?ãË?</label>
-                    <input type="text" id="bikeModel" name="model" required>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="bikeYear">Âπ¥‰ªΩ</label>
-                        <input type="number" id="bikeYear" name="year" min="1970" max="2030" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="bikeCC">?íÈ? (cc)</label>
-                        <input type="number" id="bikeCC" name="cc" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="bikeCategory">È°ûÂà•</label>
-                    <select id="bikeCategory" name="category" required>
-                        <option value="">Ë´ãÈÅ∏?áË?ËºõÈ???/option>
-                        <option value="street">Ë°óË?</option>
-                        <option value="sport">?ãÂ?Ëª?/option>
-                        <option value="cruiser">Â∑°Ëà™Ëª?/option>
-                        <option value="adventure">?íÈö™Ëª?/option>
-                        <option value="scooter">?üÂ???/option>
-                        <option value="touring">?ÖË?Ëª?/option>
-                        <option value="other">?∂‰?</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="bikeImage">ËªäË??ßÁ?</label>
-                    <div class="file-upload">
-                        <input type="file" id="bikeImage" name="image" accept="image/*">
-                        <label for="bikeImage" class="file-label">
-                            <i class="fas fa-cloud-upload-alt"></i>
-                            <span>?∏Ê??ñÁ?</span>
-                        </label>
-                        <div class="file-preview"></div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="bikeDescription">?èËø∞</label>
-                    <textarea id="bikeDescription" name="description" rows="3"></textarea>
-                </div>
-                <div class="form-group checkbox-group">
-                    <label>
-                        <input type="checkbox" name="isMainBike">
-                        <span>Ë®≠ÁÇ∫‰∏ªË?ËªäË?</span>
-                    </label>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" id="cancelAddBike">?ñÊ?</button>
-                    <button type="submit" class="btn btn-primary">?≤Â?ËªäË?</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Á∑®ËºØËªäË?Ê®°Ê?Ê°?-->
-    <div class="modal" id="editBikeModal">
-        <div class="modal-content">
-            <span class="close-modal" id="closeEditModal">&times;</span>
-            <h2>Á∑®ËºØËªäË?Ë≥áÊ?</h2>
-            <form id="editBikeForm">
-                <input type="hidden" id="editBikeId" name="bikeId">
-                <div class="form-group">
-                    <label for="editBikeBrand">?ÅÁ?</label>
-                    <input type="text" id="editBikeBrand" name="brand" required>
-                </div>
-                <div class="form-group">
-                    <label for="editBikeModel">?ãË?</label>
-                    <input type="text" id="editBikeModel" name="model" required>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="editBikeYear">Âπ¥‰ªΩ</label>
-                        <input type="number" id="editBikeYear" name="year" min="1970" max="2030" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="editBikeCC">?íÈ? (cc)</label>
-                        <input type="number" id="editBikeCC" name="cc" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="editBikeMileage">?åÁ? (km)</label>
-                        <input type="number" id="editBikeMileage" name="mileage" min="0">
-                    </div>
-                    <div class="form-group">
-                        <label for="editBikeCategory">È°ûÂà•</label>
-                        <select id="editBikeCategory" name="category" required>
-                            <option value="">Ë´ãÈÅ∏?áË?ËºõÈ???/option>
-                            <option value="street">Ë°óË?</option>
-                            <option value="sport">?ãÂ?Ëª?/option>
-                            <option value="cruiser">Â∑°Ëà™Ëª?/option>
-                            <option value="adventure">?íÈö™Ëª?/option>
-                            <option value="scooter">?üÂ???/option>
-                            <option value="touring">?ÖË?Ëª?/option>
-                            <option value="other">?∂‰?</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="editBikeImage">?¥Ê?ËªäË??ßÁ?ÔºàÂèØ?∏Ô?</label>
-                    <div class="file-upload">
-                        <input type="file" id="editBikeImage" name="image" accept="image/*">
-                        <label for="editBikeImage" class="file-label">
-                            <i class="fas fa-cloud-upload-alt"></i>
-                            <span>?∏Ê??∞Â???/span>
-                        </label>
-                        <div class="file-preview" id="editFilePreview"></div>
-                    </div>
-                    <div class="current-image">
-                        <p>?ÆÂ??ñÁ?Ôº?/p>
-                        <img id="currentBikeImage" src="" alt="?ÆÂ?ËªäË??ñÁ?" style="max-width: 200px; max-height: 150px;">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="editBikeDescription">?èËø∞</label>
-                    <textarea id="editBikeDescription" name="description" rows="3"></textarea>
-                </div>
-                <div class="form-group checkbox-group">
-                    <label>
-                        <input type="checkbox" id="editIsMainBike" name="isMainBike">
-                        <span>Ë®≠ÁÇ∫‰∏ªË?ËªäË?</span>
-                    </label>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" id="cancelEditBike">?ñÊ?</button>
-                    <button type="submit" class="btn btn-primary">?¥Êñ∞ËªäË?</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- ?Ü‰∫´ËªäË?Ê®°Ê?Ê°?-->
-    <div class="modal" id="shareBikeModal">
-        <div class="modal-content">
-            <span class="close-modal" id="closeShareModal">&times;</span>
-            <h2>?Ü‰∫´?ëÁ??õË?</h2>
-            <div class="share-content">
-                <div class="share-preview">
-                    <img id="shareBikeImage" src="" alt="?Ü‰∫´ËªäË??ñÁ?">
-                    <div class="share-info">
-                        <h3 id="shareBikeName"></h3>
-                        <p id="shareBikeSpecs"></p>
-                        <div class="share-stats">
-                            <span id="shareModCount">?πË??∂‰ª∂: 0 ??/span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="share-options">
-                    <h4>?Ü‰∫´?∞Ô?</h4>
-                    <div class="share-buttons">
-                        <button class="share-btn facebook" id="shareFacebook">
-                            <i class="fab fa-facebook-f"></i>
-                            <span>Facebook</span>
-                        </button>
-                        <button class="share-btn twitter" id="shareTwitter">
-                            <i class="fab fa-twitter"></i>
-                            <span>Twitter</span>
-                        </button>
-                        <button class="share-btn line" id="shareLine">
-                            <i class="fab fa-line"></i>
-                            <span>Line</span>
-                        </button>
-                        <button class="share-btn copy-link" id="copyShareLink">
-                            <i class="fas fa-link"></i>
-                            <span>Ë§áË£Ω???</span>
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="share-link-section">
-                    <label for="shareLink">?Ü‰∫´???Ôº?/label>
-                    <div class="share-link-input">
-                        <input type="text" id="shareLink" readonly>
-                        <button class="btn btn-outline" id="copyLinkBtn">Ë§áË£Ω</button>
-                    </div>
-                </div>
-                
-                <div class="share-text-section">
-                    <label for="shareText">?Ü‰∫´?ßÂÆπÔº?/label>
-                    <textarea id="shareText" rows="4" readonly></textarea>
-                </div>
-            </div>
-            
-            <div class="modal-actions">
-                <button type="button" class="btn btn-secondary" id="closeShareBtn">?úÈ?</button>
-            </div>
-        </div>
-    </div>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section about">
-                    <div class="footer-logo">
-                        <img src="/images/motoweb-logo.svg" alt="motoweb Logo" class="footer-logo-img">
-                        <h3>MotoWeb</h3>
-                    </div>
-                    <p>Â∞àÊ•≠?ÑÊë©?òË??πË?Á§æÁæ§Âπ≥Âè∞ÔºåÁÇ∫ËªäÂ??ê‰?‰∫§Ê??áÂ?‰∫´Á?Á©∫È???/p>
-                    <div class="social-links">
-                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                        <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
-                    </div>
-                </div>
-                
-                <div class="footer-section links">
-                    <h3>Âø´ÈÄüÈÄ??</h3>
-                    <ul>
-                        <li><a href="about.html">?úÊñº?ëÂÄ?/a></li>
-                        <li><a href="products.html">?πË??∂‰ª∂</a></li>
-                        <li><a href="community.html">Á§æÁæ§Ë®éË?</a></li>
-                        <li><a href="gallery.html">‰ΩúÂ?Â±ïÁ§∫</a></li>
-                        <li><a href="events.html">?πË?Ê¥ªÂ?</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section contact">
-                    <h3>?ØÁµ°Ë≥áË?</h3>
-                    <ul class="contact-info">
-                        <li><i class="fas fa-envelope"></i> contact@MotoWeb.com</li>
-                        <li><i class="fas fa-phone"></i> (02) 1234-5678</li>
-                        <li><i class="fas fa-map-marker-alt"></i> ?∞Â?Â∏Ç‰ø°Áæ©Â??æ‰?Ë∑?00??/li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section newsletter">
-                    <h3>Ë®ÇÈñ±?ªÂ???/h3>
-                    <p>?≤Â??Ä?∞ÊîπË£ùË∂®?¢Ë?Ê¥ªÂ?Ë≥áË?</p>
-                    <form class="newsletter-form" action="subscribe.php" method="POST">
-                        <input type="email" name="email" placeholder="?®Á??ªÂ??µ‰ª∂" required>
-                        <button type="submit" class="btn btn-primary">Ë®ÇÈñ±</button>
-                    </form>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2025 MotoWeb. ‰øùÁ??Ä?âÊ??©„Ä?/p>
-                <div class="footer-bottom-links">
-                    <a href="privacy.html">?±Á??øÁ?</a>
-                    <a href="terms.html">‰ΩøÁî®Ê¢ùÊ¨æ</a>
-                    <a href="cookies.html">Cookie ?øÁ?</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script src="/js/main.js"></script>
-    <script src="/js/garage.js"></script>
+    <script src="/js/common.js"></script>
     <script src="/js/auth-state.js"></script>
+    <script src="/js/garage.js"></script>
 </body>
 </html> 

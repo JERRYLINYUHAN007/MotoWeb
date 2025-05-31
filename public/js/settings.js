@@ -1,24 +1,36 @@
 /**
- * settings.js
- * 處理帳號設定頁面的功能與互動
+ * Settings Page Functionality and Interactions
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    // 初始化所有功能
-    initSettingsTabs();
-    initAccountForms();
-    initEmailModal();
-    initSecurityForms();
-    initDeviceControls();
+    // Initialize all functions
+    initSettingsNavigation();
+    initAccountForm();
+    initPasswordForm();
     initNotificationSettings();
     initPrivacySettings();
-    initDataControls();
+    initDeviceManagement();
+    initDataManagement();
+    initImageUploads();
+    
+    // Loading animation
+    const settings = document.querySelector('.settings-container');
+    if (settings) {
+        settings.style.opacity = '0';
+        settings.style.transform = 'translateY(20px)';
+        
+        setTimeout(() => {
+            settings.style.opacity = '1';
+            settings.style.transform = 'translateY(0)';
+            settings.style.transition = 'all 0.5s ease-out';
+        }, 100);
+    }
 });
 
 /**
- * 初始化設定頁標籤切換功能
+ * Initialize settings navigation
  */
-function initSettingsTabs() {
+function initSettingsNavigation() {
     const navLinks = document.querySelectorAll('.settings-nav a');
     const sections = document.querySelectorAll('.settings-section');
     
@@ -26,31 +38,30 @@ function initSettingsTabs() {
         link.addEventListener('click', function(e) {
             e.preventDefault();
             
-            const targetSection = this.getAttribute('data-section');
+            const sectionId = this.getAttribute('data-section');
             
-            // 更新活動標籤
+            // Remove active class from all nav links
             navLinks.forEach(navLink => navLink.classList.remove('active'));
+            // Add active class to clicked link
             this.classList.add('active');
             
-            // 顯示對應的設定區塊
-            sections.forEach(section => {
-                if (section.id === targetSection) {
-                    section.classList.add('active');
-                } else {
-                    section.classList.remove('active');
-                }
-            });
+            // Hide all sections
+            sections.forEach(section => section.classList.remove('active'));
+            // Show target section
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
             
-            // 更新 URL 錨點，但不重新載入頁面
-            history.replaceState(null, null, `#${targetSection}`);
+            // Update URL hash
+            history.pushState(null, '', `#${sectionId}`);
         });
     });
     
-    // 根據 URL 錨點顯示對應的設定區塊
-    if (window.location.hash) {
-        const targetSection = window.location.hash.substring(1);
-        const targetLink = document.querySelector(`.settings-nav a[data-section="${targetSection}"]`);
-        
+    // Handle URL hash on page load
+    const hash = window.location.hash.substring(1);
+    if (hash) {
+        const targetLink = document.querySelector(`[data-section="${hash}"]`);
         if (targetLink) {
             targetLink.click();
         }
@@ -58,310 +69,326 @@ function initSettingsTabs() {
 }
 
 /**
- * 初始化帳號表單
+ * Initialize account form
  */
-function initAccountForms() {
-    const accountForm = document.getElementById('accountForm');
+function initAccountForm() {
+    const form = document.getElementById('profileSettingsForm');
+    if (!form) return;
     
-    if (accountForm) {
-        accountForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // 取得表單數據
-            const formData = new FormData(this);
-            
-            // 模擬 API 請求
-            console.log('更新帳號資訊:', {
-                username: formData.get('username'),
-                phone: formData.get('phone'),
-                language: formData.get('language')
-            });
-            
-            // 顯示成功訊息
-            showNotification('帳號資訊已更新', 'success');
-        });
-    }
-}
-
-/**
- * 初始化電子郵件變更模態框
- */
-function initEmailModal() {
-    const changeEmailBtn = document.getElementById('changeEmailBtn');
-    const emailModal = document.getElementById('changeEmailModal');
-    const closeModal = emailModal ? emailModal.querySelector('.close-modal') : null;
-    const cancelBtn = document.getElementById('cancelEmailChange');
-    const emailForm = document.getElementById('changeEmailForm');
-    
-    // 打開模態框
-    if (changeEmailBtn && emailModal) {
-        changeEmailBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            emailModal.classList.add('open');
-            document.body.style.overflow = 'hidden'; // 防止背景滾動
-        });
-    }
-    
-    // 關閉模態框
-    if (closeModal) {
-        closeModal.addEventListener('click', closeEmailModal);
-    }
-    
-    if (cancelBtn) {
-        cancelBtn.addEventListener('click', closeEmailModal);
-    }
-    
-    // 點擊模態框背景關閉
-    if (emailModal) {
-        emailModal.addEventListener('click', function(e) {
-            if (e.target === emailModal) {
-                closeEmailModal();
-            }
-        });
-    }
-    
-    // 處理表單提交
-    if (emailForm) {
-        emailForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(this);
-            const newEmail = formData.get('newEmail');
-            
-            // 模擬 API 請求
-            console.log('變更電子郵件:', {
-                newEmail: newEmail,
-                password: formData.get('confirmEmailPassword')
-            });
-            
-            // 更新顯示的電子郵件
-            document.getElementById('email').value = newEmail;
-            document.getElementById('currentEmail').value = newEmail;
-            
-            // 顯示成功訊息並關閉模態框
-            showNotification('電子郵件已變更，驗證郵件已發送至新信箱', 'success');
-            closeEmailModal();
-        });
-    }
-}
-
-/**
- * 關閉電子郵件模態框
- */
-function closeEmailModal() {
-    const emailModal = document.getElementById('changeEmailModal');
-    if (emailModal) {
-        emailModal.classList.remove('open');
-        document.body.style.overflow = ''; // 恢復背景滾動
-    }
-}
-
-/**
- * 初始化安全設定表單
- */
-function initSecurityForms() {
-    const securityForm = document.getElementById('securityForm');
-    
-    if (securityForm) {
-        securityForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const currentPassword = document.getElementById('currentPassword').value;
-            const newPassword = document.getElementById('newPassword').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            
-            // 簡單的前端驗證
-            if (!currentPassword) {
-                showNotification('請輸入目前密碼', 'error');
-                return;
-            }
-            
-            if (newPassword !== confirmPassword) {
-                showNotification('新密碼與確認密碼不相符', 'error');
-                return;
-            }
-            
-            // 密碼複雜度檢查
-            if (newPassword && newPassword.length < 8) {
-                showNotification('新密碼至少需要8個字元', 'error');
-                return;
-            }
-            
-            // 模擬 API 請求
-            console.log('更新密碼:', {
-                currentPassword,
-                newPassword
-            });
-            
-            // 清空表單
-            this.reset();
-            
-            // 顯示成功訊息
-            showNotification('密碼已成功更新', 'success');
-        });
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
         
-        // 監聽雙重驗證開關
-        const twoFactorToggle = document.querySelector('input[name="twoFactor"]');
-        if (twoFactorToggle) {
-            twoFactorToggle.addEventListener('change', function() {
-                const isEnabled = this.checked;
-                
-                // 模擬 API 請求
-                console.log('雙重驗證狀態更改:', isEnabled);
-                
-                // 顯示提示訊息
-                if (isEnabled) {
-                    showNotification('雙重驗證已啟用', 'success');
-                    // 這裡通常會跳轉到設定雙重驗證的流程
-                } else {
-                    showNotification('雙重驗證已停用', 'info');
-                }
-            });
-        }
-    }
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData.entries());
+        
+        // Simulate API request
+        console.log('Update account information:', data);
+        
+        // Show success message
+        showNotification('Profile updated successfully', 'success');
+    });
 }
 
 /**
- * 初始化裝置控制功能
+ * Initialize password form
  */
-function initDeviceControls() {
-    const deviceLogoutBtns = document.querySelectorAll('.device-item .btn-danger:not([disabled])');
-    const logoutAllBtn = document.getElementById('logoutAllDevices');
+function initPasswordForm() {
+    const form = document.getElementById('passwordSettingsForm');
+    if (!form) return;
     
-    deviceLogoutBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const currentPassword = formData.get('currentPassword');
+        const newPassword = formData.get('newPassword');
+        const confirmPassword = formData.get('confirmPassword');
+        
+        // Basic validation
+        if (!currentPassword) {
+            showNotification('Please enter current password', 'error');
+            return;
+        }
+        
+        if (newPassword !== confirmPassword) {
+            showNotification('New password and confirm password do not match', 'error');
+            return;
+        }
+        
+        // Password complexity check
+        if (newPassword.length < 8) {
+            showNotification('New password must be at least 8 characters', 'error');
+            return;
+        }
+        
+        // Simulate API request
+        console.log('Update password');
+        
+        // Clear form
+        this.reset();
+        
+        // Show success message
+        showNotification('Password updated successfully', 'success');
+    });
+}
+
+/**
+ * Initialize notification settings
+ */
+function initNotificationSettings() {
+    const form = document.getElementById('notificationSettingsForm');
+    if (!form) return;
+    
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const settings = Object.fromEntries(formData.entries());
+        
+        // Simulate API request
+        console.log('Update notification settings:', settings);
+        
+        // Show success message
+        showNotification('Notification settings updated', 'success');
+    });
+}
+
+/**
+ * Initialize privacy settings
+ */
+function initPrivacySettings() {
+    const form = document.getElementById('privacySettingsForm');
+    if (!form) return;
+    
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const settings = Object.fromEntries(formData.entries());
+        
+        // Simulate API request
+        console.log('Update privacy settings:', settings);
+        
+        // Show success message
+        showNotification('Privacy settings updated', 'success');
+    });
+}
+
+/**
+ * Initialize device management
+ */
+function initDeviceManagement() {
+    // Handle device removal
+    const removeButtons = document.querySelectorAll('.device-item .btn-danger:not([disabled])');
+    removeButtons.forEach(button => {
+        button.addEventListener('click', function() {
             const deviceItem = this.closest('.device-item');
             const deviceName = deviceItem.querySelector('h4').textContent;
             
-            // 模擬 API 請求
-            console.log('登出裝置:', deviceName);
-            
-            // 從列表中移除裝置項目
-            deviceItem.style.opacity = '0';
-            setTimeout(() => {
+            if (confirm(`Remove ${deviceName}?`)) {
                 deviceItem.remove();
-                showNotification(`已從 ${deviceName} 登出`, 'success');
-            }, 300);
+                showNotification('Device removed successfully', 'success');
+            }
         });
     });
     
+    // Handle logout all devices
+    const logoutAllBtn = document.getElementById('logoutAllDevices');
     if (logoutAllBtn) {
         logoutAllBtn.addEventListener('click', function() {
-            // 模擬 API 請求
-            console.log('登出所有其他裝置');
-            
-            // 從列表中移除非當前裝置
-            const otherDevices = document.querySelectorAll('.device-item:not(.current)');
-            otherDevices.forEach(device => {
-                device.style.opacity = '0';
-                setTimeout(() => {
-                    device.remove();
-                }, 300);
-            });
-            
-            showNotification('已從所有其他裝置登出', 'success');
-        });
-    }
-}
-
-/**
- * 初始化通知設定
- */
-function initNotificationSettings() {
-    const saveNotificationsBtn = document.getElementById('saveNotifications');
-    
-    if (saveNotificationsBtn) {
-        saveNotificationsBtn.addEventListener('click', function() {
-            // 收集所有通知設定的狀態
-            const settings = {
-                emailNotif: document.querySelector('input[name="emailNotif"]').checked,
-                pushNotif: document.querySelector('input[name="pushNotif"]').checked,
-                commentNotif: document.querySelector('input[name="commentNotif"]').checked,
-                likeNotif: document.querySelector('input[name="likeNotif"]').checked,
-                eventNotif: document.querySelector('input[name="eventNotif"]').checked,
-                productNotif: document.querySelector('input[name="productNotif"]').checked,
-                systemNotif: document.querySelector('input[name="systemNotif"]').checked
-            };
-            
-            // 模擬 API 請求
-            console.log('儲存通知設定:', settings);
-            
-            showNotification('通知設定已更新', 'success');
-        });
-    }
-}
-
-/**
- * 初始化隱私設定
- */
-function initPrivacySettings() {
-    const savePrivacyBtn = document.getElementById('savePrivacy');
-    
-    if (savePrivacyBtn) {
-        savePrivacyBtn.addEventListener('click', function() {
-            // 收集所有隱私設定
-            const settings = {
-                profileVisibility: document.querySelector('select[name="profileVisibility"]').value,
-                garageVisibility: document.querySelector('select[name="garageVisibility"]').value,
-                contactVisibility: document.querySelector('select[name="contactVisibility"]').value,
-                allowTagging: document.querySelector('input[name="allowTagging"]').checked,
-                showActivity: document.querySelector('input[name="showActivity"]').checked
-            };
-            
-            // 模擬 API 請求
-            console.log('儲存隱私設定:', settings);
-            
-            showNotification('隱私設定已更新', 'success');
-        });
-    }
-}
-
-/**
- * 初始化資料控制功能
- */
-function initDataControls() {
-    // 刪除帳號功能
-    const deleteAccountBtn = document.querySelector('.data-option .btn-danger');
-    
-    if (deleteAccountBtn) {
-        deleteAccountBtn.addEventListener('click', function() {
-            // 顯示確認刪除帳號的對話框
-            if (confirm('您確定要永久刪除您的帳號嗎？此操作無法撤銷，所有資料將被永久刪除。')) {
-                // 模擬 API 請求
-                console.log('請求刪除帳號');
-                
-                showNotification('已提交帳號刪除申請，請檢查您的電子郵件以確認此操作。', 'info');
+            if (confirm('Logout from all devices? You will need to login again on all devices.')) {
+                // Simulate API request
+                console.log('Logout all devices');
+                showNotification('Logged out from all devices', 'success');
             }
         });
     }
 }
 
 /**
- * 顯示通知訊息
+ * Initialize data management
+ */
+function initDataManagement() {
+    // Download data button
+    const downloadBtn = document.querySelector('[data-action="download"]');
+    if (downloadBtn) {
+        downloadBtn.addEventListener('click', function() {
+            showNotification('Data download request submitted. You will receive an email when ready.', 'info');
+        });
+    }
+    
+    // Manage data button
+    const manageBtn = document.querySelector('[data-action="manage"]');
+    if (manageBtn) {
+        manageBtn.addEventListener('click', function() {
+            showNotification('Data usage settings opened', 'info');
+        });
+    }
+    
+    // Delete account button
+    const deleteBtn = document.querySelector('[data-action="delete"]');
+    if (deleteBtn) {
+        deleteBtn.addEventListener('click', function() {
+            const modal = document.getElementById('confirmationModal');
+            if (modal) {
+                document.getElementById('modalTitle').textContent = 'Delete Account';
+                document.getElementById('modalMessage').textContent = 
+                    'Are you sure you want to permanently delete your account? This action cannot be undone and all your data will be lost forever.';
+                
+                modal.classList.add('show');
+                
+                // Handle confirmation
+                const confirmBtn = document.getElementById('confirmActionBtn');
+                const cancelBtn = document.getElementById('cancelActionBtn');
+                
+                const handleConfirm = () => {
+                    modal.classList.remove('show');
+                    showNotification('Account deletion request submitted. Please check your email to confirm.', 'warning');
+                    confirmBtn.removeEventListener('click', handleConfirm);
+                    cancelBtn.removeEventListener('click', handleCancel);
+                };
+                
+                const handleCancel = () => {
+                    modal.classList.remove('show');
+                    confirmBtn.removeEventListener('click', handleConfirm);
+                    cancelBtn.removeEventListener('click', handleCancel);
+                };
+                
+                confirmBtn.addEventListener('click', handleConfirm);
+                cancelBtn.addEventListener('click', handleCancel);
+                
+                // Close modal when clicking outside
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        handleCancel();
+                    }
+                });
+            } else {
+                // Fallback if modal doesn't exist
+                if (confirm('Are you sure you want to permanently delete your account? This action cannot be undone.')) {
+                    if (confirm('This will permanently delete all your data. Are you absolutely sure?')) {
+                        showNotification('Account deletion request submitted. Please check your email to confirm.', 'warning');
+                    }
+                }
+            }
+        });
+    }
+}
+
+/**
+ * Initialize image upload functionality
+ */
+function initImageUploads() {
+    const avatarUpload = document.getElementById('avatarUpload');
+    const coverUpload = document.getElementById('coverUpload');
+    
+    if (avatarUpload) {
+        avatarUpload.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                handleImageUpload(file, 'avatar');
+            }
+        });
+    }
+    
+    if (coverUpload) {
+        coverUpload.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                handleImageUpload(file, 'cover');
+            }
+        });
+    }
+}
+
+/**
+ * Handle image upload
+ */
+function handleImageUpload(file, type) {
+    // File size validation (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+        showNotification('File size must be less than 5MB', 'error');
+        return;
+    }
+    
+    // File type validation
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+        showNotification('Please select a valid image file (JPEG, PNG, WEBP)', 'error');
+        return;
+    }
+    
+    // Simulate API request
+    console.log(`Uploading ${type} image:`, file.name);
+    
+    // Create preview
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const preview = document.querySelector(`.${type}-preview img`);
+        if (preview) {
+            preview.src = e.target.result;
+        }
+    };
+    reader.readAsDataURL(file);
+    
+    showNotification(`${type === 'avatar' ? 'Avatar' : 'Cover image'} updated successfully`, 'success');
+}
+
+/**
+ * Show notification message
  */
 function showNotification(message, type = 'info') {
-    // 檢查是否已存在通知元素
+    // Remove existing notification if any
     let notification = document.querySelector('.notification');
-    
-    // 如果不存在，創建新的通知元素
-    if (!notification) {
-        notification = document.createElement('div');
-        notification.className = 'notification';
-        document.body.appendChild(notification);
+    if (notification) {
+        notification.remove();
     }
-
-    // 設置通知類型和訊息
-    notification.className = `notification ${type}`;
-    notification.textContent = message;
     
-    // 添加顯示類別
-    notification.classList.add('show');
-
-    // 設定自動消失
+    notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    
+    // Set styles using CSS variables
+    notification.style.cssText = `
+        position: fixed;
+        top: 2rem;
+        right: 2rem;
+        max-width: 400px;
+        padding: 1rem 1.5rem;
+        background: ${type === 'success' ? 'var(--success-color)' : 
+                    type === 'error' ? 'var(--error-color)' :
+                    type === 'warning' ? 'var(--warning-color)' :
+                    'var(--primary-color)'};
+        color: var(--dark-surface);
+        border-radius: var(--border-radius-md);
+        z-index: 3000;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        font-family: var(--font-primary);
+        font-size: 0.9rem;
+        font-weight: 600;
+        line-height: 1.4;
+        opacity: 0;
+        transform: translateX(100%);
+        transition: all 0.3s ease;
+    `;
+    
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    // Trigger enter animation
+    requestAnimationFrame(() => {
+        notification.style.opacity = '1';
+        notification.style.transform = 'translateX(0)';
+    });
+    
+    // Auto remove
     setTimeout(() => {
-        notification.classList.remove('show');
+        notification.style.opacity = '0';
+        notification.style.transform = 'translateX(100%)';
+        
         setTimeout(() => {
-            notification.remove();
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
         }, 300);
-    }, 3000);
+    }, 4000);
 } 

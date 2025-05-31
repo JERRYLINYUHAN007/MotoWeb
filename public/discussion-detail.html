@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>?áÁ?Ë©≥Ê? - MotoWeb</title>
-    <meta name="description" content="?•Á??©Ê?ËªäÊîπË£ùÁ§æÁæ§Ë?Ë´ñÁ?Ë©≥Á¥∞?ßÂÆπ">
+    <title>Discussion Detail - MotoWeb</title>
+    <meta name="description" content="Motorcycle Modification Community Discussion Details">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/tech-theme.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* Ë®éË?Ë©≥Ê??ÅÈù¢Â∞àÁî®Ê®?? - ?æ‰ª£ÁßëÊ?È¢®Ê†º */
+        /* Ë®éË´ñË©≥ÊÉÖÈ†ÅÈù¢Â∞àÁî®Ê®£Âºè - Áèæ‰ª£ÁßëÊäÄÈ¢®Ê†º */
         body {
             background: var(--secondary-color);
             margin-top: 80px;
@@ -347,7 +347,7 @@
             color: var(--carbon-gray);
         }
 
-        /* ËøîÂ??âÈ? */
+        /* ËøîÂõûÊåâÈàï */
         .back-button {
             position: fixed;
             top: 100px;
@@ -379,7 +379,7 @@
                 0 0 30px var(--primary-color);
         }
 
-        /* ?øÊ?ÂºèË®≠Ë®?*/
+        /* ÈüøÊáâÂºèË®≠Ë®à */
         @media (max-width: 768px) {
             .discussion-detail-container {
                 margin: 1rem;
@@ -438,38 +438,38 @@
     <nav class="navbar">
         <div class="container nav-container">
             <div class="logo">
-                <a href="index.html" aria-label="motowebÈ¶ñÈ?">
+                <a href="index.html" aria-label="motoweb home">
                     <img src="MOTOWEB.png" alt="motoweb Logo" class="logo-img">
                     <h1>motoweb</h1>
                 </a>
             </div>
             <div class="nav-links" id="navLinks">
                 <div class="main-nav">
-                    <a href="index.html">È¶ñÈ?</a>
-                    <a href="products.html">?πË??∂‰ª∂</a>
-                    <a href="community.html" class="active" aria-current="page">Á§æÁæ§Ë®éË?</a>
-                    <a href="gallery.html">‰ΩúÂ?Â±ïÁ§∫</a>
-                    <a href="events.html">?πË?Ê¥ªÂ?</a>
-                    <a href="about.html">?úÊñº?ëÂÄ?/a>
+                    <a href="index.html">Home</a>
+                    <a href="products.html">Modification Parts</a>
+                    <a href="community.html" class="active" aria-current="page">Community</a>
+                    <a href="gallery.html">Gallery</a>
+                    <a href="events.html">Events</a>
+                    <a href="about.html">About Us</a>
                 </div>
                 <div class="auth-buttons">
-                    <a href="login.html" class="btn btn-secondary">?ªÂÖ•</a>
-                    <a href="register.html" class="btn btn-primary">Ë®ªÂ?</a>
+                    <a href="login.html" class="btn btn-secondary">Login</a>
+                    <a href="register.html" class="btn btn-primary">Register</a>
                 </div>
                 <div class="user-menu" style="display: none;">
                     <div class="user-avatar">
-                        <img src="/images/default-avatar.svg" alt="?®Êà∂?≠Â?" class="avatar">
-                        <span class="username">?®Êà∂?çÁ®±</span>
+                        <img src="/images/default-avatar.svg" alt="User Avatar" class="avatar">
+                        <span class="username">Username</span>
                     </div>
                     <div class="dropdown-menu">
-                        <a href="/profile.html"><i class="fas fa-user"></i> ?ã‰∫∫Ë≥áÊ?</a>
-                        <a href="/garage.html"><i class="fas fa-motorcycle"></i> ?ëÁ?ËªäÂ∫´</a>
-                        <a href="/settings.html"><i class="fas fa-cog"></i> Â∏≥Ë?Ë®≠Â?</a>
-                        <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> ?ªÂá∫</a>
+                        <a href="/profile.html"><i class="fas fa-user"></i> Profile</a>
+                        <a href="/garage.html"><i class="fas fa-motorcycle"></i> My Garage</a>
+                        <a href="/settings.html"><i class="fas fa-cog"></i> Settings</a>
+                        <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </div>
                 </div>
             </div>
-            <button class="menu-toggle" aria-label="Â±ïÈ??∏ÂñÆ" aria-expanded="false" aria-controls="navLinks">
+            <button class="menu-toggle" aria-label="Toggle Menu" aria-expanded="false" aria-controls="navLinks">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -477,55 +477,54 @@
         </div>
     </nav>
 
-    <!-- ËøîÂ??âÈ? -->
-    <button class="back-button" onclick="history.back()" aria-label="ËøîÂ?‰∏ä‰???>
+    <!-- Back Button -->
+    <button class="back-button" onclick="history.back()" aria-label="Go Back">
         <i class="fas fa-arrow-left"></i>
     </button>
 
     <main>
-    <div class="discussion-detail-container">
-        <header class="post-header">
-            <h1 id="post-title" class="post-title">?áÁ?Ê®ôÈ?ËºâÂÖ•‰∏?..</h1>
-            <div class="author-info">
-                <img id="author-avatar" src="/images/avatars/user1.svg" alt="‰ΩúËÄÖÈ†≠?? class="author-avatar">
-                <span id="author-name">‰ΩúËÄÖÂ?Á®?/span> - <span id="post-date">?•Ê?</span>
-            </div>
-            <div class="post-meta">
-                <span><i class="fas fa-folder"></i> <span id="post-category">?ÜÈ?</span></span>
-            </div>
-            <div id="post-tags" class="post-tags">
-                <!-- Ê®ôÁ±§Â∞áÂ??ãË???-->
-            </div>
-        </header>
+        <div class="discussion-detail-container">
+            <header class="post-header">
+                <h1 id="post-title" class="post-title">Loading post title...</h1>
+                <div class="author-info">
+                    <img id="author-avatar" src="/images/avatars/user1.svg" alt="Author Avatar" class="author-avatar">
+                    <span id="author-name">Author</span> - <span id="post-date">Date</span>
+                </div>
+                <div class="post-meta">
+                    <span><i class="fas fa-folder"></i> <span id="post-category">Category</span></span>
+                </div>
+                <div id="post-tags" class="post-tags">
+                    <!-- Tags will be dynamically inserted -->
+                </div>
+            </header>
 
-        <article id="post-content" class="post-content">
-            <p>?áÁ??ßÂÆπËºâÂÖ•‰∏?..</p>
-        </article>
+            <article id="post-content" class="post-content">
+                <p>Loading post content...</p>
+            </article>
 
-        <div class="post-actions">
-            <button id="like-button" class="like-button">
-                <i class="far fa-thumbs-up"></i> <span id="like-count">0</span>
-            </button>
-            <span><i class="fas fa-eye"></i> <span id="view-count">0</span> Ê¨°Êü•??/span>
+            <div class="post-actions">
+                <button id="like-button" class="like-button">
+                    <i class="far fa-thumbs-up"></i> <span id="like-count">0</span>
+                </button>
+                <span><i class="fas fa-eye"></i> <span id="view-count">0</span> views</span>
+            </div>
+
+            <section class="comments-section">
+                <h3><span id="comment-count">0</span> Comments</h3>
+                <div id="comments-list">
+                    <!-- Comments will be dynamically inserted -->
+                    <p>No comments yet</p>
+                </div>
+                <form id="comment-form" class="comment-form">
+                    <h4>Add a Comment</h4>
+                    <textarea id="comment-text" placeholder="Share your thoughts..." required></textarea>
+                    <button type="submit" class="btn btn-primary">Submit Comment</button>
+                </form>
+            </section>
         </div>
-
-        <section class="comments-section">
-            <h3><span id="comment-count">0</span> ?áË?Ë´?/h3>
-            <div id="comments-list">
-                <!-- Ë©ïË?Â∞áÂ??ãË???-->
-                <p>?ÆÂ?Ê≤íÊ?Ë©ïË???/p>
-            </div>
-            <form id="comment-form" class="comment-form">
-                <h4>?ºË°®Ë©ïË?</h4>
-                <textarea id="comment-text" placeholder="?Ü‰∫´?®Á??ãÊ?..." required></textarea>
-                <button type="submit" class="btn btn-primary">?ÅÂá∫Ë©ïË?</button>
-            </form>
-        </section>
-    </div>
     </main>
 
     <footer class="footer">
-        <!-- ?ÅÂ∞æ?ßÂÆπ?áÂÖ∂‰ªñÈ??¢‰???-->
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section about">
@@ -533,7 +532,7 @@
                         <img src="MOTOWEB.png" alt="motoweb Logo" class="footer-logo-img">
                         <h3>motoweb</h3>
                     </div>
-                    <p>Â∞àÊ•≠?ÑÊë©?òË??πË?Á§æÁæ§Âπ≥Âè∞ÔºåÁÇ∫ËªäÂ??ê‰?‰∫§Ê??áÂ?‰∫´Á?Á©∫È???/p>
+                    <p>Professional motorcycle modification community platform for riders to share and connect.</p>
                     <div class="social-links">
                         <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
                         <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
@@ -542,38 +541,38 @@
                     </div>
                 </div>
                 <div class="footer-section links">
-                    <h3>Âø´ÈÄüÈÄ??</h3>
+                    <h3>Quick Links</h3>
                     <ul>
-                        <li><a href="about.html">?úÊñº?ëÂÄ?/a></li>
-                        <li><a href="products.html">?πË??∂‰ª∂</a></li>
-                        <li><a href="community.html">Á§æÁæ§Ë®éË?</a></li>
-                        <li><a href="gallery.html">‰ΩúÂ?Â±ïÁ§∫</a></li>
-                        <li><a href="events.html">?πË?Ê¥ªÂ?</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="products.html">Modification Parts</a></li>
+                        <li><a href="community.html">Community</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="events.html">Events</a></li>
                     </ul>
                 </div>
                 <div class="footer-section contact">
-                    <h3>?ØÁµ°Ë≥áË?</h3>
+                    <h3>Contact Info</h3>
                     <ul class="contact-info">
                         <li><i class="fas fa-envelope"></i> contact@MotoWeb.com</li>
                         <li><i class="fas fa-phone"></i> (02) 1234-5678</li>
-                        <li><i class="fas fa-map-marker-alt"></i> ?∞Â?Â∏Ç‰ø°Áæ©Â??æ‰?Ë∑?00??/li>
+                        <li><i class="fas fa-map-marker-alt"></i> 100 Xinyi Road, Xinyi District, Taipei</li>
                     </ul>
                 </div>
                 <div class="footer-section newsletter">
-                    <h3>Ë®ÇÈñ±?ªÂ???/h3>
-                    <p>?≤Â??Ä?∞ÊîπË£ùË∂®?¢Ë?Ê¥ªÂ?Ë≥áË?</p>
+                    <h3>Newsletter</h3>
+                    <p>Get the latest modification trends and event updates</p>
                     <form class="newsletter-form" action="subscribe.php" method="POST">
-                        <input type="email" name="email" placeholder="?®Á??ªÂ??µ‰ª∂" required>
-                        <button type="submit" class="btn btn-primary">Ë®ÇÈñ±</button>
+                        <input type="email" name="email" placeholder="Enter your email" required>
+                        <button type="submit" class="btn btn-primary">Subscribe</button>
                     </form>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 MotoWeb. ‰øùÁ??Ä?âÊ??©„Ä?/p>
+                <p>&copy; 2025 MotoWeb. All rights reserved.</p>
                 <div class="footer-bottom-links">
-                    <a href="privacy.html">?±Á??øÁ?</a>
-                    <a href="terms.html">‰ΩøÁî®Ê¢ùÊ¨æ</a>
-                    <a href="cookies.html">Cookie ?øÁ?</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Use</a>
+                    <a href="cookies.html">Cookie Policy</a>
                 </div>
             </div>
         </div>
@@ -583,7 +582,7 @@
     <script src="/js/auth-state.js"></script>
     <script src="/js/community-api.js"></script>
     <script>
-        // Á§æÁæ§APIÂØ¶‰?
+        // Community API Implementation
         const communityAPI = new CommunityAPI();
         let currentPost = null;
 
@@ -594,15 +593,15 @@
             if (postId) {
                 loadPost(postId);
             } else {
-                showError('?°Ê??ÑÊ?Á´†ÈÄ??');
+                showError('Post not found');
             }
             
-            // ?ùÂ??ñÈÄöÁî®?üËÉΩ
+            // Common functionality
             if (typeof initMobileNav === 'function') initMobileNav();
             if (typeof initAuthState === 'function') initAuthState();
         });
 
-        // ËºâÂÖ•?áÁ?
+        // Load post
         async function loadPost(postId) {
             try {
                 showLoading();
@@ -613,25 +612,25 @@
                 displayPost(post);
                 
             } catch (error) {
-                console.error('ËºâÂÖ•?áÁ?Â§±Ê?:', error);
-                showError(error.message || 'ËºâÂÖ•?áÁ?Â§±Ê?');
+                console.error('Failed to load post:', error);
+                showError(error.message || 'Failed to load post');
             } finally {
                 hideLoading();
             }
         }
 
-        // È°ØÁ§∫?áÁ?
+        // Display post
         function displayPost(post) {
-                document.title = post.title + " - MotoWeb";
-                document.getElementById('post-title').textContent = post.title;
+            document.title = post.title + " - MotoWeb";
+            document.getElementById('post-title').textContent = post.title;
             document.getElementById('author-avatar').src = post.avatar || 'images/avatars/default-user.svg';
-                document.getElementById('author-avatar').alt = post.author + "?ÑÈ†≠??;
-                document.getElementById('author-name').textContent = post.author;
+            document.getElementById('author-avatar').alt = post.author + "'s avatar";
+            document.getElementById('author-name').textContent = post.author;
             document.getElementById('post-date').textContent = formatDate(post.createdAt);
-                document.getElementById('post-category').textContent = post.category;
-                
-            // È°ØÁ§∫Ê®ôÁ±§
-                const tagsContainer = document.getElementById('post-tags');
+            document.getElementById('post-category').textContent = post.category;
+            
+            // Display tags
+            const tagsContainer = document.getElementById('post-tags');
             tagsContainer.innerHTML = '';
             if (post.tags && post.tags.length > 0) {
                 post.tags.forEach(tag => {
@@ -642,59 +641,60 @@
                 });
             }
 
-            // È°ØÁ§∫?ßÂÆπ
+            // Display content
             document.getElementById('post-content').innerHTML = post.content;
             
-            // È°ØÁ§∫Áµ±Ë?Ë≥áÊ?
+            // Display statistics
             document.getElementById('like-count').textContent = post.likes || 0;
             document.getElementById('view-count').textContent = post.views || 0;
             
-            // È°ØÁ§∫Ë©ïË?
+            // Display comments
             renderComments(post.comments || []);
             
-            // Á∂ÅÂ??âË??üËÉΩ
+            // Bind post functionality
             bindLikeButton();
             
-            // Á∂ÅÂ?Ë©ïË??üËÉΩ
+            // Bind comment functionality
             bindCommentForm();
         }
 
-        // Ê∏≤Ê?Ë©ïË?
+        // Render comments
         function renderComments(comments) {
-                const commentsList = document.getElementById('comments-list');
-                const commentCountSpan = document.getElementById('comment-count');
-                
+            const commentsList = document.getElementById('comments-list');
+            const commentCountSpan = document.getElementById('comment-count');
+            
             commentsList.innerHTML = '';
             
             if (comments && comments.length > 0) {
                 comments.forEach(comment => {
-                            const commentElement = document.createElement('div');
-                            commentElement.className = 'comment';
-                            commentElement.innerHTML = `
-                                <div class="comment-author">
-                            <img src="${comment.avatar || 'images/avatars/default-user.svg'}" alt="${comment.author}?ÑÈ†≠??>
-                                    ${comment.author}
+                    const commentElement = document.createElement('div');
+                    commentElement.className = 'comment';
+                    commentElement.innerHTML = `
+                        <div class="comment-author">
+                            <img src="${comment.avatar || 'images/avatars/default-user.svg'}" alt="${comment.author}'s avatar">
+                            ${comment.author}
                             <span class="comment-date">${formatDate(comment.createdAt || comment.date)}</span>
-                                </div>
+                        </div>
                         <div class="comment-text">${comment.text || comment.content}</div>
-                            `;
-                            commentsList.appendChild(commentElement);
-                        });
-                    } else {
-                        commentsList.innerHTML = '<p>?ÆÂ?Ê≤íÊ?Ë©ïË???/p>';
-                    }
+                    `;
+                    commentsList.appendChild(commentElement);
+                });
+            } else {
+                commentsList.innerHTML = '<p>No comments yet</p>';
+            }
             
             commentCountSpan.textContent = comments ? comments.length : 0;
-                }
-                
-        // Á∂ÅÂ??âË??üËÉΩ
+        }
+        
+        // Bind post functionality
         function bindLikeButton() {
             const likeButton = document.getElementById('like-button');
-            let liked = false; // ÂØ¶È??âË©≤ÂæûÁî®?∂Á??ãÁç≤??            
+            let liked = false; // Actually get from backend
             likeButton.addEventListener('click', function() {
-                // Ê™¢Êü•?ªÂÖ•?Ä??                const token = localStorage.getItem('token');
+                // Check if logged in
+                const token = localStorage.getItem('token');
                 if (!token) {
-                    alert('Ë´ãÂ??ªÂÖ•?çËÉΩ?âË?');
+                    alert('Please login to like this post');
                     return;
                 }
                 
@@ -709,58 +709,61 @@
                     likeButton.innerHTML = `<i class="far fa-thumbs-up"></i> ${currentPost.likes}`;
                 }
                 
-                // Ê≥®Ê?ÔºöÈÄôË£°?ÑÊõ¥?πÂè™?®ÂÆ¢?∂Á´ØÔºåÂØ¶?õÊ?Ë©≤Ë™ø?®API?¥Êñ∞
+                // Note: This only updates client-side, should call API to update
             });
         }
 
-        // Á∂ÅÂ?Ë©ïË?Ë°®ÂñÆ
+        // Bind comment form
         function bindCommentForm() {
-                const commentForm = document.getElementById('comment-form');
+            const commentForm = document.getElementById('comment-form');
             
-                commentForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
+            commentForm.addEventListener('submit', function(e) {
+                e.preventDefault();
                 
-                // Ê™¢Êü•?ªÂÖ•?Ä??                const token = localStorage.getItem('token');
+                // Check if logged in
+                const token = localStorage.getItem('token');
                 if (!token) {
-                    alert('Ë´ãÂ??ªÂÖ•?çËÉΩ?ºË°®Ë©ïË?');
+                    alert('Please login to comment');
                     return;
                 }
                 
-                    const commentTextarea = document.getElementById('comment-text');
-                    const commentText = commentTextarea.value.trim();
+                const commentTextarea = document.getElementById('comment-text');
+                const commentText = commentTextarea.value.trim();
 
-                    if (commentText) {
-                        const newComment = {
-                        author: "?®Êà∂", // ÂØ¶È??âË©≤ÂæûÁôª?•Á??ãÁç≤??                        avatar: "images/avatars/default-user.svg",
+                if (commentText) {
+                    const newComment = {
+                        author: "User", // Actually get from login
                         createdAt: new Date().toISOString(),
-                            text: commentText
-                        };
+                        text: commentText
+                    };
                     
                     if (!currentPost.comments) {
                         currentPost.comments = [];
-                        }
+                    }
                     currentPost.comments.push(newComment);
                     renderComments(currentPost.comments);
                     commentTextarea.value = '';
                     
-                    // Ê≥®Ê?ÔºöÈÄôË£°?ÑÊõ¥?πÂè™?®ÂÆ¢?∂Á´ØÔºåÂØ¶?õÊ?Ë©≤Ë™ø?®API‰øùÂ?
+                    // Note: This only updates client-side, should call API to save
                 }
             });
         }
 
-        // È°ØÁ§∫ËºâÂÖ•?Ä??        function showLoading() {
-            document.getElementById('post-title').textContent = 'ËºâÂÖ•‰∏?..';
-            document.getElementById('post-content').innerHTML = '<p>Ê≠?ú®ËºâÂÖ•?áÁ??ßÂÆπ...</p>';
+        // Show loading
+        function showLoading() {
+            document.getElementById('post-title').textContent = 'Loading...';
+            document.getElementById('post-content').innerHTML = '<p>Loading post content...</p>';
         }
 
-        // ?±Ë?ËºâÂÖ•?Ä??        function hideLoading() {
-            // ËºâÂÖ•ÂÆåÊ?ÂæåÊ??±displayPost?ñshowError?ïÁ?
+        // Hide loading
+        function hideLoading() {
+            // Loading complete, displayPost or showError will handle the display
         }
 
-        // È°ØÁ§∫?ØË™§
+        // Show error
         function showError(message) {
-            document.getElementById('post-title').textContent = '?áÁ?‰∏çÂ???;
-            document.getElementById('post-content').innerHTML = `<p>?±Ê?Ôº?{message}??/p>`;
+            document.getElementById('post-title').textContent = 'Post Not Found';
+            document.getElementById('post-content').innerHTML = `<p>${message}</p>`;
             document.getElementById('author-name').textContent = '';
             document.getElementById('post-date').textContent = '';
             document.getElementById('post-category').textContent = '';
@@ -771,7 +774,8 @@
             document.getElementById('comments-list').innerHTML = '';
         }
 
-        // ?ºÂ??ñÊó•??        function formatDate(dateString) {
+        // Format date
+        function formatDate(dateString) {
             if (!dateString) return '';
             
             const date = new Date(dateString);
@@ -780,14 +784,14 @@
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             
             if (diffDays === 1) {
-                return '1Â§©Â?';
+                return '1 day ago';
             } else if (diffDays < 7) {
-                return `${diffDays}Â§©Â?`;
+                return `${diffDays} days ago`;
             } else if (diffDays < 30) {
                 const weeks = Math.floor(diffDays / 7);
-                return `${weeks}?±Â?`;
+                return `${weeks} weeks ago`;
             } else {
-                return date.toLocaleDateString('zh-TW');
+                return date.toLocaleDateString('en-US');
             }
         }
     </script>

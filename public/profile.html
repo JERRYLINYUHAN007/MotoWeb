@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>?ã‰∫∫Ë≥áÊ? - MotoWeb</title>
-    <meta name="description" content="?•Á?‰∏¶Á∑®ËºØÊÇ®??MotoWeb ?ã‰∫∫Ë≥áÊ?">
+    <title>My Profile - MotoWeb</title>
+    <meta name="description" content="Manage your MotoWeb profile, view your activity history, and customize your settings">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/tech-theme.css">
     <link rel="stylesheet" href="/css/profile.css">
@@ -12,997 +12,41 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        /* ?™Â?ÂæåÁ??çËâ≤?πÊ? - ÁßëÊ?‰∏ªÈ? */
-        
-        /* ?ïÁï´?àÊ? */
-        @keyframes titleGlow {
-            0%, 100% { 
-                text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
-            }
-            50% { 
-                text-shadow: 0 0 30px rgba(124, 58, 237, 0.5);
-            }
-        }
-
-        @keyframes pulseGlow {
-            0%, 100% { 
-                box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
-            }
-            50% { 
-                box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
-            }
-        }
-
-        /* ?∫Êú¨?ÅÈù¢Ê®?? */
-        .profile-page {
-            background: 
-                linear-gradient(135deg, 
-                    rgba(10, 10, 10, 0.95), 
-                    rgba(31, 41, 55, 0.9)),
-                radial-gradient(circle at 30% 40%, rgba(0, 212, 255, 0.05), transparent),
-                radial-gradient(circle at 70% 60%, rgba(124, 58, 237, 0.05), transparent);
-            min-height: 100vh;
-            color: white;
-        }
-
-        main {
-            padding: 2rem 0;
-            margin-top: 80px;
-        }
-
-        /* ?ã‰∫∫Ë≥áÊ?Ê®ôÈ??Ä??*/
-        .profile-header {
-            background: linear-gradient(145deg, 
-                rgba(31, 41, 55, 0.9), 
-                rgba(17, 24, 39, 0.8));
-            border-radius: 25px;
-            box-shadow: 
-                0 15px 40px rgba(0, 0, 0, 0.5),
-                0 0 30px rgba(0, 212, 255, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            margin-bottom: 2rem;
-            overflow: hidden;
-            border: 2px solid var(--carbon-gray);
-            backdrop-filter: blur(20px);
-        }
-
-        .profile-cover {
-            position: relative;
-            height: 280px;
-            overflow: hidden;
-            background: linear-gradient(135deg, 
-                rgba(0, 212, 255, 0.1), 
-                rgba(124, 58, 237, 0.1)),
-                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="circuit" patternUnits="userSpaceOnUse" width="40" height="40"><rect width="40" height="40" fill="%23111827"/><path d="M0,20 L40,20 M20,0 L20,40" stroke="%2300d4ff" stroke-width="0.5" opacity="0.3"/><circle cx="20" cy="20" r="2" fill="%2300d4ff" opacity="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23circuit)"/></svg>');
-            background-size: cover, 80px 80px;
-        }
-
-        .profile-cover img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.8;
-        }
-
-        .edit-cover-btn {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: linear-gradient(45deg, 
-                rgba(0, 212, 255, 0.2), 
-                rgba(124, 58, 237, 0.2));
-            color: white;
-            border: 2px solid var(--primary-color);
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .edit-cover-btn:hover {
-            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
-            box-shadow: 0 0 25px rgba(0, 212, 255, 0.5);
-            transform: scale(1.1);
-        }
-
-        .profile-info {
-            position: relative;
-            padding: 0 2.5rem 2.5rem;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: flex-end;
-        }
-
-        .profile-avatar {
-            position: relative;
-            margin-top: -80px;
-            margin-right: 2.5rem;
-        }
-
-        .profile-avatar img {
-            width: 160px;
-            height: 160px;
-            border-radius: 50%;
-            border: 5px solid var(--primary-color);
-            object-fit: cover;
-            box-shadow: 
-                0 10px 30px rgba(0, 0, 0, 0.5),
-                0 0 30px rgba(0, 212, 255, 0.3);
-            animation: pulseGlow 3s ease-in-out infinite;
-        }
-
-        .edit-avatar-btn {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            background: linear-gradient(45deg, var(--success-color), var(--primary-color));
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.3);
-        }
-
-        .edit-avatar-btn:hover {
-            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
-            transform: scale(1.1);
-            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.5);
-        }
-
-        .profile-details {
-            flex: 1;
-            min-width: 0;
-            padding-top: 1rem;
-        }
-
-        .profile-details h1 {
-            display: flex;
-            align-items: center;
-            font-size: 2.2rem;
-            margin-bottom: 1rem;
-            color: white;
-            font-weight: 700;
-            animation: titleGlow 4s ease-in-out infinite;
-        }
-
-        .edit-btn {
-            margin-left: 1rem;
-            background: transparent;
-            border: 2px solid var(--primary-color);
-            color: var(--primary-color);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .edit-btn:hover {
-            background: var(--primary-color);
-            color: white;
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
-            transform: scale(1.1);
-        }
-
-        .user-bio {
-            color: var(--metallic-silver);
-            margin-bottom: 1.5rem;
-            font-size: 1.1rem;
-            line-height: 1.6;
-        }
-
-        .user-stats {
-            display: flex;
-            gap: 3rem;
-        }
-
-        .stat-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 1rem 1.5rem;
-            background: linear-gradient(145deg, 
-                rgba(55, 65, 81, 0.5), 
-                rgba(31, 41, 55, 0.7));
-            border-radius: 15px;
-            border: 1px solid var(--carbon-gray);
-            transition: all 0.3s ease;
-        }
-
-        .stat-item:hover {
-            background: linear-gradient(145deg, 
-                rgba(0, 212, 255, 0.1), 
-                rgba(124, 58, 237, 0.1));
-            border-color: var(--primary-color);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.2);
-        }
-
-        .stat-number {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: var(--metallic-silver);
-            text-align: center;
-            margin-top: 0.5rem;
-        }
-
-        /* ?¥È?Ê¨ÑÂ?‰∏ªË??ßÂÆπ */
-        .profile-content {
-            display: grid;
-            grid-template-columns: minmax(280px, 1fr) 3fr;
-            gap: 2.5rem;
-        }
-
-        .profile-sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .profile-section {
-            background: linear-gradient(145deg, 
-                rgba(31, 41, 55, 0.8), 
-                rgba(17, 24, 39, 0.9));
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 
-                0 10px 30px rgba(0, 0, 0, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            border: 2px solid var(--carbon-gray);
-            backdrop-filter: blur(20px);
-        }
-
-        .profile-section h3 {
-            font-size: 1.3rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.8rem;
-            border-bottom: 2px solid var(--primary-color);
-            color: white;
-            font-weight: 700;
-            text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
-        }
-
-        .info-group {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-            padding: 0.8rem;
-            background: linear-gradient(145deg, 
-                rgba(55, 65, 81, 0.3), 
-                rgba(31, 41, 55, 0.5));
-            border-radius: 12px;
-            transition: all 0.3s ease;
-        }
-
-        .info-group:hover {
-            background: linear-gradient(145deg, 
-                rgba(0, 212, 255, 0.1), 
-                rgba(124, 58, 237, 0.1));
-            transform: translateX(5px);
-        }
-
-        .info-group i {
-            width: 24px;
-            margin-right: 1rem;
-            color: var(--success-color);
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
-        }
-
-        .info-group p {
-            color: white;
-            margin: 0;
-            font-weight: 500;
-        }
-
-        .tag-cloud {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-        }
-
-        .tag {
-            padding: 0.6rem 1.2rem;
-            background: linear-gradient(45deg, 
-                rgba(0, 212, 255, 0.2), 
-                rgba(124, 58, 237, 0.2));
-            color: white;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            border: 1px solid var(--primary-color);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .tag:hover {
-            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
-            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .quick-links {
-            list-style: none;
-            padding: 0;
-        }
-
-        .quick-links li {
-            margin-bottom: 0.8rem;
-        }
-
-        .quick-links a {
-            display: flex;
-            align-items: center;
-            padding: 1rem 1.5rem;
-            color: white;
-            text-decoration: none;
-            background: linear-gradient(145deg, 
-                rgba(55, 65, 81, 0.3), 
-                rgba(31, 41, 55, 0.5));
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            border: 1px solid transparent;
-        }
-
-        .quick-links a:hover {
-            background: linear-gradient(145deg, 
-                rgba(0, 212, 255, 0.2), 
-                rgba(124, 58, 237, 0.2));
-            border-color: var(--primary-color);
-            transform: translateX(8px);
-            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.2);
-        }
-
-        .quick-links i {
-            margin-right: 1rem;
-            color: var(--success-color);
-            width: 20px;
-            text-align: center;
-        }
-
-        /* ‰∏ªË??ßÂÆπ?Ä??*/
-        .profile-main {
-            background: linear-gradient(145deg, 
-                rgba(31, 41, 55, 0.8), 
-                rgba(17, 24, 39, 0.9));
-            border-radius: 20px;
-            padding: 2.5rem;
-            box-shadow: 
-                0 15px 40px rgba(0, 0, 0, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            border: 2px solid var(--carbon-gray);
-            backdrop-filter: blur(20px);
-        }
-
-        .profile-tabs {
-            display: flex;
-            margin-bottom: 2.5rem;
-            border-bottom: 2px solid var(--carbon-gray);
-        }
-
-        .tab-btn {
-            padding: 1.2rem 2rem;
-            background: transparent;
-            border: none;
-            color: var(--metallic-silver);
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            border-radius: 15px 15px 0 0;
-        }
-
-        .tab-btn:hover {
-            color: var(--primary-color);
-            background: linear-gradient(145deg, 
-                rgba(0, 212, 255, 0.1), 
-                rgba(124, 58, 237, 0.1));
-        }
-
-        .tab-btn.active {
-            color: white;
-            background: linear-gradient(145deg, 
-                rgba(0, 212, 255, 0.2), 
-                rgba(124, 58, 237, 0.2));
-        }
-
-        .tab-btn.active::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-        }
-
-        .tab-content {
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        .tab-content.hidden {
-            display: none;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Ë≤ºÊ??óË°®Ê®?? */
-        .posts-list {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
-        .post-item {
-            background: linear-gradient(145deg, 
-                rgba(55, 65, 81, 0.5), 
-                rgba(31, 41, 55, 0.7));
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 
-                0 8px 25px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            border: 2px solid var(--carbon-gray);
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .post-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, 
-                var(--primary-color), 
-                var(--accent-color), 
-                var(--success-color));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .post-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 
-                0 15px 40px rgba(0, 0, 0, 0.4),
-                0 0 30px rgba(0, 212, 255, 0.2);
-            border-color: var(--primary-color);
-        }
-
-        .post-item:hover::before {
-            opacity: 1;
-        }
-
-        .post-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1rem;
-        }
-
-        .post-header h3 {
-            color: white;
-            font-size: 1.3rem;
-            margin: 0;
-            flex: 1;
-            font-weight: 700;
-        }
-
-        .post-date {
-            color: var(--success-color);
-            font-size: 0.9rem;
-            font-weight: 600;
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
-        }
-
-        .post-excerpt {
-            color: var(--metallic-silver);
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-        }
-
-        .post-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 1rem;
-            border-top: 1px solid var(--carbon-gray);
-        }
-
-        .post-stats {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .post-stats span {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--metallic-silver);
-            font-size: 0.9rem;
-        }
-
-        .post-stats i {
-            color: var(--primary-color);
-        }
-
-        .post-link {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            padding: 0.5rem 1rem;
-            border-radius: 10px;
-            border: 1px solid var(--primary-color);
-        }
-
-        .post-link:hover {
-            background: var(--primary-color);
-            color: white;
-            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
-        }
-
-        /* ËªäË?Á∂≤Ê†ºÊ®?? */
-        .bikes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .bike-card {
-            background: linear-gradient(145deg, 
-                rgba(55, 65, 81, 0.5), 
-                rgba(31, 41, 55, 0.7));
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 
-                0 8px 25px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            border: 2px solid var(--carbon-gray);
-            transition: all 0.4s ease;
-        }
-
-        .bike-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.4),
-                0 0 30px rgba(0, 212, 255, 0.3);
-            border-color: var(--primary-color);
-        }
-
-        .bike-image {
-            height: 200px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .bike-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .bike-card:hover .bike-image img {
-            transform: scale(1.1);
-        }
-
-        .bike-info {
-            padding: 1.5rem;
-        }
-
-        .bike-info h3 {
-            color: white;
-            margin-bottom: 0.5rem;
-            font-weight: 700;
-        }
-
-        .bike-details {
-            color: var(--metallic-silver);
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-        }
-
-        .bike-mods {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .mod-tag {
-            padding: 0.3rem 0.8rem;
-            background: linear-gradient(45deg, 
-                rgba(0, 212, 255, 0.2), 
-                rgba(124, 58, 237, 0.2));
-            color: var(--primary-color);
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            border: 1px solid var(--primary-color);
-        }
-
-        /* ?∂Ë??ÖÁõÆÊ®?? */
-        .likes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .liked-item {
-            background: linear-gradient(145deg, 
-                rgba(55, 65, 81, 0.5), 
-                rgba(31, 41, 55, 0.7));
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 
-                0 8px 25px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            border: 2px solid var(--carbon-gray);
-            transition: all 0.4s ease;
-        }
-
-        .liked-item:hover {
-            transform: translateY(-8px);
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.4),
-                0 0 30px rgba(0, 212, 255, 0.3);
-            border-color: var(--primary-color);
-        }
-
-        .liked-item img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-        }
-
-        .liked-item-info {
-            padding: 1.5rem;
-        }
-
-        .liked-item-info h3 {
-            color: white;
-            margin-bottom: 0.5rem;
-            font-weight: 700;
-        }
-
-        .liked-item-info p {
-            color: var(--metallic-silver);
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-
-        .liked-item-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .price {
-            color: var(--success-color);
-            font-weight: 700;
-            font-size: 1.1rem;
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
-        }
-
-        .btn-small {
-            padding: 0.5rem 1rem;
-            font-size: 0.9rem;
-            border-radius: 15px;
-            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
-            color: white;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-small:hover {
-            background: linear-gradient(45deg, var(--accent-color), var(--success-color));
-            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
-            transform: translateY(-2px);
-        }
-
-        /* Ê®°Ê?Ê°ÜÊ®£Âº?*/
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-        }
-
-        .modal.open {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background: linear-gradient(145deg, 
-                rgba(31, 41, 55, 0.95), 
-                rgba(17, 24, 39, 0.95));
-            border-radius: 25px;
-            padding: 2.5rem;
-            max-width: 600px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-            box-shadow: 
-                0 25px 60px rgba(0, 0, 0, 0.6),
-                0 0 40px rgba(0, 212, 255, 0.2);
-            border: 2px solid var(--primary-color);
-            position: relative;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 1rem;
-            right: 1.5rem;
-            background: none;
-            border: none;
-            font-size: 2rem;
-            color: var(--metallic-silver);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .close-modal:hover {
-            color: var(--primary-color);
-            transform: scale(1.2);
-        }
-
-        .modal h2 {
-            color: white;
-            margin-bottom: 2rem;
-            font-weight: 700;
-            text-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
-        }
-
-        /* Ë°®ÂñÆÊ®?? */
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            color: white;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 1rem;
-            background: linear-gradient(145deg, 
-                rgba(55, 65, 81, 0.5), 
-                rgba(31, 41, 55, 0.7));
-            border: 2px solid var(--carbon-gray);
-            border-radius: 15px;
-            color: white;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
-        }
-
-        .form-group input::placeholder,
-        .form-group textarea::placeholder {
-            color: var(--metallic-silver);
-        }
-
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .checkbox-group input[type="checkbox"] {
-            width: auto;
-            margin: 0;
-        }
-
-        .form-actions {
-            display: flex;
-            gap: 1rem;
-            justify-content: flex-end;
-            margin-top: 2rem;
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .btn-primary {
-            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: linear-gradient(45deg, var(--accent-color), var(--success-color));
-            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--metallic-silver);
-            border: 2px solid var(--carbon-gray);
-        }
-
-        .btn-secondary:hover {
-            background: var(--carbon-gray);
-            color: white;
-            border-color: var(--primary-color);
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: var(--primary-color);
-            border: 2px solid var(--primary-color);
-        }
-
-        .btn-outline:hover {
-            background: var(--primary-color);
-            color: white;
-            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
-        }
-
-        /* ?øÊ?ÂºèË®≠Ë®?*/
-        @media (max-width: 1200px) {
-            .profile-content {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-            
-            .profile-sidebar {
-                grid-row: 2;
-                flex-direction: row;
-                overflow-x: auto;
-            }
-            
-            .profile-main {
-                grid-row: 1;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .profile-info {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-            }
-            
-            .profile-avatar {
-                margin-top: -80px;
-                margin-right: 0;
-                margin-bottom: 1rem;
-            }
-            
-            .profile-avatar img {
-                width: 120px;
-                height: 120px;
-            }
-            
-            .user-stats {
-                justify-content: center;
-                gap: 1.5rem;
-            }
-            
-            .profile-cover {
-                height: 200px;
-            }
-            
-            .bikes-grid,
-            .likes-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .profile-section {
-                padding: 1.5rem;
-            }
-            
-            .profile-main {
-                padding: 1.5rem;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .profile-info {
-                padding: 0 1.5rem 1.5rem;
-            }
-            
-            .profile-details h1 {
-                font-size: 1.8rem;
-            }
-            
-            .profile-tabs {
-                flex-wrap: wrap;
-            }
-            
-            .tab-btn {
-                padding: 1rem 1.5rem;
-                font-size: 0.9rem;
-            }
-            
-            .modal-content {
-                padding: 2rem;
-                margin: 1rem;
-            }
-            
-            .user-stats {
-                flex-direction: column;
-                gap: 1rem;
-            }
-        }
-    </style>
 </head>
-<body class="profile-page">
+<body>
     <nav class="navbar">
         <div class="container nav-container">
             <div class="logo">
-                <a href="index.html" aria-label="motowebÈ¶ñÈ?">
-                    <img src="/images/motoweb-logo.svg" alt="motoweb Logo" class="logo-img">
+                <a href="index.html" aria-label="MotoWeb homepage">
+                    <img src="images/motoweb-logo.svg" alt="MotoWeb Logo" class="logo-img">
                 </a>
             </div>
             <div class="nav-links" id="navLinks">
                 <div class="main-nav">
-                    <a href="index.html">È¶ñÈ?</a>
-                    <a href="products.html">?πË??∂‰ª∂</a>
-                    <a href="community.html">Á§æÁæ§Ë®éË?</a>
-                    <a href="gallery.html">‰ΩúÂ?Â±ïÁ§∫</a>
-                    <a href="events.html">?πË?Ê¥ªÂ?</a>
+                    <a href="index.html">Home</a>
+                    <a href="products.html">Modification Parts</a>
+                    <a href="community.html">Community</a>
+                    <a href="gallery.html">Gallery</a>
+                    <a href="events.html">Events</a>
                 </div>
                 <div class="auth-buttons">
-                    <!-- ?ôË£°Â∞áÁî± auth-state.js ?ïÊ??¥Êñ∞ -->
+                    <a href="login.html" class="btn btn-secondary">Login</a>
+                    <a href="register.html" class="btn btn-primary">Register</a>
+                </div>
+                <div class="user-menu" style="display: none;">
+                    <div class="user-avatar">
+                        <img src="/images/default-avatar.svg" alt="User Avatar" class="avatar">
+                        <span class="username">Username</span>
+                    </div>
+                    <div class="dropdown-menu">
+                        <a href="/profile.html"><i class="fas fa-user"></i> Profile</a>
+                        <a href="/garage.html"><i class="fas fa-motorcycle"></i> My Garage</a>
+                        <a href="/settings.html"><i class="fas fa-cog"></i> Settings</a>
+                        <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
                 </div>
             </div>
-            <button class="menu-toggle" aria-label="Â±ïÈ??∏ÂñÆ" aria-expanded="false" aria-controls="navLinks">
+            <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -1010,294 +54,164 @@
         </div>
     </nav>
 
-    <main>
+    <main class="main-container">
         <div class="container">
-            <div class="profile-header">
-                <div class="profile-banner">
-                    <div class="profile-cover">
-                        <img src="/images/profile/profile-cover-default.svg" alt="Â∞ÅÈù¢?ñÁ?" id="profileCover">
-                        <button class="edit-cover-btn" title="?¥Ê?Â∞ÅÈù¢">
+            <!-- Profile Header -->
+            <section class="profile-header">
+                <div class="profile-cover">
+                    <img src="/images/default-cover.jpg" alt="Cover Photo" id="coverPhoto">
+                    <button class="edit-cover-btn" id="editCoverBtn">
+                        <i class="fas fa-camera"></i>
+                    </button>
+                </div>
+                <div class="profile-info">
+                    <div class="profile-avatar">
+                        <img src="/images/default-avatar.svg" alt="Profile Avatar" id="profileAvatar">
+                        <button class="edit-avatar-btn" id="editAvatarBtn">
                             <i class="fas fa-camera"></i>
                         </button>
                     </div>
-                    <div class="profile-info">
-                        <div class="profile-avatar">
-                            <img src="/images/default/default-avatar.svg" alt="?®Êà∂?≠Â?" id="profileAvatar">
-                            <button class="edit-avatar-btn" title="?¥Êîπ?≠Â?">
-                                <i class="fas fa-camera"></i>
+                    <div class="profile-details">
+                        <h1 id="profileUsername">Loading...
+                            <button class="edit-btn" id="editProfileBtn">
+                                <i class="fas fa-edit"></i>
                             </button>
-                        </div>
-                        <div class="profile-details">
-                            <h1 id="profileName">‰ΩøÁî®?ÖÂ?Á®?<button class="edit-btn" title="Á∑®ËºØ?ã‰∫∫Ë≥áÊ?"><i class="fas fa-edit"></i></button></h1>
-                            <p class="user-bio" id="profileBio">?Ü‰∫´?®Á??ã‰∫∫Á∞°‰?...</p>
-                            <div class="user-stats">
-                                <div class="stat-item">
-                                    <span class="stat-number">12</span>
-                                    <span class="stat-label">?πË?‰ΩúÂ?</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-number">48</span>
-                                    <span class="stat-label">Ë®éË?Ë≤ºÊ?</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-number">156</span>
-                                    <span class="stat-label">?≤Â?ËÆöÊï∏</span>
-                                </div>
+                        </h1>
+                        <p class="user-bio" id="userBio">Loading bio...</p>
+                        <div class="user-stats">
+                            <div class="stat-item">
+                                <span class="stat-number" id="bikeCount">0</span>
+                                <span class="stat-label">Bikes</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" id="modCount">0</span>
+                                <span class="stat-label">Modifications</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" id="photoCount">0</span>
+                                <span class="stat-label">Photos</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" id="postCount">0</span>
+                                <span class="stat-label">Posts</span>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
 
+            <!-- Profile Content -->
             <div class="profile-content">
-                <div class="profile-sidebar">
+                <!-- Sidebar -->
+                <aside class="profile-sidebar">
                     <div class="profile-section">
-                        <h3>?∫Êú¨Ë≥áË?</h3>
-                        <div class="info-group">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <p>?∞Â?Â∏?/p>
-                        </div>
+                        <h3><i class="fas fa-info-circle"></i> About</h3>
                         <div class="info-group">
                             <i class="fas fa-calendar-alt"></i>
-                            <p>?†ÂÖ•??2024 Âπ?3 ??/p>
+                            <span>Joined <span id="memberSince">Loading...</span></span>
                         </div>
                         <div class="info-group">
-                            <i class="fas fa-motorcycle"></i>
-                            <p>3 ËºõÊ?Ëª?/p>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span id="userLocation">Loading...</span>
+                        </div>
+                        <div class="info-group">
+                            <i class="fas fa-envelope"></i>
+                            <span id="userEmail">Loading...</span>
                         </div>
                     </div>
+
                     <div class="profile-section">
-                        <h3>?àË∂£Ê®ôÁ±§</h3>
-                        <div class="tag-cloud">
-                            <span class="tag">?üÂ???/span>
-                            <span class="tag">Ë∂äÈ?Ëª?/span>
-                            <span class="tag">ÂºïÊ?Ë™øÊ†°</span>
-                            <span class="tag">Ëº™Ë?</span>
-                            <span class="tag">?íÊ∞£ÁÆ?/span>
+                        <h3><i class="fas fa-tags"></i> Interests</h3>
+                        <div class="tag-cloud" id="userTags">
+                            <span class="tag">Loading...</span>
                         </div>
                     </div>
+
                     <div class="profile-section">
-                        <h3>Âø´ÈÄüÈÄ??</h3>
+                        <h3><i class="fas fa-link"></i> Quick Links</h3>
                         <ul class="quick-links">
-                            <li><a href="garage.html"><i class="fas fa-warehouse"></i> ?ëÁ?ËªäÂ∫´</a></li>
-                            <li><a href="settings.html"><i class="fas fa-cog"></i> Â∏≥Ë?Ë®≠Â?</a></li>
-                            <li><a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> ?ªÂá∫</a></li>
+                            <li><a href="/garage.html"><i class="fas fa-motorcycle"></i> My Garage</a></li>
+                            <li><a href="/community.html"><i class="fas fa-comments"></i> My Posts</a></li>
+                            <li><a href="/gallery.html"><i class="fas fa-images"></i> My Photos</a></li>
+                            <li><a href="/settings.html"><i class="fas fa-cog"></i> Settings</a></li>
                         </ul>
                     </div>
-                </div>
-                
+                </aside>
+
+                <!-- Main Content -->
                 <div class="profile-main">
                     <div class="profile-tabs">
-                        <button class="tab-btn active" data-tab="posts">?ëÁ?Ë≤ºÊ?</button>
-                        <button class="tab-btn" data-tab="bikes">?ëÁ??õË?</button>
-                        <button class="tab-btn" data-tab="likes">?∂Ë??ÖÁõÆ</button>
+                        <button class="tab-btn active" data-tab="overview">
+                            <i class="fas fa-chart-line"></i> Overview
+                        </button>
+                        <button class="tab-btn" data-tab="bikes">
+                            <i class="fas fa-motorcycle"></i> My Bikes
+                        </button>
+                        <button class="tab-btn" data-tab="posts">
+                            <i class="fas fa-file-alt"></i> My Posts
+                        </button>
+                        <button class="tab-btn" data-tab="photos">
+                            <i class="fas fa-camera"></i> Photos
+                        </button>
+                        <button class="tab-btn" data-tab="likes">
+                            <i class="fas fa-heart"></i> Liked Items
+                        </button>
                     </div>
-                    
-                    <div class="tab-content" id="postsTab">
-                        <div class="posts-list">
-                            <div class="post-item" data-post-id="1">
-                                <div class="post-header">
-                                    <h3>?πË?CB650R?øÈ??®Á?È©óÂ?‰∫?/h3>
-                                    <span class="post-date">2024-05-15</span>
+
+                    <div class="tab-content">
+                        <!-- Overview Tab -->
+                        <div class="tab-pane overviewTab active" id="overviewTab">
+                            <div class="overview-grid">
+                                <div class="overview-card">
+                                    <h3><i class="fas fa-clock"></i> Recent Activity</h3>
+                                    <ul class="activity-list" id="activityList">
+                                        <li>Loading activities...</li>
+                                    </ul>
                                 </div>
-                                <p class="post-excerpt">?ÄËøëÊõø?ëÁ?CB650R?õ‰?‰∫Ü√ñhlins?øÈ??®Ô?È®é‰??üÂ??â‰?ÂæàÂ§ß?ÑÊ??áÔ?Â∞§ÂÖ∂?ØÈ?ÂΩéÊ??ÑÁ©©ÂÆöÊÄ?..</p>
-                                <div class="post-content" style="display: none;">
-                                    <p>?ÄËøëÊõø?ëÁ?CB650R?õ‰?‰∫Ü√ñhlins?øÈ??®Ô?È®é‰??üÂ??â‰?ÂæàÂ§ß?ÑÊ??áÔ?Â∞§ÂÖ∂?ØÈ?ÂΩéÊ??ÑÁ©©ÂÆöÊÄßÂ??ûÈ??üÈÉΩÂ§ßÂ??êÂ???/p>
-                                    <p>?∏Ê??hlins?ÑSTX 46Á≥ªÂ?ÔºåÈÄôÊ¨æ?øÈ??®È?Â∞ç‰∏≠?ãË?ËªäË®≠Ë®àÔ??ê‰?‰∫ÜÂÑ™?∞Á??ªÂ∞º?ßÂà∂?åÂ?ÂΩàË°®?æ„ÄÇÂ?Ë£ùÈ?Á®ã‰∏¶‰∏çÂõ∞????∫Êú¨‰∏äÂè™?ÄË¶Å‰??ã‰??àÁ??ÇÈ?Â∞±ËÉΩÂÆåÊ?Ôºå‰?Âª∫Ë≠∞?ÑÊòØ?æÂ?Ê•≠Á??πË?Â∫óÈÄ≤Ë?ÂÆâË?Ôºå‰ª•Á¢∫‰?‰∏Ä?áÂ∞±‰ΩçÂ?Ë™øÊ†°Ê≠?¢∫??/p>
-                                    <p>È®é‰??üÂ??πÈù¢ÔºåÊ??éÈ°Ø?ÑÂ∑Æ?∞Âú®?ºÈ?ÂΩéÊ??ÑÁ©©ÂÆöÊÄßÔ?Â∞§ÂÖ∂?ØÈÄ??ÂΩéÈ?‰∏≠Ô?ËªäË∫´?ÑËµ∑‰ºèÊ?Ê∏õÂ?‰∫ÜÔ??¥ËÉΩÂ§†Á≤æÊ∫ñÂú∞?ßÂà∂ËªäË?Ëµ∞Â??ÇÊ≠§Â§ñÔ??®È??∞Ë∑Ø?¢‰?Âπ≥Ê?ÔºåÈÅø?áÂô®Â∞çÂ?È°õÁ∞∏?ÑÈ?Êøæ‰??¥Â??∫Ëâ≤ÔºåÊ??á‰??•Â∏∏È®é‰??ÑË??©Â∫¶??/p>
-                                    <p>?πÊ†º?ñÁÑ∂‰∏çÁ?‰æøÂ?Ôºå‰?Â∞±ÊîπË£ùÂ∏∂‰æÜÁ??àÊ?‰æÜË™™ÔºåÈÄôÁ??ïË?ÁµïÂ??ºÂ??ÇÂ??ú‰?‰πüÂú®?ÉÊÖÆ?áÁ??øÈ??®Ô?Âº∑Á??®Ëñ¶?hlins?ôÂÄãÈÅ∏?áÔ?</p>
-                                </div>
-                                <div class="post-footer">
-                                    <div class="post-stats">
-                                        <span><i class="fas fa-comment"></i> 12</span>
-                                        <span><i class="fas fa-heart"></i> 34</span>
+                                <div class="overview-card">
+                                    <h3><i class="fas fa-trophy"></i> Achievements</h3>
+                                    <div class="achievements-grid" id="achievementsList">
+                                        <div class="achievement">Loading achievements...</div>
                                     </div>
-                                    <a href="#" class="post-link preview-btn">?êË¶Ω</a>
-                                    <a href="community.html?post=1" class="post-link">?•Á??®Ê?</a>
-                                </div>
-                            </div>
-                            
-                            <div class="post-item" data-post-id="2">
-                                <div class="post-header">
-                                    <h3>Ë°óË??πË??®Ëñ¶?ç‰ª∂Â§ßÂÖ®</h3>
-                                    <span class="post-date">2024-04-28</span>
-                                </div>
-                                <p class="post-excerpt">?¥Á?‰∫ÜÈÅ©?àË?ËªäÊîπË£ùÁ?ÂøÖÂ??ç‰ª∂ÔºåÂ??•È??∞ÈÄ≤È?ÔºåÂ??´Ê?Ê∞?Æ°?ÅËÖ≥Ë∏è„ÄÅÊ??ã„ÄÅÂ?Â¢äÁ?Â§öÂÄãÊñπ??..</p>
-                                <div class="post-content" style="display: none;">
-                                    <p>Á∂ìÈ?Â§öÂπ¥?ÑË?ËªäÊîπË£ùÁ?È©óÔ??ëÊï¥?Ü‰?‰∏Ä‰ªΩÂ??•È??∞ÈÄ≤È??ÑÊîπË£ùÈ?‰ª∂Ê??ÆÔ?Â∏åÊ?Â∞çÊñ∞?ãË??ãÊ??ÄÂπ´Âä©??/p>
-                                    <p><strong>?•È?Á¥öÊîπË£ùÔ?</strong></p>
-                                    <ul>
-                                        <li>?°Ê?ÔºöRIZOMA?ñLightech?ÑÈò≤ÊªëÊè°?äÂèØ?êÂ??çÊéß?ãÊ?</li>
-                                        <li>?≥Ë?ÔºöCNC?†Â∑•?ÑÈò≤ÊªëËÖ≥Ë∏èÊùøÔºåÊ??áÈ?ÈßõÁ©©ÂÆöÊÄ?/li>
-                                        <li>Â∞æÁ?ÔºöÊï¥?àÂ?LEDÂ∞æÁ?ÔºåÊ??áÂ??ìË?Á∑öÊÄ?/li>
-                                        <li>?íÊ∞£ÁÆ°Ê??≥Â?ÔºöÂèØË™øÊï¥?≤Êµ™‰ΩÜ‰??Ä?¥Ê??¥Â??íÊ∞£Á≥ªÁµ±</li>
-                                    </ul>
-                                    <p><strong>?≤È??πË?Ôº?/strong></p>
-                                    <ul>
-                                        <li>?®ÊÆµ?íÊ∞£ÁÆ°Ô?Akrapovic?ñSC ProjectÔºåÊ??áÂ??õËº∏??/li>
-                                        <li>?øÈ??®Ô??hlins?ñYSS?øÈ?ÔºåÊîπ?ÑÊ??ßÊÄ?/li>
-                                        <li>ECU?ßÂà∂?®Ô?Power Commander?ñRapid BikeÔºåÂÑ™?ñÊ≤π?Ä?çÊ?</li>
-                                        <li>Á¢üÁõ§ÔºöÊµÆ?ïÂ?Á¢üÁõ§ÔºåÊ??áÂà∂?ïÊÄßËÉΩ</li>
-                                    </ul>
-                                    <p>?πË??ÇÊ??çË??ÑÊòØ?ÉÊÖÆ?¥È??ßÔ??å‰??ØÂñÆ?®Á?ÊØèÂÄãÈõ∂‰ª∂„ÄÇÂ?ÁæéÁ??πË??ØË??Ä?âÈÉ®‰ª∂Â?Ë™øÂ∑•‰ΩúÔ??µÈÄ†Âá∫Á¨¶Â??ã‰∫∫È¢®Ê†º?ÑÈ?‰πòÈ?È©ó„Ä?/p>
-                                </div>
-                                <div class="post-footer">
-                                    <div class="post-stats">
-                                        <span><i class="fas fa-comment"></i> 25</span>
-                                        <span><i class="fas fa-heart"></i> 53</span>
-                                    </div>
-                                    <a href="#" class="post-link preview-btn">?êË¶Ω</a>
-                                    <a href="community.html?post=2" class="post-link">?•Á??®Ê?</a>
-                                </div>
-                            </div>
-                            
-                            <div class="post-item" data-post-id="3">
-                                <div class="post-header">
-                                    <h3>Ëº™Ë??∏Ê??áÊ∞£Â£ìË™ø?¥Á??çË???/h3>
-                                    <span class="post-date">2024-03-19</span>
-                                </div>
-                                <p class="post-excerpt">?Ü‰∫´?ëÂ?‰∏çÂ?Ë∑ØÊ??∏Ê??àÈÅ©Ëº™Ë??ÑÁ?È©óÔ?‰ª•Â?Â¶Ç‰??πÊ?ËºâÈ??ÅÂ§©Ê∞?™ø?¥Ê∞£Â£ìÔ?‰ª•Ê??áÂ??®ÊÄßË??çÊéß??..</p>
-                                <div class="post-content" style="display: none;">
-                                    <p>Ëº™Ë??ØÊë©?òË?‰∏äÊ??çË??ÑÈõ∂‰ª∂‰?‰∏ÄÔºåÂ??¥Êé•ÂΩ±Èüø‰∫ÜÊ??ßÊÄßË?ÂÆâÂÖ®?ß„ÄÇÁ??éÂ?Âπ¥Á??óË©¶ÔºåÊ??≥Â?‰∫´‰?‰∫õÈÅ∏?áËº™?éÂ?Ë™øÊï¥Ê∞???ÑÂ?Âæó„Ä?/p>
-                                    <p><strong>?©Â??•Â∏∏?öÂã§?ÑËº™?éÔ?</strong></p>
-                                    <ul>
-                                        <li>Michelin Road 5ÔºöÂÖºÈ°ß‰??ê‰??ßÂ??ìÂú∞?õÔ??®Â§©Ë°®Áèæ?™Áï∞</li>
-                                        <li>Pirelli Diablo Rosso IVÔºöÂ??ãÂ??ñË∑ØÁ∑öÔ?‰ΩÜÂ∏∏Ê∫´‰?ÂæàÂø´?ºÊèÆ?ßËÉΩ</li>
-                                        <li>Dunlop RoadSmart IVÔºöÊÄßÂÉπÊØîÈ?ÔºåË??©ÊÄßÂ•Ω</li>
-                                    </ul>
-                                    <p><strong>Ëº™Ë?Ê∞??Ë™øÊï¥?üÂ?Ôº?/strong></p>
-                                    <ul>
-                                        <li>Ê®ôÊ?Ê∞??ÔºöÂ??ÉË?ËºõË™™?éÊõ∏ÔºåÈÄöÂ∏∏?çËº™Á¥?.3-2.5barÔºåÂ?Ëº™Á?2.7-2.9bar</li>
-                                        <li>?®Â§©ÔºöÂèØ?©Â∫¶?ç‰?0.1-0.2barÔºåÂ??†Êé•Ëß∏Èù¢Á©çÊ??áÊ??∞Â?</li>
-                                        <li>È´òÈÄüÂ∑°?™Ô??ØÂ???.1-0.2barÔºåÊ?Â∞ëËº™?éË?ÂΩ¢Ô??ç‰?Ê≤πËÄ?/li>
-                                        <li>?ôË?/ÊªøË?ÔºöÂ?Ëº™Â???.2-0.3barÔºåË??üÈ?Â§ñË???/li>
-                                    </ul>
-                                    <p>?πÂà•Ë¶ÅÊ≥®?èÁ??ØÔ?ÊØèÂÄãÊ??≥Â?Ê™¢Êü•‰∏ÄÊ¨°Ë?Â£ìÔ?Á¢∫‰??®Ê?‰Ω≥Á??ã„ÄÇÊ≠£Á¢∫Á??éÂ?‰∏çÂ??ΩÊ??áÊ??ßÊÄßÂ?ÂÆâÂÖ®?ßÔ??ÑËÉΩÂª∂Èï∑Ëº™Ë?Â£ΩÂëΩÔºåÁ??ÅÁ?Ê≤πÊ??ó„Ä?/p>
-                                </div>
-                                <div class="post-footer">
-                                    <div class="post-stats">
-                                        <span><i class="fas fa-comment"></i> 18</span>
-                                        <span><i class="fas fa-heart"></i> 41</span>
-                                    </div>
-                                    <a href="#" class="post-link preview-btn">?êË¶Ω</a>
-                                    <a href="community.html?post=3" class="post-link">?•Á??®Ê?</a>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="tab-content hidden" id="bikesTab">
-                        <div class="bikes-grid">
-                            <div class="bike-card">
-                                <div class="bike-image">
-                                    <img src="/images/bikes/DRG.jpg" alt="SYM DRG">
-                                </div>
-                                <div class="bike-info">
-                                    <h3>SYM DRG</h3>
-                                    <p class="bike-details">2024Âπ?/ 158cc / Â∑≤ÊîπË£?/p>
-                                    <div class="bike-mods">
-                                        <span class="mod-tag">LED Â§ßÁ?</span>
-                                        <span class="mod-tag">?ãÂ??ãÊ?Ê∞?Æ°</span>
-                                    </div>
-                                    <a href="#" class="btn btn-outline">?•Á?Ë©≥Ê?</a>
-                                </div>
-                            </div>
-                            
-                            <div class="bike-card">
-                                <div class="bike-image">
-                                    <img src="/images/bikes/MMBCU.jpg" alt="SYM MMB CU">
-                                </div>
-                                <div class="bike-info">
-                                    <h3>SYM MMB CU</h3>
-                                    <p class="bike-details">2023Âπ?/ 125cc / Â∑≤ÊîπË£?/p>
-                                    <div class="bike-mods">
-                                        <span class="mod-tag">LED ?πÂ???/span>
-                                        <span class="mod-tag">?ãÂ??ãÂ??øÈ?</span>
-                                    </div>
-                                    <a href="#" class="btn btn-outline">?•Á?Ë©≥Ê?</a>
-                                </div>
-                            </div>
 
-                            <div class="bike-card">
-                                <div class="bike-image">
-                                    <img src="/images/bikes/JET.jpg" alt="SYM Jet">
-                                </div>
-                                <div class="bike-info">
-                                    <h3>SYM Jet</h3>
-                                    <p class="bike-details">2023Âπ?/ 125cc / Â∑≤ÊîπË£?/p>
-                                    <div class="bike-mods">
-                                        <span class="mod-tag">LED Â§ßÁ?</span>
-                                        <span class="mod-tag">?ãÂ??ãÊ?Ê∞?Æ°</span>
-                                    </div>
-                                    <a href="#" class="btn btn-outline">?•Á?Ë©≥Ê?</a>
-                                </div>
-                            </div>
-
-                            <div class="bike-card">
-                                <div class="bike-image">
-                                    <img src="/images/bikes/JET.jpg" alt="SYM Jet">
-                                </div>
-                                <div class="bike-info">
-                                    <h3>SYM Jet</h3>
-                                    <p class="bike-details">2024Âπ?/ 125cc / Â∑≤ÊîπË£?/p>
-                                    <div class="bike-mods">
-                                        <span class="mod-tag">LED Â§ßÁ?</span>
-                                        <span class="mod-tag">?ãÂ??ãÂ??øÈ?</span>
-                                    </div>
-                                    <a href="#" class="btn btn-outline">?•Á?Ë©≥Ê?</a>
+                        <!-- Bikes Tab -->
+                        <div class="tab-pane bikesTab" id="bikesTab">
+                            <div class="bikes-grid" id="bikesGrid">
+                                <div class="add-bike-card">
+                                    <button class="add-btn">
+                                        <i class="fas fa-plus"></i>
+                                        <span>Add New Bike</span>
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="tab-content hidden" id="likesTab">
-                        <div class="likes-grid">
-                            <div class="liked-item">
-                                <img src="/images/parts/?õÁ?SVR?íÊ∞£ÁÆ?webp" alt="Akrapovic ?íÊ∞£ÁÆ?>
-                                <div class="liked-item-info">
-                                    <h3>Akrapovic ?¶Â??ëÊ?Ê∞?Æ°</h3>
-                                    <p>?©Áî®?ºÂ?Ê¨æ‰∏≠?èÁ?Ë°óË?ÔºåÊ??áÂ??éËº∏?∫Ë??≤Êµ™</p>
-                                    <div class="liked-item-footer">
-                                        <span class="price">NT$ 25,800</span>
-                                        <a href="#" class="btn btn-small">?•Á?Ë©≥Ê?</a>
-                                    </div>
+
+                        <!-- Posts Tab -->
+                        <div class="tab-pane postsTab" id="postsTab">
+                            <div class="posts-list" id="postsList">
+                                <p>Loading posts...</p>
+                            </div>
+                        </div>
+
+                        <!-- Photos Tab -->
+                        <div class="tab-pane photosTab" id="photosTab">
+                            <div class="photos-grid" id="photosGrid">
+                                <div class="add-photo-card">
+                                    <button class="add-btn">
+                                        <i class="fas fa-plus"></i>
+                                        <span>Add New Photo</span>
+                                    </button>
                                 </div>
                             </div>
-                            
-                            <div class="liked-item">
-                                <img src="/images/parts/drg-shock-ohlins.jpg" alt="?hlins ?øÈ???>
-                                <div class="liked-item-info">
-                                    <h3>?hlins ?ÇÁ?ÂæåÈÅø?áÂô®</h3>
-                                    <p>?®ÂèØË™øÂ?Ë®≠Ë?ÔºåÈÅ©?®ÊñºÂ§ßÂ??∏Êó•Á≥ªË?Ëª?/p>
-                                    <div class="liked-item-footer">
-                                        <span class="price">NT$ 32,500</span>
-                                        <a href="#" class="btn btn-small">?•Á?Ë©≥Ê?</a>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="liked-item">
-                                <img src="/images/parts/SIMOTAÁ¢≥Á?Á∂≠Â??ßÈè°.webp" alt="Rizoma ÂæåË???>
-                                <div class="liked-item-info">
-                                    <h3>Rizoma ?ÅÂ??ëÂ?Ë¶ñÈè°</h3>
-                                    <p>Áæ©Â§ß?©Ë®≠Ë®àÔ??êÂ?Ë≥™Ê??áË??éÁ???/p>
-                                    <div class="liked-item-footer">
-                                        <span class="price">NT$ 5,200</span>
-                                        <a href="#" class="btn btn-small">?•Á?Ë©≥Ê?</a>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="liked-item">
-                                <img src="/images/parts/ANC72Â§ßÂ??õÂç°??webp" alt="Brembo ?ûË?Â•ó‰ª∂">
-                                <div class="liked-item-info">
-                                    <h3>Brembo È´òÊÄßËÉΩ?ûË?Â•ó‰ª∂</h3>
-                                    <p>?êÂ??∂Â??ßËÉΩ?áÊ??üÔ??©Â?‰∏≠Â§ß?ãÊë©?òË?</p>
-                                    <div class="liked-item-footer">
-                                        <span class="price">NT$ 18,900</span>
-                                        <a href="#" class="btn btn-small">?•Á?Ë©≥Ê?</a>
-                                    </div>
-                                </div>
+                        </div>
+
+                        <!-- Likes Tab -->
+                        <div class="tab-pane likesTab" id="likesTab">
+                            <div class="likes-grid" id="likesGrid">
+                                <p>Loading liked items...</p>
                             </div>
                         </div>
                     </div>
@@ -1306,135 +220,82 @@
         </div>
     </main>
 
-    <!-- Á∑®ËºØ?ã‰∫∫Ë≥áÊ?Ë°®ÂñÆ (Ê®°Ê?Ê°? -->
+    <footer class="footer">
+        <!-- Footer content will be inserted by common.js -->
+    </footer>
+
+    <!-- Edit Profile Modal -->
     <div class="modal" id="editProfileModal">
         <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2>Á∑®ËºØ?ã‰∫∫Ë≥áÊ?</h2>
+            <div class="modal-header">
+                <h2>Edit Profile</h2>
+                <button class="close-modal" id="closeEditModal">&times;</button>
+            </div>
             <form id="profileForm">
                 <div class="form-group">
-                    <label for="displayName">È°ØÁ§∫?çÁ®±</label>
-                    <input type="text" id="displayName" name="displayName" value="‰ΩøÁî®?ÖÂ?Á®?>
+                    <label for="displayName" class="form-label">Display Name</label>
+                    <input type="text" id="displayName" name="displayName" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="bio">?ã‰∫∫Á∞°‰?</label>
-                    <textarea id="bio" name="bio" rows="4">?Ü‰∫´?®Á??ã‰∫∫Á∞°‰?...</textarea>
+                    <label for="bio" class="form-label">Bio</label>
+                    <textarea id="bio" name="bio" class="form-control" rows="3"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="location">?Ä?®Âú∞</label>
-                    <input type="text" id="location" name="location" value="?∞Â?Â∏?>
+                    <label for="location" class="form-label">Location</label>
+                    <input type="text" id="location" name="location" class="form-control">
                 </div>
-                <h3>?±Á?Ë®≠Â?</h3>
-                <div class="form-group checkbox-group">
-                    <label>
-                        <input type="checkbox" name="showEmail" checked>
-                        <span>È°ØÁ§∫?ëÁ??ªÂ??µ‰ª∂</span>
-                    </label>
-                </div>
-                <div class="form-group checkbox-group">
-                    <label>
-                        <input type="checkbox" name="showLocation" checked>
-                        <span>È°ØÁ§∫?ëÁ??Ä?®Âú∞</span>
-                    </label>
-                </div>
-                <div class="form-group checkbox-group">
-                    <label>
-                        <input type="checkbox" name="publicProfile" checked>
-                        <span>?¨È?Ë≥áÊ?Áµ¶Ê??âÁî®??/span>
-                    </label>
+                <div class="form-group">
+                    <h3>Privacy Settings</h3>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="showEmail" name="showEmail">
+                        <label for="showEmail">Show email to others</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="showLocation" name="showLocation">
+                        <label for="showLocation">Show location publicly</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="publicProfile" name="publicProfile">
+                        <label for="publicProfile">Public profile</label>
+                    </div>
                 </div>
                 <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" id="cancelEdit">?ñÊ?</button>
-                    <button type="submit" class="btn btn-primary">?≤Â?ËÆäÊõ¥</button>
+                    <button type="button" class="btn btn-secondary" id="cancelEdit">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section about">
-                    <div class="footer-logo">
-                        <img src="/images/motoweb-logo.svg" alt="motoweb Logo" class="footer-logo-img">
-                        <h3>MotoWeb</h3>
-                    </div>
-                    <p>Â∞àÊ•≠?ÑÊë©?òË??πË?Á§æÁæ§Âπ≥Âè∞ÔºåÁÇ∫ËªäÂ??ê‰?‰∫§Ê??áÂ?‰∫´Á?Á©∫È???/p>
-                    <div class="social-links">
-                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                        <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
-                    </div>
-                </div>
-                
-                <div class="footer-section links">
-                    <h3>Âø´ÈÄüÈÄ??</h3>
-                    <ul>
-                        <li><a href="about.html">?úÊñº?ëÂÄ?/a></li>
-                        <li><a href="products.html">?πË??∂‰ª∂</a></li>
-                        <li><a href="community.html">Á§æÁæ§Ë®éË?</a></li>
-                        <li><a href="gallery.html">‰ΩúÂ?Â±ïÁ§∫</a></li>
-                        <li><a href="events.html">?πË?Ê¥ªÂ?</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section contact">
-                    <h3>?ØÁµ°Ë≥áË?</h3>
-                    <ul class="contact-info">
-                        <li><i class="fas fa-envelope"></i> contact@MotoWeb.com</li>
-                        <li><i class="fas fa-phone"></i> (02) 1234-5678</li>
-                        <li><i class="fas fa-map-marker-alt"></i> ?∞Â?Â∏Ç‰ø°Áæ©Â??æ‰?Ë∑?00??/li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section newsletter">
-                    <h3>Ë®ÇÈñ±?ªÂ???/h3>
-                    <p>?≤Â??Ä?∞ÊîπË£ùË∂®?¢Ë?Ê¥ªÂ?Ë≥áË?</p>
-                    <form class="newsletter-form" action="subscribe.php" method="POST">
-                        <input type="email" name="email" placeholder="?®Á??ªÂ??µ‰ª∂" required>
-                        <button type="submit" class="btn btn-primary">Ë®ÇÈñ±</button>
-                    </form>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2025 MotoWeb. ‰øùÁ??Ä?âÊ??©„Ä?/p>
-                <div class="footer-bottom-links">
-                    <a href="privacy.html">?±Á??øÁ?</a>
-                    <a href="terms.html">‰ΩøÁî®Ê¢ùÊ¨æ</a>
-                    <a href="cookies.html">Cookie ?øÁ?</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script src="/js/main.js"></script>
-    <script src="/js/profile.js"></script>
-    <script src="/js/auth-state.js"></script>
-
-    <!-- Ë≤ºÊ??êË¶ΩÊ®°Ê?Ê°?-->
-    <div class="modal" id="postPreviewModal">
+    <!-- Post Preview Modal -->
+    <div class="modal" id="postPreviewModal" style="display: none;">
         <div class="modal-content">
-            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <h2>Post Preview</h2>
+                <button class="close-modal" id="closePreviewModal">&times;</button>
+            </div>
             <div class="post-preview-container">
-                <h2 class="post-title" id="previewPostTitle"></h2>
+                <h1 class="post-title" id="previewPostTitle"></h1>
                 <div class="post-meta">
-                    <span class="post-date" id="previewPostDate"></span>
-                    <span class="post-category" id="previewPostCategory"></span>
+                    <span><i class="fas fa-calendar"></i> <span id="previewPostDate"></span></span>
+                    <span><i class="fas fa-tag"></i> <span id="previewPostCategory"></span></span>
+                    <span><i class="fas fa-eye"></i> <span id="previewViewCount"></span> views</span>
                 </div>
                 <div class="post-content" id="previewPostContent"></div>
                 <div class="post-stats">
-                    <span><i class="fas fa-comment"></i> <span id="previewCommentCount">0</span></span>
-                    <span><i class="fas fa-heart"></i> <span id="previewLikeCount">0</span></span>
-                    <span><i class="fas fa-eye"></i> <span id="previewViewCount">0</span></span>
+                    <span><i class="fas fa-comment"></i> <span id="previewCommentCount"></span> comments</span>
+                    <span><i class="fas fa-heart"></i> <span id="previewLikeCount"></span> likes</span>
                 </div>
                 <div class="post-actions">
-                    <a href="#" class="btn btn-primary" id="goToFullPost">?çÂ?ÂÆåÊï¥Ë≤ºÊ?</a>
-                    <button class="btn btn-secondary" id="closePreview">?úÈ?</button>
+                    <button class="btn btn-secondary" id="closePreview">Close</button>
+                    <a href="#" class="btn btn-primary" id="goToFullPost">View Full Post</a>
                 </div>
             </div>
         </div>
     </div>
+
+    <script src="/js/common.js"></script>
+    <script src="/js/auth-state.js"></script>
+    <script src="/js/profile.js"></script>
 </body>
 </html> 

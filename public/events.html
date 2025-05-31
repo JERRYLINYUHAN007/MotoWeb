@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>?πË?Ê¥ªÂ? - MotoWeb</title>
-    <meta name="description" content="?ÉË?MotoWeb?âËæ¶?ÑÊë©?òË??πË?Ê¥ªÂ?ÔºåË?ËªäÂ?‰∫§Ê?‰∫íÂ??ÅÂ≠∏ÁøíÊîπË£ùÊ?Ë°?>
+    <title>Events - MotoWeb</title>
+    <meta name="description" content="Join MotoWeb's motorcycle modification events, connect with fellow riders and learn about modifications">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/tech-theme.css">
     <link rel="stylesheet" href="/css/events.css">
@@ -13,9 +13,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* Events?ÅÈù¢ÁßëÊ?È¢®Ê†ºÊ®ôÈ? */
+        /* Events page tech theme styles */
         
-        /* ?ïÁï´?àÊ? */
+        /* Animations */
         @keyframes scanEffect {
             0% { transform: translateX(-100%); opacity: 0; }
             50% { opacity: 1; }
@@ -33,7 +33,7 @@
             }
         }
 
-        /* ‰∏ªÂÆπ?®Ê®£Âº?*/
+        /* Main container styles */
         .main-container {
             margin-top: 80px;
             min-height: 100vh;
@@ -45,7 +45,7 @@
                 radial-gradient(circle at 70% 60%, rgba(124, 58, 237, 0.1), transparent);
         }
 
-        /* ?ÅÈù¢Ê®ôÈ??ÄÂ°äÊ®£Âº?*/
+        /* Page header styles */
         .page-header {
             background: 
                 linear-gradient(135deg, 
@@ -201,87 +201,44 @@
             transform: translateY(-3px);
         }
 
-        /* ?øÊ?ÂºèË®≠Ë®?*/
-        @media (max-width: 968px) {
-            .page-header h1 {
-                font-size: 2.5rem;
-        }
-        
-            .page-header p {
-                font-size: 1.1rem;
-            }
-            
-            .action-buttons {
-                flex-direction: column;
-                align-items: center;
-                gap: 1rem;
-        }
-        }
-
-        @media (max-width: 768px) {
-            .page-header {
-                padding: 4rem 5% 3rem;
-            }
-            
-            .page-header h1 {
-                font-size: 2rem;
-        }
-        
-            .search-bar {
-                width: 100%;
-        }
-        
-            .create-event-btn, .secondary-btn {
-                width: 100%;
-                max-width: 300px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .page-header {
-                padding: 3rem 5% 2rem;
-            }
-            
-            .page-header h1 {
-                font-size: 1.8rem;
-            }
-        }
+        /* ... existing styles ... */
     </style>
 </head>
-<body class="events-page">
+<body>
+    <!-- Navigation -->
     <nav class="navbar">
         <div class="container nav-container">
             <div class="logo">
-                <a href="index.html" aria-label="motowebÈ¶ñÈ?">
-                    <img src="/images/motoweb-logo.svg" alt="motoweb Logo" class="logo-img">
+                <a href="index.html" aria-label="MotoWeb homepage">
+                    <img src="images/motoweb-logo.svg" alt="MotoWeb Logo" class="logo-img">
                 </a>
             </div>
             <div class="nav-links" id="navLinks">
                 <div class="main-nav">
-                    <a href="index.html">È¶ñÈ?</a>
-                    <a href="products.html">?πË??∂‰ª∂</a>
-                    <a href="community.html">Á§æÁæ§Ë®éË?</a>
-                    <a href="gallery.html">‰ΩúÂ?Â±ïÁ§∫</a>
-                    <a href="events.html" class="active" aria-current="page">?πË?Ê¥ªÂ?</a>
+                    <a href="index.html">Home</a>
+                    <a href="products.html">Modification Parts</a>
+                    <a href="community.html">Community</a>
+                    <a href="gallery.html">Gallery</a>
+                    <a href="events.html" class="active" aria-current="page">Events</a>
                 </div>
                 <div class="auth-buttons">
-                    <a href="login.html" class="btn btn-secondary">?ªÂÖ•</a>
-                    <a href="register.html" class="btn btn-primary">Ë®ªÂ?</a>
+                    <a href="login.html" class="btn btn-secondary">Login</a>
+                    <a href="register.html" class="btn btn-primary">Register</a>
                 </div>
                 <div class="user-menu" style="display: none;">
                     <div class="user-avatar">
-                        <img src="/images/default-avatar.svg" alt="?®Êà∂?≠Â?" class="avatar">
-                        <span class="username">?®Êà∂?çÁ®±</span>
+                        <img src="/images/default-avatar.svg" alt="User Avatar" class="avatar">
+                        <span class="username">Username</span>
                     </div>
                     <div class="dropdown-menu">
-                        <a href="/profile.html"><i class="fas fa-user"></i> ?ã‰∫∫Ë≥áÊ?</a>
-                        <a href="/garage.html"><i class="fas fa-motorcycle"></i> ?ëÁ?ËªäÂ∫´</a>
-                        <a href="/settings.html"><i class="fas fa-cog"></i> Â∏≥Ë?Ë®≠Â?</a>
-                        <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> ?ªÂá∫</a>
+                        <a href="/profile.html"><i class="fas fa-user"></i> Profile</a>
+                        <a href="/garage.html"><i class="fas fa-motorcycle"></i> My Garage</a>
+                        <a href="/settings.html"><i class="fas fa-cog"></i> Settings</a>
+                        <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </div>
                 </div>
             </div>
-            <button class="menu-toggle" aria-label="Â±ïÈ??∏ÂñÆ" aria-expanded="false" aria-controls="navLinks">
+            <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -289,244 +246,390 @@
         </div>
     </nav>
 
+    <!-- Main content -->
     <div class="main-container">
-    <main>
-            <section class="page-header">
+        <!-- Events hero -->
+        <header class="page-header">
             <div class="container">
-                <h1>?πË?Ê¥ªÂ?</h1>
-                <p>?ÉË?Á≤æÂΩ©?ÑÊë©?òË??πË?Ê¥ªÂ?ÔºåË?ËªäÂ?‰∫§Ê??áÁ?ÔºåÊ??áÊÇ®?ÑÊîπË£ùÊ?Ë°?/p>
+                <h1>Upcoming Events</h1>
+                <p>Join exciting motorcycle modification events and connect with fellow enthusiasts</p>
+                
+                <!-- Hero actions -->
                 <div class="hero-actions">
                     <div class="search-bar">
-                        <input type="text" placeholder="?úÂ?Ê¥ªÂ?..." aria-label="?úÂ?Ê¥ªÂ?" id="eventSearchInput">
-                        <button type="button" class="search-btn" id="eventSearchBtn" aria-label="?úÂ?">
-                            <i class="fas fa-search"></i>
+                        <input type="text" id="eventSearchInput" placeholder="Search events by name, location, or type..." aria-label="Search events">
+                        <button type="button" class="search-btn" id="eventSearchBtn">
+                            <i class="fas fa-search"></i> Search
                         </button>
                     </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-primary create-event-btn" id="createEventBtn">
+                            <i class="fas fa-plus"></i> Create Event
+                        </button>
+                        <button class="btn secondary-btn" onclick="viewMyEvents()">
+                            <i class="fas fa-calendar-check"></i> My Events
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Events content -->
+        <div class="events-content">
+            <div class="container">
+                <div class="events-layout">
+                    <!-- Events filters sidebar -->
+                    <aside class="events-sidebar">
+                        <h3>Filters</h3>
                         
-                        <div class="action-buttons">
-                            <button class="btn btn-primary create-event-btn" id="createEventBtn">
-                                <i class="fas fa-plus"></i>
-                                ?âËæ¶Ê¥ªÂ?
+                        <!-- Event type filter -->
+                        <div class="filter-group">
+                            <h4>Event Type</h4>
+                            <select id="eventTypeFilter" class="filter-select">
+                                <option value="all">All Types</option>
+                                <option value="workshop">Workshops</option>
+                                <option value="meetup">Meetups</option>
+                                <option value="competition">Competitions</option>
+                                <option value="seminar">Seminars</option>
+                                <option value="exhibition">Exhibitions</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Location filter -->
+                        <div class="filter-group">
+                            <h4>Location</h4>
+                            <select id="eventLocationFilter" class="filter-select">
+                                <option value="all">All Locations</option>
+                                <option value="Âè∞Âåó">Taipei</option>
+                                <option value="Êñ∞Âåó">New Taipei</option>
+                                <option value="Âè∞‰∏≠">Taichung</option>
+                                <option value="È´òÈõÑ">Kaohsiung</option>
+                                <option value="ÂÖ∂‰ªñ">Other</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Date filter -->
+                        <div class="filter-group">
+                            <h4>Date Range</h4>
+                            <select id="eventDateFilter" class="filter-select">
+                                <option value="all">All Dates</option>
+                                <option value="today">Today</option>
+                                <option value="week">This Week</option>
+                                <option value="month">This Month</option>
+                                <option value="upcoming">Upcoming</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Clear filters -->
+                        <div class="filter-actions">
+                            <button class="btn btn-outline" id="clearFilterBtn">
+                                <i class="fas fa-times"></i> Clear Filters
                             </button>
-                            <button class="btn secondary-btn" onclick="viewMyEvents()">
-                                <i class="fas fa-calendar-check"></i>
-                                ?ëÁ?Ê¥ªÂ?
+                        </div>
+                    </aside>
+
+                    <!-- Main events area -->
+                    <main class="events-main">
+                        <!-- Events header -->
+                        <div class="events-header">
+                            <div class="results-count" id="eventsCount">Loading events...</div>
+                            <div class="view-options">
+                                <button class="view-toggle active" data-view="grid">
+                                    <i class="fas fa-th"></i> Grid
+                                </button>
+                                <button class="view-toggle" data-view="list">
+                                    <i class="fas fa-list"></i> List
+                                </button>
+                                <button class="view-toggle" data-view="calendar">
+                                    <i class="fas fa-calendar"></i> Calendar
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Grid view -->
+                        <div class="events-view active" id="gridView">
+                            <div class="events-grid" id="eventsGrid">
+                                <!-- Events will be dynamically loaded here -->
+                            </div>
+                        </div>
+
+                        <!-- List view -->
+                        <div class="events-view" id="listView">
+                            <div class="events-table-container">
+                                <table class="events-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Event</th>
+                                            <th>Location</th>
+                                            <th>Type</th>
+                                            <th>Attendees</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="eventsTableBody">
+                                        <!-- Table rows will be dynamically loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Calendar view -->
+                        <div class="events-view" id="calendarView">
+                            <div class="calendar-header">
+                                <button class="calendar-nav" id="prevMonthBtn">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <h3 id="currentMonth">January 2025</h3>
+                                <button class="calendar-nav" id="nextMonthBtn">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                            <div class="calendar-grid" id="calendarGrid">
+                                <!-- Calendar will be dynamically generated here -->
+                            </div>
+                        </div>
+
+                        <!-- Load more button -->
+                        <div class="load-more">
+                            <button class="btn btn-outline" id="loadMoreBtn">
+                                <i class="fas fa-sync"></i> Load More Events
                             </button>
                         </div>
+                    </main>
                 </div>
             </div>
-        </section>
+        </div>
+    </div>
 
-        <section class="events-filter">
-            <div class="container">
-                <div class="filter-options">
-                    <div class="filter-group">
-                        <label for="eventTypeFilter">Ê¥ªÂ?È°ûÂ?</label>
-                        <select id="eventTypeFilter">
-                            <option value="all">?Ä?âÈ???/option>
-                            <option value="workshop">?πË?Â∑•‰???/option>
-                            <option value="competition">?πË?ÊØîË≥Ω</option>
-                            <option value="meetup">ËªäÂ??öÊ?</option>
-                            <option value="seminar">?ÄË°ìË?Â∫?/option>
-                            <option value="exhibition">Â±ïË¶ΩÊ¥ªÂ?</option>
+    <!-- Event details modal -->
+    <div class="modal" id="eventModal">
+        <div class="modal-content event-modal-content">
+            <button class="modal-close" id="closeEventModal">&times;</button>
+            
+            <div class="event-header">
+                <img id="eventBanner" src="" alt="" class="event-banner">
+                <div class="event-info">
+                    <h2 id="eventTitle">Event Title</h2>
+                    <div class="event-badges" id="eventBadges"></div>
+                    <div class="event-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-calendar"></i>
+                            <span id="eventDate">Date</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-clock"></i>
+                            <span id="eventTime">Time</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span id="eventLocation">Location</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-user"></i>
+                            <span id="eventOrganizer">Organizer</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Event tabs -->
+            <div class="event-tabs">
+                <button class="event-tab active" data-tab="description">Description</button>
+                <button class="event-tab" data-tab="schedule">Schedule</button>
+                <button class="event-tab" data-tab="speakers">Speakers</button>
+                <button class="event-tab" data-tab="location">Location</button>
+                <button class="event-tab" data-tab="registration">Registration</button>
+            </div>
+            
+            <!-- Tab contents -->
+            <div class="event-tab-content active" id="tab-description">
+                <div id="eventDescription">Event description will be loaded here</div>
+            </div>
+            
+            <div class="event-tab-content" id="tab-schedule">
+                <div id="eventSchedule">Schedule information will be loaded here</div>
+            </div>
+            
+            <div class="event-tab-content" id="tab-speakers">
+                <div id="eventSpeakers">Speaker information will be loaded here</div>
+            </div>
+            
+            <div class="event-tab-content" id="tab-location">
+                <div id="eventLocationMap">Location details will be loaded here</div>
+            </div>
+            
+            <div class="event-tab-content" id="tab-registration">
+                <div class="registration-info">
+                    <div class="registration-status" id="registrationStatus">Open</div>
+                    <div id="registrationDetails">Registration details</div>
+                    <div class="price-info" id="priceInfo">Free</div>
+                    <div id="remainingSpots">Remaining spots</div>
+                    <div id="registrationDeadline">Deadline</div>
+                </div>
+                <div class="organizer-section">
+                    <h4>Organizer</h4>
+                    <div id="organizerInfo">Organizer info</div>
+                </div>
+            </div>
+            
+            <!-- Action buttons -->
+            <div class="event-actions">
+                <button class="btn btn-primary" id="registerBtn">Register Now</button>
+                <button class="btn btn-outline" id="addCalendarBtn">Add to Calendar</button>
+                <button class="btn btn-outline" id="shareEventBtn">Share</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Registration modal -->
+    <div class="modal" id="registrationModal">
+        <div class="modal-content registration-modal-content">
+            <button class="modal-close" id="closeRegistrationModal">&times;</button>
+            
+            <h2>Event Registration</h2>
+            <p id="registrationEventTitle">Event Title</p>
+            
+            <form id="registrationForm">
+                <div class="form-group">
+                    <label for="registrationName">Full Name *</label>
+                    <input type="text" id="registrationName" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="registrationEmail">Email *</label>
+                    <input type="email" id="registrationEmail" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="registrationPhone">Phone Number *</label>
+                    <input type="tel" id="registrationPhone" name="phone" required>
+                </div>
+                
+                <div class="form-group" id="ticketSelectionGroup">
+                    <label>Ticket Type</label>
+                    <div id="ticketOptions">
+                        <!-- Ticket options will be loaded here -->
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="registrationNotes">Special Requirements (Optional)</label>
+                    <textarea id="registrationNotes" name="notes" rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="registrationTerms" required>
+                        I agree to the <a href="terms.html" target="_blank">terms and conditions</a> *
+                    </label>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" id="cancelRegistrationBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="submitRegistrationBtn">Register</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Create event modal -->
+    <div class="modal" id="createEventModal">
+        <div class="modal-content create-event-modal-content">
+            <button class="modal-close" id="closeCreateEventModal">&times;</button>
+            
+            <h2>Create New Event</h2>
+            
+            <form id="createEventForm">
+                <div class="form-group">
+                    <label for="eventTitle">Event Title *</label>
+                    <input type="text" id="eventTitle" name="title" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="eventCategory">Event Type *</label>
+                        <select id="eventCategory" name="category" required>
+                            <option value="">Select Type</option>
+                            <option value="workshop">Workshop</option>
+                            <option value="meetup">Meetup</option>
+                            <option value="competition">Competition</option>
+                            <option value="seminar">Seminar</option>
+                            <option value="exhibition">Exhibition</option>
                         </select>
                     </div>
-                    <div class="filter-group">
-                        <label for="eventLocationFilter">Ê¥ªÂ??∞È?</label>
-                        <select id="eventLocationFilter">
-                            <option value="all">?Ä?âÂú∞?Ä</option>
-                            <option value="taipei">?∞Â?Â∏?/option>
-                            <option value="new-taipei">?∞Â?Â∏?/option>
-                            <option value="taoyuan">Ê°ÉÂ?Â∏?/option>
-                            <option value="taichung">?∞‰∏≠Â∏?/option>
-                            <option value="kaohsiung">È´òÈ?Â∏?/option>
-                            <option value="other">?∂‰??∞Â?</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label for="eventDateFilter">?ÇÈ?ÁØÑÂ?</label>
-                        <select id="eventDateFilter">
-                            <option value="all">?Ä?âÊ???/option>
-                            <option value="today">‰ªäÂ§©</option>
-                            <option value="tomorrow">?éÂ§©</option>
-                            <option value="this-week">?¨ÈÄ?/option>
-                            <option value="this-month">?¨Ê?</option>
-                            <option value="next-month">‰∏ãÂÄãÊ?</option>
-                        </select>
-                    </div>
-                    <div class="filter-actions">
-                        <button class="btn btn-outline" id="clearFilterBtn">Ê∏ÖÈô§ÁØ©ÈÅ∏</button>
+                    <div class="form-group">
+                        <label for="eventLocation">Location *</label>
+                        <input type="text" id="eventLocation" name="location" required>
                     </div>
                 </div>
-                <div class="view-toggles">
-                    <button class="view-toggle active" data-view="grid" aria-label="Á∂≤Ê†ºÊ™¢Ë?">
-                        <i class="fas fa-th"></i>
-                    </button>
-                    <button class="view-toggle" data-view="list" aria-label="?óË°®Ê™¢Ë?">
-                        <i class="fas fa-list"></i>
-                    </button>
-                    <button class="view-toggle" data-view="calendar" aria-label="?•Ê?Ê™¢Ë?">
-                        <i class="fas fa-calendar-alt"></i>
-                    </button>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="eventDate">Event Date *</label>
+                        <input type="datetime-local" id="eventDate" name="eventDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="eventEndDate">End Date</label>
+                        <input type="datetime-local" id="eventEndDate" name="endDate">
+                    </div>
                 </div>
-            </div>
-        </section>
+                
+                <div class="form-group">
+                    <label for="eventDescription">Description *</label>
+                    <textarea id="eventDescription" name="description" rows="4" required></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="eventMaxAttendees">Max Attendees</label>
+                        <input type="number" id="eventMaxAttendees" name="maxAttendees" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="eventFee">Registration Fee (NT$)</label>
+                        <input type="number" id="eventFee" name="fee" min="0" value="0">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="eventAddress">Address</label>
+                    <input type="text" id="eventAddress" name="address">
+                </div>
+                
+                <!-- Image upload -->
+                <div class="form-group">
+                    <label>Event Image</label>
+                    <div class="image-upload" id="eventImageUpload">
+                        <input type="file" id="eventImageFile" name="image" accept="image/*" hidden>
+                        <div class="upload-placeholder">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Click or drag to upload event image</p>
+                        </div>
+                        <div id="eventImagePreview"></div>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" id="cancelCreateEventBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="submitCreateEventBtn">Create Event</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-        <section class="events-calendar" id="calendarView">
-            <div class="container">
-                <div class="calendar-header">
-                    <h2>Ê¥ªÂ??•Ê?</h2>
-                    <div class="calendar-nav">
-                        <button class="btn btn-outline prev-month" id="prevMonthBtn" aria-label="‰∏äÂÄãÊ?">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <span class="current-month" id="currentMonth">2025Âπ???/span>
-                        <button class="btn btn-outline next-month" id="nextMonthBtn" aria-label="‰∏ãÂÄãÊ?">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="calendar-grid" id="calendarGrid">
-                    <!-- ?•Ê?Â∞áÁî± JavaScript ?ïÊ??üÊ? -->
-                    <div class="calendar-loading">
-                        <i class="fas fa-spinner fa-spin"></i>
-                        <span>ËºâÂÖ•?•Ê?‰∏?..</span>
-                    </div>
-                </div>
+    <!-- Success modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content success-modal-content">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
             </div>
-        </section>
-
-        <section class="upcoming-events" id="gridView">
-            <div class="container">
-                <h2>?≥Â??âË??ÑÊ¥ª??/h2>
-                <div class="events-grid" id="eventsGrid">
-                    <!-- Ê¥ªÂ??°Á?Â∞áÁî± JavaScript ?ïÊ??üÊ? -->
-                    <div class="events-loading">
-                        <i class="fas fa-spinner fa-spin"></i>
-                        <span>ËºâÂÖ•Ê¥ªÂ?‰∏?..</span>
-                    </div>
-                </div>
-                <div class="load-more">
-                    <button class="btn btn-outline" id="loadMoreBtn">
-                        <i class="fas fa-sync"></i>
-                        ËºâÂÖ•?¥Â?Ê¥ªÂ?
-                    </button>
-                </div>
-                <div id="errorLog" class="error-message" style="color: #999; font-size: 0.8rem; margin-top: 10px; text-align: center;"></div>
-            </div>
-        </section>
-
-        <section class="events-list" id="listView">
-            <div class="container">
-                <h2>Ê¥ªÂ??óË°®</h2>
-                <div class="events-table-wrapper">
-                    <table class="events-table">
-                        <thead>
-                            <tr>
-                                <th>?•Ê?</th>
-                                <th>Ê¥ªÂ??çÁ®±</th>
-                                <th>?∞È?</th>
-                                <th>È°ûÂ?</th>
-                                <th>?çÈ?</th>
-                                <th>?ç‰?</th>
-                            </tr>
-                        </thead>
-                        <tbody id="eventsTableBody">
-                            <!-- Ê¥ªÂ??óË°®Â∞áÁî± JavaScript ?ïÊ??üÊ? -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <section class="event-categories">
-            <div class="container">
-                <h2>Ê¥ªÂ?È°ûÂ?</h2>
-                <div class="categories-grid">
-                    <a href="#" class="category-card" data-type="workshop">
-                        <div class="category-icon">
-                            <i class="fas fa-tools"></i>
-                        </div>
-                        <h3>?πË?Â∑•‰???/h3>
-                        <p>Â∞àÊ•≠?ÄÂ∏´Â∏∂?òÁ?ÂØ¶‰?Ë™≤Á?ÔºåÂ≠∏ÁøíÂØ¶?®Á??πË??ÄÂ∑?/p>
-                    </a>
-                    <a href="#" class="category-card" data-type="competition">
-                        <div class="category-icon">
-                            <i class="fas fa-trophy"></i>
-                        </div>
-                        <h3>?πË?ÊØîË≥Ω</h3>
-                        <p>Â±ïÁèæ?®Á??πË?ÂØ¶Â?ÔºåË?ÂæóÁ??ÖË?Ê¶ÆË≠Ω</p>
-                    </a>
-                    <a href="#" class="category-card" data-type="meetup">
-                        <div class="category-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <h3>ËªäÂ??öÊ?</h3>
-                        <p>ËºïÈ?‰∫§Ê??Ü‰∫´?ÑË??ÉÔ?Ë™çË?ÂøóÂ??ìÂ??ÑÂ§•‰º?/p>
-                    </a>
-                    <a href="#" class="category-card" data-type="seminar">
-                        <div class="category-icon">
-                            <i class="fas fa-chalkboard-teacher"></i>
-                        </div>
-                        <h3>?ÄË°ìË?Â∫?/h3>
-                        <p>Â∞àÊ•≠?•Ë??Ü‰∫´?áË?Ë´ñÔ??êÂ??πË??ÜË??∫Á?</p>
-                    </a>
-                    <a href="#" class="category-card" data-type="exhibition">
-                        <div class="category-icon">
-                            <i class="fas fa-eye"></i>
-                        </div>
-                        <h3>Â±ïË¶ΩÊ¥ªÂ?</h3>
-                        <p>?Ä?∞ÊîπË£ùÈõ∂‰ª∂Ë??êÂ?ËªäÂ?Á§∫Ô??åÊè°Â∏ÇÂ†¥Ë∂®Âã¢</p>
-                    </a>
-                    <a href="#" class="category-card" data-type="all">
-                        <div class="category-icon">
-                            <i class="fas fa-th-list"></i>
-                        </div>
-                        <h3>?•Á??®ÈÉ®</h3>
-                        <p>?èË¶Ω?Ä?âÈ??ãÁ??πË?Ê¥ªÂ?</p>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <section class="featured-event">
-            <div class="container">
-                <div class="featured-content">
-                    <div class="featured-info">
-                        <span class="featured-label">?®Ëñ¶Ê¥ªÂ?</span>
-                        <h2>2025?•Â≠£?πË??õÊ?</h2>
-                        <p class="featured-description">
-                            ‰∏ÄÂπ¥‰?Â∫¶Á??•Â≠£?πË?Â±ïÂç≥Â∞áÁôª?¥Ô??æÂ†¥Â∞áÂ?Á§∫Ê??∞ÊîπË£ùÈõ∂‰ª∂Ë??êÂ?ËªäÔ?‰∏¶Ê?Â§öÂ†¥Â∞àÊ•≠Ë¨õÂ∫ß?á‰??ïÂ?Á§∫„Ä?                            ?©Â??Ä?âÊë©?òË??õÂ•Ω?ÖÂ??†Ô??°Ë??®ÊòØ?πË??∞Ê??ÑÊòØ?ÅÊ?ÔºåÈÉΩ?ΩÂú®Ê¥ªÂ?‰∏≠Áç≤ÂæóÂØ∂Ë≤¥Á?Á∂ìÈ??áÁü•Ë≠ò„Ä?                        </p>
-                        <div class="featured-meta">
-                            <span><i class="fas fa-calendar-alt"></i> 2025Âπ???5??- 4??7??/span>
-                            <span><i class="fas fa-map-marker-alt"></i> ?∞Â??óÊ∏ØÂ±ïË¶ΩÈ§?/span>
-                            <span><i class="fas fa-users"></i> Â∑≤Ê? 1,240 ‰∫∫Â†±??/span>
-                        </div>
-                        <div class="featured-actions">
-                            <button class="btn btn-primary" data-event-id="1">?•Á?Ë©≥Ê?</button>
-                            <button class="btn btn-secondary">?†ÂÖ•Ë°å‰???/button>
-                        </div>
-                    </div>
-                    <div class="featured-image">
-                        <img src="/images/events/featured-event.jpg" alt="2025?•Â≠£?πË??õÊ?">
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="events-cta">
-            <div class="container">
-                <div class="cta-content">
-                    <h2>?≥Ë?Ëæ¶Ëá™Â∑±Á??πË?Ê¥ªÂ?Ôº?/h2>
-                    <p>?®ÂèØ‰ª•Âú®MotoModÂπ≥Âè∞‰∏äÂ?Ë≤ªÂª∫Á´ãÂ??®Âª£?®Á??πË?Ê¥ªÂ?ÔºåË??¥Â?ËªäÂ??ÉË???/p>
-                    <button class="btn btn-primary create-event-btn-large" id="createEventBtnLarge">
-                        <i class="fas fa-plus"></i>
-                        Á´ãÂç≥Âª∫Á?Ê¥ªÂ?
-                    </button>
-                </div>
-            </div>
-        </section>
-    </main>
+            <h2 id="successTitle">Success!</h2>
+            <p id="successMessage">Operation completed successfully.</p>
+            <button class="btn btn-primary" onclick="document.getElementById('successModal').classList.remove('active'); document.body.style.overflow = '';">
+                OK
+            </button>
+        </div>
     </div>
 
     <footer class="footer">
@@ -534,9 +637,9 @@
             <div class="footer-content">
                 <div class="footer-section about">
                     <div class="footer-logo">
-                        <img src="/images/motoweb-logo.svg" alt="motoweb Logo" class="footer-logo-img">
+                        <img src="/images/motoweb-logo.svg" alt="MotoWeb Logo" class="footer-logo-img">
                     </div>
-                    <p>Â∞àÊ•≠?ÑÊë©?òË??πË?Á§æÁæ§Âπ≥Âè∞ÔºåÁÇ∫ËªäÂ??ê‰?‰∫§Ê??áÂ?‰∫´Á?Á©∫È???/p>
+                    <p>Professional motorcycle modification community platform, providing a space for riders to communicate and share.</p>
                     <div class="social-links">
                         <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
                         <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
@@ -544,291 +647,52 @@
                         <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
                     </div>
                 </div>
-                
                 <div class="footer-section links">
-                    <h3>Âø´ÈÄüÈÄ??</h3>
+                    <h3>Quick Links</h3>
                     <ul>
-                        <li><a href="about.html">?úÊñº?ëÂÄ?/a></li>
-                        <li><a href="products.html">?πË??∂‰ª∂</a></li>
-                        <li><a href="community.html">Á§æÁæ§Ë®éË?</a></li>
-                        <li><a href="gallery.html">‰ΩúÂ?Â±ïÁ§∫</a></li>
-                        <li><a href="events.html">?πË?Ê¥ªÂ?</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="products.html">Modification Parts</a></li>
+                        <li><a href="community.html">Community Forum</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="events.html">Events</a></li>
                     </ul>
                 </div>
-                
                 <div class="footer-section contact">
-                    <h3>?ØÁµ°Ë≥áË?</h3>
+                    <h3>Contact Info</h3>
                     <ul class="contact-info">
                         <li><i class="fas fa-envelope"></i> contact@MotoWeb.com</li>
                         <li><i class="fas fa-phone"></i> (02) 1234-5678</li>
-                        <li><i class="fas fa-map-marker-alt"></i> ?∞Â?Â∏Ç‰ø°Áæ©Â??æ‰?Ë∑?00??/li>
+                        <li><a href="#" aria-label="Phone"><i class="fas fa-phone"></i> (02) 1234-5678</a></li>
+                        <li><a href="#" aria-label="Location"><i class="fas fa-map-marker-alt"></i> No. 100, Songren Rd., Xinyi Dist., Taipei City</a></li>
                     </ul>
                 </div>
-                
                 <div class="footer-section newsletter">
-                    <h3>Ë®ÇÈñ±?ªÂ???/h3>
-                    <p>?≤Â??Ä?∞ÊîπË£ùË∂®?¢Ë?Ê¥ªÂ?Ë≥áË?</p>
+                    <h3>Newsletter</h3>
+                    <p>Get the latest modification trends and event information</p>
                     <form class="newsletter-form" action="subscribe.php" method="POST">
-                        <input type="email" name="email" placeholder="?®Á??ªÂ??µ‰ª∂" required aria-label="?ªÂ??µ‰ª∂?∞Â?">
-                        <button type="submit" class="btn">Ë®ÇÈñ±</button>
+                        <input type="email" name="email" placeholder="Your email" required>
+                        <button type="submit" class="btn btn-primary">Subscribe</button>
                     </form>
                 </div>
             </div>
-            
             <div class="footer-bottom">
-                <p>&copy; 2025 MotoWeb. ‰øùÁ??Ä?âÊ??©„Ä?/p>
+                <p>&copy; 2025 MotoWeb. All rights reserved.</p>
                 <div class="footer-bottom-links">
-                    <a href="privacy.html">?±Á??øÁ?</a>
-                    <a href="terms.html">‰ΩøÁî®Ê¢ùÊ¨æ</a>
-                    <a href="cookies.html">Cookie ?øÁ?</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Use</a>
+                    <a href="cookies.html">Cookie Policy</a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- Ê¥ªÂ?Ë©≥Ê?Ê®°Ê?Ê°?-->
-    <div class="modal" id="eventModal">
-        <div class="modal-content">
-            <button class="close-modal" id="closeEventModal" aria-label="?úÈ?">&times;</button>
-            <div class="event-details">
-                <div class="event-header">
-                    <img src="" alt="Ê¥ªÂ??ñÁ?" class="event-banner" id="eventBanner">
-                    <div class="event-badges" id="eventBadges">
-                        <!-- Ê¥ªÂ?Ê®ôÁ±§Â∞áÂú®?ôË£°È°ØÁ§∫ -->
-                    </div>
-                </div>
-                <div class="event-body">
-                    <div class="event-main">
-                        <h2 class="event-title" id="eventTitle"></h2>
-                        <div class="event-meta">
-                            <div class="meta-item">
-                                <i class="fas fa-calendar-alt"></i>
-                                <div>
-                                    <span class="meta-label">?•Ê?</span>
-                                    <span class="meta-value" id="eventDate"></span>
-                                </div>
-                            </div>
-                            <div class="meta-item">
-                                <i class="fas fa-clock"></i>
-                                <div>
-                                    <span class="meta-label">?ÇÈ?</span>
-                                    <span class="meta-value" id="eventTime"></span>
-                                </div>
-                            </div>
-                            <div class="meta-item">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <div>
-                                    <span class="meta-label">?∞È?</span>
-                                    <span class="meta-value" id="eventLocation"></span>
-                                </div>
-                            </div>
-                            <div class="meta-item">
-                                <i class="fas fa-user"></i>
-                                <div>
-                                    <span class="meta-label">‰∏ªËæ¶??/span>
-                                    <span class="meta-value" id="eventOrganizer"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="event-tabs">
-                            <button class="event-tab active" data-tab="description">Ê¥ªÂ?‰ªãÁ¥π</button>
-                            <button class="event-tab" data-tab="schedule">Ê¥ªÂ?Ë≠∞Á?</button>
-                            <button class="event-tab" data-tab="speakers">Ë¨õÂ∏´‰ªãÁ¥π</button>
-                            <button class="event-tab" data-tab="location">Ê¥ªÂ??∞È?</button>
-                        </div>
-                        <div class="event-tab-content active" id="tab-description">
-                            <div class="event-description" id="eventDescription"></div>
-                        </div>
-                        <div class="event-tab-content" id="tab-schedule">
-                            <div class="event-schedule" id="eventSchedule"></div>
-                        </div>
-                        <div class="event-tab-content" id="tab-speakers">
-                            <div class="event-speakers" id="eventSpeakers"></div>
-                        </div>
-                        <div class="event-tab-content" id="tab-location">
-                            <div class="event-location-map" id="eventLocationMap"></div>
-                        </div>
-                    </div>
-                    <div class="event-sidebar">
-                        <div class="registration-card">
-                            <h3>?±Â?Ë≥áË?</h3>
-                            <div class="registration-status" id="registrationStatus"></div>
-                            <div class="registration-details" id="registrationDetails"></div>
-                            <div class="price-info" id="priceInfo"></div>
-                            <div class="remaining-spots" id="remainingSpots"></div>
-                            <div class="registration-deadline" id="registrationDeadline"></div>
-                            <button class="btn btn-primary register-btn" id="registerBtn">Á´ãÂç≥?±Â?</button>
-                            <button class="btn btn-outline add-calendar-btn" id="addCalendarBtn">
-                                <i class="fas fa-calendar-plus"></i>
-                                ?†ÂÖ•Ë°å‰???                            </button>
-                            <button class="btn btn-outline share-btn" id="shareEventBtn">
-                                <i class="fas fa-share-alt"></i>
-                                ?Ü‰∫´Ê¥ªÂ?
-                            </button>
-                        </div>
-                        <div class="organizer-card">
-                            <h3>‰∏ªËæ¶?πË?Ë®?/h3>
-                            <div class="organizer-info" id="organizerInfo"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <button id="backToTop" class="back-to-top" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
 
-    <!-- ?±Â?Ë°®ÂñÆÊ®°Ê?Ê°?-->
-    <div class="modal" id="registrationModal">
-        <div class="modal-content">
-            <button class="close-modal" id="closeRegistrationModal" aria-label="?úÈ?">&times;</button>
-            <div class="modal-header">
-                <h2>Ê¥ªÂ??±Â?</h2>
-                <h3 id="registrationEventTitle"></h3>
-            </div>
-            <div class="modal-body">
-                <form id="registrationForm" class="registration-form">
-                    <div class="form-group">
-                        <label for="registrationName">ÂßìÂ?</label>
-                        <input type="text" id="registrationName" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="registrationEmail">?ªÂ??µ‰ª∂</label>
-                        <input type="email" id="registrationEmail" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="registrationPhone">?ªË©±</label>
-                        <input type="tel" id="registrationPhone" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="registrationMotorcycle">?®Á??õË?</label>
-                        <input type="text" id="registrationMotorcycle" class="form-control" placeholder="‰æãÂ?ÔºöYamaha MT-09">
-                    </div>
-                    <div class="form-group">
-                        <label for="registrationExperience">?πË?Á∂ìÈ?</label>
-                        <select id="registrationExperience" class="form-control">
-                            <option value="">Ë´ãÈÅ∏??/option>
-                            <option value="beginner">?∞Ê? (1Âπ¥‰ª•‰∏?</option>
-                            <option value="intermediate">‰∏≠Á? (1-3Âπ?</option>
-                            <option value="advanced">?≤È? (3-5Âπ?</option>
-                            <option value="expert">Â∞àÂÆ∂ (5Âπ¥‰ª•‰∏?</option>
-                        </select>
-                    </div>
-                    <div class="form-group" id="ticketSelectionGroup">
-                        <label>?∏Ê?Á•®Á®Æ</label>
-                        <div class="ticket-options" id="ticketOptions">
-                            <!-- Á•®Á®Æ?∏È?Â∞áÁî± JavaScript ?ïÊ??üÊ? -->
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="registrationComments">?ôË®ª</label>
-                        <textarea id="registrationComments" class="form-control" rows="3" placeholder="Â¶ÇÊ??πÊ??ÄÊ±ÇË??®Ê≠§Ë™™Ê?"></textarea>
-                    </div>
-                    <div class="form-group form-check">
-                        <input type="checkbox" id="registrationTerms" class="form-check-input" required>
-                        <label for="registrationTerms" class="form-check-label">?ëÂ∑≤?±Ë?‰∏¶Â???a href="#" target="_blank">Ê¥ªÂ?Ê¢ùÊ¨æ</a>??a href="#" target="_blank">?±Á??øÁ?</a></label>
-                    </div>
-                    <div class="form-actions">
-                        <button type="button" class="btn btn-secondary" id="cancelRegistrationBtn">?ñÊ?</button>
-                        <button type="submit" class="btn btn-primary" id="submitRegistrationBtn">ÂÆåÊ??±Â?</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- ?µÂª∫Ê¥ªÂ?Ê®°Ê?Ê°?-->
-    <div class="modal" id="createEventModal">
-        <div class="modal-content">
-            <button class="close-modal" id="closeCreateEventModal" aria-label="?úÈ?">&times;</button>
-            <div class="modal-header">
-                <h2>Âª∫Á??∞Ê¥ª??/h2>
-            </div>
-            <div class="modal-body">
-                <form id="createEventForm" class="create-event-form">
-                    <div class="form-group">
-                        <label for="eventTitle">Ê¥ªÂ??çÁ®±</label>
-                        <input type="text" id="createEventTitle" class="form-control" required>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group half">
-                            <label for="createEventDate">Ê¥ªÂ??•Ê?</label>
-                            <input type="date" id="createEventDate" class="form-control" required>
-                        </div>
-                        <div class="form-group half">
-                            <label for="createEventTime">Ê¥ªÂ??ÇÈ?</label>
-                            <input type="time" id="createEventTime" class="form-control" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="createEventLocation">Ê¥ªÂ??∞È?</label>
-                        <input type="text" id="createEventLocation" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="createEventType">Ê¥ªÂ?È°ûÂ?</label>
-                        <select id="createEventType" class="form-control" required>
-                            <option value="">Ë´ãÈÅ∏?áÊ¥ª?ïÈ???/option>
-                            <option value="workshop">?πË?Â∑•‰???/option>
-                            <option value="competition">?πË?ÊØîË≥Ω</option>
-                            <option value="meetup">ËªäÂ??öÊ?</option>
-                            <option value="seminar">?ÄË°ìË?Â∫?/option>
-                            <option value="exhibition">Â±ïË¶ΩÊ¥ªÂ?</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="createEventDescription">Ê¥ªÂ??èËø∞</label>
-                        <textarea id="createEventDescription" class="form-control" rows="5" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>‰∏äÂÇ≥Ê¥ªÂ??ñÁ?</label>
-                        <div class="upload-area" id="eventImageUpload">
-                            <input type="file" id="eventImageFile" accept="image/*" class="file-input">
-                            <div class="upload-placeholder">
-                                <i class="fas fa-cloud-upload-alt"></i>
-                                <p>ÈªûÊ??ñÊ??æÂ??áËá≥Ê≠§Ë?</p>
-                            </div>
-                            <div class="image-preview" id="eventImagePreview"></div>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group half">
-                            <label for="createEventCapacity">Ê¥ªÂ??çÈ?</label>
-                            <input type="number" id="createEventCapacity" class="form-control" min="1" required>
-                        </div>
-                        <div class="form-group half">
-                            <label for="createEventFee">?ÉÂ?Ë≤ªÁî® (NT$)</label>
-                            <input type="number" id="createEventFee" class="form-control" min="0" value="0">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="createEventDeadline">?±Â??™Ê≠¢?•Ê?</label>
-                        <input type="date" id="createEventDeadline" class="form-control" required>
-                    </div>
-                    <div class="form-actions">
-                        <button type="button" class="btn btn-secondary" id="cancelCreateEventBtn">?ñÊ?</button>
-                        <button type="submit" class="btn btn-primary" id="submitCreateEventBtn">Âª∫Á?Ê¥ªÂ?</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- ?êÂ??êÁ§∫Ê®°Ê?Ê°?-->
-    <div class="modal" id="successModal">
-        <div class="modal-content modal-sm">
-            <div class="success-message">
-                <div class="success-icon">
-                    <i class="fas fa-check-circle"></i>
-                </div>
-                <h3 id="successTitle">?ç‰??êÂ?</h3>
-                <p id="successMessage">?®Á??ç‰?Â∑≤Á??êÂ?ÂÆåÊ?Ôº?/p>
-                <button class="btn btn-primary" id="successCloseBtn">Á¢∫Â?</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="/js/main.js"></script>
+    <script src="/js/common.js"></script>
     <script src="/js/events-api.js"></script>
     <script src="/js/events.js"></script>
     <script src="/js/auth-state.js"></script>
-
 </body>
 </html>

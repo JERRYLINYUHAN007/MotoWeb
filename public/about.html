@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>?úÊñº?ëÂÄ?- MotoWeb</title>
-    <meta name="description" content="‰∫ÜËß£ MotoWeb ?©Ê?ËªäÊîπË£ùÁ§æÁæ§Á?‰ΩøÂëΩ?ÅÈ??ØË??òÈ?">
+    <title>About Us - MotoWeb</title>
+    <meta name="description" content="Learn about MotoWeb's mission, vision, and our motorcycle modification community platform">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/tech-theme.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* About ?ÅÈù¢Â∞àÁî®Ê®?? - ?æ‰ª£ÁßëÊ?È¢®Ê†º */
+        /* About page specific styles - Modern tech theme */
         .about-page {
             background: var(--secondary-color);
             min-height: 100vh;
@@ -206,85 +206,72 @@
         
         .team-member {
             background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
-            padding: 2.5rem;
+            padding: 2rem;
             border-radius: 20px;
             text-align: center;
             box-shadow: 
                 0 8px 25px rgba(0, 0, 0, 0.4),
-                0 0 20px rgba(0, 212, 255, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 2px solid transparent;
-            position: relative;
-        }
-
-        .team-member::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, 
-                var(--success-color), 
-                var(--primary-color), 
-                var(--accent-color));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .team-member:hover {
-            transform: translateY(-8px);
-            border-color: var(--success-color);
-        }
-
-        .team-member:hover::before {
-            opacity: 1;
-        }
-        
-        .member-avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            margin: 0 auto 1.5rem;
-            background: linear-gradient(145deg, var(--light-surface), var(--mid-surface));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            color: var(--primary-color);
-            border: 3px solid var(--success-color);
-            box-shadow: 
-                0 0 20px rgba(0, 255, 136, 0.3),
-                inset 0 2px 0 rgba(255, 255, 255, 0.1);
+                0 0 20px rgba(0, 212, 255, 0.1);
             transition: all 0.3s ease;
         }
-
-        .team-member:hover .member-avatar {
-            transform: scale(1.1);
+        
+        .team-member:hover {
+            transform: translateY(-10px);
             box-shadow: 
-                0 0 30px rgba(0, 212, 255, 0.5),
-                inset 0 2px 0 rgba(255, 255, 255, 0.2);
+                0 15px 35px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(0, 212, 255, 0.2);
         }
-
-        .team-member h3 {
+        
+        .member-image {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            overflow: hidden;
+            border: 3px solid var(--primary-color);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+        
+        .member-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .member-name {
             color: white;
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             margin-bottom: 0.5rem;
             font-weight: 700;
         }
-
-        .team-member .role {
-            color: var(--success-color);
-            font-weight: 600;
+        
+        .member-role {
+            color: var(--primary-color);
+            font-size: 1.1rem;
             margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
-
-        .team-member p {
+        
+        .member-bio {
             color: var(--metallic-silver);
             line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .social-links a {
+            color: var(--metallic-silver);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--primary-color);
+            transform: translateY(-3px);
         }
         
         .stats-section {
@@ -363,38 +350,57 @@
             color: white;
         }
 
-        /* ?øÊ?ÂºèË®≠Ë®?*/
+        /* Responsive design */
         @media (max-width: 768px) {
             .hero-section {
-                padding: 6rem 3% 3rem;
+                padding: 6rem 5% 3rem;
             }
-
+            
             .hero-section h1 {
                 font-size: 2.8rem;
             }
-
+            
+            .hero-section p {
+                font-size: 1.1rem;
+            }
+            
             .section-title {
                 font-size: 2.2rem;
             }
-
-            .features-grid,
-            .team-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
+            
             .about-content {
                 font-size: 1.1rem;
             }
-        }
-
-        @media (max-width: 480px) {
-            .stats-grid {
+            
+            .features-grid {
                 grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-section h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero-section p {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .feature-icon {
+                font-size: 3rem;
+            }
+            
+            .feature-card h3 {
+                font-size: 1.2rem;
+            }
+            
+            .member-image {
+                width: 150px;
+                height: 150px;
             }
         }
     </style>
@@ -403,38 +409,36 @@
     <nav class="navbar">
         <div class="container nav-container">
             <div class="logo">
-                <a href="index.html" aria-label="MotoWebÈ¶ñÈ?">
-                    <img src="/images/motoweb-logo.svg" alt="MotoWeb Logo" class="logo-img">
-                    <h1>MotoWeb</h1>
+                <a href="index.html" aria-label="MotoWeb homepage">
+                    <img src="images/motoweb-logo.svg" alt="MotoWeb Logo" class="logo-img">
                 </a>
             </div>
             <div class="nav-links" id="navLinks">
                 <div class="main-nav">
-                    <a href="index.html">È¶ñÈ?</a>
-                    <a href="products.html">?πË??∂‰ª∂</a>
-                    <a href="community.html">Á§æÁæ§Ë®éË?</a>
-                    <a href="gallery.html">‰ΩúÂ?Â±ïÁ§∫</a>
-                    <a href="events.html">?πË?Ê¥ªÂ?</a>
-                    <a href="about.html" class="active" aria-current="page">?úÊñº?ëÂÄ?/a>
+                    <a href="index.html">Home</a>
+                    <a href="products.html">Modification Parts</a>
+                    <a href="community.html">Community</a>
+                    <a href="gallery.html">Gallery</a>
+                    <a href="events.html">Events</a>
                 </div>
                 <div class="auth-buttons">
-                    <a href="login.html" class="btn btn-secondary">?ªÂÖ•</a>
-                    <a href="register.html" class="btn btn-primary">Ë®ªÂ?</a>
+                    <a href="login.html" class="btn btn-secondary">Login</a>
+                    <a href="register.html" class="btn btn-primary">Register</a>
                 </div>
                 <div class="user-menu" style="display: none;">
                     <div class="user-avatar">
-                        <img src="/images/default-avatar.svg" alt="?®Êà∂?≠Â?" class="avatar">
-                        <span class="username">?®Êà∂?çÁ®±</span>
+                        <img src="/images/default-avatar.svg" alt="User Avatar" class="avatar">
+                        <span class="username">Username</span>
                     </div>
                     <div class="dropdown-menu">
-                        <a href="/profile.html"><i class="fas fa-user"></i> ?ã‰∫∫Ë≥áÊ?</a>
-                        <a href="/garage.html"><i class="fas fa-motorcycle"></i> ?ëÁ?ËªäÂ∫´</a>
-                        <a href="/settings.html"><i class="fas fa-cog"></i> Â∏≥Ë?Ë®≠Â?</a>
-                        <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> ?ªÂá∫</a>
+                        <a href="/profile.html"><i class="fas fa-user"></i> Profile</a>
+                        <a href="/garage.html"><i class="fas fa-motorcycle"></i> My Garage</a>
+                        <a href="/settings.html"><i class="fas fa-cog"></i> Settings</a>
+                        <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </div>
                 </div>
             </div>
-            <button class="menu-toggle" aria-label="Â±ïÈ??∏ÂñÆ" aria-expanded="false" aria-controls="navLinks">
+            <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -445,68 +449,39 @@
     <main class="main-container">
         <section class="hero-section">
             <div class="container">
-                <h1>?úÊñº MotoWeb</h1>
-                <p>?∞ÁÅ£?ÄÂ∞àÊ•≠?ÑÊë©?òË??πË?Á§æÁæ§Âπ≥Âè∞ÔºåÈÄ??ËªäÂ??ÅÂ?‰∫´Á?È©ó„ÄÅÂâµ?†ÁÑ°?êÂèØ??/p>
+                <h1>About MotoWeb</h1>
+                <p>Your trusted platform for motorcycle modification enthusiasts. We bring together passionate riders, expert mechanics, and innovative designers to create the ultimate motorcycle community.</p>
             </div>
         </section>
 
         <section class="content-section">
             <div class="container">
-                <h2 class="section-title">?ëÂÄëÁ?‰ΩøÂëΩ</h2>
+                <h2 class="section-title">Our Mission</h2>
                 <div class="about-content">
-                    <p>MotoWeb ?¥Â??ºÂª∫Á´ãÂè∞???ÂÆåÊï¥?ÅÊ?Ê¥ªË??ÑÊë©?òË??πË?Á§æÁæ§?ÇÊ??ëÁõ∏‰ø°Ê?‰∏ÄËºõÊë©?òË??ΩÊ??∂Áç®?πÁ??Ö‰?ÔºåÊ?‰∏ÄÊ¨°ÊîπË£ùÈÉΩ?ØË?‰∏ªÂÄãÊÄßÁ?Â±ïÁèæ??/p>
-                    <p>?ëÂÄëÁ?Âπ≥Âè∞‰∏çÂ??Ø‰??ãÂ?Á§∫Á©∫?ìÔ??¥ÊòØ‰∏Ä?ãÁü•Ë≠òÂ?‰∫´Á??íÂú∞?ÇÁÑ°Ë´ñÊÇ®?ØÊîπË£ùÊñ∞?ãÈ??ØË?Ê∑±Áé©ÂÆ∂Ô??ΩËÉΩ?®ÈÄôË£°?æÂà∞ÂøóÂ??ìÂ??ÑÂ§•‰º¥Ô??≤Â?Â∞àÊ•≠?ÑÂª∫Ë≠∞Ô?‰∏¶Â?‰∫´ÊÇ®?ÑÊîπË£ùÂ?Âæó„Ä?/p>
+                    <p>At MotoWeb, we're dedicated to building a vibrant community where motorcycle enthusiasts can share their passion, knowledge, and experiences. Our platform connects riders with professional mechanics, custom shops, and fellow enthusiasts to create an ecosystem that supports and inspires motorcycle modification culture.</p>
+                    <p>We believe that every motorcycle tells a unique story, and we're here to help you write yours. Whether you're a seasoned builder or just starting your modification journey, MotoWeb provides the resources, expertise, and community support you need to bring your vision to life.</p>
                 </div>
             </div>
         </section>
 
         <section class="content-section alt">
             <div class="container">
-                <h2 class="section-title">?∏Â??πËâ≤</h2>
+                <h2 class="section-title">What We Offer</h2>
                 <div class="features-grid">
                     <div class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-users"></i></div>
-                        <h3>Â∞àÊ•≠Á§æÁæ§</h3>
-                        <p>?ØË??®Âè∞?πË??î‰∫∫ÔºåÂ?‰∫´Á¨¨‰∏Ä?ãÁ?È©óË??ÄË°?/p>
+                        <i class="fas fa-tools feature-icon"></i>
+                        <h3>Expert Guidance</h3>
+                        <p>Access professional advice and technical expertise from experienced mechanics and custom builders.</p>
                     </div>
                     <div class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-tools"></i></div>
-                        <h3>?∂‰ª∂?ÜÂ?</h3>
-                        <p>Á≤æÈÅ∏?™Ë≥™?πË??∂‰ª∂ÔºåÊ?‰æõÂ?Ê•≠ÈÅ∏Ë≥ºÂª∫Ë≠?/p>
+                        <i class="fas fa-users feature-icon"></i>
+                        <h3>Community Support</h3>
+                        <p>Connect with fellow enthusiasts, share experiences, and learn from the community's collective knowledge.</p>
                     </div>
                     <div class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-camera"></i></div>
-                        <h3>‰ΩúÂ?Â±ïÁ§∫</h3>
-                        <p>Â±ïÁ§∫?®Á??πË??êÊ?ÔºåÁç≤ÂæóÁ§æÁæ§Á?ËÆöË??áÂ?È•?/p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-calendar-alt"></i></div>
-                        <h3>Ê¥ªÂ?Ë≥áË?</h3>
-                        <p>Á¨¨‰??ÇÈ??åÊè°?πË?Â±ïË¶Ω?ÅË??ÉÁ?Ê¥ªÂ?Ë®äÊÅØ</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="content-section" style="background: linear-gradient(135deg, var(--primary-color), #a00e1a);">
-            <div class="container stats-section">
-                <h2 class="section-title" style="color: white;">Âπ≥Âè∞?∏Ê?</h2>
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <span class="stat-number">25,000+</span>
-                        <span class="stat-label">Ë®ªÂ??ÉÂì°</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number">8,500+</span>
-                        <span class="stat-label">?πË?‰ΩúÂ?</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number">15,000+</span>
-                        <span class="stat-label">Ë®éË?Ë≤ºÊ?</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number">500+</span>
-                        <span class="stat-label">?à‰?Â∫óÂÆ∂</span>
+                        <i class="fas fa-shopping-cart feature-icon"></i>
+                        <h3>Quality Parts</h3>
+                        <p>Find high-quality modification parts from trusted manufacturers and suppliers.</p>
                     </div>
                 </div>
             </div>
@@ -514,45 +489,46 @@
 
         <section class="content-section">
             <div class="container">
-                <h2 class="section-title">?µËæ¶?òÈ?</h2>
+                <h2 class="section-title">Our Team</h2>
                 <div class="team-grid">
                     <div class="team-member">
-                        <div class="member-avatar"><i class="fas fa-user"></i></div>
-                        <h3>?≥Âª∫ÂÆ?/h3>
-                        <p class="role">?µËæ¶‰∫?& CEO</p>
-                        <p>15Âπ¥ÊîπË£ùÁ?È©óÔ??¥Â??ºÊé®Âª?ë©?òË??πË??áÂ?</p>
+                        <div class="member-image">
+                            <img src="/images/team/member1.jpg" alt="John Smith">
+                        </div>
+                        <h3 class="member-name">John Smith</h3>
+                        <p class="member-role">Founder & CEO</p>
+                        <p class="member-bio">With over 15 years of experience in motorcycle modification, John leads our vision to create the ultimate platform for enthusiasts.</p>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
                     </div>
                     <div class="team-member">
-                        <div class="member-avatar"><i class="fas fa-user"></i></div>
-                        <h3>?óÂ???/h3>
-                        <p class="role">?ÄË°ìÁ∏Ω??/p>
-                        <p>Ë≥áÊ∑±ËªüÈ?Â∑•Á?Â∏´Ô?Â∞àÁ≤æ?ºÁ§æÁæ§Âπ≥?∞È???/p>
+                        <div class="member-image">
+                            <img src="/images/team/member2.jpg" alt="Sarah Chen">
+                        </div>
+                        <h3 class="member-name">Sarah Chen</h3>
+                        <p class="member-role">Technical Director</p>
+                        <p class="member-bio">Sarah brings her extensive knowledge in mechanical engineering and custom builds to guide our technical content.</p>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
                     </div>
                     <div class="team-member">
-                        <div class="member-avatar"><i class="fas fa-user"></i></div>
-                        <h3>?ãÂ§ß??/h3>
-                        <p class="role">Á§æÁæ§Á∂ìÁ?</p>
-                        <p>Ë≤†Ë≤¨Á§æÁæ§?üÈ??áÊ??°Ê??ôÔ?Á¢∫‰?Âπ≥Âè∞Ê¥ªË?Â∫?/p>
-                    </div>
-                    <div class="team-member">
-                        <div class="member-avatar"><i class="fas fa-user"></i></div>
-                        <h3>ÂºµÁ?È∫?/h3>
-                        <p class="role">?ÜÂ?Á∏ΩÁõ£</p>
-                        <p>Ë≤†Ë≤¨?áÊîπË£ùÂ?ÂÆ∂Â?‰ΩúÔ?Âª∫Á?ÂÆåÊï¥?üÊ?Á≥ªÁµ±</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="content-section alt">
-            <div class="container">
-                <h2 class="section-title">?ØÁµ°?ëÂÄ?/h2>
-                <div class="about-content" style="text-align: center;">
-                    <p>?â‰ªª‰ΩïÂ?È°åÊ?Âª∫Ë≠∞ÔºåÊ≠°ËøéÈö®?ÇË??ëÂÄëËÅØÁπ´Ô?</p>
-                    <div style="margin: 2rem 0;">
-                        <p><i class="fas fa-envelope"></i> contact@MotoWeb.com</p>
-                        <p><i class="fas fa-phone"></i> (02) 1234-5678</p>
-                        <p><i class="fas fa-map-marker-alt"></i> ?∞Â?Â∏Ç‰ø°Áæ©Â??æ‰?Ë∑?00??/p>
+                        <div class="member-image">
+                            <img src="/images/team/member3.jpg" alt="Mike Johnson">
+                        </div>
+                        <h3 class="member-name">Mike Johnson</h3>
+                        <p class="member-role">Community Manager</p>
+                        <p class="member-bio">Mike ensures our community stays engaging, supportive, and valuable for all members.</p>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -564,95 +540,60 @@
             <div class="footer-content">
                 <div class="footer-section about">
                     <div class="footer-logo">
-                        <img src="/images/motoweb-logo.svg" alt="motoweb Logo" class="footer-logo-img">
+                        <img src="/images/motoweb-logo.svg" alt="MotoWeb Logo" class="footer-logo-img">
+                        <h3>MotoWeb</h3>
                     </div>
-                    <p>Â∞àÊ•≠?ÑÊë©?òË??πË?Á§æÁæ§Âπ≥Âè∞ÔºåÁÇ∫ËªäÂ??ê‰?‰∫§Ê??áÂ?‰∫´Á?Á©∫È???/p>
+                    <p>Professional motorcycle community platform, sharing knowledge and passion</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                    </div>
                 </div>
+                
                 <div class="footer-section links">
-                    <h3>Âø´ÈÄüÈÄ??</h3>
+                    <h3>Quick Links</h3>
                     <ul>
-                        <li><a href="about.html">?úÊñº?ëÂÄ?/a></li>
-                        <li><a href="products.html">?πË??∂‰ª∂</a></li>
-                        <li><a href="community.html">Á§æÁæ§Ë®éË?</a></li>
-                        <li><a href="gallery.html">‰ΩúÂ?Â±ïÁ§∫</a></li>
-                        <li><a href="events.html">?πË?Ê¥ªÂ?</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="products.html">Modification Parts</a></li>
+                        <li><a href="community.html">Community</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="events.html">Events</a></li>
                     </ul>
                 </div>
+                
                 <div class="footer-section contact">
-                    <h3>?ØÁµ°Ë≥áË?</h3>
+                    <h3>Contact Information</h3>
                     <ul class="contact-info">
-                        <li><i class="fas fa-envelope"></i> contact@MotoWeb.com</li>
+                        <li><i class="fas fa-envelope"></i> contact@motoweb.com</li>
                         <li><i class="fas fa-phone"></i> (02) 1234-5678</li>
-                        <li><i class="fas fa-map-marker-alt"></i> ?∞Â?Â∏Ç‰ø°Áæ©Â??æ‰?Ë∑?00??/li>
+                        <li><i class="fas fa-map-marker-alt"></i> 100 Taipei, Taiwan</li>
                     </ul>
                 </div>
+                
                 <div class="footer-section newsletter">
-                    <h3>Ë®ÇÈñ±?ªÂ???/h3>
-                    <p>?≤Â??Ä?∞ÊîπË£ùË∂®?¢Ë?Ê¥ªÂ?Ë≥áË?</p>
+                    <h3>Subscribe</h3>
+                    <p>Get the latest modification trends and lifestyle information</p>
                     <form class="newsletter-form" action="subscribe.php" method="POST">
-                        <input type="email" name="email" placeholder="?®Á??ªÂ??µ‰ª∂" required>
-                        <button type="submit" class="btn btn-primary">Ë®ÇÈñ±</button>
+                        <input type="email" name="email" placeholder="Enter your email" required>
+                        <button type="submit" class="btn">Subscribe</button>
                     </form>
                 </div>
             </div>
+            
             <div class="footer-bottom">
-                <p>&copy; 2025 MotoWeb. ‰øùÁ??Ä?âÊ??©„Ä?/p>
+                <p>&copy; 2025 MotoWeb. All rights reserved.</p>
                 <div class="footer-bottom-links">
-                    <a href="privacy.html">?±Á??øÁ?</a>
-                    <a href="terms.html">‰ΩøÁî®Ê¢ùÊ¨æ</a>
-                    <a href="cookies.html">Cookie ?øÁ?</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                    <a href="cookies.html">Cookie Policy</a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- JavaScript -->
     <script src="/js/common.js"></script>
     <script src="/js/auth-state.js"></script>
-    <script>
-        // ?ùÂ???
-        document.addEventListener('DOMContentLoaded', function() {
-            // ?ùÂ??ñÈÄöÁî®?üËÉΩ
-            if (typeof initMobileNav === 'function') initMobileNav();
-            if (typeof initAuthState === 'function') initAuthState();
-            
-            // ?∏Â??ïÁï´?àÊ?
-            function animateNumbers() {
-                const statNumbers = document.querySelectorAll('.stat-number');
-                
-                statNumbers.forEach(element => {
-                    const finalValue = parseInt(element.textContent.replace(/[^0-9]/g, ''));
-                    let currentValue = 0;
-                    const increment = finalValue / 50;
-                    const suffix = element.textContent.replace(/[0-9,]/g, '');
-                    
-                    const timer = setInterval(() => {
-                        currentValue += increment;
-                        if (currentValue >= finalValue) {
-                            currentValue = finalValue;
-                            clearInterval(timer);
-                        }
-                        
-                        element.textContent = Math.floor(currentValue).toLocaleString() + suffix;
-                    }, 40);
-                });
-            }
-            
-            // ?∂Êªæ?ïÂà∞Áµ±Ë??Ä?üÊ?Ëß∏Áôº?ïÁï´
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        animateNumbers();
-                        observer.unobserve(entry.target);
-                    }
-                });
-            });
-            
-            const statsSection = document.querySelector('.stats-section');
-            if (statsSection) {
-                observer.observe(statsSection);
-            }
-        });
-    </script>
 </body>
 </html> 

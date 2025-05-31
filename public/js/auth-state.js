@@ -1,18 +1,18 @@
 /**
- * 認證狀態管理 - 統一處理用戶登入/登出狀態
- * 此檔案負責管理所有頁面的認證狀態和UI更新
+ * Authentication State Management - Unified handling of user login/logout states
+ * This file is responsible for managing authentication states and UI updates across all pages
  */
 
-console.log('auth-state.js 開始載入...');
+console.log('auth-state.js loading...');
 
-// 防止重複初始化
+// Prevent multiple initializations
 let authStateInitialized = false;
 
 /**
- * 當DOM載入完成時初始化認證狀態
+ * Initialize authentication state when DOM is loaded
  */
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('auth-state.js DOM載入完成，開始初始化...');
+    console.log('auth-state.js DOM loaded, starting initialization...');
     if (!authStateInitialized) {
         initializeAuthState();
         authStateInitialized = true;
@@ -20,116 +20,116 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /**
- * 初始化認證狀態管理
+ * Initialize authentication state management
  */
 function initializeAuthState() {
-    console.log('初始化認證狀態管理...');
+    console.log('Initializing authentication state management...');
     
-    // 檢查是否存在認證狀態
+    // Check if authentication state exists
     const isLoggedIn = localStorage.getItem('isLoggedIn');
-    console.log('當前認證狀態:', isLoggedIn);
+    console.log('Current authentication state:', isLoggedIn);
     
     updateAuthUI();
     
-    // 設置用戶菜單交互
+    // Setup user menu interactions
     setupUserMenu();
     
-    // 設置登出按鈕 - 延遲執行確保DOM完全載入
+    // Setup logout button - delayed execution to ensure DOM is fully loaded
     setTimeout(setupLogoutButton, 100);
     
-    // 監聽 localStorage 變化（如果其他標籤頁修改了狀態）
+    // Listen for localStorage changes (if state is modified in other tabs)
     window.addEventListener('storage', function(e) {
         if (e.key === 'isLoggedIn') {
-            console.log('登入狀態已更改:', e.newValue);
+            console.log('Login state changed:', e.newValue);
             updateAuthUI();
         }
     });
     
-    console.log('認證狀態管理初始化完成');
+    console.log('Authentication state management initialization complete');
 }
 
 /**
- * 檢查用戶登入狀態並更新UI
+ * Check user login status and update UI
  */
 function updateAuthUI() {
     const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    const username = localStorage.getItem('username') || '用戶';
+    const username = localStorage.getItem('username') || 'User';
     
-    console.log('更新UI - 用戶登入狀態:', isLoggedIn, '頁面:', window.location.pathname);
-    console.log('用戶名稱:', username);
+    console.log('Updating UI - User login status:', isLoggedIn, 'Page:', window.location.pathname);
+    console.log('Username:', username);
     
-    // 查找認證相關元素 - 修正選擇器名稱
+    // Find authentication-related elements - corrected selector names
     const authButtons = document.querySelector('.auth-buttons');
     const userMenu = document.querySelector('.user-menu');
     const usernameElement = document.querySelector('.user-menu .username');
     
-    console.log('找到的元素:', {
+    console.log('Found elements:', {
         authButtons: !!authButtons,
         userMenu: !!userMenu,
         usernameElement: !!usernameElement
     });
     
     if (isLoggedIn) {
-        // 用戶已登入 - 隱藏登入/註冊按鈕，顯示用戶菜單
+        // User is logged in - hide login/register buttons, show user menu
         if (authButtons) {
             authButtons.style.display = 'none';
-            console.log('隱藏登入/註冊按鈕');
+            console.log('Hiding login/register buttons');
         }
         
         if (userMenu) {
             userMenu.style.display = 'flex';
-            console.log('顯示用戶菜單');
+            console.log('Showing user menu');
             
-            // 更新用戶名稱
+            // Update username
             if (usernameElement) {
                 usernameElement.textContent = username;
-                console.log('更新用戶名稱為:', username);
+                console.log('Updated username to:', username);
             }
         }
         
-        console.log('✅ 已登入狀態：顯示用戶菜單，隱藏登入按鈕');
+        console.log('✅ Logged in state: showing user menu, hiding login buttons');
     } else {
-        // 用戶未登入 - 隱藏用戶菜單，顯示登入/註冊按鈕
+        // User is not logged in - hide user menu, show login/register buttons
         if (userMenu) {
             userMenu.style.display = 'none';
-            console.log('隱藏用戶菜單');
+            console.log('Hiding user menu');
         }
         
         if (authButtons) {
-            // 強制顯示登入/註冊按鈕
+            // Force show login/register buttons
             authButtons.style.display = 'flex';
             authButtons.style.visibility = 'visible';
             authButtons.style.opacity = '1';
-            console.log('顯示登入/註冊按鈕');
+            console.log('Showing login/register buttons');
         }
         
-        console.log('✅ 未登入狀態：顯示登入按鈕，隱藏用戶菜單');
+        console.log('✅ Not logged in state: showing login buttons, hiding user menu');
     }
     
-    // 確保兩者不會同時顯示（強化版）
+    // Ensure both are not shown simultaneously (enhanced version)
     if (authButtons && userMenu) {
         const authVisible = authButtons.style.display !== 'none';
         const userVisible = userMenu.style.display !== 'none';
         
         if (authVisible && userVisible) {
-            console.warn('⚠️ 檢測到登入按鈕和用戶菜單同時顯示，強制修正...');
+            console.warn('⚠️ Detected login buttons and user menu shown simultaneously, forcing correction...');
             if (isLoggedIn) {
                 authButtons.style.display = 'none';
             } else {
                 userMenu.style.display = 'none';
-                // 確保登入按鈕完全顯示
+                // Ensure login buttons are fully visible
                 authButtons.style.display = 'flex';
                 authButtons.style.visibility = 'visible';
                 authButtons.style.opacity = '1';
             }
         }
         
-        // 最終狀態驗證
+        // Final state verification
         setTimeout(() => {
             const finalAuthVisible = authButtons.style.display !== 'none';
             const finalUserVisible = userMenu.style.display !== 'none';
             
-            console.log('🔍 最終狀態驗證:', {
+            console.log('🔍 Final state verification:', {
                 isLoggedIn,
                 authButtonsVisible: finalAuthVisible,
                 userMenuVisible: finalUserVisible,
@@ -137,9 +137,9 @@ function updateAuthUI() {
                 shouldShowUser: isLoggedIn
             });
             
-            // 如果狀態不正確，強制修正
+            // Force correction if state is incorrect
             if ((!isLoggedIn && !finalAuthVisible) || (isLoggedIn && !finalUserVisible)) {
-                console.warn('⚠️ 檢測到狀態不正確，執行強制修正...');
+                console.warn('⚠️ Detected incorrect state, executing forced correction...');
                 if (isLoggedIn) {
                     if (authButtons) authButtons.style.display = 'none';
                     if (userMenu) userMenu.style.display = 'flex';
@@ -151,51 +151,181 @@ function updateAuthUI() {
                         authButtons.style.opacity = '1';
                     }
                 }
-                console.log('✅ 強制修正完成');
+                console.log('✅ Forced correction complete');
             }
         }, 10);
     }
 }
 
 /**
- * 設置用戶菜單交互功能
+ * Setup user menu interaction functionality
  */
 function setupUserMenu() {
-    const userMenu = document.querySelector('.user-menu');
-    const userAvatar = document.querySelector('.user-avatar');
-    const dropdownMenu = document.querySelector('.dropdown-menu');
+    console.log('Setting up user menu interactions...');
+    
+    // 嘗試所有可能的選擇器
+    const userMenuSelectors = [
+        '.user-menu',
+        '.nav-links .user-menu',
+        '#userMenu'
+    ];
+    
+    const userAvatarSelectors = [
+        '.user-avatar',
+        '.nav-links .user-avatar',
+        '.user-menu .user-avatar'
+    ];
+    
+    const dropdownSelectors = [
+        '.dropdown-menu',
+        '.nav-links .dropdown-menu',
+        '.user-menu .dropdown-menu'
+    ];
+    
+    let userMenu = null;
+    let userAvatar = null;
+    let dropdownMenu = null;
+    
+    // 尋找用戶選單元素
+    for (const selector of userMenuSelectors) {
+        userMenu = document.querySelector(selector);
+        if (userMenu) {
+            console.log('Found user menu with selector:', selector);
+            break;
+        }
+    }
+    
+    // 尋找用戶頭像元素
+    for (const selector of userAvatarSelectors) {
+        userAvatar = document.querySelector(selector);
+        if (userAvatar) {
+            console.log('Found user avatar with selector:', selector);
+            break;
+        }
+    }
+    
+    // 尋找下拉選單元素
+    for (const selector of dropdownSelectors) {
+        dropdownMenu = document.querySelector(selector);
+        if (dropdownMenu) {
+            console.log('Found dropdown menu with selector:', selector);
+            break;
+        }
+    }
+    
+    console.log('User menu elements found:', {
+        userMenu: !!userMenu,
+        userAvatar: !!userAvatar,
+        dropdownMenu: !!dropdownMenu
+    });
     
     if (userMenu && userAvatar && dropdownMenu) {
-        // 點擊用戶頭像顯示/隱藏下拉菜單
-        userAvatar.addEventListener('click', function(e) {
-            e.stopPropagation();
-            dropdownMenu.classList.toggle('show');
-            console.log('用戶菜單切換:', dropdownMenu.classList.contains('show'));
-        });
+        console.log('All elements found, setting up event listeners...');
         
-        // 點擊其他地方關閉下拉菜單
-        document.addEventListener('click', function(e) {
-            if (!userMenu.contains(e.target)) {
+        // 移除可能存在的舊事件監聽器
+        const newUserAvatar = userAvatar.cloneNode(true);
+        userAvatar.parentNode.replaceChild(newUserAvatar, userAvatar);
+        userAvatar = newUserAvatar;
+        
+        // 更新dropdownMenu引用
+        dropdownMenu = userMenu.querySelector('.dropdown-menu');
+        
+        // 為用戶頭像添加點擊事件
+        userAvatar.addEventListener('click', function(e) {
+            console.log('User avatar clicked!');
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const isVisible = dropdownMenu.classList.contains('show');
+            console.log('Dropdown currently visible:', isVisible);
+            
+            if (isVisible) {
                 dropdownMenu.classList.remove('show');
+                console.log('Dropdown hidden');
+            } else {
+                dropdownMenu.classList.add('show');
+                console.log('Dropdown shown');
             }
         });
         
-        // 防止菜單項目點擊時關閉菜單（除了登出）
+        // 為整個用戶選單添加點擊事件（備用）
+        userMenu.addEventListener('click', function(e) {
+            console.log('User menu clicked!');
+            
+            // 如果點擊的是頭像區域，切換下拉選單
+            if (e.target.closest('.user-avatar')) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const isVisible = dropdownMenu.classList.contains('show');
+                console.log('Dropdown currently visible (menu click):', isVisible);
+                
+                if (isVisible) {
+                    dropdownMenu.classList.remove('show');
+                    console.log('Dropdown hidden (menu click)');
+                } else {
+                    dropdownMenu.classList.add('show');
+                    console.log('Dropdown shown (menu click)');
+                }
+            }
+        });
+        
+        // 點擊外部關閉下拉選單
+        document.addEventListener('click', function(e) {
+            if (!userMenu.contains(e.target)) {
+                if (dropdownMenu.classList.contains('show')) {
+                    dropdownMenu.classList.remove('show');
+                    console.log('Dropdown closed by outside click');
+                }
+            }
+        });
+        
+        // 阻止下拉選單內的點擊事件冒泡（除了登出按鈕）
         dropdownMenu.addEventListener('click', function(e) {
             if (e.target.id !== 'logout' && !e.target.classList.contains('logout-btn')) {
                 e.stopPropagation();
+                console.log('Dropdown click prevented from bubbling');
+            } else {
+                console.log('Logout button clicked in dropdown');
             }
         });
+        
+        // 為下拉選單項目添加hover效果
+        const menuItems = dropdownMenu.querySelectorAll('a');
+        menuItems.forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateX(5px)';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateX(0)';
+            });
+        });
+        
+        console.log('✅ User menu setup complete');
+    } else {
+        console.warn('⚠️ Could not find all required user menu elements');
+        console.log('Missing elements:', {
+            userMenu: !userMenu,
+            userAvatar: !userAvatar,
+            dropdownMenu: !dropdownMenu
+        });
+        
+        // 重試設置
+        setTimeout(() => {
+            console.log('Retrying user menu setup...');
+            setupUserMenu();
+        }, 1000);
     }
 }
 
 /**
- * 設置登出按鈕功能
+ * Setup logout button functionality
  */
 function setupLogoutButton() {
-    console.log('設置登出按鈕功能...');
+    console.log('Setting up logout button functionality...');
     
-    // 查找所有可能的登出按鈕
+    // Find all possible logout buttons
     const logoutSelectors = [
         '#logout',
         '#logoutBtn', 
@@ -216,195 +346,129 @@ function setupLogoutButton() {
         });
     });
     
-    console.log('找到登出按鈕數量:', logoutButtons.length, logoutButtons);
+    console.log('Found logout buttons:', logoutButtons.length, logoutButtons);
     
     logoutButtons.forEach((button, index) => {
-        // 移除舊的事件監聽器
+        // Remove old event listeners
         const newButton = button.cloneNode(true);
         button.parentNode.replaceChild(newButton, button);
         
-        // 添加新的事件監聽器
+        // Add new event listener
         newButton.addEventListener('click', handleLogoutClick);
-        console.log(`登出按鈕 ${index + 1} 事件綁定完成:`, newButton);
+        console.log(`Logout button ${index + 1} event binding complete:`, newButton);
     });
     
-    // 如果沒有找到登出按鈕，延遲再試一次
+    // If no logout buttons found, retry after delay
     if (logoutButtons.length === 0) {
-        console.log('未找到登出按鈕，1秒後重試...');
+        console.log('No logout buttons found, retrying in 1 second...');
         setTimeout(setupLogoutButton, 1000);
     }
 }
 
 /**
- * 登出按鈕點擊處理器
+ * Logout button click handler
  */
 function handleLogoutClick(e) {
     e.preventDefault();
     e.stopPropagation();
     
-    console.log('登出按鈕被點擊，開始處理登出...');
+    console.log('Logout button clicked, processing logout...');
     
-    // 確認登出
-    if (confirm('確定要登出嗎？')) {
+    // Confirm logout
+    if (confirm('Are you sure you want to log out?')) {
         handleLogout();
     } else {
-        console.log('用戶取消登出');
+        console.log('Logout cancelled by user');
     }
 }
 
 /**
- * 處理登出操作
+ * Handle logout process
  */
 function handleLogout() {
-    console.log('執行登出操作...', window.location.pathname);
+    console.log('Processing logout...');
     
     try {
-        // 清除所有認證相關的localStorage
-        const authKeys = ['isLoggedIn', 'token', 'username', 'userEmail', 'userId'];
-        authKeys.forEach(key => {
-            console.log('清除 localStorage:', key, localStorage.getItem(key));
-            localStorage.removeItem(key);
-        });
+        // Clear authentication data
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('username');
+        localStorage.removeItem('userToken');
+        localStorage.removeItem('userRole');
         
-        // 先立即強制更新UI狀態
-        console.log('🔄 立即更新UI狀態...');
+        // Update UI
         updateAuthUI();
         
-        // 額外確保UI正確更新（雙重檢查）
+        // Show success message
+        showNotification('Successfully logged out', 'success');
+        
+        // Redirect to home page after short delay
         setTimeout(() => {
-            console.log('🔄 再次確認UI狀態更新...');
-            updateAuthUI();
-            
-            // 確保用戶菜單下拉選單關閉
-            const dropdownMenu = document.querySelector('.dropdown-menu');
-            if (dropdownMenu) {
-                dropdownMenu.classList.remove('show');
-            }
-        }, 50);
+            window.location.href = '/index.html';
+        }, 1000);
         
-        // 顯示登出成功提示
-        showNotification('登出成功！', 'success');
-        
-        // 只在非首頁時重定向，首頁直接停留並更新UI
-        const currentPath = window.location.pathname;
-        const isHomePage = currentPath === '/index.html' || currentPath === '/' || currentPath.endsWith('/index.html') || currentPath === '';
-        
-        if (!isHomePage) {
-            console.log('非首頁，3秒後重定向到首頁...');
-            setTimeout(function() {
-                window.location.href = '/';
-            }, 3000);
-        } else {
-            console.log('✅ 已在首頁，登出完成，UI已更新');
-            // 在首頁時不重新載入，只確保UI完全更新
-            setTimeout(() => {
-                console.log('🔄 最終UI狀態確認...');
-                updateAuthUI();
-                console.log('✅ 登出流程完成');
-            }, 100);
-        }
-        
+        console.log('Logout successful');
     } catch (error) {
-        console.error('登出過程中發生錯誤:', error);
-        showNotification('登出過程中發生錯誤，請重試', 'error');
+        console.error('Error during logout:', error);
+        showNotification('Error during logout. Please try again.', 'error');
     }
 }
 
 /**
- * 設置登入成功後的狀態
- * @param {Object} userData - 用戶資料
+ * Set authentication state with user data
  */
 function setAuthState(userData) {
-    console.log('設置認證狀態:', userData);
-    
-    localStorage.setItem('isLoggedIn', 'true');
-    localStorage.setItem('username', userData.username || userData.name || '用戶');
-    
-    if (userData.token) {
-        localStorage.setItem('token', userData.token);
+    try {
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('username', userData.username || 'User');
+        if (userData.token) localStorage.setItem('userToken', userData.token);
+        if (userData.role) localStorage.setItem('userRole', userData.role);
+        
+        updateAuthUI();
+        console.log('Authentication state updated successfully');
+    } catch (error) {
+        console.error('Error setting auth state:', error);
     }
-    if (userData.email) {
-        localStorage.setItem('userEmail', userData.email);
-    }
-    if (userData.id) {
-        localStorage.setItem('userId', userData.id);
-    }
-    
-    // 更新UI
-    updateAuthUI();
 }
 
 /**
- * 檢查用戶是否已登入
- * @return {boolean} 登入狀態
+ * Check if user is logged in
  */
 function isUserLoggedIn() {
     return localStorage.getItem('isLoggedIn') === 'true';
 }
 
 /**
- * 獲取當前用戶資訊
- * @return {Object|null} 用戶資訊
+ * Get current user data
  */
 function getCurrentUser() {
-    if (!isUserLoggedIn()) {
-        return null;
-    }
+    if (!isUserLoggedIn()) return null;
     
     return {
         username: localStorage.getItem('username'),
-        email: localStorage.getItem('userEmail'),
-        token: localStorage.getItem('token'),
-        id: localStorage.getItem('userId')
+        token: localStorage.getItem('userToken'),
+        role: localStorage.getItem('userRole')
     };
 }
 
 /**
- * 顯示通知消息（如果頁面有實現）
- * @param {string} message - 消息內容
- * @param {string} type - 消息類型 ('success', 'error', 'warning', 'info')
+ * Show notification message
  */
 function showNotification(message, type = 'info') {
-    console.log('顯示通知:', message, type);
-    
-    // 如果頁面有實現showNotification函數，使用它
-    if (typeof window.showNotification === 'function') {
-        window.showNotification(message, type);
-        return;
-    }
-    
-    // 否則創建簡單的通知
+    // Create notification element
     const notification = document.createElement('div');
-    notification.className = `notification notification-${type}`;
+    notification.className = `notification ${type}`;
     notification.textContent = message;
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        padding: 12px 20px;
-        background: ${type === 'success' ? '#4CAF50' : type === 'error' ? '#f44336' : '#2196F3'};
-        color: white;
-        border-radius: 4px;
-        z-index: 10000;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        transition: opacity 0.3s ease;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    `;
     
+    // Add to document
     document.body.appendChild(notification);
     
-    // 3秒後自動移除
+    // Remove after delay
     setTimeout(() => {
-        notification.style.opacity = '0';
-        setTimeout(() => {
-            if (notification.parentNode) {
-                notification.parentNode.removeChild(notification);
-            }
-        }, 300);
+        notification.remove();
     }, 3000);
 }
 
-// 暴露給全域使用
+// Expose to global scope
 window.authState = {
     updateAuthUI,
     setAuthState,
@@ -412,7 +476,7 @@ window.authState = {
     isUserLoggedIn,
     getCurrentUser,
     showNotification,
-    setupLogoutButton  // 暴露此方法供其他腳本調用
+    setupLogoutButton  // Expose this method for other scripts to call
 };
 
-console.log('auth-state.js 載入完成，全域物件已設置'); 
+console.log('auth-state.js loading complete, global object set up'); 

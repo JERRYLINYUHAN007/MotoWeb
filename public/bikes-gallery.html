@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>?©æ?è»Šå?åº?- MotoWeb</title>
+    <title>Bike Gallery - MotoWeb</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -152,7 +152,7 @@
             font-size: 1.2rem;
         }
         
-        /* ?ˆç®±?ˆæ? */
+        /* Lightbox */
         .lightbox {
             display: none;
             position: fixed;
@@ -223,12 +223,12 @@
 <body>
     <div class="gallery-container">
         <div class="gallery-header">
-            <h1 class="gallery-title">?©æ?è»Šå?åº?/h1>
-            <p class="gallery-description">?è¦½?„ç¨®ä¸»æ??©æ?è»Šå??Ÿç??Ÿå??‡æ”¹è£å??‡ï?å°‹æ‰¾?¹è??ˆæ???/p>
+            <h1 class="gallery-title">Bike Gallery</h1>
+            <p class="gallery-description">Browse various motorcycle models and find inspiration for your modifications.</p>
         </div>
         
         <div class="bike-models">
-            <button class="model-button active" data-model="all">?€?‰è?æ¬?/button>
+            <button class="model-button active" data-model="all">All Models</button>
             <button class="model-button" data-model="SYM-JET">SYM JET</button>
             <button class="model-button" data-model="SYM-DRG">SYM DRG</button>
             <button class="model-button" data-model="SYM-MMBCU">SYM MMBCU</button>
@@ -239,10 +239,10 @@
         </div>
         
         <div class="gallery-categories">
-            <button class="category-button active" data-category="all">?¨éƒ¨</button>
-            <button class="category-button" data-category="?Ÿå?">?Ÿå?</button>
-            <button class="category-button" data-category="?¹è??´è?">?¹è??´è?</button>
-            <button class="category-button" data-category="?¹è??¶ä»¶">?¹è??¶ä»¶</button>
+            <button class="category-button active" data-category="all">All</button>
+            <button class="category-button" data-category="appearance">Appearance</button>
+            <button class="category-button" data-category="performance">Performance Mods</button>
+            <button class="category-button" data-category="oem">OEM Parts</button>
         </div>
         
         <div class="gallery-grid" id="gallery-grid">
@@ -252,7 +252,7 @@
         </div>
     </div>
     
-    <!-- ?ˆç®± -->
+    <!-- Lightbox -->
     <div class="lightbox" id="lightbox">
         <div class="lightbox-content">
             <span class="lightbox-close" id="lightbox-close">&times;</span>

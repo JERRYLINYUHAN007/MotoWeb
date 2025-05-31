@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Á§æÁæ§Ë®éË? | MotoWeb</title>
+    <title>Community Forum | MotoWeb</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/tech-theme.css">
     <link rel="stylesheet" href="/css/community.css">
@@ -13,7 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Community ?ÅÈù¢Â∞àÁî®Ê®?? - ?æ‰ª£ÁßëÊ?È¢®Ê†º */
+        /* Community page specific styles - Modern tech theme */
         .main-container {
             margin-top: 80px;
             min-height: 100vh;
@@ -29,58 +29,155 @@
             background: var(--secondary-color);
         }
 
-        /* ?¥È?Ê¨ÑÊ®£Âº?- ÁßëÊ?È¢®Ê†º */
+        /* Sidebar styles - Enhanced tech theme */
         .community-sidebar {
             flex: 0 0 320px;
-            background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
+            background: linear-gradient(145deg, 
+                var(--dark-surface) 0%, 
+                var(--mid-surface) 50%, 
+                var(--light-surface) 100%);
             padding: 2rem;
             border-radius: 20px;
             height: fit-content;
             box-shadow: 
-                0 8px 25px rgba(0, 0, 0, 0.4),
-                0 0 20px rgba(0, 212, 255, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+                0 15px 35px rgba(0, 0, 0, 0.4),
+                0 0 25px rgba(0, 212, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.2);
             border: 2px solid var(--carbon-gray);
             position: sticky;
             top: 100px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .community-sidebar:hover {
+            box-shadow: 
+                0 20px 45px rgba(0, 0, 0, 0.5),
+                0 0 35px rgba(0, 212, 255, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
         }
 
         .community-sidebar h3 {
             font-size: 1.6rem;
             color: var(--primary-color);
             margin-bottom: 1.5rem;
-            padding-bottom: 0.8rem;
+            padding-bottom: 1rem;
             border-bottom: 2px solid var(--primary-color);
-            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+            text-shadow: 0 0 15px rgba(0, 212, 255, 0.6);
             font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+        }
+
+        .community-sidebar h3::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 30%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-color), var(--success-color));
+            animation: borderExpand 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes borderExpand {
+            0% { width: 30%; }
+            100% { width: 60%; }
         }
 
         .category-list ul {
             list-style: none;
             padding: 0;
+            margin: 0;
         }
 
         .category-list li {
             margin-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .category-list li:last-child {
+            border-bottom: none;
         }
 
         .category-list a {
             display: block;
-            padding: 0.8rem 1rem;
+            padding: 1rem 1.5rem;
             color: var(--metallic-silver);
             text-decoration: none;
-            border-radius: 8px;
+            border-radius: 12px;
             transition: all 0.3s ease;
             font-weight: 500;
+            position: relative;
+            border-left: 3px solid transparent;
+        }
+
+        .category-list a::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            transition: width 0.3s ease;
+            z-index: 1;
+            border-radius: 12px 0 0 12px;
         }
 
         .category-list a:hover,
         .category-list a.active {
+            background: linear-gradient(90deg, rgba(0, 212, 255, 0.2), rgba(124, 58, 237, 0.1));
             color: white;
-            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            border-left-color: var(--primary-color);
             font-weight: 600;
-            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+            box-shadow: 
+                0 5px 15px rgba(0, 212, 255, 0.2),
+                inset 0 0 20px rgba(0, 212, 255, 0.1);
             transform: translateX(5px);
+        }
+
+        .category-list a:hover::before,
+        .category-list a.active::before {
+            width: 3px;
+        }
+
+        .category-list a.active::after {
+            content: '‚óè';
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--success-color);
+            font-size: 1.2rem;
+            text-shadow: 0 0 8px rgba(0, 255, 136, 0.8);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: translateY(-50%) scale(1); }
+            50% { opacity: 0.7; transform: translateY(-50%) scale(1.1); }
+        }
+
+        .category-list .count {
+            color: var(--metallic-silver);
+            font-size: 0.85rem;
+            margin-left: 0.5rem;
+            padding: 0.2rem 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .category-list a:hover .count,
+        .category-list a.active .count {
+            background: var(--success-color);
+            color: white;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+            transform: scale(1.1);
         }
 
         .popular-tags h3 {
@@ -90,11 +187,11 @@
         .tag-cloud {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.5rem;
+            gap: 0.8rem;
         }
 
         .tag {
-            padding: 0.5rem 1rem;
+            padding: 0.6rem 1rem;
             background: linear-gradient(145deg, var(--light-surface), var(--mid-surface));
             color: var(--metallic-silver);
             text-decoration: none;
@@ -102,16 +199,35 @@
             font-size: 0.85rem;
             border: 1px solid var(--carbon-gray);
             transition: all 0.3s ease;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tag::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.3s ease;
         }
 
         .tag:hover {
             background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
             color: white;
-            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
-            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3);
+            transform: translateY(-3px) scale(1.05);
+            border-color: var(--primary-color);
         }
 
-        /* Ë®éË??Ä?üÊ®£Âº?*/
+        .tag:hover::before {
+            left: 100%;
+        }
+
+        /* Discussion display area styles */
         .community-display-area {
             flex: 1;
             background: var(--secondary-color);
@@ -141,7 +257,7 @@
             padding: 10px 20px;
         }
 
-        /* Ë®éË??óË°®Ê®?? */
+        /* Discussion list styles - Enhanced */
         .discussion-list {
             display: grid;
             gap: 2rem;
@@ -159,6 +275,7 @@
             border: 2px solid transparent;
             position: relative;
             color: white;
+            overflow: hidden;
         }
 
         .discussion-item::before {
@@ -176,6 +293,18 @@
             transition: opacity 0.3s ease;
         }
 
+        .discussion-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+            z-index: 1;
+        }
+
         .discussion-item:hover {
             transform: translateY(-8px);
             box-shadow: 
@@ -189,11 +318,17 @@
             opacity: 1;
         }
 
+        .discussion-item:hover::after {
+            left: 100%;
+        }
+
         .discussion-header {
             display: flex;
             align-items: center;
             margin-bottom: 1rem;
             gap: 1rem;
+            position: relative;
+            z-index: 2;
         }
 
         .discussion-user-avatar {
@@ -202,6 +337,12 @@
             border-radius: 50%;
             border: 2px solid var(--success-color);
             box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .discussion-item:hover .discussion-user-avatar {
+            box-shadow: 0 0 25px rgba(0, 255, 136, 0.6);
+            transform: scale(1.05);
         }
 
         .user-info h4 {
@@ -221,6 +362,8 @@
             color: white;
             margin-bottom: 1rem;
             transition: color 0.3s ease;
+            position: relative;
+            z-index: 2;
         }
 
         .discussion-item:hover .discussion-title {
@@ -232,6 +375,8 @@
             color: var(--metallic-silver);
             line-height: 1.6;
             margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 2;
         }
 
         .discussion-footer {
@@ -240,6 +385,8 @@
             align-items: center;
             padding-top: 1rem;
             border-top: 1px solid var(--carbon-gray);
+            position: relative;
+            z-index: 2;
         }
 
         .discussion-stats {
@@ -253,10 +400,22 @@
             gap: 0.5rem;
             color: var(--metallic-silver);
             font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .discussion-stats span:hover {
+            color: var(--primary-color);
+            text-shadow: 0 0 8px rgba(0, 212, 255, 0.5);
         }
 
         .discussion-stats i {
             color: var(--success-color);
+            transition: all 0.3s ease;
+        }
+
+        .discussion-stats span:hover i {
+            color: var(--primary-color);
+            transform: scale(1.1);
         }
 
         .category-tag {
@@ -268,48 +427,58 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
+            transition: all 0.3s ease;
         }
 
-        /* ËºâÂÖ•?áÁ§∫??*/
+        .category-tag:hover {
+            background: linear-gradient(45deg, var(--accent-color), var(--success-color));
+            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Enhanced loading and error states */
         .loading {
             text-align: center;
             padding: 4rem;
             color: var(--metallic-silver);
             font-size: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
         }
 
         .loading i {
             color: var(--primary-color);
-            margin-right: 0.8rem;
+            font-size: 2rem;
+            animation: spin 1s linear infinite;
         }
 
-        /* ?ÜÈ?Ê®?? */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-top: 3rem;
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
-        .pagination a,
-        .pagination span {
-            padding: 0.8rem 1.2rem;
-            background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
+        .no-posts {
+            text-align: center;
+            padding: 4rem;
             color: var(--metallic-silver);
-            text-decoration: none;
-            border-radius: 12px;
+            font-size: 1.1rem;
+            background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
+            border-radius: 15px;
             border: 1px solid var(--carbon-gray);
-            transition: all 0.3s ease;
         }
 
-        .pagination a:hover,
-        .pagination .active {
-            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
-            color: white;
-            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+        .no-posts::before {
+            content: 'üîç';
+            display: block;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
         }
 
-        /* ?øÊ?ÂºèË®≠Ë®?*/
+        /* Responsive styles */
         @media (max-width: 1200px) {
             .community-main-content {
                 gap: 2rem;
@@ -317,6 +486,11 @@
             
             .community-sidebar {
                 flex: 0 0 280px;
+                padding: 1.5rem;
+            }
+            
+            .community-sidebar h3 {
+                font-size: 1.4rem;
             }
         }
 
@@ -330,6 +504,23 @@
                 flex: none;
                 position: static;
                 margin-bottom: 2rem;
+                padding: 1rem;
+                border-radius: 15px;
+            }
+
+            .community-sidebar h3 {
+                font-size: 1.2rem;
+                letter-spacing: 1px;
+            }
+
+            .category-list a {
+                padding: 0.8rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .tag {
+                font-size: 0.8rem;
+                padding: 0.5rem 0.8rem;
             }
 
             .community-header {
@@ -350,9 +541,13 @@
                 gap: 1rem;
                 align-items: center;
             }
+
+            .discussion-stats {
+                gap: 1rem;
+            }
         }
 
-        /* ?ÅÈù¢Ê®ôÈ??ÄÂ°äÊ®£Âº?*/
+        /* Page header styles */
         .page-header {
             background: 
                 linear-gradient(135deg, 
@@ -467,7 +662,7 @@
             box-shadow: 0 0 25px rgba(0, 212, 255, 0.5);
         }
 
-        /* ?øÊ?ÂºèË®≠Ë®?*/
+        /* Responsive styles */
         @media (max-width: 968px) {
             .page-header h1 {
                 font-size: 2.5rem;
@@ -513,36 +708,36 @@
     <nav class="navbar">
         <div class="container nav-container">
             <div class="logo">
-                <a href="index.html" aria-label="motowebÈ¶ñÈ?">
-                    <img src="/images/motoweb-logo.svg" alt="motoweb Logo" class="logo-img">
+                <a href="index.html" aria-label="MotoWeb homepage">
+                    <img src="images/motoweb-logo.svg" alt="MotoWeb Logo" class="logo-img">
                 </a>
             </div>
             <div class="nav-links" id="navLinks">
                 <div class="main-nav">
-                    <a href="index.html">È¶ñÈ?</a>
-                    <a href="products.html">?πË??∂‰ª∂</a>
-                    <a href="community.html" class="active" aria-current="page">Á§æÁæ§Ë®éË?</a>
-                    <a href="gallery.html">‰ΩúÂ?Â±ïÁ§∫</a>
-                    <a href="events.html">?πË?Ê¥ªÂ?</a>
+                    <a href="index.html">Home</a>
+                    <a href="products.html">Modification Parts</a>
+                    <a href="community.html" class="active" aria-current="page">Community</a>
+                    <a href="gallery.html">Gallery</a>
+                    <a href="events.html">Events</a>
                 </div>
                 <div class="auth-buttons">
-                    <a href="login.html" class="btn btn-secondary">?ªÂÖ•</a>
-                    <a href="register.html" class="btn btn-primary">Ë®ªÂ?</a>
+                    <a href="login.html" class="btn btn-secondary">Login</a>
+                    <a href="register.html" class="btn btn-primary">Register</a>
                 </div>
                 <div class="user-menu" style="display: none;">
                     <div class="user-avatar">
-                        <img src="/images/default-avatar.svg" alt="?®Êà∂?≠Â?" class="avatar">
-                        <span class="username">?®Êà∂?çÁ®±</span>
+                        <img src="/images/default-avatar.svg" alt="User Avatar" class="avatar">
+                        <span class="username">Username</span>
                     </div>
                     <div class="dropdown-menu">
-                        <a href="/profile.html"><i class="fas fa-user"></i> ?ã‰∫∫Ë≥áÊ?</a>
-                        <a href="/garage.html"><i class="fas fa-motorcycle"></i> ?ëÁ?ËªäÂ∫´</a>
-                        <a href="/settings.html"><i class="fas fa-cog"></i> Â∏≥Ë?Ë®≠Â?</a>
-                        <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> ?ªÂá∫</a>
+                        <a href="/profile.html"><i class="fas fa-user"></i> Profile</a>
+                        <a href="/garage.html"><i class="fas fa-motorcycle"></i> My Garage</a>
+                        <a href="/settings.html"><i class="fas fa-cog"></i> Settings</a>
+                        <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </div>
                 </div>
             </div>
-            <button class="menu-toggle" aria-label="Â±ïÈ??∏ÂñÆ" aria-expanded="false" aria-controls="navLinks">
+            <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -550,135 +745,85 @@
         </div>
     </nav>
 
-    <!-- ‰∏ªË??ßÂÆπ?Ä??-->
     <main class="main-container">
         <header class="page-header">
-            <h1>Á§æÁæ§Ë®éË?</h1>
-            <p>?Ü‰∫´‰Ω†Á??πË?Á∂ìÈ?ÔºåË?ËªäÂ??ë‰?Ëµ∑‰∫§ÊµÅË?Ë´?/p>
+            <h1>Community Forum</h1>
+            <p>Share your modification experience and connect with fellow riders</p>
             <div class="search-bar">
-                <input type="text" id="search-input" placeholder="?úÂ?Ë®éË??ßÂÆπ...">
-                <button class="search-btn" id="search-btn"><i class="fas fa-search"></i></button>
+                <input type="text" placeholder="Search discussions..." aria-label="Search discussions">
+                <button type="button" class="search-btn">
+                    <i class="fas fa-search"></i> Search
+                </button>
             </div>
         </header>
 
         <main class="community-main-content">
-            <div class="content-layout">
-            <aside class="community-sidebar" id="community-sidebar">
-                <h3>Ë®éË??ÜÈ?</h3>
-                
-                <div class="category-list">
-                    <ul id="category-list">
-                        <li><a href="#" data-category="all" class="active">?Ä?âÂ?È°?(ËºâÂÖ•‰∏?..)</a></li>
-                        <li><a href="#" data-category="?íÊ∞£Á≥ªÁµ±">?íÊ∞£Á≥ªÁµ± (ËºâÂÖ•‰∏?..)</a></li>
-                        <li><a href="#" data-category="?∏Â?Á≥ªÁµ±">?∏Â?Á≥ªÁµ± (ËºâÂÖ•‰∏?..)</a></li>
-                        <li><a href="#" data-category="ÂºïÊ??πË?">ÂºïÊ??πË? (ËºâÂÖ•‰∏?..)</a></li>
-                        <li><a href="#" data-category="?ªÂ?Á≥ªÁµ±">?ªÂ?Á≥ªÁµ± (ËºâÂÖ•‰∏?..)</a></li>
-                        <li><a href="#" data-category="Â§ñË?Â•ó‰ª∂">Â§ñË?Â•ó‰ª∂ (ËºâÂÖ•‰∏?..)</a></li>
-                        <li><a href="#" data-category="‰øùÈ?Á∂≠Ë≠∑">‰øùÈ?Á∂≠Ë≠∑ (ËºâÂÖ•‰∏?..)</a></li>
+            <aside class="community-sidebar">
+                <h3>Categories</h3>
+                <div class="category-list" id="category-list">
+                    <ul>
+                        <li><a href="#" class="active" data-category="all">All Discussions <span class="count">(0)</span></a></li>
+                        <li><a href="#" data-category="performance">Performance Mods <span class="count">(0)</span></a></li>
+                        <li><a href="#" data-category="suspension">Suspension & Handling <span class="count">(0)</span></a></li>
+                        <li><a href="#" data-category="exhaust">Exhaust Systems <span class="count">(0)</span></a></li>
+                        <li><a href="#" data-category="electronics">Electronics & Tech <span class="count">(0)</span></a></li>
+                        <li><a href="#" data-category="appearance">Appearance Mods <span class="count">(0)</span></a></li>
+                        <li><a href="#" data-category="maintenance">Maintenance & Care <span class="count">(0)</span></a></li>
+                        <li><a href="#" data-category="track">Track Experience <span class="count">(0)</span></a></li>
+                        <li><a href="#" data-category="review">Product Reviews <span class="count">(0)</span></a></li>
                     </ul>
-            </div>
+                </div>
 
-                <!-- ?±È?Ê®ôÁ±§ -->
                 <div class="popular-tags">
-                    <h3>?±È?Ê®ôÁ±§</h3>
-                    <div class="tag-cloud" id="popular-tags">
-                        <a href="#" class="tag" data-tag="?íÊ∞£ÁÆ?>#?íÊ∞£ÁÆ?/a>
-                        <a href="#" class="tag" data-tag="?øÈ???>#?øÈ???/a>
-                        <a href="#" class="tag" data-tag="?ïÂ??êÂ?">#?ïÂ??êÂ?</a>
-                        <a href="#" class="tag" data-tag="LED">#LED</a>
-                        <a href="#" class="tag" data-tag="‰øùÈ?">#‰øùÈ?</a>
-                        <a href="#" class="tag" data-tag="?∞Ê?">#?∞Ê?</a>
-            </div>
-        </div>
-        </aside>
+                    <h3>Popular Tags</h3>
+                    <div class="tag-cloud">
+                        <a href="#" class="tag" data-tag="performance">#Performance</a>
+                        <a href="#" class="tag" data-tag="suspension">#Suspension</a>
+                        <a href="#" class="tag" data-tag="exhaust">#Exhaust</a>
+                        <a href="#" class="tag" data-tag="electronics">#Electronics</a>
+                        <a href="#" class="tag" data-tag="customization">#Customization</a>
+                        <a href="#" class="tag" data-tag="trackday">#TrackDay</a>
+                        <a href="#" class="tag" data-tag="maintenance">#Maintenance</a>
+                        <a href="#" class="tag" data-tag="products">#NewProducts</a>
+                    </div>
+                </div>
+            </aside>
 
             <section class="community-display-area">
                 <div class="community-header">
                     <div class="results-count">
-                        <span id="discussion-count">Ë®éË??áÁ?</span>
+                        <span>Showing all discussions</span>
                     </div>
                     <div class="view-options">
-                        <button class="btn btn-primary" id="new-post-btn">
-                            <i class="fas fa-plus"></i> ?ºË°®?áÁ?
+                        <button class="btn btn-primary" id="newDiscussionBtn">
+                            <i class="fas fa-plus"></i> New Discussion
                         </button>
                     </div>
                 </div>
 
-                <!-- ËºâÂÖ•?áÁ§∫??-->
                 <div class="loading" id="loading">
-                    <i class="fas fa-spinner fa-spin"></i> ËºâÂÖ•‰∏?..
+                    <i class="fas fa-spinner fa-spin"></i> Loading...
                 </div>
 
-                <!-- ?áÁ??óË°® -->
                 <div class="discussion-list" id="discussions-grid">
-                    <!-- ?ïÊ?ËºâÂÖ•?ÑË?Ë´ñÊ?Á´?-->
+                    <!-- Discussion items will be dynamically loaded here -->
                 </div>
 
-                <!-- ?ÜÈ??ßÂà∂ -->
                 <div class="pagination" id="pagination">
-                    <!-- ?ïÊ??üÊ??ÜÈ??âÈ? -->
+                    <!-- Pagination will be dynamically loaded here -->
                 </div>
             </section>
         </main>
     </main>
 
-    <!-- ?ºË°®?áÁ?Ê®°Ê?Ê°?-->
-    <div id="post-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>?ºË°®?∞Ê?Á´?/h2>
-                <span class="close">&times;</span>
-            </div>
-            <div class="modal-body">
-                <form id="post-form">
-                    <div class="form-group">
-                        <label for="post-title">Ê®ôÈ?</label>
-                        <input type="text" id="post-title" class="form-control" required maxlength="100" placeholder="Ë´ãËº∏?•Ê?Á´†Ê?È°?..">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="post-category">?ÜÈ?</label>
-                        <select id="post-category" class="form-control" required>
-                            <option value="">Ë´ãÈÅ∏?áÂ?È°?/option>
-                            <option value="?íÊ∞£Á≥ªÁµ±">??Ô∏??íÊ∞£Á≥ªÁµ±</option>
-                            <option value="?∏Â?Á≥ªÁµ±">?ôÔ? ?∏Â?Á≥ªÁµ±</option>
-                            <option value="ÂºïÊ??πË?">?îß ÂºïÊ??πË?</option>
-                            <option value="?ªÂ?Á≥ªÁµ±">?í° ?ªÂ?Á≥ªÁµ±</option>
-                            <option value="Â§ñË?Â•ó‰ª∂">??Â§ñË?Â•ó‰ª∂</option>
-                            <option value="‰øùÈ?Á∂≠Ë≠∑">??Ô∏?‰øùÈ?Á∂≠Ë≠∑</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="post-content">?ßÂÆπ</label>
-                        <textarea id="post-content" class="form-control" required rows="6" placeholder="?Ü‰∫´‰Ω†Á??πË?Á∂ìÈ??ÅÂ?ÂæóÊ??èÈ?...&#10;&#10;‰æãÂ?Ôº?#10;??‰ΩøÁî®‰∫Ü‰?È∫ºÈõ∂‰ª∂Ô?&#10;???πË??éÁ?Â¶Ç‰?Ôº?#10;???â‰?È∫ºÂª∫Ë≠∞Ê?Ê≥®Ê?‰∫ãÈ?Ôº?></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="tag-input" class="optional-label">Ê®ôÁ±§ (?ÄÂ§??ãÔ??ØÈÅ∏)</label>
-                        <div class="tag-input-container" id="tag-container">
-                            <input type="text" id="tag-input" class="tag-input" placeholder="Ëº∏ÂÖ•Ê®ôÁ±§ÂæåÊ? EnterÔºå‰?Â¶ÇÔ??íÊ∞£ÁÆ°„ÄÅÊÄßËÉΩ?êÂ?">
-                        </div>
-                        <small class="form-hint">?í° Ê∑ªÂ??∏È?Ê®ôÁ±§?Ø‰ª•ËÆìÊõ¥Â§ö‰∫∫?æÂà∞‰Ω†Á??áÁ?</small>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn-secondary" id="cancel-btn">?ñÊ?</button>
-                <button type="button" class="btn-primary" id="submit-btn">?ºË°®?áÁ?</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ?ÅËÖ≥ -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section about">
                     <div class="footer-logo">
-                        <img src="/images/motoweb-logo.svg" alt="motoweb Logo" class="footer-logo-img">
+                        <img src="images/motoweb-logo.svg" alt="MotoWeb Logo" class="footer-logo-img">
                     </div>
-                    <p>Â∞àÊ•≠?ÑÊë©?òË??πË?Á§æÁæ§Âπ≥Âè∞ÔºåÁÇ∫ËªäÂ??ê‰?‰∫§Ê??áÂ?‰∫´Á?Á©∫È???/p>
+                    <p>Professional motorcycle modification community platform, providing a space for riders to communicate and share.</p>
                     <div class="social-links">
                         <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
                         <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
@@ -687,119 +832,136 @@
                     </div>
                 </div>
                 <div class="footer-section links">
-                    <h3>Âø´ÈÄüÈÄ??</h3>
+                    <h3>Quick Links</h3>
                     <ul>
-                        <li><a href="about.html">?úÊñº?ëÂÄ?/a></li>
-                        <li><a href="products.html">?πË??∂‰ª∂</a></li>
-                        <li><a href="community.html">Á§æÁæ§Ë®éË?</a></li>
-                        <li><a href="gallery.html">‰ΩúÂ?Â±ïÁ§∫</a></li>
-                        <li><a href="events.html">?πË?Ê¥ªÂ?</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="products.html">Modification Parts</a></li>
+                        <li><a href="community.html">Community Forum</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="events.html">Events</a></li>
                     </ul>
                 </div>
                 <div class="footer-section contact">
-                    <h3>?ØÁµ°Ë≥áË?</h3>
+                    <h3>Contact Info</h3>
                     <ul class="contact-info">
                         <li><i class="fas fa-envelope"></i> contact@MotoWeb.com</li>
                         <li><i class="fas fa-phone"></i> (02) 1234-5678</li>
-                        <li><i class="fas fa-map-marker-alt"></i> ?∞Â?Â∏Ç‰ø°Áæ©Â??æ‰?Ë∑?00??/li>
+                        <li><i class="fas fa-map-marker-alt"></i> No. 100, Songren Rd., Xinyi Dist., Taipei City</li>
                     </ul>
                 </div>
                 <div class="footer-section newsletter">
-                    <h3>Ë®ÇÈñ±?ªÂ???/h3>
-                    <p>?≤Â??Ä?∞ÊîπË£ùË∂®?¢Ë?Ê¥ªÂ?Ë≥áË?</p>
+                    <h3>Newsletter</h3>
+                    <p>Get the latest modification trends and event information</p>
                     <form class="newsletter-form" action="subscribe.php" method="POST">
-                        <input type="email" name="email" placeholder="?®Á??ªÂ??µ‰ª∂" required>
-                        <button type="submit" class="btn btn-primary">Ë®ÇÈñ±</button>
+                        <input type="email" name="email" placeholder="Your email" required>
+                        <button type="submit" class="btn btn-primary">Subscribe</button>
                     </form>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 MotoWeb. ‰øùÁ??Ä?âÊ??©„Ä?/p>
+                <p>&copy; 2025 MotoWeb. All rights reserved.</p>
                 <div class="footer-bottom-links">
-                    <a href="privacy.html">?±Á??øÁ?</a>
-                    <a href="terms.html">‰ΩøÁî®Ê¢ùÊ¨æ</a>
-                    <a href="cookies.html">Cookie ?øÁ?</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Use</a>
+                    <a href="cookies.html">Cookie Policy</a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <button id="backToTop" class="back-to-top" aria-label="ËøîÂ??ÅÈù¢?ÇÈÉ®">
+    <button id="backToTop" class="back-to-top" aria-label="Back to top">
         <i class="fas fa-chevron-up"></i>
     </button>
 
-    <!-- JavaScript -->
     <script src="/js/common.js"></script>
     <script src="/js/auth-state.js"></script>
     <script src="/js/community-api.js"></script>
     <script>
-        // Á§æÁæ§APIÂØ¶‰?
+        // Community API instance
         const communityAPI = new CommunityAPI();
         
-        // ?®Â?ËÆäÊï∏
+        // Variable declarations
         let currentPage = 1;
         let currentCategory = 'all';
         let currentSearch = '';
         let isLoading = false;
 
-        // DOM ?ÉÁ?
+        // DOM elements
         const discussionsGrid = document.getElementById('discussions-grid');
         const loadingIndicator = document.getElementById('loading');
         const paginationContainer = document.getElementById('pagination');
-        const categoryLinks = document.querySelectorAll('#category-list a');
-        const searchInput = document.getElementById('search-input');
-        const searchBtn = document.getElementById('search-btn');
-        const newPostBtn = document.getElementById('new-post-btn');
+        const categoryLinks = document.querySelectorAll('.category-list a');
+        const searchInput = document.querySelector('.search-bar input');
+        const searchBtn = document.querySelector('.search-btn');
+        const newPostBtn = document.getElementById('newDiscussionBtn');
         const modal = document.getElementById('post-modal');
         const closeBtn = modal ? modal.querySelector('.close') : null;
         const cancelBtn = document.getElementById('cancel-btn');
         const submitBtn = document.getElementById('submit-btn');
 
-        // ?ùÂ???        document.addEventListener('DOMContentLoaded', function() {
-            console.log('Á§æÁæ§?ÅÈù¢ DOM ËºâÂÖ•ÂÆåÊ?');
+        // ÂàÜÈ°ûÊò†Â∞Ñ - Â∞áËã±ÊñáÂàÜÈ°ûËΩâÊèõÁÇ∫Ëã±ÊñáÈ°ØÁ§∫
+        const categoryMap = {
+            'all': 'All Discussions',
+            'performance': 'Performance Mods',
+            'suspension': 'Suspension & Handling',
+            'exhaust': 'Exhaust Systems',
+            'electronics': 'Electronics & Tech',
+            'appearance': 'Appearance Mods',
+            'maintenance': 'Maintenance & Care',
+            'track': 'Track Experience',
+            'review': 'Product Reviews'
+        };
+
+        // Event listener for DOM content loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Community page DOM loaded');
             
-            // Á¢∫‰?Ê®°Ê?Ê°ÜÂ?ÂßãÁ??ãÊòØ?±Ë???            const modalElement = document.getElementById('post-modal');
+            // Ensure modal is hidden initially
+            const modalElement = document.getElementById('post-modal');
             if (modalElement) {
                 modalElement.style.removeProperty('display');
                 modalElement.classList.remove('show');
-                console.log('Ê®°Ê?Ê°ÜÂ?ÂßãÁ??ãÂ∑≤Ë®≠ÁΩÆ?∫Èö±??);
-                console.log('Ê®°Ê?Ê°ÜÂ?ÂßãÈ???', modalElement.className);
-                console.log('Ê®°Ê?Ê°ÜÂ?ÂßãÊ®£Âº?', window.getComputedStyle(modalElement).display);
-                console.log('Ê®°Ê?Ê°ÜÂ?Âßãz-index:', window.getComputedStyle(modalElement).zIndex);
+                console.log('Modal hidden initially');
+                console.log('Modal initial class:', modalElement.className);
+                console.log('Modal initial style:', window.getComputedStyle(modalElement).display);
+                console.log('Modal initial z-index:', window.getComputedStyle(modalElement).zIndex);
             }
             
-            // Ê™¢Êü•?çË??ÉÁ??ØÂê¶Â≠òÂú®
-            console.log('?∞Ê?Á´†Ê???', document.getElementById('new-post-btn'));
-            console.log('Ê®°Ê?Ê°?', document.getElementById('post-modal'));
-            console.log('?úÈ??âÈ?:', closeBtn ? closeBtn : null);
+            // Check for existing elements
+            console.log('New post button:', document.getElementById('newDiscussionBtn'));
+            console.log('Modal:', document.getElementById('post-modal'));
+            console.log('Close button:', closeBtn ? closeBtn : null);
             
             initializeFromURL();
             loadPosts();
             updateCategoryCounts();
             bindEvents();
             
-            console.log('Á§æÁæ§?ÅÈù¢?ùÂ??ñÂ???);
+            console.log('Community page fully loaded');
         });
 
-        // ÂæûURL?ùÂ??ñÈ??¢Á???        function initializeFromURL() {
+        // Initialize from URL
+        function initializeFromURL() {
             const urlParams = new URLSearchParams(window.location.search);
             currentPage = parseInt(urlParams.get('page')) || 1;
             currentCategory = urlParams.get('category') || 'all';
             currentSearch = urlParams.get('search') || '';
             
-            // ?¥Êñ∞?ÜÈ??∏‰∏≠?Ä??            categoryLinks.forEach(link => {
+            // Reset active category links
+            categoryLinks.forEach(link => {
                 link.classList.remove('active');
                 if (link.dataset.category === currentCategory) {
                     link.classList.add('active');
                 }
             });
             
-            // ?¥Êñ∞?úÂ?Ê°?            if (currentSearch) {
+            // Reset search input
+            if (currentSearch) {
                 searchInput.value = currentSearch;
             }
         }
 
-        // ËºâÂÖ•Ë≤ºÊ?
+        // Load posts
         async function loadPosts() {
             if (isLoading) return;
             
@@ -825,18 +987,18 @@
                 updatePagination(response);
                 
             } catch (error) {
-                console.error('ËºâÂÖ•Ë≤ºÊ?Â§±Ê?:', error);
-                showError('ËºâÂÖ•Ë≤ºÊ?Â§±Ê?ÔºåË?Á®çÂ??çË©¶');
+                console.error('Error loading posts:', error);
+                showError('Error loading posts, please try again later');
             } finally {
                 isLoading = false;
                 hideLoading();
             }
         }
 
-        // È°ØÁ§∫Ë≤ºÊ?
+        // Display posts
         function displayPosts(posts) {
             if (!posts || posts.length === 0) {
-                discussionsGrid.innerHTML = '<div class="no-posts">Ê≤íÊ??æÂà∞Á¨¶Â?Ê¢ù‰ª∂?ÑÊ?Á´?/div>';
+                discussionsGrid.innerHTML = '<div class="no-posts">No posts found</div>';
                 return;
             }
             
@@ -844,7 +1006,7 @@
                 <article class="discussion-item">
                     <div class="discussion-avatar">
                         <img src="${post.avatar || 'images/default-avatar.svg'}" 
-                             alt="${post.author}?ÑÈ†≠?? 
+                             alt="${post.author} Avatar" 
                              onerror="this.src='images/default-avatar.svg'">
                     </div>
                     <div class="discussion-content">
@@ -855,7 +1017,7 @@
                         <div class="discussion-meta">
                             <span class="discussion-author">by ${post.author}</span>
                             <span class="discussion-date">${formatDate(post.createdAt)}</span>
-                            <span class="discussion-category">${post.category}</span>
+                            <span class="discussion-category">${categoryMap[post.category] || post.category}</span>
                         </div>
                         
                         <p class="discussion-excerpt">${post.excerpt}</p>
@@ -875,11 +1037,11 @@
             
             discussionsGrid.innerHTML = postsHTML;
             
-            // Á∂ÅÂ?Ê®ôÁ±§ÈªûÊ?‰∫ã‰ª∂
+            // Bind tag click events
             bindTagEvents();
         }
 
-        // ?¥Êñ∞?ÜÈ?
+        // Update pagination
         function updatePagination(response) {
             if (response.totalPages <= 1) {
                 paginationContainer.innerHTML = '';
@@ -888,11 +1050,12 @@
             
             let paginationHTML = '';
             
-            // ‰∏ä‰???            if (currentPage > 1) {
-                paginationHTML += `<a href="#" data-page="${currentPage - 1}">&laquo; ‰∏ä‰???/a>`;
+            // Previous button
+            if (currentPage > 1) {
+                paginationHTML += `<a href="#" data-page="${currentPage - 1}">&laquo; Previous</a>`;
             }
             
-            // ?ÅÁ¢º
+            // Page numbers
             const startPage = Math.max(1, currentPage - 2);
             const endPage = Math.min(response.totalPages, currentPage + 2);
             
@@ -914,85 +1077,240 @@
                 paginationHTML += `<a href="#" data-page="${response.totalPages}">${response.totalPages}</a>`;
             }
             
-            // ‰∏ã‰???            if (currentPage < response.totalPages) {
-                paginationHTML += `<a href="#" data-page="${currentPage + 1}">‰∏ã‰???&raquo;</a>`;
+            // Next button
+            if (currentPage < response.totalPages) {
+                paginationHTML += `<a href="#" data-page="${currentPage + 1}">Next &raquo;</a>`;
             }
             
             paginationContainer.innerHTML = paginationHTML;
             
-            // Á∂ÅÂ??ÜÈ?ÈªûÊ?‰∫ã‰ª∂
+            // Bind pagination click events
             bindPaginationEvents();
         }
 
-        // ?¥Êñ∞?ÜÈ?Ë®àÊï∏
+        // Update category counts
         async function updateCategoryCounts() {
             try {
-                const stats = await communityAPI.getCategoryStats();
-                
+                // Add loading animation to counts
                 categoryLinks.forEach(link => {
-                    const category = link.dataset.category;
-                    if (category === 'all') {
-                        link.textContent = `?Ä?âÂ?È°?(${stats.all || 0})`;
-                    } else if (stats[category] !== undefined) {
-                        link.textContent = `${category} (${stats[category]})`;
-                    } else {
-                        link.textContent = `${category} (0)`;
+                    const countSpan = link.querySelector('.count');
+                    if (countSpan) {
+                        countSpan.innerHTML = '<i class="fas fa-spinner fa-spin" style="font-size: 0.7rem;"></i>';
                     }
                 });
+                
+                const response = await communityAPI.getPosts({ limit: 1000 }); // Áç≤ÂèñÊâÄÊúâË≤ºÊñá‰æÜÁµ±Ë®à
+                const posts = response.posts || [];
+                const total = response.total || posts.length;
+                
+                // Áµ±Ë®àÂêÑÂàÜÈ°ûÊï∏Èáè
+                const categoryCounts = { all: total };
+                
+                posts.forEach(post => {
+                    const category = post.category;
+                    if (category) {
+                        if (!categoryCounts[category]) {
+                            categoryCounts[category] = 0;
+                        }
+                        categoryCounts[category]++;
+                    }
+                });
+                
+                // Êõ¥Êñ∞ÂàÜÈ°ûÈÄ£ÁµêÁöÑÊï∏ÈáèÈ°ØÁ§∫ÔºåÊ∑ªÂä†ÂãïÁï´ÊïàÊûú
+                categoryLinks.forEach(link => {
+                    const category = link.dataset.category;
+                    const countSpan = link.querySelector('.count');
+                    
+                    if (countSpan) {
+                        const count = categoryCounts[category] || 0;
+                        
+                        // Ê∑°ÂÖ•ÂãïÁï´
+                        countSpan.style.opacity = '0';
+                        setTimeout(() => {
+                            countSpan.textContent = `(${count})`;
+                            countSpan.style.opacity = '1';
+                            
+                            // Â¶ÇÊûúÊï∏ÈáèÂ§ßÊñº 0ÔºåÊ∑ªÂä†ËÑàË°ùÊïàÊûú
+                            if (count > 0) {
+                                countSpan.style.animation = 'countPulse 0.5s ease-out';
+                                setTimeout(() => {
+                                    countSpan.style.animation = '';
+                                }, 500);
+                            }
+                        }, 200);
+                    }
+                });
+                
+                console.log('ÂàÜÈ°ûÁµ±Ë®àÊõ¥Êñ∞ÂÆåÊàê:', categoryCounts);
             } catch (error) {
-                console.error('?¥Êñ∞?ÜÈ?Ë®àÊï∏Â§±Ê?:', error);
+                console.error('Êõ¥Êñ∞ÂàÜÈ°ûÁµ±Ë®àÂ§±Êïó:', error);
+                
+                // Â¶ÇÊûúAPIÂ§±ÊïóÔºåÈ°ØÁ§∫È†êË®≠Êï∏Èáè
+                categoryLinks.forEach(link => {
+                    const countSpan = link.querySelector('.count');
+                    if (countSpan) {
+                        countSpan.textContent = '(0)';
+                        countSpan.style.opacity = '1';
+                    }
+                });
             }
         }
 
-        // Á∂ÅÂ?‰∫ã‰ª∂
+        // Bind events
         function bindEvents() {
-            console.log('?ãÂ?Á∂ÅÂ?‰∫ã‰ª∂');
+            console.log('Binding events');
             
-            // ?ÜÈ?ÈªûÊ?
+            // Category links with enhanced functionality
             categoryLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
                     
-                    // ?¥Êñ∞?∏‰∏≠?Ä??                    categoryLinks.forEach(l => l.classList.remove('active'));
-                    link.classList.add('active');
+                    // Remove active class from all links with animation
+                    categoryLinks.forEach(l => {
+                        l.classList.remove('active');
+                        // Reset any visual indicators
+                        const count = l.querySelector('.count');
+                        if (count) {
+                            count.style.transform = 'scale(1)';
+                        }
+                    });
                     
-                    // ?¥Êñ∞?ÅÈù¢?Ä??                    currentCategory = link.dataset.category;
+                    // Add active class with animation
+                    link.classList.add('active');
+                    const activeCount = link.querySelector('.count');
+                    if (activeCount) {
+                        activeCount.style.transform = 'scale(1.1)';
+                        setTimeout(() => {
+                            activeCount.style.transform = 'scale(1)';
+                        }, 200);
+                    }
+                    
+                    // Update current category and reset pagination
+                    currentCategory = link.dataset.category;
                     currentPage = 1;
                     currentSearch = '';
-                    searchInput.value = '';
+                    
+                    // Clear search input
+                    if (searchInput) {
+                        searchInput.value = '';
+                    }
+                    
+                    // Update results count display with animation
+                    const resultsCount = document.querySelector('.results-count span');
+                    if (resultsCount) {
+                        const categoryText = categoryMap[currentCategory] || currentCategory;
+                        resultsCount.style.opacity = '0.5';
+                        setTimeout(() => {
+                            resultsCount.textContent = `Showing ${categoryText}`;
+                            resultsCount.style.opacity = '1';
+                        }, 150);
+                    }
+                    
+                    // Add visual feedback
+                    link.style.transform = 'translateX(10px)';
+                    setTimeout(() => {
+                        link.style.transform = 'translateX(5px)';
+                    }, 200);
                     
                     updateURL();
                     loadPosts();
+                    
+                    console.log('ÂàÜÈ°ûÂàáÊèõËá≥:', currentCategory);
+                });
+                
+                // Add hover effects
+                link.addEventListener('mouseenter', () => {
+                    if (!link.classList.contains('active')) {
+                        link.style.transform = 'translateX(3px)';
+                    }
+                });
+                
+                link.addEventListener('mouseleave', () => {
+                    if (!link.classList.contains('active')) {
+                        link.style.transform = 'translateX(0)';
+                    }
                 });
             });
             
-            // ?úÂ?
+            // Enhanced search functionality
             if (searchBtn) {
                 searchBtn.addEventListener('click', performSearch);
             }
             if (searchInput) {
+                let searchTimeout;
+                
+                // Real-time search with debouncing
+                searchInput.addEventListener('input', () => {
+                    clearTimeout(searchTimeout);
+                    searchTimeout = setTimeout(() => {
+                        if (searchInput.value.trim().length > 2 || searchInput.value.trim().length === 0) {
+                            performSearch();
+                        }
+                    }, 500);
+                });
+                
                 searchInput.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter') {
+                        clearTimeout(searchTimeout);
                         performSearch();
                     }
                 });
+                
+                // Visual feedback for search input
+                searchInput.addEventListener('focus', () => {
+                    searchInput.parentElement.style.boxShadow = '0 0 25px rgba(0, 212, 255, 0.4)';
+                });
+                
+                searchInput.addEventListener('blur', () => {
+                    searchInput.parentElement.style.boxShadow = '';
+                });
             }
             
-            // Ê®°Ê?Ê°Ü‰?‰ª?            console.log('Ê∫ñÂ?Á∂ÅÂ?Ê®°Ê?Ê°Ü‰?‰ª?);
+            // Enhanced tag functionality
+            const tagElements = document.querySelectorAll('.tag[data-tag]');
+            tagElements.forEach(tag => {
+                tag.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const tagValue = tag.dataset.tag;
+                    
+                    // If search input exists, use it
+                    if (searchInput) {
+                        searchInput.value = tagValue;
+                        performSearch();
+                    } else {
+                        // Directly use tag if no search input
+                        currentSearch = tagValue;
+                        currentPage = 1;
+                        currentCategory = 'all';
+                        updateURL();
+                        loadPosts();
+                    }
+                });
+            });
+            
+            // Modal event listeners with enhanced animations
+            console.log('Preparing modal event listeners');
             console.log('newPostBtn:', newPostBtn);
             console.log('closeBtn:', closeBtn);
             console.log('cancelBtn:', cancelBtn);
             console.log('submitBtn:', submitBtn);
             
             if (newPostBtn) {
-                console.log('Á∂ÅÂ??∞Ê?Á´†Ê??ïÈ??ä‰?‰ª?);
+                console.log('Binding new discussion button');
                 newPostBtn.addEventListener('click', function(e) {
-                    console.log('?∞Ê?Á´†Ê??ïË¢´ÈªûÊ?');
+                    console.log('New discussion button clicked');
                     e.preventDefault();
+                    
+                    // Button animation
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 100);
+                    
                     openModal();
                 });
             } else {
-                console.error('?æ‰??∞Êñ∞?áÁ??âÈ?Ôº?);
+                console.error('New discussion button not found');
             }
             
             if (closeBtn) {
@@ -1005,136 +1323,172 @@
                 submitBtn.addEventListener('click', handleSubmitPost);
             }
             
-            // ÈªûÊ?Ê®°Ê?Ê°ÜÂ??®È???            window.addEventListener('click', (e) => {
+            // Click outside modal
+            window.addEventListener('click', (e) => {
                 if (e.target === modal) {
                     closeModal();
                 }
             });
             
-            console.log('‰∫ã‰ª∂Á∂ÅÂ?ÂÆåÊ?');
-        }
-
-        // Á∂ÅÂ?Ê®ôÁ±§‰∫ã‰ª∂
-        function bindTagEvents() {
-            const tagElements = document.querySelectorAll('.discussion-tag[data-tag], .tag[data-tag]');
-            tagElements.forEach(tag => {
-                tag.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const tagValue = tag.dataset.tag;
-                    
-                    // Â¶ÇÊ??âÊ?Â∞ãËº∏?•Ê?Ôºå‰Ωø?®Â?
-                    if (searchInput) {
-                        searchInput.value = tagValue;
-                        performSearch();
-                    } else {
-                        // ?¶Â??¥Êé•?úÂ?Ê®ôÁ±§
-                        currentSearch = tagValue;
-                        currentPage = 1;
-                        currentCategory = 'all';
-                        updateURL();
-                        loadPosts();
-                    }
-                });
+            // Escape key to close modal
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal && modal.classList.contains('show')) {
+                    closeModal();
+                }
             });
+            
+            console.log('Event listeners bound');
         }
 
-        // Á∂ÅÂ??ÜÈ?‰∫ã‰ª∂
-        function bindPaginationEvents() {
-            const pageLinks = paginationContainer.querySelectorAll('a[data-page]');
-            pageLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    currentPage = parseInt(link.dataset.page);
-                    updateURL();
-                    loadPosts();
-                    window.scrollTo(0, 0);
-                });
-            });
-        }
-
-        // ?∑Ë??úÂ?
+        // Enhanced search function
         function performSearch() {
-            currentSearch = searchInput.value.trim();
+            const searchTerm = searchInput.value.trim();
+            
+            // Visual feedback for search
+            const searchButton = document.querySelector('.search-btn');
+            if (searchButton) {
+                const originalText = searchButton.innerHTML;
+                searchButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Searching...';
+                searchButton.disabled = true;
+                
+                setTimeout(() => {
+                    searchButton.innerHTML = originalText;
+                    searchButton.disabled = false;
+                }, 1000);
+            }
+            
+            currentSearch = searchTerm;
             currentPage = 1;
             currentCategory = 'all';
             
-            // ?¥Êñ∞?ÜÈ??∏‰∏≠?Ä??            categoryLinks.forEach(link => {
+            // Reset active links
+            categoryLinks.forEach(link => {
                 link.classList.remove('active');
                 if (link.dataset.category === 'all') {
                     link.classList.add('active');
                 }
             });
             
+            // Update results display
+            const resultsCount = document.querySelector('.results-count span');
+            if (resultsCount) {
+                if (searchTerm) {
+                    resultsCount.textContent = `Searching for "${searchTerm}"`;
+                } else {
+                    resultsCount.textContent = 'Showing All Discussions';
+                }
+            }
+            
             updateURL();
             loadPosts();
         }
 
-        // ?ãÂ?Ê®°Ê?Ê°?        function openModal() {
-            console.log('openModal ?ΩÊï∏Ë¢´Ë™ø??);
+        // Enhanced modal functions
+        function openModal() {
+            console.log('openModal function called');
             
-            // Ê™¢Êü•?ªÂÖ•?Ä??            const token = localStorage.getItem('token');
-            console.log('?ªÂÖ•?Ä?ãÊ™¢??- token:', token ? 'Â≠òÂú®' : '‰∏çÂ???);
+            // Check for token
+            console.log('Token check:', localStorage.getItem('token'));
             
-            if (!token) {
-                console.log('?®Êà∂?™Áôª?•Ô?È°ØÁ§∫?êÁ§∫');
-                alert('Ë´ãÂ??ªÂÖ•?çËÉΩ?ºË°®?áÁ?');
-                window.location.href = 'login.html';
+            if (!localStorage.getItem('token')) {
+                console.log('User not logged in, showing alert');
+                
+                // Enhanced alert styling
+                const alertDiv = document.createElement('div');
+                alertDiv.className = 'custom-alert';
+                alertDiv.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
+                    color: white;
+                    padding: 2rem;
+                    border-radius: 15px;
+                    border: 2px solid var(--primary-color);
+                    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+                    z-index: 10000;
+                    text-align: center;
+                    max-width: 400px;
+                    animation: modalFadeIn 0.3s ease-out;
+                `;
+                alertDiv.innerHTML = `
+                    <h3 style="margin-bottom: 1rem; color: var(--primary-color);">Login Required</h3>
+                    <p style="margin-bottom: 2rem;">Please log in to create a new discussion</p>
+                    <div style="display: flex; gap: 1rem; justify-content: center;">
+                        <button onclick="window.location.href='login.html'" class="btn btn-primary">Login</button>
+                        <button onclick="this.parentElement.parentElement.parentElement.removeChild(this.parentElement.parentElement)" class="btn btn-outline">Cancel</button>
+                    </div>
+                `;
+                document.body.appendChild(alertDiv);
+                
                 return;
             }
             
             const modalElement = document.getElementById('post-modal');
             if (modalElement) {
-                console.log('È°ØÁ§∫Ê®°Ê?Ê°?);
-                // ÁßªÈô§?Ä?âÂÖß?ØÊ®£ÂºèÔ?ÂÆåÂÖ®‰æùË≥¥CSSÈ°ûÂà•
+                console.log('Modal displayed');
+                // Remove all styles and rely on CSS classes
                 modalElement.style.removeProperty('display');
                 modalElement.classList.add('show');
-                console.log('Ê®°Ê?Ê°ÜÈ??•Â∑≤Ê∑ªÂ?:', modalElement.className);
-                console.log('Ê®°Ê?Ê°ÜcomputedÊ®??:', window.getComputedStyle(modalElement).display);
+                
+                // Add entrance animation
+                modalElement.style.animation = 'modalFadeIn 0.3s ease-out';
+                
+                console.log('Modal classes:', modalElement.className);
+                console.log('Modal computed style:', window.getComputedStyle(modalElement).display);
                 initTagInput();
             } else {
-                console.error('Ê®°Ê?Ê°ÜÂ?Á¥†‰?Â≠òÂú®Ôº?);
+                console.error('Modal element not found');
             }
         }
 
-        // ?úÈ?Ê®°Ê?Ê°?        function closeModal() {
+        // Enhanced close modal function
+        function closeModal() {
             const modalElement = document.getElementById('post-modal');
             if (modalElement) {
-                modalElement.classList.remove('show');
-                console.log('Ê®°Ê?Ê°ÜÂ∑≤?±Ë?');
-                clearForm();
+                // Add exit animation
+                modalElement.style.animation = 'modalFadeOut 0.3s ease-out';
+                
+                setTimeout(() => {
+                    modalElement.classList.remove('show');
+                    modalElement.style.animation = '';
+                    console.log('Modal closed');
+                    clearForm();
+                }, 300);
             }
         }
 
-        // Ê∏ÖÁ©∫Ë°®ÂñÆ
+        // Clear form
         function clearForm() {
             document.getElementById('post-title').value = '';
             document.getElementById('post-category').value = '';
             document.getElementById('post-content').value = '';
             document.getElementById('tag-input').value = '';
             
-            // Ê∏ÖÁ©∫Ê®ôÁ±§
+            // Clear tags
             const tagItems = document.querySelectorAll('.tag-item');
             tagItems.forEach(item => item.remove());
         }
 
-        // ?ïÁ??ºË°®?áÁ?
+        // Handle post submission
         async function handleSubmitPost() {
             const title = document.getElementById('post-title').value.trim();
-                const category = document.getElementById('post-category').value;
+            const category = document.getElementById('post-category').value;
             const content = document.getElementById('post-content').value.trim();
-                
-                if (!title || !category || !content) {
-                    alert('Ë´ãÂ°´ÂØ´Ê??âÂ?Â°´Ê?‰Ω?);
-                    return;
-                }
-                
-                // ?∂È?Ê®ôÁ±§
-                const tagItems = document.querySelectorAll('.tag-item');
-                const tags = Array.from(tagItems).map(item => item.dataset.tagValue);
-                
+            
+            if (!title || !category || !content) {
+                alert('Please fill out all fields');
+                return;
+            }
+            
+            // Extract tags
+            const tagItems = document.querySelectorAll('.tag-item');
+            const tags = Array.from(tagItems).map(item => item.dataset.tagValue);
+            
             try {
                 submitBtn.disabled = true;
-                submitBtn.textContent = '?ºË°®‰∏?..';
+                submitBtn.textContent = 'Submitting...';
                 
                 await communityAPI.createPost({
                     title,
@@ -1143,24 +1497,24 @@
                     tags
                 });
                 
-                alert('?áÁ??ºË°®?êÂ?Ôº?);
+                alert('Discussion posted successfully');
                 closeModal();
                 
-                // ?çÊñ∞ËºâÂÖ•Ë≤ºÊ??óË°®
+                // Refresh discussion list
                 currentPage = 1;
                 loadPosts();
                 updateCategoryCounts();
                 
             } catch (error) {
-                console.error('?ºË°®?áÁ?Â§±Ê?:', error);
-                alert('?ºË°®?áÁ?Â§±Ê?Ôº? + error.message);
+                console.error('Error submitting discussion:', error);
+                alert('Error submitting discussion: ' + error.message);
             } finally {
                 submitBtn.disabled = false;
-                submitBtn.textContent = '?ºË°®?áÁ?';
+                submitBtn.textContent = 'Submit';
             }
         }
         
-        // Ê®ôÁ±§Ëº∏ÂÖ•?üËÉΩ
+        // Tag input functionality
         function initTagInput() {
             const tagInput = document.getElementById('tag-input');
             const tagContainer = document.getElementById('tag-container');
@@ -1172,7 +1526,8 @@
                     const tagValue = tagInput.value.trim();
                     if (!tagValue) return;
                     
-                    // Ê™¢Êü•?ØÂê¶Â∑≤Â??®Áõ∏?åÊ?Á±?                    const existingTags = Array.from(tagContainer.querySelectorAll('.tag-item'))
+                    // Check for existing tags
+                    const existingTags = Array.from(tagContainer.querySelectorAll('.tag-item'))
                         .map(tag => tag.dataset.tagValue);
                     
                     if (existingTags.includes(tagValue)) {
@@ -1180,12 +1535,13 @@
                         return;
                     }
                     
-                    // ?êÂà∂?ÄÂ§??ãÊ?Á±?                    if (existingTags.length >= 5) {
-                        alert('?ÄÂ§öÂè™?ΩÊ∑ª???ãÊ?Á±?);
+                    // Limit tag count
+                    if (existingTags.length >= 5) {
+                        alert('Only 5 tags allowed');
                         return;
                     }
                     
-                    // ?µÂª∫Ê®ôÁ±§?ÉÁ?
+                    // Create tag item
                     const tagItem = document.createElement('div');
                     tagItem.className = 'tag-item';
                     tagItem.dataset.tagValue = tagValue;
@@ -1194,20 +1550,20 @@
                         <span class="tag-remove">&times;</span>
                     `;
                     
-                    // ÈªûÊ??™Èô§Ê®ôÁ±§
+                    // Remove tag
                     const removeBtn = tagItem.querySelector('.tag-remove');
                     removeBtn.addEventListener('click', () => {
                         tagItem.remove();
                     });
                     
-                    // ?íÂÖ•Ê®ôÁ±§?ÉÁ?
+                    // Insert tag
                     tagContainer.insertBefore(tagItem, tagInput);
                     tagInput.value = '';
                 }
             });
         }
         
-        // ?¥Êñ∞URL
+        // Update URL
         function updateURL() {
             const params = new URLSearchParams();
             
@@ -1227,142 +1583,202 @@
             window.history.pushState(null, '', newURL);
         }
 
-        // È°ØÁ§∫ËºâÂÖ•?Ä??        function showLoading() {
+        // Show loading indicator
+        function showLoading() {
             loadingIndicator.style.display = 'block';
             discussionsGrid.style.opacity = '0.5';
         }
 
-        // ?±Ë?ËºâÂÖ•?Ä??        function hideLoading() {
+        // Hide loading indicator
+        function hideLoading() {
             loadingIndicator.style.display = 'none';
             discussionsGrid.style.opacity = '1';
         }
 
-        // È°ØÁ§∫?ØË™§Ë®äÊÅØ
+        // Show error message
         function showError(message) {
             discussionsGrid.innerHTML = `<div class="error-message">${message}</div>`;
         }
 
-        // ?ºÂ??ñÊó•??        function formatDate(dateString) {
+        // Format date
+        function formatDate(dateString) {
             const date = new Date(dateString);
             const now = new Date();
             const diffTime = Math.abs(now - date);
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             
             if (diffDays === 1) {
-                return '1Â§©Â?';
+                return '1 day ago';
             } else if (diffDays < 7) {
-                return `${diffDays}Â§©Â?`;
+                return `${diffDays} days ago`;
             } else if (diffDays < 30) {
                 const weeks = Math.floor(diffDays / 7);
-                return `${weeks}?±Â?`;
+                return `${weeks} weeks ago`;
             } else {
-                return date.toLocaleDateString('zh-TW');
+                return date.toLocaleDateString('en-US');
             }
         }
 
-        // Ê∏¨Ë©¶?ΩÊï∏ - ?¥Êé•Ê∏¨Ë©¶?âÈ??üËÉΩ
+        // Test button - direct test function
         function testButton() {
-            console.log('=== ?âÈ?Ê∏¨Ë©¶?ãÂ? ===');
+            console.log('=== Test button ===');
             
             setTimeout(() => {
-                const btn = document.getElementById('new-post-btn');
-                console.log('?âÈ??ÉÁ?:', btn);
-                console.log('?âÈ?È°ûÂà•:', btn ? btn.className : '?âÈ?‰∏çÂ???);
-                console.log('?âÈ??áÂ?:', btn ? btn.textContent : '?âÈ?‰∏çÂ???);
-                console.log('?âÈ??∂Â?Á¥?', btn ? btn.parentElement : '?âÈ?‰∏çÂ???);
+                const btn = document.getElementById('newDiscussionBtn');
+                console.log('Button:', btn);
+                console.log('Button class:', btn ? btn.className : 'Not found');
+                console.log('Button text:', btn ? btn.textContent : 'Not found');
+                console.log('Button parent:', btn ? btn.parentElement : 'Not found');
                 
                 if (btn) {
-                    console.log('?óË©¶?¥Êé•ÈªûÊ??âÈ?...');
+                    console.log('Testing button click...');
                     btn.click();
                 }
                 
-                // Ê™¢Êü•Ê®°Ê?Ê°?                const modal = document.getElementById('post-modal');
-                console.log('Ê®°Ê?Ê°ÜÂ?Á¥?', modal);
-                console.log('Ê®°Ê?Ê°ÜÊ®£Âº?', modal ? window.getComputedStyle(modal).display : 'Ê®°Ê?Ê°Ü‰?Â≠òÂú®');
+                // Check modal
+                console.log('Modal:', document.getElementById('post-modal'));
+                console.log('Modal style:', document.getElementById('post-modal') ? window.getComputedStyle(document.getElementById('post-modal')).display : 'Not found');
                 
-                console.log('=== ?âÈ?Ê∏¨Ë©¶ÁµêÊ? ===');
+                console.log('=== Test result ===');
             }, 2000);
         }
         
-        // ?®È??¢Ë??•Â??∑Ë?Ê∏¨Ë©¶
+        // Test button - setTimeout test
         setTimeout(testButton, 3000);
         
-        // ?ôÁî®?πÊ?ÔºöÁõ¥?•Âú®DOMËºâÂÖ•ÂÆåÊ?ÂæåÁ??≥Á?ÂÆöÊ??ï‰?‰ª?        document.addEventListener('DOMContentLoaded', function() {
-            // Á≠âÂ?‰∏ÄÂ∞èÊÆµ?ÇÈ?Á¢∫‰?DOMÂÆåÂÖ®Ê∫ñÂ?Â•?            setTimeout(() => {
-                const backupBtn = document.getElementById('new-post-btn');
-                console.log('?ôÁî®?πÊ?ÔºöÊü•?æÊ???, backupBtn);
+        // Use case: directly on DOM load after completion
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wait a short while to ensure DOM is fully ready
+            setTimeout(() => {
+                const backupBtn = document.getElementById('newDiscussionBtn');
+                console.log('Use case:', backupBtn);
                 
                 if (backupBtn) {
-                    // ÁßªÈô§?ØËÉΩÂ≠òÂú®?ÑË?‰∫ã‰ª∂??ÅΩ??                    const newBtn = backupBtn.cloneNode(true);
+                    // Remove existing event listeners
+                    const newBtn = backupBtn.cloneNode(true);
                     backupBtn.parentNode.replaceChild(newBtn, backupBtn);
                     
-                    // ?¥Êé•Á∂ÅÂ?ÈªûÊ?‰∫ã‰ª∂
+                    // Bind new button click event
                     newBtn.addEventListener('click', function(e) {
                         e.preventDefault();
                         e.stopPropagation();
-                        console.log('?ôÁî®?πÊ?ÔºöÊ??ïË¢´ÈªûÊ?Ôº?);
+                        console.log('Use case: button clicked');
                         
-                        // Ê™¢Êü•?ªÂÖ•?Ä??                        const token = localStorage.getItem('token');
+                        // Check for token
+                        const token = localStorage.getItem('token');
                         if (!token) {
-                            alert('Ë´ãÂ??ªÂÖ•?çËÉΩ?ºË°®?áÁ?');
+                            alert('Please log in to create a new discussion');
                             window.location.href = 'login.html';
                             return;
                         }
                         
-                        // ?¥Êé•È°ØÁ§∫Ê®°Ê?Ê°?                        const modal = document.getElementById('post-modal');
+                        // Directly show modal
+                        const modal = document.getElementById('post-modal');
                         if (modal) {
                             modal.style.removeProperty('display');
                             modal.classList.add('show');
-                            console.log('?ôÁî®?πÊ?ÔºöÊ®°?ãÊ?Â∑≤È°ØÁ§?);
-                            console.log('?ôÁî®?πÊ?ÔºöÊ®°?ãÊ?È°ûÂà•:', modal.className);
-                            console.log('?ôÁî®?πÊ?ÔºöÊ®°?ãÊ?computedÊ®??:', window.getComputedStyle(modal).display);
+                            console.log('Use case: modal displayed');
+                            console.log('Use case: modal classes:', modal.className);
+                            console.log('Use case: modal computed style:', window.getComputedStyle(modal).display);
                         } else {
-                            console.error('?ôÁî®?πÊ?ÔºöÊâæ‰∏çÂà∞Ê®°Ê?Ê°?);
+                            console.error('Use case: modal not found');
                         }
                     });
                     
-                    console.log('?ôÁî®?πÊ?Ôºö‰?‰ª∂Á?ÂÆöÂ???);
+                    console.log('Use case: condition check done');
                 } else {
-                    console.error('?ôÁî®?πÊ?ÔºöÊâæ‰∏çÂà∞?âÈ?');
+                    console.error('Use case: button not found');
                 }
             }, 500);
         });
         
-        // Ê∏¨Ë©¶?®Ê®°?¨Êï∏??- Á¢∫‰??Ä?âË≤º?áÈÉΩ?âÈ?Ë®≠È†≠??        function loadTestPosts() {
+        // Add CSS animations for enhanced user experience
+        const animationStyles = document.createElement('style');
+        animationStyles.textContent = `
+            @keyframes modalFadeIn {
+                from {
+                    opacity: 0;
+                    transform: translate(-50%, -60%);
+                }
+                to {
+                    opacity: 1;
+                    transform: translate(-50%, -50%);
+                }
+            }
+            
+            @keyframes modalFadeOut {
+                from {
+                    opacity: 1;
+                    transform: translate(-50%, -50%);
+                }
+                to {
+                    opacity: 0;
+                    transform: translate(-50%, -60%);
+                }
+            }
+            
+            @keyframes countPulse {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.2); }
+            }
+            
+            .custom-alert {
+                animation: modalFadeIn 0.3s ease-out !important;
+            }
+            
+            /* Enhanced transition effects */
+            .category-list a {
+                transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) !important;
+            }
+            
+            .tag {
+                transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) !important;
+            }
+            
+            .search-bar {
+                transition: all 0.3s ease !important;
+            }
+        `;
+        document.head.appendChild(animationStyles);
+        
+        // Test modal number - ensure all posts have correct header
+        function loadTestPosts() {
             const testPosts = [
                 {
                     _id: 'test1',
-                    title: '?ëÁ?Á¨¨‰?Ê¨°ÊîπË£ùÁ?È©óÂ?‰∫?,
-                    author: '?πË??∞Ê?',
-                    avatar: '', // Á©∫È†≠?èÊ∏¨Ë©¶È?Ë®≠È†≠??                    createdAt: new Date().toISOString(),
-                    category: '?íÊ∞£Á≥ªÁµ±',
-                    excerpt: '?ÄËøëÂ??ê‰??ëÁ?Á¨¨‰?Ê¨°Êë©?òË??πË?ÔºåÊÉ≥Ë∑üÂ§ßÂÆ∂Â?‰∫´‰?‰∏ãÁ?È©?..',
-                    tags: ['?∞Ê?', '?íÊ∞£ÁÆ?, 'Á∂ìÈ??Ü‰∫´'],
+                    title: 'First Modification Experience',
+                    author: 'User1',
+                    avatar: '', // Empty avatar for testing
+                    createdAt: new Date().toISOString(),
+                    category: 'Performance Mods',
+                    excerpt: 'Just got my first motorcycle and want to share my experience...',
+                    tags: ['Performance', 'First Mod', 'Experience'],
                     likes: 15,
                     views: 234,
                     commentCount: 8
                 },
                 {
                     _id: 'test2',
-                    title: '?∏Ê??øÈ??®Á?ÂπæÂÄãË?Èª?,
-                    author: 'ËªäÂ?Â§ßÁ?',
-                    avatar: null, // null?≠Â?Ê∏¨Ë©¶?êË®≠?≠Â?
+                    title: 'How to Choose the Right Motorcycle',
+                    author: 'User2',
+                    avatar: null, // Null avatar for testing
                     createdAt: new Date(Date.now() - 24*60*60*1000).toISOString(),
-                    category: '?∏Â?Á≥ªÁµ±',
-                    excerpt: '?øÈ??®ÊòØÂΩ±ÈüøÈ®é‰??íÈÅ©Â∫¶Â??çÊéß?ßÁ??çË??∂‰ª∂ÔºåÈÅ∏?áÊ??ÄË¶ÅÊ≥®??..',
-                    tags: ['?øÈ???, '?∏Ë≥º?áÂ?', '?∏Â?'],
+                    category: 'Suspension & Handling',
+                    excerpt: 'How important is the suspension system for a motorcycle? Should I prioritize it over other aspects?',
+                    tags: ['Suspension', 'Motorcycle', 'Choosing'],
                     likes: 42,
                     views: 567,
                     commentCount: 23
                 },
                 {
                     _id: 'test3',
-                    title: 'LEDÂ§ßÁ??πË?ÂøÉÂ?',
-                    author: 'Â§úÈ?‰ø?,
-                    // ÂÆåÂÖ®‰∏çË®≠ÁΩÆavatarÂ±¨ÊÄ?                    createdAt: new Date(Date.now() - 2*24*60*60*1000).toISOString(),
-                    category: '?ªÂ?Á≥ªÁµ±',
-                    excerpt: 'LEDÂ§ßÁ?‰∏çÂ??ÅÈõªÔºå‰∫ÆÂ∫¶‰?ÊØîÂÇ≥Áµ±Á?Ê≥°Â•ΩÂæàÂ?Ôºå‰?Â§©‰??Ü‰∫´?πË??éÁ?...',
-                    tags: ['LED', 'Â§ßÁ?', '?ßÊ?'],
+                    title: 'LED Headlight Upgrade',
+                    author: 'User3',
+                    // Completely not setting avatar attribute
+                    createdAt: new Date(Date.now() - 2*24*60*60*1000).toISOString(),
+                    category: 'Electronics & Tech',
+                    excerpt: 'LED headlights are not powered by electricity, but they are brighter and more efficient than traditional bulbs.',
+                    tags: ['LED', 'Headlight', 'Upgrade'],
                     likes: 28,
                     views: 189,
                     commentCount: 12
@@ -1370,17 +1786,58 @@
             ];
             
             displayPosts(testPosts);
-            document.getElementById('discussion-count').textContent = `?æÂà∞ ${testPosts.length} ÁØáË?Ë´ñÊ?Á´†`;
+            const countElement = document.querySelector('.results-count span');
+            if (countElement) {
+                countElement.textContent = `Found ${testPosts.length} discussion posts`;
+            }
         }
         
-        // Â¶ÇÊ??°Ê?ËºâÂÖ•?üÂØ¶?∏Ê?ÔºåÂ?ËºâÂÖ•Ê∏¨Ë©¶?∏Ê?
+        // If loading is not done, load test posts
         setTimeout(() => {
             const gridContent = document.getElementById('discussions-grid').innerHTML;
-            if (!gridContent || gridContent.includes('ËºâÂÖ•‰∏?) || gridContent.includes('Ê≤íÊ??æÂà∞')) {
-                console.log('ËºâÂÖ•Ê∏¨Ë©¶?∏Ê?‰ª•Á¢∫‰øùÈ?Ë®≠È†≠?èÊ≠£Â∏∏È°ØÁ§?);
+            if (!gridContent || gridContent.includes('Loading...') || gridContent.includes('No posts found')) {
+                console.log('Test posts loaded to ensure correct header display');
                 loadTestPosts();
             }
         }, 5000);
+
+        // Bind tag click events
+        function bindTagEvents() {
+            const tagElements = document.querySelectorAll('.discussion-tag[data-tag], .tag[data-tag]');
+            tagElements.forEach(tag => {
+                tag.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const tagValue = tag.dataset.tag;
+                    
+                    // If search input exists, use it
+                    if (searchInput) {
+                        searchInput.value = tagValue;
+                        performSearch();
+                    } else {
+                        // Directly use tag if no search input
+                        currentSearch = tagValue;
+                        currentPage = 1;
+                        currentCategory = 'all';
+                        updateURL();
+                        loadPosts();
+                    }
+                });
+            });
+        }
+
+        // Bind pagination click events
+        function bindPaginationEvents() {
+            const pageLinks = paginationContainer.querySelectorAll('a[data-page]');
+            pageLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    currentPage = parseInt(link.dataset.page);
+                    updateURL();
+                    loadPosts();
+                    window.scrollTo(0, 0);
+                });
+            });
+        }
     </script>
 </body>
 </html>

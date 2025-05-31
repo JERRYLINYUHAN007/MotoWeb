@@ -1,228 +1,195 @@
 /**
- * 圖片輪播功能
- * 提供響應式、觸控支援的圖片輪播功能
+ * Image Slider Functionality
+ * Provides responsive, touch-supported image slider functionality
  */
-class ImageSlider {
-    constructor(sliderSelector) {
-        this.slider = document.querySelector(sliderSelector);
-        if (!this.slider) return;
+
+document.addEventListener('DOMContentLoaded', function() {
+    initializeSliders();
+});
+
+// Initialize all sliders on the page
+function initializeSliders() {
+    const sliders = document.querySelectorAll('.slider');
+    sliders.forEach(slider => {
+        new Slider(slider);
+    });
+}
+
+// Slider class
+class Slider {
+    constructor(element) {
+        this.element = element;
+        this.slides = element.querySelectorAll('.slide');
+        this.currentIndex = 0;
+        this.isAnimating = false;
         
-        this.slides = this.slider.querySelectorAll('.slide');
-        this.currentSlide = 0;
-        this.autoplayInterval = null;
-        this.isAutoPlaying = true;
-        this.touchStartX = 0;
-        this.touchEndX = 0;
-        
+        // Set initial state
         this.init();
+        this.bindEvents();
     }
     
     init() {
-        // 創建導航點
-        this.createNavDots();
+        if (this.slides.length === 0) return;
         
-        // 創建上一張/下一張按鈕
-        this.createNavButtons();
+        // Create navigation dots
+        this.createDots();
         
-        // 設定初始狀態
-        this.goToSlide(0);
+        // Set first slide as active
+        this.updateSlide();
         
-        // 開始自動播放
-        this.startAutoplay();
-        
-        // 滑鼠懸停時暫停輪播
-        this.slider.addEventListener('mouseenter', () => this.pauseAutoplay());
-        this.slider.addEventListener('mouseleave', () => this.startAutoplay());
-        
-        // 添加觸控支援
-        this.initTouchSupport();
-        
-        // 添加鍵盤支援
-        this.initKeyboardSupport();
-        
-        // 添加 ResizeObserver 以處理視窗大小變化
-        this.initResizeObserver();
+        // Start autoplay if enabled
+        if (this.element.dataset.autoplay !== 'false') {
+            this.startAutoplay();
+        }
     }
     
-    createNavDots() {
-        const dotsContainer = document.createElement('div');
-        dotsContainer.className = 'slider-dots';
+    bindEvents() {
+        // Previous/Next buttons
+        const prevBtn = this.element.querySelector('.prev');
+        const nextBtn = this.element.querySelector('.next');
         
-        for (let i = 0; i < this.slides.length; i++) {
-            const dot = document.createElement('button');
-            dot.className = 'slider-dot';
-            dot.setAttribute('aria-label', `前往第 ${i + 1} 張圖片`);
-            dot.addEventListener('click', () => {
-                this.pauseAutoplay();
-                this.goToSlide(i);
-                this.startAutoplay();
-            });
-            dotsContainer.appendChild(dot);
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => this.prevSlide());
         }
         
-        this.slider.appendChild(dotsContainer);
-        this.dots = dotsContainer.querySelectorAll('.slider-dot');
-    }
-    
-    createNavButtons() {
-        const prevButton = document.createElement('button');
-        prevButton.className = 'slider-nav prev';
-        prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
-        prevButton.setAttribute('aria-label', '上一張圖片');
-        prevButton.addEventListener('click', () => {
-            this.pauseAutoplay();
-            this.prevSlide();
-            this.startAutoplay();
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => this.nextSlide());
+        }
+        
+        // Keyboard navigation
+        this.element.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') this.prevSlide();
+            if (e.key === 'ArrowRight') this.nextSlide();
         });
         
-        const nextButton = document.createElement('button');
-        nextButton.className = 'slider-nav next';
-        nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
-        nextButton.setAttribute('aria-label', '下一張圖片');
-        nextButton.addEventListener('click', () => {
-            this.pauseAutoplay();
-            this.nextSlide();
-            this.startAutoplay();
-        });
+        // Touch support
+        this.addTouchSupport();
         
-        this.slider.appendChild(prevButton);
-        this.slider.appendChild(nextButton);
+        // Pause autoplay on hover
+        this.element.addEventListener('mouseenter', () => this.pauseAutoplay());
+        this.element.addEventListener('mouseleave', () => this.resumeAutoplay());
     }
     
-    goToSlide(index) {
-        // 更新當前幻燈片
-        this.slides.forEach((slide, i) => {
-            slide.classList.toggle('active', i === index);
-            slide.setAttribute('aria-hidden', i !== index);
+    addTouchSupport() {
+        let startX = 0;
+        let endX = 0;
+        
+        this.element.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+        });
+        
+        this.element.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+        });
+        
+        this.element.addEventListener('touchend', (e) => {
+            endX = e.changedTouches[0].clientX;
+            const difference = startX - endX;
             
-            // 設定過渡方向
-            if (i === index) {
-                slide.style.transform = 'translateX(0)';
-                slide.style.opacity = '1';
+            if (Math.abs(difference) > 50) {
+                if (difference > 0) {
+                    this.nextSlide();
+                } else {
+                    this.prevSlide();
+                }
+            }
+        });
+    }
+    
+    // Update current slide
+    updateSlide() {
+        if (this.isAnimating) return;
+        
+        this.isAnimating = true;
+        
+        // Set transition direction
+        this.slides.forEach((slide, index) => {
+            slide.classList.remove('active', 'prev', 'next');
+            
+            if (index === this.currentIndex) {
+                slide.classList.add('active');
+            } else if (index < this.currentIndex) {
+                slide.classList.add('prev');
             } else {
-                const direction = i < index ? -100 : 100;
-                slide.style.transform = `translateX(${direction}%)`;
-                slide.style.opacity = '0';
+                slide.classList.add('next');
             }
         });
         
-        // 更新導航點
-        this.dots.forEach((dot, i) => {
-            dot.classList.toggle('active', i === index);
-            dot.setAttribute('aria-current', i === index ? 'true' : 'false');
+        // Update navigation dots
+        this.updateDots();
+        
+        // Reset animation flag
+        setTimeout(() => {
+            this.isAnimating = false;
+        }, 500);
+    }
+    
+    createDots() {
+        const dotsContainer = this.element.querySelector('.slider-dots');
+        if (!dotsContainer || this.slides.length <= 1) return;
+        
+        dotsContainer.innerHTML = '';
+        
+        this.slides.forEach((_, index) => {
+            const dot = document.createElement('button');
+            dot.className = 'dot';
+            dot.setAttribute('aria-label', `Go to slide ${index + 1}`);
+            dot.addEventListener('click', () => this.goToSlide(index));
+            dotsContainer.appendChild(dot);
         });
-        
-        this.currentSlide = index;
-        
-        // 發送自定義事件
-        this.slider.dispatchEvent(new CustomEvent('slideChange', {
-            detail: { currentSlide: index }
-        }));
+    }
+    
+    updateDots() {
+        const dots = this.element.querySelectorAll('.dot');
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === this.currentIndex);
+        });
     }
     
     nextSlide() {
-        const newIndex = (this.currentSlide + 1) % this.slides.length;
-        this.goToSlide(newIndex);
+        if (this.isAnimating) return;
+        this.currentIndex = (this.currentIndex + 1) % this.slides.length;
+        this.updateSlide();
     }
     
     prevSlide() {
-        const newIndex = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
-        this.goToSlide(newIndex);
+        if (this.isAnimating) return;
+        this.currentIndex = (this.currentIndex - 1 + this.slides.length) % this.slides.length;
+        this.updateSlide();
+    }
+    
+    goToSlide(index) {
+        if (this.isAnimating || index === this.currentIndex) return;
+        this.currentIndex = index;
+        this.updateSlide();
     }
     
     startAutoplay() {
-        if (!this.isAutoPlaying) {
-            this.isAutoPlaying = true;
-            this.autoplayInterval = setInterval(() => this.nextSlide(), 5000);
-        }
+        const interval = parseInt(this.element.dataset.interval) || 5000;
+        this.autoplayTimer = setInterval(() => {
+            this.nextSlide();
+        }, interval);
     }
     
     pauseAutoplay() {
-        if (this.isAutoPlaying) {
-            this.isAutoPlaying = false;
-            clearInterval(this.autoplayInterval);
+        if (this.autoplayTimer) {
+            clearInterval(this.autoplayTimer);
         }
     }
     
-    initTouchSupport() {
-        let touchStartX = 0;
-        let touchEndX = 0;
-        
-        this.slider.addEventListener('touchstart', (e) => {
-            touchStartX = e.touches[0].clientX;
-            this.pauseAutoplay();
-        }, { passive: true });
-        
-        this.slider.addEventListener('touchmove', (e) => {
-            touchEndX = e.touches[0].clientX;
-            
-            // 計算滑動距離並應用即時效果
-            const diff = touchEndX - touchStartX;
-            const currentSlide = this.slides[this.currentSlide];
-            const threshold = this.slider.offsetWidth * 0.3;
-            
-            if (Math.abs(diff) < threshold) {
-                currentSlide.style.transform = `translateX(${diff}px)`;
-            }
-        }, { passive: true });
-        
-        this.slider.addEventListener('touchend', () => {
-            const diff = touchEndX - touchStartX;
-            const threshold = this.slider.offsetWidth * 0.3;
-            
-            if (diff > threshold) {
-                this.prevSlide();
-            } else if (diff < -threshold) {
-                this.nextSlide();
-            } else {
-                // 回到原位
-                this.goToSlide(this.currentSlide);
-            }
-            
+    resumeAutoplay() {
+        if (this.element.dataset.autoplay !== 'false') {
             this.startAutoplay();
-        });
-    }
-    
-    initKeyboardSupport() {
-        this.slider.setAttribute('tabindex', '0');
-        this.slider.addEventListener('keydown', (e) => {
-            switch (e.key) {
-                case 'ArrowLeft':
-                    e.preventDefault();
-                    this.pauseAutoplay();
-                    this.prevSlide();
-                    this.startAutoplay();
-                    break;
-                case 'ArrowRight':
-                    e.preventDefault();
-                    this.pauseAutoplay();
-                    this.nextSlide();
-                    this.startAutoplay();
-                    break;
-            }
-        });
-    }
-    
-    initResizeObserver() {
-        if ('ResizeObserver' in window) {
-            const observer = new ResizeObserver(entries => {
-                for (let entry of entries) {
-                    // 重新計算並應用尺寸
-                    this.slides.forEach(slide => {
-                        slide.style.width = `${entry.contentRect.width}px`;
-                    });
-                }
-            });
-            
-            observer.observe(this.slider);
         }
+    }
+    
+    destroy() {
+        this.pauseAutoplay();
+        // Remove event listeners and clean up
     }
 }
 
-// 初始化頁面上的所有滑塊
-document.addEventListener('DOMContentLoaded', function() {
-    const sliders = document.querySelectorAll('.image-slider');
-    sliders.forEach(slider => {
-        new ImageSlider(slider);
-    });
-}); 
+// Export for use in other modules
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = Slider;
+} 

@@ -1,8 +1,8 @@
-// 插入導航欄（僅在沒有導航欄的頁面使用）
+// Insert navigation bar (only for pages without a navbar)
 function insertNavbar() {
-    // 檢查頁面是否已有導航欄，如果有則不插入
+    // Check if page already has a navbar, if so, skip insertion
     if (document.querySelector('.navbar')) {
-        console.log('頁面已有導航欄，跳過動態插入');
+        console.log('Page already has a navbar, skipping dynamic insertion');
         return;
     }
     
@@ -12,7 +12,7 @@ function insertNavbar() {
     navbar.className = 'navbar';
     
     if (isLoggedIn) {
-        // 登入後的導航欄結構
+        // Logged in navbar structure
         navbar.innerHTML = `
             <div class="navbar-container">
                 <a href="/" class="logo">
@@ -27,28 +27,28 @@ function insertNavbar() {
                 </div>
                 
                 <div class="nav-links">
-                    <a href="/">首頁</a>
-                    <a href="/products.html">改裝零件</a>
-                    <a href="/community.html">社群討論</a>
-                    <a href="/showcase.html">作品展示</a>
-                    <a href="/events.html">改裝活動</a>
+                    <a href="/">Home</a>
+                    <a href="/products.html">Modification Parts</a>
+                    <a href="/community.html">Community</a>
+                    <a href="/showcase.html">Gallery</a>
+                    <a href="/events.html">Events</a>
                 </div>
 
                 <div class="user-actions"> 
                     <div class="user-menu">
-                        <img src="/images/default-avatar.svg" alt="用戶頭像" class="avatar">
+                        <img src="/images/default-avatar.svg" alt="User Avatar" class="avatar">
                         <div class="dropdown-menu">
-                            <a href="/profile.html">個人資料</a>
-                            <a href="/garage.html">我的車庫</a>
-                            <a href="/settings.html">帳號設定</a>
-                            <a href="#" id="logout">登出</a>
+                            <a href="/profile.html">Profile</a>
+                            <a href="/garage.html">My Garage</a>
+                            <a href="/settings.html">Settings</a>
+                            <a href="#" id="logout">Logout</a>
                         </div>
                     </div>
                 </div>
             </div>
         `;
     } else {
-        // 未登入狀態的導航欄
+        // Not logged in navbar
         navbar.innerHTML = `
             <div class="navbar-container">
                 <a href="/" class="logo">
@@ -63,17 +63,17 @@ function insertNavbar() {
                 </div>
                 
                 <div class="nav-links">
-                    <a href="/" class="active">首頁</a>
-                    <a href="/showcase.html">改裝展示</a>
-                    <a href="/products.html">零件商城</a>
-                    <a href="/community.html">討論區</a>
-                    <a href="/bikes-gallery.html">車輛圖庫</a>
-                    <a href="/garage.html">車庫</a>
+                    <a href="/" class="active">Home</a>
+                    <a href="/showcase.html">Gallery</a>
+                    <a href="/products.html">Parts Shop</a>
+                    <a href="/community.html">Forum</a>
+                    <a href="/bikes-gallery.html">Bike Gallery</a>
+                    <a href="/garage.html">Garage</a>
                 </div>
                 
                 <div class="user-actions">
-                    <a href="/login.html" class="login-btn">登入</a>
-                    <a href="/register.html" class="signup-btn">註冊</a>
+                    <a href="/login.html" class="login-btn">Login</a>
+                    <a href="/register.html" class="signup-btn">Register</a>
                 </div>
             </div>
         `;
@@ -81,18 +81,18 @@ function insertNavbar() {
     
     document.body.insertBefore(navbar, document.body.firstChild);
     
-    // 如果用戶已登入，設置登出功能
+    // If user is logged in, setup logout functionality
     if (isLoggedIn) {
         setupLogout();
     }
 }
 
-// 設置登出功能 - 已由 auth-state.js 統一處理，此函數保留但不執行實際操作
+// Setup logout functionality - now handled by auth-state.js, function kept for compatibility
 function setupLogout() {
-    console.log('common.js setupLogout 被調用，但已被 auth-state.js 接管');
-    // 不再在這裡處理登出邏輯，由 auth-state.js 統一管理
+    console.log('common.js setupLogout called, but handled by auth-state.js');
+    // Logout logic now handled by auth-state.js
     
-    // 移除舊的實現，避免衝突
+    // Old implementation removed to avoid conflicts
     /*
     const logoutButton = document.getElementById('logout');
     
@@ -100,15 +100,15 @@ function setupLogout() {
         logoutButton.addEventListener('click', function(e) {
             e.preventDefault();
             
-            // 清除登入狀態
+            // Clear login state
             localStorage.removeItem('isLoggedIn');
             localStorage.removeItem('token');
             localStorage.removeItem('username');
             
-            // 顯示登出成功提示
-            alert('登出成功！');
+            // Show logout success message
+            alert('Successfully logged out!');
             
-            // 重新導向到首頁
+            // Redirect to homepage
             setTimeout(function() {
                 window.location.href = '/';
             }, 500);
@@ -117,9 +117,9 @@ function setupLogout() {
     */
 }
 
-// 插入頁尾
+// Insert footer
 function insertFooter() {
-    // 檢查頁面是否已有頁尾
+    // Check if page already has a footer
     if (document.querySelector('.footer')) {
         return;
     }
@@ -129,37 +129,37 @@ function insertFooter() {
     footer.innerHTML = `
         <div class="footer-content">
             <div class="footer-section">
-                <h3>關於我們</h3>
+                <h3>About Us</h3>
                 <ul>
-                    <li><a href="/about.html">公司介紹</a></li>
-                    <li><a href="/contact.html">聯絡我們</a></li>
-                    <li><a href="/careers.html">工作機會</a></li>
-                    <li><a href="/press.html">媒體中心</a></li>
+                    <li><a href="/about.html">Company</a></li>
+                    <li><a href="/contact.html">Contact</a></li>
+                    <li><a href="/careers.html">Careers</a></li>
+                    <li><a href="/press.html">Press</a></li>
                 </ul>
             </div>
             
             <div class="footer-section">
-                <h3>服務項目</h3>
+                <h3>Services</h3>
                 <ul>
-                    <li><a href="/showcase.html">改裝展示</a></li>
-                    <li><a href="/products.html">零件商城</a></li>
-                    <li><a href="/community.html">討論區</a></li>
-                    <li><a href="/garage.html">車庫</a></li>
+                    <li><a href="/showcase.html">Gallery</a></li>
+                    <li><a href="/products.html">Parts Shop</a></li>
+                    <li><a href="/community.html">Forum</a></li>
+                    <li><a href="/garage.html">Garage</a></li>
                 </ul>
             </div>
             
             <div class="footer-section">
-                <h3>幫助中心</h3>
+                <h3>Help Center</h3>
                 <ul>
-                    <li><a href="/faq.html">常見問題</a></li>
-                    <li><a href="/shipping.html">運送說明</a></li>
-                    <li><a href="/returns.html">退換貨政策</a></li>
-                    <li><a href="/privacy.html">隱私權政策</a></li>
+                    <li><a href="/faq.html">FAQ</a></li>
+                    <li><a href="/shipping.html">Shipping</a></li>
+                    <li><a href="/returns.html">Returns</a></li>
+                    <li><a href="/privacy.html">Privacy Policy</a></li>
                 </ul>
             </div>
             
             <div class="footer-section">
-                <h3>關注我們</h3>
+                <h3>Follow Us</h3>
                 <ul>
                     <li><a href="#">Facebook</a></li>
                     <li><a href="#">Instagram</a></li>
@@ -176,7 +176,7 @@ function insertFooter() {
     document.body.appendChild(footer);
 }
 
-// 初始化導航欄功能
+// Initialize navigation functionality
 function initializeNavigation() {
     const menuToggle = document.querySelector('.menu-toggle');
     const navLinks = document.querySelector('.nav-links');
@@ -187,7 +187,7 @@ function initializeNavigation() {
         });
     }
     
-    // 設置當前頁面的導航鏈接為活動狀態
+    // Set current page's navigation link as active
     const currentPath = window.location.pathname;
     const navAnchors = document.querySelectorAll('.nav-links a');
     
@@ -201,36 +201,37 @@ function initializeNavigation() {
 }
 
 /**
- * 初始化頁面過渡效果
+ * Initialize page transitions
  */
 function initPageTransitions() {
     const body = document.body;
 
-    // 進入頁面時添加動畫
+    // Add animation when entering page
     body.classList.add('fade-in');
 
-    // 點擊連結時的處理 - 這部分邏輯已證明會導致導航問題，因此移除其內部操作，僅保留函數結構以備未來可能重新設計轉場效果
+    // Link click handling - Internal logic removed due to navigation issues
+    // Structure kept for potential future transition redesign
     // document.addEventListener('click', function(e) {
     //     const targetLink = e.target.closest('a');
 
     //     if (targetLink && targetLink.href && 
-    //         targetLink.hostname === window.location.hostname && // 確保是同站連結
-    //         targetLink.getAttribute('target') !== '_blank' && // 不是在新分頁開啟
-    //         !targetLink.href.includes('#') && // 不是錨點連結
-    //         !targetLink.hasAttribute('download') && // 不是下載連結
-    //         !targetLink.classList.contains('no-transition')) { // 避免特定連結的轉場
+    //         targetLink.hostname === window.location.hostname && // Ensure same-site link
+    //         targetLink.getAttribute('target') !== '_blank' && // Not opening in new tab
+    //         !targetLink.href.includes('#') && // Not anchor link
+    //         !targetLink.hasAttribute('download') && // Not download link
+    //         !targetLink.classList.contains('no-transition')) { // Avoid specific links
             
-    //         // 原本的淡出動畫和延遲導航邏輯已註解
+    //         // Original fade-out animation and delayed navigation logic commented out
     //         // e.preventDefault();
     //         // body.classList.add('fade-out');
     //         // setTimeout(function() {
     //         //     window.location.href = targetLink.href;
-    //         // }, 300); // 動畫時間
+    //         // }, 300); // Animation duration
     //     }
     // });
 }
 
-// 當 DOM 加載完成時執行
+// Execute when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     insertNavbar();
     insertFooter();

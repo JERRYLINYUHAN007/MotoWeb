@@ -1,63 +1,71 @@
 /**
  * profile.js
- * 處理個人資料頁面的各種交互功能
+ * Handles various interaction functions on the profile page
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    // 初始化所有功能
+    // Initialize all functions
     initProfileTabs();
     initEditProfileModal();
-    setupLogoutButton();
     loadUserProfile();
     initPostPreview();
 });
 
 /**
- * 初始化個人資料頁標籤切換功能
+ * Initialize profile page tab switching functionality
  */
 function initProfileTabs() {
     const tabButtons = document.querySelectorAll('.tab-btn');
-    const tabContents = document.querySelectorAll('.tab-content');
+    const tabContents = document.querySelectorAll('.tab-pane');
     
     tabButtons.forEach(button => {
         button.addEventListener('click', function() {
             const tabName = this.getAttribute('data-tab');
             
-            // 切換活動標籤
+            // Switch active tab
             tabButtons.forEach(btn => btn.classList.remove('active'));
             this.classList.add('active');
             
-            // 切換標籤內容
+            // Switch tab content
             tabContents.forEach(content => {
-                if (content.id === tabName + 'Tab') {
-                    content.classList.remove('hidden');
-                } else {
-                    content.classList.add('hidden');
-                }
+                content.classList.remove('active');
             });
+            
+            // Show the selected tab
+            const selectedTab = document.getElementById(tabName + 'Tab');
+            if (selectedTab) {
+                selectedTab.classList.add('active');
+            }
         });
     });
 }
 
 /**
- * 初始化編輯個人資料模態框
+ * Initialize edit profile modal
  */
 function initEditProfileModal() {
-    const editBtn = document.querySelector('.edit-btn');
+    const editBtn = document.getElementById('editProfileBtn');
     const modal = document.getElementById('editProfileModal');
-    const closeModal = document.querySelector('.close-modal');
+    const closeModal = document.getElementById('closeEditModal');
     const cancelBtn = document.getElementById('cancelEdit');
     const profileForm = document.getElementById('profileForm');
     
-    // 打開模態框
+    // Open modal
     if (editBtn) {
         editBtn.addEventListener('click', function() {
-            modal.classList.add('open');
-            document.body.style.overflow = 'hidden'; // 防止背景滾動
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
         });
     }
     
-    // 關閉模態框的多種方式
+    // Multiple ways to close modal
+    function closeEditModal() {
+        if (modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+    }
+    
     if (closeModal) {
         closeModal.addEventListener('click', closeEditModal);
     }
@@ -66,7 +74,7 @@ function initEditProfileModal() {
         cancelBtn.addEventListener('click', closeEditModal);
     }
     
-    // 點擊模態框背景關閉
+    // Close modal by clicking background
     if (modal) {
         modal.addEventListener('click', function(e) {
             if (e.target === modal) {
@@ -75,12 +83,12 @@ function initEditProfileModal() {
         });
     }
     
-    // 表單提交處理
+    // Form submission handling
     if (profileForm) {
         profileForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // 獲取表單數據
+            // Get form data
             const formData = new FormData(this);
             const userData = {
                 displayName: formData.get('displayName'),
@@ -93,363 +101,325 @@ function initEditProfileModal() {
                 }
             };
             
-            // 更新頁面上的個人資料顯示
+            // Update profile display on page
             updateProfileDisplay(userData);
             
-            // 模擬API請求保存數據
-            console.log('保存的個人資料:', userData);
+            // Simulate API request to save data
+            console.log('Saved profile data:', userData);
             
-            // 顯示成功提示並關閉模態框
-            showNotification('個人資料已更新', 'success');
+            // Show success notification and close modal
+            showNotification('Profile updated successfully', 'success');
             closeEditModal();
         });
     }
 }
 
 /**
- * 關閉編輯個人資料模態框
- */
-function closeEditModal() {
-    const modal = document.getElementById('editProfileModal');
-    if (modal) {
-        modal.classList.remove('open');
-        document.body.style.overflow = ''; // 恢復背景滾動
-    }
-}
-
-/**
- * 設置登出按鈕功能
- */
-function setupLogoutButton() {
-    const logoutBtn = document.getElementById('logoutBtn');
-    
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // 使用 auth-state.js 的統一登出功能
-            if (window.authState && typeof window.authState.handleLogout === 'function') {
-                window.authState.handleLogout();
-            } else {
-                // 備用登出邏輯（如果 auth-state.js 未載入）
-                const authKeys = ['isLoggedIn', 'token', 'username', 'userEmail', 'userId'];
-                authKeys.forEach(key => {
-                    localStorage.removeItem(key);
-                });
-                
-                showNotification('登出成功！', 'success');
-                
-                setTimeout(function() {
-                    window.location.href = 'index.html';
-                }, 1500);
-            }
-        });
-    }
-}
-
-/**
- * 顯示通知訊息
+ * Show notification message
  */
 function showNotification(message, type = 'info') {
-    // 檢查是否已存在通知元素
-    let notification = document.querySelector('.notification');
-    
-    // 如果不存在，創建新的通知元素
-    if (!notification) {
-        notification = document.createElement('div');
-        notification.className = 'notification';
-        document.body.appendChild(notification);
+    // Remove existing notification
+    const existingNotification = document.querySelector('.notification');
+    if (existingNotification) {
+        existingNotification.remove();
     }
 
-    // 設置通知類型和訊息
+    // Create notification element
+    const notification = document.createElement('div');
     notification.className = `notification ${type}`;
+    notification.style.cssText = `
+        position: fixed;
+        top: 2rem;
+        right: 2rem;
+        background: ${type === 'success' ? 'var(--success-color)' : 'var(--primary-color)'};
+        color: var(--dark-surface);
+        padding: 1rem 1.5rem;
+        border-radius: var(--border-radius-md);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        z-index: 3000;
+        font-weight: 600;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+    `;
     notification.textContent = message;
     
-    // 添加顯示類別
-    notification.classList.add('show');
-
-    // 設定自動消失
+    document.body.appendChild(notification);
+    
+    // Show animation
     setTimeout(() => {
-        notification.classList.remove('show');
+        notification.style.transform = 'translateX(0)';
+    }, 100);
+
+    // Auto hide after 3 seconds
+    setTimeout(() => {
+        notification.style.transform = 'translateX(100%)';
         setTimeout(() => {
-            notification.remove();
+            if (notification.parentNode) {
+                notification.remove();
+            }
         }, 300);
     }, 3000);
 }
 
 /**
- * 載入用戶個人資料數據
+ * Load user profile data
  */
 function loadUserProfile() {
-    // 模擬從 API 獲取用戶資料
-    const userData = {
-        displayName: '用戶名稱',
-        bio: '分享您的個人簡介...',
-        location: '台北市',
-        privacy: {
-            showEmail: true,
-            showLocation: true,
-            publicProfile: true
-        }
+    // Mock user data
+    const mockUserData = {
+        username: "JohnRider",
+        bio: "Passionate motorcycle enthusiast with 5+ years of modification experience. Love sharing knowledge and helping fellow riders.",
+        memberSince: "2024-01-15",
+        location: "Taipei City",
+        email: "john.rider@email.com",
+        stats: {
+            bikes: 2,
+            mods: 15,
+            photos: 24,
+            posts: 8
+        },
+        tags: ["Sport Bikes", "Performance", "LED Lighting", "Suspension", "Exhaust"],
+        activities: [
+            "Added new Monster Factory Z2 PRO Fork - 2024-06-20",
+            "Posted photos of JET modification - 2024-06-18", 
+            "Shared brake system upgrade experience - 2024-06-15",
+            "Liked KOSO LED Tail Light review - 2024-06-12",
+            "Commented on suspension setup guide - 2024-06-10"
+        ],
+        achievements: [
+            {
+                icon: "fa-wrench",
+                title: "Modification Master",
+                description: "Completed 10+ modifications"
+            },
+            {
+                icon: "fa-users", 
+                title: "Community Contributor",
+                description: "Made 50+ helpful comments"
+            },
+            {
+                icon: "fa-camera",
+                title: "Photo Enthusiast", 
+                description: "Shared 20+ photos"
+            }
+        ],
+        bikes: [
+            {
+                name: "SYM JET SL 125",
+                year: "2023",
+                mods: "8 modifications"
+            },
+            {
+                name: "YAMAHA FORCE 2.0",
+                year: "2024", 
+                mods: "7 modifications"
+            }
+        ],
+        posts: [
+            {
+                title: "Monster Factory Z2 PRO Fork Review",
+                date: "2024-06-21",
+                excerpt: "After installing the new fork, the handling has improved significantly...",
+                comments: 8,
+                likes: 25
+            },
+            {
+                title: "LED Tail Light Installation Guide", 
+                date: "2024-06-16",
+                excerpt: "Step-by-step guide for installing the KOSO LED tail light...",
+                comments: 12,
+                likes: 34
+            }
+        ]
     };
 
-    // 填充表單
-    document.getElementById('displayName').value = userData.displayName;
-    document.getElementById('bio').value = userData.bio;
-    document.getElementById('location').value = userData.location;
-    document.querySelector('input[name="showEmail"]').checked = userData.privacy.showEmail;
-    document.querySelector('input[name="showLocation"]').checked = userData.privacy.showLocation;
-    document.querySelector('input[name="publicProfile"]').checked = userData.privacy.publicProfile;
+    // Fill basic profile info
+    document.getElementById('profileUsername').firstChild.textContent = mockUserData.username;
+    document.getElementById('userBio').textContent = mockUserData.bio;
+    document.getElementById('memberSince').textContent = mockUserData.memberSince;
+    document.getElementById('userLocation').textContent = mockUserData.location;
+    document.getElementById('userEmail').textContent = mockUserData.email;
+    
+    // Fill stats
+    document.getElementById('bikeCount').textContent = mockUserData.stats.bikes;
+    document.getElementById('modCount').textContent = mockUserData.stats.mods;
+    document.getElementById('photoCount').textContent = mockUserData.stats.photos;
+    document.getElementById('postCount').textContent = mockUserData.stats.posts;
+
+    // Fill tags
+    const tagsContainer = document.getElementById('userTags');
+    tagsContainer.innerHTML = mockUserData.tags.map(tag => 
+        `<span class="tag">${tag}</span>`
+    ).join('');
+
+    // Fill recent activities
+    const activityList = document.getElementById('activityList');
+    activityList.innerHTML = mockUserData.activities.map(activity => 
+        `<li>${activity}</li>`
+    ).join('');
+
+    // Fill achievements
+    const achievementsList = document.getElementById('achievementsList');
+    achievementsList.innerHTML = mockUserData.achievements.map(achievement => `
+        <div class="achievement">
+            <i class="fas ${achievement.icon}" style="color: var(--primary-color); font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
+            <h4 style="color: var(--primary-color); margin-bottom: 0.5rem;">${achievement.title}</h4>
+            <p style="color: var(--metallic-silver); font-size: 0.9rem;">${achievement.description}</p>
+        </div>
+    `).join('');
+
+    // Fill bikes grid
+    const bikesGrid = document.getElementById('bikesGrid');
+    const addBikeCard = bikesGrid.querySelector('.add-bike-card');
+    const bikeCards = mockUserData.bikes.map(bike => `
+        <div class="bike-card" style="
+            background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
+            border-radius: var(--border-radius-md);
+            border: 1px solid var(--carbon-gray);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        ">
+            <div style="margin-bottom: 1rem;">
+                <div style="
+                    height: 120px;
+                    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+                    border-radius: var(--border-radius-sm);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: white;
+                    font-size: 1.5rem;
+                    margin-bottom: 1rem;
+                ">
+                    <i class="fas fa-motorcycle"></i>
+                </div>
+                <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">${bike.name}</h3>
+                <p style="color: var(--metallic-silver); margin-bottom: 0.5rem;">Year: ${bike.year}</p>
+                <p style="color: var(--metallic-silver);">${bike.mods}</p>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+                <button class="btn btn-secondary" style="flex: 1; font-size: 0.9rem;">Edit</button>
+                <button class="btn btn-primary" style="flex: 1; font-size: 0.9rem;">View Details</button>
+            </div>
+        </div>
+    `).join('');
+    
+    // Insert bike cards before the add button
+    addBikeCard.insertAdjacentHTML('beforebegin', bikeCards);
+
+    // Fill posts list
+    const postsList = document.getElementById('postsList');
+    postsList.innerHTML = mockUserData.posts.map(post => `
+        <div class="post-item" style="
+            background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
+            border-radius: var(--border-radius-md);
+            border: 1px solid var(--carbon-gray);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        ">
+            <div class="post-header" style="margin-bottom: 1rem;">
+                <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">${post.title}</h3>
+                <p class="post-date" style="color: var(--metallic-silver); font-size: 0.9rem;">${post.date}</p>
+            </div>
+            <div class="post-content" style="color: var(--text-color); margin-bottom: 1rem; line-height: 1.6;">
+                ${post.excerpt}
+            </div>
+            <div class="post-stats" style="
+                display: flex;
+                gap: 1rem;
+                margin-bottom: 1rem;
+                color: var(--metallic-silver);
+                font-size: 0.9rem;
+            ">
+                <span><i class="fas fa-comment" style="color: var(--primary-color); margin-right: 0.5rem;"></i>${post.comments} comments</span>
+                <span><i class="fas fa-heart" style="color: var(--primary-color); margin-right: 0.5rem;"></i>${post.likes} likes</span>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+                <button class="btn btn-secondary preview-btn" data-post-id="${post.title}" style="flex: 1; font-size: 0.9rem;">Preview</button>
+                <button class="btn btn-primary" style="flex: 1; font-size: 0.9rem;">View Full Post</button>
+            </div>
+        </div>
+    `).join('');
+
+    // Fill form with user data
+    document.getElementById('displayName').value = mockUserData.username;
+    document.getElementById('bio').value = mockUserData.bio;
+    document.getElementById('location').value = mockUserData.location;
 }
 
 /**
- * 更新個人資料顯示
+ * Update profile display
  */
 function updateProfileDisplay(userData) {
-    document.querySelector('.profile-details h1').firstChild.textContent = userData.displayName + ' ';
-    document.querySelector('.user-bio').textContent = userData.bio;
-    document.querySelector('.info-group p').textContent = userData.location;
-}
-
-/**
- * 處理頭像和封面圖片上傳
- */
-function initImageUpload() {
-    const avatarBtn = document.querySelector('.edit-avatar-btn');
-    const coverBtn = document.querySelector('.edit-cover-btn');
-    
-    // 創建隱藏的文件輸入元素
-    function createFileInput() {
-        const fileInput = document.createElement('input');
-        fileInput.type = 'file';
-        fileInput.accept = 'image/*';
-        fileInput.style.display = 'none';
-        return fileInput;
+    // Update username
+    const usernameElement = document.getElementById('profileUsername');
+    if (usernameElement && usernameElement.firstChild) {
+        usernameElement.firstChild.textContent = userData.displayName;
     }
     
-    // 顯示通知
-    function showNotification(message, type = 'info') {
-        const notification = document.createElement('div');
-        notification.className = `notification ${type}`;
-        notification.innerHTML = `
-            <div class="notification-content">
-                <i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'}"></i>
-                <span>${message}</span>
-            </div>
-        `;
-        
-        document.body.appendChild(notification);
-        
-        // 2秒後消失
-        setTimeout(() => {
-            notification.classList.add('hide');
-            setTimeout(() => {
-                document.body.removeChild(notification);
-            }, 300);
-        }, 2000);
+    // Update bio
+    const bioElement = document.getElementById('userBio');
+    if (bioElement) {
+        bioElement.textContent = userData.bio;
     }
     
-    // 處理頭像上傳
-    if (avatarBtn) {
-        avatarBtn.addEventListener('click', function() {
-            const fileInput = createFileInput();
-            document.body.appendChild(fileInput);
-            
-            fileInput.addEventListener('change', function() {
-                const file = this.files[0];
-                if (file) {
-                    // 預覽圖片
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        document.querySelector('.profile-avatar img').src = e.target.result;
-                    };
-                    reader.readAsDataURL(file);
-                    
-                    // 上傳圖片到伺服器
-                    const formData = new FormData();
-                    formData.append('avatar', file);
-                    
-                    fetch('/api/profile/avatar', {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'Authorization': `Bearer ${localStorage.getItem('token')}`
-                        }
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            return response.json().then(err => {
-                                throw new Error(err.error || '上傳頭像失敗');
-                            });
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        showNotification(data.message || '頭像已更新', 'success');
-                        // 更新導航欄頭像
-                        if (document.querySelector('.user-menu .avatar')) {
-                            document.querySelector('.user-menu .avatar').src = data.avatarPath;
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        showNotification(error.message || '上傳失敗，請稍後再試', 'error');
-                    });
-                }
-                document.body.removeChild(fileInput);
-            });
-            
-            fileInput.click();
-        });
-    }
-    
-    // 處理封面圖片上傳
-    if (coverBtn) {
-        coverBtn.addEventListener('click', function() {
-            const fileInput = createFileInput();
-            document.body.appendChild(fileInput);
-            
-            fileInput.addEventListener('change', function() {
-                const file = this.files[0];
-                if (file) {
-                    // 預覽圖片
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const profileCover = document.querySelector('.profile-cover');
-                        if (profileCover) {
-                            profileCover.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(${e.target.result})`;
-                        }
-                    };
-                    reader.readAsDataURL(file);
-                    
-                    // 上傳圖片到伺服器
-                    const formData = new FormData();
-                    formData.append('cover', file);
-                    
-                    fetch('/api/profile/cover', {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'Authorization': `Bearer ${localStorage.getItem('token')}`
-                        }
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            return response.json().then(err => {
-                                throw new Error(err.error || '上傳封面失敗');
-                            });
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        showNotification(data.message || '封面圖片已更新', 'success');
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        showNotification(error.message || '上傳失敗，請稍後再試', 'error');
-                    });
-                }
-                document.body.removeChild(fileInput);
-            });
-            
-            fileInput.click();
-        });
+    // Update location
+    const locationElement = document.getElementById('userLocation');
+    if (locationElement) {
+        locationElement.textContent = userData.location;
     }
 }
 
 /**
- * 初始化貼文預覽功能
+ * Initialize post preview functionality
  */
 function initPostPreview() {
-    // 獲取預覽按鈕
-    const previewButtons = document.querySelectorAll('.preview-btn');
-    const modal = document.getElementById('postPreviewModal');
-    const closeModal = modal.querySelector('.close-modal');
-    const closePreviewBtn = document.getElementById('closePreview');
-    
-    // 點擊預覽按鈕打開模態框
-    previewButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
+    // Handle preview buttons using event delegation
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('preview-btn')) {
             e.preventDefault();
             
-            // 獲取貼文數據
-            const postItem = this.closest('.post-item');
-            const postId = postItem.dataset.postId;
-            const title = postItem.querySelector('.post-header h3').textContent;
-            const date = postItem.querySelector('.post-date').textContent;
-            const content = postItem.querySelector('.post-content').innerHTML;
-            const commentCount = postItem.querySelector('.post-stats span:nth-child(1)').textContent.trim().split(' ')[1];
-            const likeCount = postItem.querySelector('.post-stats span:nth-child(2)').textContent.trim().split(' ')[1];
+            const postTitle = e.target.getAttribute('data-post-id');
+            const modal = document.getElementById('postPreviewModal');
             
-            // 填充模態框內容
-            document.getElementById('previewPostTitle').textContent = title;
-            document.getElementById('previewPostDate').textContent = date;
-            document.getElementById('previewPostCategory').textContent = getCategoryForPost(postId);
-            document.getElementById('previewPostContent').innerHTML = content;
-            document.getElementById('previewCommentCount').textContent = commentCount;
-            document.getElementById('previewLikeCount').textContent = likeCount;
-            document.getElementById('previewViewCount').textContent = getRandomViewCount();
-            
-            // 設置跳轉連結
-            document.getElementById('goToFullPost').href = `community.html?post=${postId}`;
-            
-            // 打開模態框
-            openPostPreviewModal();
-        });
-    });
-    
-    // 關閉模態框
-    if (closeModal) {
-        closeModal.addEventListener('click', closePostPreviewModal);
-    }
-    
-    if (closePreviewBtn) {
-        closePreviewBtn.addEventListener('click', closePostPreviewModal);
-    }
-    
-    // 點擊模態框背景關閉
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
-            closePostPreviewModal();
+            if (modal) {
+                // Fill modal with mock data
+                document.getElementById('previewPostTitle').textContent = postTitle;
+                document.getElementById('previewPostDate').textContent = '2024-06-21';
+                document.getElementById('previewPostCategory').textContent = 'Modification Experience';
+                document.getElementById('previewPostContent').innerHTML = 'This is a preview of the post content...';
+                document.getElementById('previewCommentCount').textContent = '8';
+                document.getElementById('previewLikeCount').textContent = '25';
+                document.getElementById('previewViewCount').textContent = '156';
+                
+                // Show modal
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
         }
     });
     
-    /**
-     * 根據貼文ID獲取分類
-     * @param {string} postId - 貼文ID
-     * @return {string} 分類名稱
-     */
-    function getCategoryForPost(postId) {
-        const categories = {
-            '1': '避震器改裝',
-            '2': '改裝指南',
-            '3': '輪胎保養'
-        };
-        
-        return categories[postId] || '一般討論';
-    }
+    // Close preview modal
+    const closePreviewBtns = document.querySelectorAll('#closePreviewModal, #closePreview');
+    closePreviewBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const modal = document.getElementById('postPreviewModal');
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        });
+    });
     
-    /**
-     * 生成隨機瀏覽量
-     * @return {number} 隨機數字
-     */
-    function getRandomViewCount() {
-        return Math.floor(Math.random() * 500) + 100;
-    }
-    
-    /**
-     * 打開貼文預覽模態框
-     */
-    function openPostPreviewModal() {
-        modal.classList.add('open');
-        document.body.style.overflow = 'hidden';
-    }
-    
-    /**
-     * 關閉貼文預覽模態框
-     */
-    function closePostPreviewModal() {
-        modal.classList.remove('open');
-        document.body.style.overflow = '';
+    // Close modal by clicking background
+    const previewModal = document.getElementById('postPreviewModal');
+    if (previewModal) {
+        previewModal.addEventListener('click', function(e) {
+            if (e.target === previewModal) {
+                previewModal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        });
     }
 } 
