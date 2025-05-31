@@ -34,6 +34,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
+// 額外的靜態檔案路由，確保絕對路徑能正確工作
+app.use('/js', express.static(path.join(__dirname, 'public/js')));
+app.use('/css', express.static(path.join(__dirname, 'public/css')));
+app.use('/images', express.static(path.join(__dirname, 'public/images')));
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
+
 // 文件上傳配置
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
