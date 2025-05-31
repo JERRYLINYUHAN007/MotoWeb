@@ -1,5 +1,5 @@
 /**
- * MotoMod 主要JavaScript功能
+ * MotoWeb 主要JavaScript功能
  * 處理導航、滾動效果、動態載入內容等功能
  */
 

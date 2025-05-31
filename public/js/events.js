@@ -1219,7 +1219,10 @@ async function loadEvents() {
         // 檢查是否為未來活動頁面，若是則只顯示未來的活動
         const isUpcoming = window.location.pathname.includes('upcoming') || document.querySelector('.upcoming-events');
         if (isUpcoming && !startDate) {
+            // 只在查詢選項中設置，不更新 URL
             queryOptions.startDate = new Date().toISOString().split('T')[0];
+            // 設置一個標記，表示這是自動設置的日期，不應該更新到 URL
+            queryOptions._autoStartDate = true;
         }
         
         console.log('Loading events with options:', queryOptions);
@@ -1246,7 +1249,13 @@ async function loadEvents() {
                 }
             
             // 更新URL以反映當前篩選狀態
-            updateURL(queryOptions);
+            // 排除自動設置的日期參數
+            const urlOptions = { ...queryOptions };
+            if (urlOptions._autoStartDate) {
+                delete urlOptions.startDate;
+                delete urlOptions._autoStartDate;
+            }
+            updateURL(urlOptions);
             
             } else {
                 showEmptyState();
@@ -1296,20 +1305,21 @@ function updateURL(options) {
     url.searchParams.delete('startDate');
     url.searchParams.delete('endDate');
     
-    // 添加新的查詢參數
+    // 添加新的查詢參數（只添加用戶明確設置的參數）
     if (options.page && options.page > 1) {
         url.searchParams.set('page', options.page);
         }
-    if (options.type) {
+    if (options.type && options.type !== 'all') {
         url.searchParams.set('type', options.type);
     }
-    if (options.search) {
+    if (options.search && options.search.trim()) {
         url.searchParams.set('search', options.search);
     }
-    if (options.startDate) {
+    // 只有在用戶明確設置日期時才添加到URL，不添加自動設置的日期
+    if (options.startDate && !options._autoStartDate) {
         url.searchParams.set('startDate', options.startDate);
     }
-    if (options.endDate) {
+    if (options.endDate && !options._autoEndDate) {
         url.searchParams.set('endDate', options.endDate);
     }
     

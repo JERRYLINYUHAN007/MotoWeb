@@ -1545,6 +1545,30 @@ app.post('/api/init-db', async (req, res) => {
   }
 });
 
+// 重新初始化活動資料API（僅限開發環境）
+app.post('/api/reset-events', async (req, res) => {
+  try {
+    if (!db) {
+      return res.status(500).json({ error: '資料庫未連接' });
+    }
+
+    // 清除現有活動資料
+    await db.collection('events').deleteMany({});
+    console.log('已清除現有活動資料');
+
+    // 重新初始化活動資料
+    await initializeSampleEvents();
+
+    res.json({ 
+      message: '活動資料重新初始化成功',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('重新初始化活動資料失敗:', error);
+    res.status(500).json({ error: '服務器錯誤', details: error.message });
+  }
+});
+
 // 前端路由
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
@@ -2050,6 +2074,9 @@ app.use((req, res) => {
   if (!connected) {
     console.error('無法連接到任何 MongoDB 資料庫，服務器將以有限功能模式啟動');
     console.error('請檢查 MongoDB 連接設置或確保 MongoDB 服務已運行');
+  } else {
+    // 如果資料庫連接成功，初始化示例資料
+    await initializeSampleEvents();
   }
   
   app.listen(PORT, () => {
@@ -2057,4 +2084,149 @@ app.use((req, res) => {
     console.log(`API 文檔: http://localhost:${PORT}/api-docs`);
     console.log(`MongoDB 連接狀態: ${connected ? '已連接' : '未連接 (有限功能模式)'}`);
   });
-})(); 
+})();
+
+// 初始化示例活動資料
+async function initializeSampleEvents() {
+  try {
+    // 檢查是否已經有活動資料
+    const existingEvents = await db.collection('events').countDocuments();
+    
+    // 強制重新初始化活動資料（清除舊資料）
+    if (existingEvents > 0) {
+      console.log('清除現有活動資料...');
+      await db.collection('events').deleteMany({});
+    }
+    
+    console.log('初始化示例活動資料...');
+    
+    const sampleEvents = [
+      {
+        title: '台灣摩托車文化節',
+        description: '一年一度的台灣摩托車文化盛會，匯聚全台車友共同慶祝摩托車文化，展示各式改裝車輛、零件及週邊商品。活動包含靜態展示、動態表演、技術講座、競賽活動等豐富內容。',
+        category: 'exhibition',
+        location: '華山1914文化創意產業園區',
+        address: '台北市中正區八德路一段1號',
+        eventDate: new Date('2025-07-15T10:00:00'),
+        endDate: new Date('2025-07-17T18:00:00'),
+        imageUrl: '/images/events/event1.jpg',
+        organizerId: null, // 將在後面設置
+        organizer: '台灣摩托車協會',
+        maxAttendees: 1000,
+        registeredCount: 247,
+        attendees: [],
+        fee: 0,
+        deadline: new Date('2025-07-10T23:59:59'),
+        status: 'open',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        title: '春季改裝工作坊',
+        description: '專業技師帶領的改裝實作課程，教授基礎改裝技術與安全知識。適合初學者參加，提供完整的工具與材料。',
+        category: 'workshop',
+        location: 'MotoTech改裝中心',
+        address: '新北市板橋區中山路二段100號',
+        eventDate: new Date('2025-06-20T14:00:00'),
+        endDate: new Date('2025-06-20T17:00:00'),
+        imageUrl: '/images/events/event2.jpg',
+        organizerId: null,
+        organizer: 'MotoTech改裝中心',
+        maxAttendees: 20,
+        registeredCount: 12,
+        attendees: [],
+        fee: 1500,
+        deadline: new Date('2025-06-15T23:59:59'),
+        status: 'open',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        title: '北台灣車友大會師',
+        description: '北台灣地區車友聚會活動，分享改裝心得、交流技術經驗。現場有美食攤位、音樂表演和抽獎活動。',
+        category: 'meetup',
+        location: '大佳河濱公園',
+        address: '台北市中山區濱江街5號',
+        eventDate: new Date('2025-06-05T09:00:00'),
+        endDate: new Date('2025-06-05T16:00:00'),
+        imageUrl: '/images/events/event3.jpg',
+        organizerId: null,
+        organizer: '北台灣車友會',
+        maxAttendees: 500,
+        registeredCount: 156,
+        attendees: [],
+        fee: 0,
+        deadline: new Date('2025-06-01T23:59:59'),
+        status: 'open',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        title: '改裝安全技術講座',
+        description: '由資深技師分享改裝安全知識，包含煞車系統、懸吊系統、引擎調校等專業技術。提供認證證書。',
+        category: 'seminar',
+        location: '台北科技大學',
+        address: '台北市大安區忠孝東路三段1號',
+        eventDate: new Date('2025-06-12T19:00:00'),
+        endDate: new Date('2025-06-12T21:00:00'),
+        imageUrl: '/images/events/event4.jpg',
+        organizerId: null,
+        organizer: '改裝技術研習會',
+        maxAttendees: 100,
+        registeredCount: 67,
+        attendees: [],
+        fee: 500,
+        deadline: new Date('2025-06-10T23:59:59'),
+        status: 'open',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        title: '夏日改裝競賽',
+        description: '年度最大規模的改裝車競賽，分為多個組別評選最佳改裝車。獲勝者將獲得豐厚獎品與榮譽。',
+        category: 'competition',
+        location: '麗寶國際賽車場',
+        address: '台中市后里區月眉東路一段185號',
+        eventDate: new Date('2025-08-10T08:00:00'),
+        endDate: new Date('2025-08-10T18:00:00'),
+        imageUrl: '/images/events/event5.jpg',
+        organizerId: null,
+        organizer: '台灣改裝車競賽協會',
+        maxAttendees: 300,
+        registeredCount: 89,
+        attendees: [],
+        fee: 2000,
+        deadline: new Date('2025-08-05T23:59:59'),
+        status: 'open',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        title: '電動車改裝展示會',
+        description: '專注於電動摩托車改裝的展示活動，展現電動車改裝的最新趨勢與技術發展。',
+        category: 'exhibition',
+        location: '南港展覽館',
+        address: '台北市南港區經貿二路1號',
+        eventDate: new Date('2025-09-01T10:00:00'),
+        endDate: new Date('2025-09-01T17:00:00'),
+        imageUrl: '/images/events/event6.jpg',
+        organizerId: null,
+        organizer: '電動車改裝聯盟',
+        maxAttendees: 800,
+        registeredCount: 203,
+        attendees: [],
+        fee: 200,
+        deadline: new Date('2025-08-28T23:59:59'),
+        status: 'open',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+    ];
+    
+    // 插入示例活動資料
+    const result = await db.collection('events').insertMany(sampleEvents);
+    console.log(`成功插入 ${result.insertedCount} 個示例活動`);
+  } catch (error) {
+    console.error('初始化示例活動資料時出錯:', error);
+  }
+}
