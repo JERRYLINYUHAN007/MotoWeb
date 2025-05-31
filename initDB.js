@@ -2,7 +2,10 @@ const { MongoClient, ObjectId } = require('mongodb');
 const bcrypt = require('bcryptjs');
 const config = require('./config');
 
-// MongoDB 連接
+// 加載環境變數
+require('dotenv').config();
+
+// MongoDB 連接 - 優先使用環境變數
 const MONGO_URI = process.env.MONGODB_URI || config.mongodb.uri;
 
 async function initializeDatabase() {
@@ -10,9 +13,17 @@ async function initializeDatabase() {
   
   try {
     console.log('🚀 開始初始化資料庫...');
+    console.log('連接 URI:', MONGO_URI.replace(/mongodb\+srv:\/\/([^:]+):([^@]+)@/, 'mongodb+srv://****:****@'));
     
     // 連接到 MongoDB
-    client = new MongoClient(MONGO_URI);
+    const options = {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      connectTimeoutMS: 30000,
+      socketTimeoutMS: 45000,
+    };
+    
+    client = new MongoClient(MONGO_URI, options);
     await client.connect();
     console.log('✅ MongoDB 連接成功');
     
@@ -30,8 +41,16 @@ async function initializeDatabase() {
     console.log('🎉 資料庫初始化完成！');
     
   } catch (error) {
-    console.error('❌ 資料庫初始化失敗:', error);
-    process.exit(1);
+    console.error('❌ 資料庫初始化失敗:', error.message);
+    
+    if (error.message.includes('ECONNREFUSED')) {
+      console.error('提示: 請確認 MongoDB 服務已啟動或檢查連接字串');
+    }
+    
+    // 在生產環境中不要強制退出
+    if (process.env.NODE_ENV !== 'production') {
+      process.exit(1);
+    }
   } finally {
     if (client) {
       await client.close();

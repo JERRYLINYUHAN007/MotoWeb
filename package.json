@@ -10,7 +10,7 @@
     "db:init": "node initDB.js",
     "test": "echo 'No tests specified'",
     "deploy": "npm run build && npm start",
-    "vercel-build": "npm install && npm run db:init"
+    "vercel-build": "echo 'Vercel build completed'"
   },
   "dependencies": {
     "axios": "^1.6.0",
@@ -41,10 +41,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/motoweb.git"
+    "url": "https://github.com/JERRYLINYUHAN007/MotoWeb.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/motoweb/issues"
+    "url": "https://github.com/JERRYLINYUHAN007/MotoWeb/issues"
   },
   "homepage": "https://motoweb.vercel.app"
 }
