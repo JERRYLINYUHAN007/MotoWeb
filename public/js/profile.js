@@ -127,16 +127,22 @@ function setupLogoutButton() {
         logoutBtn.addEventListener('click', function(e) {
             e.preventDefault();
             
-            // 清除登入狀態
-            localStorage.removeItem('isLoggedIn');
-            
-            // 顯示登出成功通知
-            showNotification('登出成功！', 'success');
-            
-            // 重定向到首頁
-            setTimeout(function() {
-                window.location.href = 'index.html';
-            }, 1500);
+            // 使用 auth-state.js 的統一登出功能
+            if (window.authState && typeof window.authState.handleLogout === 'function') {
+                window.authState.handleLogout();
+            } else {
+                // 備用登出邏輯（如果 auth-state.js 未載入）
+                const authKeys = ['isLoggedIn', 'token', 'username', 'userEmail', 'userId'];
+                authKeys.forEach(key => {
+                    localStorage.removeItem(key);
+                });
+                
+                showNotification('登出成功！', 'success');
+                
+                setTimeout(function() {
+                    window.location.href = 'index.html';
+                }, 1500);
+            }
         });
     }
 }

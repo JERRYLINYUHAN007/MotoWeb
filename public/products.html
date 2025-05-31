@@ -5,338 +5,684 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>改裝零件 - MotoWeb</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/tech-theme.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* 用戶菜單樣式 */
-        .user-menu {
-            position: relative;
-            cursor: pointer;
-        }
+        /* 產品頁面重新設計 - 現代科技美學 */
         
-        .user-avatar {
-            display: flex;
-            align-items: center;
-            padding: 5px;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-        }
-        
-        .user-avatar:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        
-        .user-avatar img {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            margin-right: 8px;
-        }
-        
-        .user-avatar .username {
-            color: white;
-            font-weight: 500;
-            max-width: 120px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .dropdown-menu {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            width: 180px;
-            background-color: white;
-            border-radius: 4px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 8px 0;
-            z-index: 100;
-            display: none;
-        }
-        
-        .dropdown-menu.show {
-            display: block;
-        }
-        
-        .dropdown-menu a {
-            display: block;
-            padding: 8px 16px;
-            color: #333;
-            text-decoration: none;
-            transition: background-color 0.2s;
-        }
-        
-        .dropdown-menu a:hover {
-            background-color: #f5f5f5;
-        }
-        
-        .dropdown-menu i {
-            width: 16px;
-            margin-right: 8px;
-            text-align: center;
+        /* 動畫效果 */
+        @keyframes scanEffect {
+            0% { transform: translateX(-100%); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(100%); opacity: 0; }
         }
 
-        /* Products Page Specific Styles */
+        @keyframes hoverGlow {
+            0%, 100% { box-shadow: 0 0 30px rgba(0, 212, 255, 0.3); }
+            50% { box-shadow: 0 0 50px rgba(0, 212, 255, 0.6); }
+        }
+
+        @keyframes priceShine {
+            0% { text-shadow: 0 0 10px rgba(0, 255, 136, 0.3); }
+            100% { text-shadow: 0 0 25px rgba(0, 255, 136, 0.8); }
+        }
+
+        .main-container {
+            margin-top: 80px;
+            min-height: 100vh;
+            background: 
+                linear-gradient(135deg, 
+                    rgba(10, 10, 10, 0.95), 
+                    rgba(31, 41, 55, 0.9)),
+                radial-gradient(circle at 30% 40%, rgba(0, 212, 255, 0.1), transparent),
+                radial-gradient(circle at 70% 60%, rgba(124, 58, 237, 0.1), transparent);
+        }
+        
+        /* 頁面標題區域重新設計 */
+        .page-header {
+            background: 
+                linear-gradient(135deg, 
+                    rgba(10, 10, 10, 0.95), 
+                    rgba(31, 41, 55, 0.9)),
+                radial-gradient(circle at 30% 40%, rgba(0, 212, 255, 0.1), transparent),
+                radial-gradient(circle at 70% 60%, rgba(124, 58, 237, 0.1), transparent),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="circuit" patternUnits="userSpaceOnUse" width="40" height="40"><rect width="40" height="40" fill="%23111827"/><path d="M0,20 L40,20 M20,0 L20,40" stroke="%2300d4ff" stroke-width="0.5" opacity="0.3"/><circle cx="20" cy="20" r="2" fill="%2300d4ff" opacity="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23circuit)"/></svg>');
+            background-size: cover, cover, cover, 80px 80px;
+            padding: 6rem 5% 4rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, var(--primary-color), transparent);
+            animation: scanEffect 8s infinite linear;
+        }
+        
+        @keyframes titleGlow {
+            0%, 100% { 
+                background-position: 0% 50%;
+                filter: brightness(1) drop-shadow(0 0 20px rgba(0, 212, 255, 0.5));
+        }
+            50% { 
+                background-position: 100% 50%;
+                filter: brightness(1.2) drop-shadow(0 0 30px rgba(124, 58, 237, 0.8));
+        }
+        }
+
         .page-header h1 {
-            font-size: 3rem; /* 仿照 community.html */
+            font-size: 3.5rem;
+            font-weight: 700;
             margin-bottom: 1rem;
-            margin-top: 0;
+            background: linear-gradient(45deg, 
+                #ffffff, 
+                var(--primary-color), 
+                var(--accent-color), 
+                var(--success-color), 
+                #ffffff);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleGlow 4s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+            position: relative;
         }
 
         .page-header p {
-            font-size: 1.2rem; /* 仿照 community.html */
-            max-width: 700px;
-            margin: 0 auto 2rem auto; /* 更新下邊距以匹配 community.html */
+            font-size: 1.3rem;
+            color: var(--metallic-silver);
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
         }
 
         .search-bar {
-            display: flex;
             max-width: 600px;
-            margin: 0 auto 2rem auto; /* 上下左右居中，並設定下邊距 */
-        }
-        .search-bar input {
-            flex-grow: 1;
-            padding: 0.8rem 1rem;
-            border: none;
-            border-radius: 20px 0 0 20px;
-            font-size: 1rem;
-            color: #333; /* 輸入文字顏色 */
-        }
-        .search-bar button {
-            padding: 0.8rem 1.5rem;
-            border: none;
-            background-color: var(--primary-color); /* 使用 CSS 變數 */
-            color: white;
-            border-radius: 0 20px 20px 0;
-            cursor: pointer;
-            font-size: 1rem;
+            margin: 0 auto;
+            display: flex;
+            gap: 0;
+            background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
+            border-radius: 50px;
+            border: 2px solid var(--carbon-gray);
+            overflow: hidden;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
+        .search-bar input {
+            flex: 1;
+            padding: 1.2rem 2rem;
+            border: none;
+            background: transparent;
+            color: white;
+            font-size: 1.1rem;
+            outline: none;
+        }
+
+        .search-bar input::placeholder {
+            color: var(--metallic-silver);
+        }
+
+        .search-bar button {
+            padding: 1.2rem 2rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            border: none;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .search-bar button:hover {
+            background: linear-gradient(45deg, var(--accent-color), var(--success-color));
+            box-shadow: 0 0 25px rgba(0, 212, 255, 0.5);
+        }
+
+        /* 主要內容區域 */
         .products-main-content {
             display: flex;
-            gap: 2rem;
-            padding: 2rem 5%;
-            max-width: 1400px;
+            gap: 3rem;
+            padding: 3rem 5%;
+            max-width: 1600px;
             margin: 0 auto;
         }
 
+        /* 側邊欄重新設計 */
         .products-sidebar {
-            flex: 0 0 280px; /* Fixed width for sidebar */
-            background-color: #f9f9f9;
-            padding: 1.5rem;
-            border-radius: 8px;
+            flex: 0 0 350px;
+            background: linear-gradient(145deg, 
+                rgba(31, 41, 55, 0.8), 
+                rgba(17, 24, 39, 0.9));
+            padding: 2.5rem;
+            border-radius: 25px;
             height: fit-content;
+            box-shadow: 
+                0 15px 40px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(0, 212, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--carbon-gray);
+            position: sticky;
+            top: 120px;
+            backdrop-filter: blur(20px);
         }
 
         .products-sidebar h3 {
-            font-size: 1.5rem;
-            color: var(--secondary-color);
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid #eee;
+            font-size: 1.8rem;
+            color: white;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid var(--primary-color);
+            text-align: center;
+            font-weight: 700;
+            text-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
         }
 
-        .filter-group .group-title {
-            font-weight: bold;
-            color: var(--text-color);
-            margin-top: 1rem;
-            margin-bottom: 0.5rem;
+        .filter-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .group-title {
+            font-weight: 700;
+            color: white;
+            margin: 0 0 1rem;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 1rem 1.5rem;
+            background: linear-gradient(145deg, 
+                rgba(55, 65, 81, 0.8), 
+                rgba(31, 41, 55, 0.9));
+            border-radius: 15px;
+            border: 1px solid var(--carbon-gray);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .filter-group .group-title i {
-            transition: transform 0.3s ease;
-        }
-
-        .filter-group .group-title.open i {
-            transform: rotate(90deg);
-        }
-        
-        .filter-group .group-title.static-group a {
-            text-decoration: none;
-            color: var(--text-color);
-            display: block; /* Make the whole area clickable */
+        .group-title::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
             width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(0, 212, 255, 0.1), 
+                transparent);
+            transition: left 0.6s ease;
         }
-        .filter-group .group-title.static-group a:hover {
+
+        .group-title:hover {
+            background: linear-gradient(145deg, 
+                rgba(0, 212, 255, 0.2), 
+                rgba(124, 58, 237, 0.2));
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
+        }
+
+        .group-title:hover::before {
+            left: 100%;
+        }
+
+        .group-title i {
+            transition: all 0.3s ease;
+            color: var(--success-color);
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+
+        .group-title.open i {
+            transform: rotate(90deg);
             color: var(--primary-color);
         }
 
         .filter-list {
             list-style: none;
-            padding-left: 0; /* Remove default padding */
+            padding-left: 0;
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease-out;
+            transition: max-height 0.4s ease-out;
         }
+
         .filter-list.sub-list {
-             padding-left: 1rem; /* Indent sub-categories */
+            padding-left: 1.5rem;
         }
 
         .filter-list.open {
-            max-height: 1000px; /* Adjust as needed */
+            max-height: 1000px;
         }
 
         .filter-list li a {
             text-decoration: none;
-            color: var(--text-color-light);
+            color: var(--metallic-silver);
             display: block;
-            padding: 0.4rem 0;
-            transition: color 0.2s ease;
+            padding: 1rem 1.5rem;
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            margin-bottom: 0.8rem;
+            border: 1px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-list li a::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 0;
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            transition: width 0.3s ease;
+            z-index: 0;
+        }
+
+        .filter-list li a span {
+            position: relative;
+            z-index: 1;
         }
 
         .filter-list li a:hover,
         .filter-list li a.active {
-            color: var(--primary-color);
-            font-weight: 500;
+            color: white;
+            background: linear-gradient(45deg, 
+                rgba(0, 212, 255, 0.2), 
+                rgba(124, 58, 237, 0.2));
+            border-color: var(--primary-color);
+            font-weight: 600;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+            transform: translateX(8px);
         }
 
+        .filter-list li a:hover::before,
+        .filter-list li a.active::before {
+            width: 4px;
+        }
+
+        /* 產品展示區域重新設計 */
         .products-display-area {
             flex: 1;
+            background: transparent;
         }
 
         .products-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
-            padding: 0.5rem;
-            background-color: #fff;
-            border-radius: 6px;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .products-header .sort-options select {
-            padding: 0.5rem;
-            border-radius: 4px;
-            border: 1px solid #ddd;
+            margin-bottom: 3rem;
+            padding: 2rem 2.5rem;
+            background: linear-gradient(145deg, 
+                rgba(31, 41, 55, 0.8), 
+                rgba(17, 24, 39, 0.9));
+            border-radius: 20px;
+            border: 2px solid var(--carbon-gray);
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
         }
         
-        .products-header .view-options button {
-            background: none;
-            border: 1px solid #ddd;
-            padding: 0.5rem;
-            margin-left: 0.5rem;
-            border-radius: 4px;
-            cursor: pointer;
+        .results-count {
+            color: var(--metallic-silver);
+            font-size: 1.2rem;
+            font-weight: 600;
         }
 
-        .products-header .view-options button.active {
-            background-color: var(--primary-color);
+        .results-count span {
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .sort-options {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .sort-options label {
             color: white;
-            border-color: var(--primary-color);
+            font-weight: 600;
         }
 
+        .sort-options select {
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
+            border: 2px solid var(--carbon-gray);
+            border-radius: 15px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 200px;
+        }
+
+        .sort-options select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 25px rgba(0, 212, 255, 0.3);
+        }
+
+        /* 產品網格重新設計 */
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2.5rem;
         }
         
-        .pagination {
-            text-align: center;
-            margin-top: 2rem;
-        }
-
-        .pagination a, .pagination span {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            margin: 0 0.25rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            text-decoration: none;
-            color: var(--secondary-color);
-        }
-
-        .pagination a.active, .pagination span.active {
-            background-color: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-        }
-
-        /* Product Card Styles */
         .product-card {
-            background-color: #fff;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
+            background: linear-gradient(145deg, 
+                rgba(31, 41, 55, 0.9), 
+                rgba(17, 24, 39, 0.8));
+            border-radius: 25px;
             overflow: hidden;
-            transition: box-shadow 0.3s ease;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .product-card:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .product-card-link {
-            color: inherit;
-            display: flex;
-            flex-direction: column;
-            height: 100%; /* Ensure div takes full card height */
-            cursor: default; /* 移除手型游標 */
-        }
-
-        .product-image-container {
-            width: 100%;
-            padding-top: 75%; /* Aspect ratio 4:3, or use 100% for 1:1 */
+            box-shadow: 
+                0 15px 40px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(0, 212, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid var(--carbon-gray);
             position: relative;
-            overflow: hidden;
-            background-color: #f5f5f5; /* Placeholder background */
+            backdrop-filter: blur(20px);
         }
 
-        .product-image {
+        .product-card::before {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, 
+                var(--primary-color), 
+                var(--accent-color), 
+                var(--success-color));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .product-card::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.1), transparent);
+            transition: all 0.6s ease;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .product-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 
+                0 30px 60px rgba(0, 0, 0, 0.6),
+                0 0 50px rgba(0, 212, 255, 0.4),
+                0 0 80px rgba(124, 58, 237, 0.3);
+            border-color: var(--primary-color);
+            animation: hoverGlow 2s ease-in-out infinite;
+        }
+
+        .product-card:hover::before {
+            opacity: 1;
+        }
+
+        .product-card:hover::after {
+            width: 400px;
+            height: 400px;
+        }
+
+        .product-image {
+            position: relative;
+            height: 280px;
+            overflow: hidden;
+            background: linear-gradient(135deg, 
+                rgba(55, 65, 81, 0.5), 
+                rgba(31, 41, 55, 0.7));
+        }
+
+        .product-image img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* or 'contain' based on preference */
-            transition: transform 0.3s ease;
+            object-fit: cover;
+            transition: all 0.5s ease;
+            filter: brightness(0.9) contrast(1.1);
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.15);
+            filter: brightness(1.2) contrast(1.3);
         }
         
-        .product-card:hover .product-image {
-            transform: scale(1.05);
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.5);
+            z-index: 2;
         }
 
         .product-info {
-            padding: 1rem;
-            flex-grow: 1; /* Allows info to take remaining space */
-            display: flex;
-            flex-direction: column;
+            padding: 2.5rem;
+            color: white;
+            position: relative;
+            z-index: 1;
         }
 
-        .product-name {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--secondary-color);
-            margin-bottom: 0.5rem;
+        .product-category {
+            color: var(--success-color);
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+
+        .product-info h3 {
+            margin: 0 0 1.2rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
             line-height: 1.3;
-             /* Clamp text to 2 lines */
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            min-height: 2.6em; /* Roughly 2 lines */
         }
 
-        .product-brand {
-            font-size: 0.85rem;
-            color: var(--text-color-light);
-            margin-bottom: 0.75rem;
+        .product-description {
+            color: var(--metallic-silver);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            font-size: 1rem;
         }
 
         .product-price {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: var(--primary-color);
-            margin-top: auto; /* Pushes price to the bottom if card heights vary */
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--success-color);
+            margin-bottom: 2rem;
+            text-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
+            animation: priceShine 2s ease-in-out infinite alternate;
         }
 
+        .product-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .product-actions .btn {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-actions .btn-primary {
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            border: 2px solid var(--primary-color);
+        }
+
+        .product-actions .btn-outline {
+            background: transparent;
+            border: 2px solid var(--carbon-gray);
+            color: var(--metallic-silver);
+        }
+
+        .product-actions .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
+        }
+
+        /* 載入動畫 */
+        .loading {
+            text-align: center;
+            padding: 6rem 2rem;
+            color: var(--metallic-silver);
+            font-size: 1.3rem;
+        }
+
+        .loading i {
+            color: var(--primary-color);
+            margin-right: 1rem;
+            animation: spin 1.5s infinite linear;
+            font-size: 1.5rem;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 1400px) {
+            .products-main-content {
+                gap: 2rem;
+                padding: 2rem 3%;
+            }
+            
+            .products-sidebar {
+                flex: 0 0 320px;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 968px) {
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .page-header p {
+                font-size: 1.1rem;
+            }
+            
+            .products-main-content {
+                flex-direction: column;
+                padding: 2rem 4%;
+            }
+
+            .products-sidebar {
+                flex: none;
+                position: static;
+                margin-bottom: 2rem;
+            }
+
+            .products-header {
+                flex-direction: column;
+                gap: 1.5rem;
+                align-items: stretch;
+                padding: 1.5rem 2rem;
+            }
+
+            .sort-options {
+                justify-content: space-between;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-header {
+                padding: 4rem 5% 3rem;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .search-bar {
+                flex-direction: column;
+                border-radius: 20px;
+            }
+            
+            .search-bar input,
+            .search-bar button {
+                border-radius: 15px;
+            }
+            
+            .products-main-content {
+                padding: 1.5rem 3%;
+            }
+            
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header {
+                padding: 3rem 5% 2rem;
+            }
+            
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .products-sidebar {
+                padding: 2rem 1.5rem;
+            }
+            
+            .product-info {
+                padding: 2rem 1.5rem;
+            }
+            
+            .product-actions {
+                flex-direction: column;
+            }
+        }
     </style>
 </head>
 <body>
@@ -344,8 +690,7 @@
         <div class="container nav-container">
             <div class="logo">
                 <a href="index.html" aria-label="motoweb首頁">
-                    <img src="MOTOWEB.png" alt="motoweb Logo" class="logo-img">
-                    <h1>motoweb</h1>
+                    <img src="images/motoweb-logo.svg" alt="motoweb Logo" class="logo-img">
                 </a>
             </div>
             <div class="nav-links" id="navLinks">
@@ -381,99 +726,128 @@
         </div>
     </nav>
 
-    <header class="page-header" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('images/community-bg.jpg') center/cover no-repeat; padding: 4rem 5%; text-align: center; color: white;">
-        <h1>改裝零件商城</h1>
-        <p>尋找最適合您愛車的改裝精品</p>
+    <div class="main-container">
+        <header class="page-header">
+            <h1>極致改裝零件商城</h1>
+            <p>探索頂級改裝零件，打造專屬於您的夢想座駕</p>
         <div class="search-bar">
-            <input type="text" placeholder="搜尋改裝零件、關鍵字...">
-            <button><i class="fas fa-search"></i> 搜尋</button>
+                <input type="text" id="search-input" placeholder="搜尋品牌、型號、零件名稱..." autocomplete="off">
+                <button id="search-btn" type="button">
+                    <i class="fas fa-search"></i> 搜尋
+                </button>
         </div>
     </header>
 
     <main class="products-main-content">
         <aside class="products-sidebar" id="products-sidebar">
-            <h3>商品分類</h3>
+                <h3><i class="fas fa-filter"></i> 商品分類</h3>
             
             <div class="filter-group">
-                <div class="group-title" data-toggle="sym-series">SYM車系 <i class="fas fa-chevron-right"></i></div>
+                    <div class="group-title" data-toggle="sym-series">
+                        <span>SYM車系</span> 
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
                 <ul class="filter-list" id="sym-series">
                     <li>
-                        <div class="group-title sub-group-title" data-toggle="sym-jet">JET 全車系 <i class="fas fa-chevron-right"></i></div>
+                            <div class="group-title sub-group-title" data-toggle="sym-jet">
+                                <span>JET 全車系</span> 
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
                         <ul class="filter-list sub-list" id="sym-jet">
-                           <li><a href="#" data-category="sym-jet-power">JET動力系統升級</a></li>
-                           <li><a href="#" data-category="sym-jet-brake">JET煞車制動升級</a></li>
-                           <li><a href="#" data-category="sym-jet-suspension">JET避震懸吊升級</a></li>
-                           <li><a href="#" data-category="sym-jet-appearance">JET熱門外觀燈系改裝</a></li>
+                               <li><a href="#" data-category="sym-jet-power"><span>JET動力系統升級</span></a></li>
+                               <li><a href="#" data-category="sym-jet-brake"><span>JET煞車制動升級</span></a></li>
+                               <li><a href="#" data-category="sym-jet-suspension"><span>JET避震懸吊升級</span></a></li>
+                               <li><a href="#" data-category="sym-jet-appearance"><span>JET熱門外觀燈系改裝</span></a></li>
                         </ul>
                     </li>
                     <li>
-                        <div class="group-title sub-group-title" data-toggle="sym-drg">DRG <i class="fas fa-chevron-right"></i></div>
+                            <div class="group-title sub-group-title" data-toggle="sym-drg">
+                                <span>DRG</span> 
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
                         <ul class="filter-list sub-list" id="sym-drg">
-                           <li><a href="#" data-category="sym-drg-power">DRG動力系統升級</a></li>
-                           <li><a href="#" data-category="sym-drg-brake">DRG煞車制動升級</a></li>
-                           <li><a href="#" data-category="sym-drg-suspension">DRG避震懸吊升級</a></li>
-                           <li><a href="#" data-category="sym-drg-appearance">DRG熱門燈系外觀改裝</a></li>
+                               <li><a href="#" data-category="sym-drg-power"><span>DRG動力系統升級</span></a></li>
+                               <li><a href="#" data-category="sym-drg-brake"><span>DRG煞車制動升級</span></a></li>
+                               <li><a href="#" data-category="sym-drg-suspension"><span>DRG避震懸吊升級</span></a></li>
+                               <li><a href="#" data-category="sym-drg-appearance"><span>DRG熱門燈系外觀改裝</span></a></li>
                         </ul>
                     </li>
                     <li>
-                        <div class="group-title sub-group-title" data-toggle="sym-mmbcu">黑曼巴MMBCU <i class="fas fa-chevron-right"></i></div>
+                            <div class="group-title sub-group-title" data-toggle="sym-mmbcu">
+                                <span>黑曼巴MMBCU</span> 
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
                         <ul class="filter-list sub-list" id="sym-mmbcu">
-                           <li><a href="#" data-category="sym-mmbcu-power">MMBCU動力系統升級</a></li>
-                           <li><a href="#" data-category="sym-mmbcu-brake">MMBCU煞車制動升級</a></li>
-                           <li><a href="#" data-category="sym-mmbcu-suspension">MMBCU懸吊避震升級</a></li>
-                           <li><a href="#" data-category="sym-mmbcu-appearance">MMBCU熱門外觀燈系改裝</a></li>
+                               <li><a href="#" data-category="sym-mmbcu-power"><span>MMBCU動力系統升級</span></a></li>
+                               <li><a href="#" data-category="sym-mmbcu-brake"><span>MMBCU煞車制動升級</span></a></li>
+                               <li><a href="#" data-category="sym-mmbcu-suspension"><span>MMBCU懸吊避震升級</span></a></li>
+                               <li><a href="#" data-category="sym-mmbcu-appearance"><span>MMBCU熱門外觀燈系改裝</span></a></li>
                         </ul>
                     </li>
                 </ul>
             </div>
 
             <div class="filter-group">
-                <div class="group-title" data-toggle="yamaha-series">YAMAHA車系 <i class="fas fa-chevron-right"></i></div>
+                    <div class="group-title" data-toggle="yamaha-series">
+                        <span>YAMAHA車系</span> 
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
                 <ul class="filter-list" id="yamaha-series">
                     <li>
-                        <!-- BWS車系選項已移除 -->
-                    </li>
-                     <li>
-                        <div class="group-title sub-group-title" data-toggle="yamaha-cygnus">CYGNUS GRYPHUS <i class="fas fa-chevron-right"></i></div>
+                            <div class="group-title sub-group-title" data-toggle="yamaha-cygnus">
+                                <span>CYGNUS GRYPHUS</span> 
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
                         <ul class="filter-list sub-list" id="yamaha-cygnus">
-                           <li><a href="#" data-category="yamaha-cygnus-power">勁戰動力系統升級</a></li>
-                           <li><a href="#" data-category="yamaha-cygnus-brake">勁戰煞車制動升級</a></li>
-                           <li><a href="#" data-category="yamaha-cygnus-suspension">勁戰避震懸吊升級</a></li>
-                           <li><a href="#" data-category="yamaha-cygnus-appearance">勁戰熱門外觀燈系升級</a></li>
+                               <li><a href="#" data-category="yamaha-cygnus-power"><span>勁戰動力系統升級</span></a></li>
+                               <li><a href="#" data-category="yamaha-cygnus-brake"><span>勁戰煞車制動升級</span></a></li>
+                               <li><a href="#" data-category="yamaha-cygnus-suspension"><span>勁戰避震懸吊升級</span></a></li>
+                               <li><a href="#" data-category="yamaha-cygnus-appearance"><span>勁戰熱門外觀燈系升級</span></a></li>
                         </ul>
                     </li>
                     <li>
-                        <div class="group-title sub-group-title" data-toggle="yamaha-force-smax">FORCE1.0/SMAX <i class="fas fa-chevron-right"></i></div>
+                            <div class="group-title sub-group-title" data-toggle="yamaha-force-smax">
+                                <span>FORCE1.0/SMAX</span> 
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
                         <ul class="filter-list sub-list" id="yamaha-force-smax">
-                           <li><a href="#" data-category="yamaha-force-smax-power">FORCE1.0/SMAX動力系統升級</a></li>
-                           <li><a href="#" data-category="yamaha-force-smax-brake">FORCE1.0/SMAX煞車制動升級</a></li>
-                           <li><a href="#" data-category="yamaha-force-smax-suspension">FORCE1.0/SMAX避震懸吊升級</a></li>
-                           <li><a href="#" data-category="yamaha-force-smax-appearance">FORCE1.0/SMAX熱門外觀燈系升級</a></li>
+                               <li><a href="#" data-category="yamaha-force-smax-power"><span>FORCE1.0/SMAX動力系統升級</span></a></li>
+                               <li><a href="#" data-category="yamaha-force-smax-brake"><span>FORCE1.0/SMAX煞車制動升級</span></a></li>
+                               <li><a href="#" data-category="yamaha-force-smax-suspension"><span>FORCE1.0/SMAX避震懸吊升級</span></a></li>
+                               <li><a href="#" data-category="yamaha-force-smax-appearance"><span>FORCE1.0/SMAX熱門外觀燈系升級</span></a></li>
                         </ul>
                     </li>
                      <li>
-                        <div class="group-title sub-group-title" data-toggle="yamaha-force2">FORCE2.0 <i class="fas fa-chevron-right"></i></div>
+                            <div class="group-title sub-group-title" data-toggle="yamaha-force2">
+                                <span>FORCE2.0</span> 
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
                         <ul class="filter-list sub-list" id="yamaha-force2">
-                           <li><a href="#" data-category="yamaha-force2-power">FORCE2.0動力系統升級</a></li>
-                           <li><a href="#" data-category="yamaha-force2-brake">FORCE2.0煞車制動升級</a></li>
-                           <li><a href="#" data-category="yamaha-force2-suspension">FORCE2.0避震懸吊升級</a></li>
-                           <li><a href="#" data-category="yamaha-force2-appearance">FORCE2.0熱門外觀燈系升級</a></li>
+                               <li><a href="#" data-category="yamaha-force2-power"><span>FORCE2.0動力系統升級</span></a></li>
+                               <li><a href="#" data-category="yamaha-force2-brake"><span>FORCE2.0煞車制動升級</span></a></li>
+                               <li><a href="#" data-category="yamaha-force2-suspension"><span>FORCE2.0避震懸吊升級</span></a></li>
+                               <li><a href="#" data-category="yamaha-force2-appearance"><span>FORCE2.0熱門外觀燈系升級</span></a></li>
                         </ul>
                     </li>
                 </ul>
                 </div>
 
             <div class="filter-group">
-                <div class="group-title" data-toggle="kymco-series">KYMCO車系 <i class="fas fa-chevron-right"></i></div>
+                    <div class="group-title" data-toggle="kymco-series">
+                        <span>KYMCO車系</span> 
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
                 <ul class="filter-list" id="kymco-series">
-
                      <li>
-                        <div class="group-title sub-group-title" data-toggle="kymco-krv">KRV <i class="fas fa-chevron-right"></i></div>
+                            <div class="group-title sub-group-title" data-toggle="kymco-krv">
+                                <span>KRV</span> 
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
                         <ul class="filter-list sub-list" id="kymco-krv">
-                           <li><a href="#" data-category="kymco-krv-power">KRV動力系統升級</a></li>
-                           <li><a href="#" data-category="kymco-krv-brake">KRV煞車制動升級</a></li>
-                           <li><a href="#" data-category="kymco-krv-suspension">KRV避震懸吊升級</a></li>
-                           <li><a href="#" data-category="kymco-krv-appearance">KRV熱門外觀燈系升級</a></li>
+                               <li><a href="#" data-category="kymco-krv-power"><span>KRV動力系統升級</span></a></li>
+                               <li><a href="#" data-category="kymco-krv-brake"><span>KRV煞車制動升級</span></a></li>
+                               <li><a href="#" data-category="kymco-krv-suspension"><span>KRV避震懸吊升級</span></a></li>
+                               <li><a href="#" data-category="kymco-krv-appearance"><span>KRV熱門外觀燈系升級</span></a></li>
                         </ul>
                     </li>
                 </ul>
@@ -493,80 +867,379 @@
                         <option value="oldest">上架時間: 由舊到新</option>
                         <option value="price-desc">價格: 由高至低</option>
                         <option value="price-asc">價格: 由低至高</option>
+                            <option value="popular">人氣: 由高至低</option>
+                            <option value="rating">評價: 由高至低</option>
                     </select>
                 </div>
             </div>
 
             <div class="product-grid" id="product-grid">
-                <!-- Products will be loaded here by JavaScript -->
-                <p>正在載入產品資料...</p>
+                    <div class="loading">
+                        <i class="fas fa-spinner"></i>
+                        正在載入精選改裝零件...
+                    </div>
                 </div>
 
             <div class="pagination" id="pagination">
-                <!-- Pagination controls will be loaded here -->
+                    <!-- 分頁控制會在這裡動態載入 -->
             </div>
         </section>
     </main>
+    </div>
 
     <footer class="footer">
-        <!-- Footer content will be inserted by common.js -->
+        <!-- Footer 內容會由 common.js 插入 -->
     </footer>
+
+    <button id="backToTop" class="back-to-top" aria-label="返回頁面頂部">
+        <i class="fas fa-chevron-up"></i>
+    </button>
 
     <script src="/js/common.js"></script>
     <script src="js/auth-state.js"></script>
     <script src="js/products-api.js"></script>
     <script>
-        // 產品資料已遷移到資料庫，使用 API 載入
-        // 保留必要的 UI 邏輯
-
+        // 產品數據和功能
         document.addEventListener('DOMContentLoaded', function() {
+            // 初始化頁面功能
+            initProductsPage();
+            initMobileNav();
+            initAuthState();
+            initBackToTop();
+        });
+
+        // 全域變數
+        let allProducts = [];
+        let currentProducts = [];
+        let currentFilter = 'all';
+        let currentSort = 'latest';
+        let isLoading = false;
+
+        function initProductsPage() {
+            // 綁定事件監聽器
+            bindEventListeners();
+            
+            // 載入產品
+            loadProducts();
+            
             // 處理URL參數
+            handleURLParams();
+        }
+
+        function bindEventListeners() {
+            // 分類篩選
+            document.querySelectorAll('.group-title').forEach(title => {
+                title.addEventListener('click', function() {
+                    const targetId = this.dataset.toggle;
+                    if (targetId) {
+                        toggleFilterGroup(targetId, this);
+                    }
+                });
+            });
+
+            // 產品篩選連結
+            document.querySelectorAll('.filter-list a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const category = this.dataset.category;
+            
+            if (category) {
+                        filterByCategory(category);
+                        setActiveFilter(this);
+                    }
+                });
+            });
+
+            // 排序
+            document.getElementById('sort-by').addEventListener('change', function() {
+                currentSort = this.value;
+                sortProducts();
+                displayProducts();
+            });
+
+            // 搜尋
+            const searchBtn = document.getElementById('search-btn');
+            const searchInput = document.getElementById('search-input');
+            
+            searchBtn.addEventListener('click', performSearch);
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+        }
+
+        function toggleFilterGroup(targetId, titleElement) {
+            const targetList = document.getElementById(targetId);
+            const isOpen = targetList.classList.contains('open');
+            
+            // 切換展開狀態
+            targetList.classList.toggle('open');
+            titleElement.classList.toggle('open');
+        }
+
+        function filterByCategory(category) {
+            currentFilter = category;
+            currentProducts = allProducts.filter(product => 
+                product.category.includes(category) || 
+                product.mainCategory.includes(category) ||
+                product.brand.toLowerCase().includes(category.toLowerCase())
+            );
+            displayProducts();
+        }
+
+        function setActiveFilter(activeLink) {
+            // 移除所有active類別
+            document.querySelectorAll('.filter-list a').forEach(link => {
+                link.classList.remove('active');
+            });
+            // 設置當前active
+            activeLink.classList.add('active');
+        }
+
+        function performSearch() {
+            const query = document.getElementById('search-input').value.toLowerCase().trim();
+            if (!query) {
+                currentProducts = [...allProducts];
+            } else {
+                currentProducts = allProducts.filter(product =>
+                    product.name.toLowerCase().includes(query) ||
+                    product.brand.toLowerCase().includes(query) ||
+                    product.description.toLowerCase().includes(query) ||
+                    (product.tags && product.tags.some(tag => tag.toLowerCase().includes(query)))
+                );
+            }
+            displayProducts();
+        }
+
+        function sortProducts() {
+            currentProducts.sort((a, b) => {
+                switch (currentSort) {
+                    case 'price-asc':
+                        return a.price - b.price;
+                    case 'price-desc':
+                        return b.price - a.price;
+                    case 'popular':
+                        return (b.popularity || 0) - (a.popularity || 0);
+                    case 'rating':
+                        return (b.rating || 0) - (a.rating || 0);
+                    case 'oldest':
+                        return new Date(a.createdAt) - new Date(b.createdAt);
+                    case 'latest':
+                    default:
+                        return new Date(b.createdAt) - new Date(a.createdAt);
+                }
+            });
+        }
+
+        async function loadProducts() {
+            if (isLoading) return;
+            
+            isLoading = true;
+            const productGrid = document.getElementById('product-grid');
+            
+            try {
+                // 顯示載入狀態
+                productGrid.innerHTML = `
+                    <div class="loading">
+                        <i class="fas fa-spinner"></i>
+                        正在載入精選改裝零件...
+                    </div>
+                `;
+
+                // 從 API 載入產品
+                const response = await fetch('http://localhost:3001/api/products?page=1&limit=100');
+                if (!response.ok) {
+                    throw new Error('API 請求失敗');
+                }
+                
+                const data = await response.json();
+                allProducts = data.products || [];
+                currentProducts = [...allProducts];
+                
+                console.log('載入產品數量:', allProducts.length);
+                console.log('產品樣本:', allProducts.slice(0, 3));
+        
+                // 排序並顯示產品
+                sortProducts();
+                displayProducts();
+                
+            } catch (error) {
+                console.error('載入產品失敗:', error);
+                productGrid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 4rem; color: var(--metallic-silver);">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 1rem; color: #ef4444;"></i>
+                        <h3 style="color: white; margin-bottom: 1rem;">載入產品失敗</h3>
+                        <p>請檢查網路連接或稍後再試</p>
+                        <button onclick="loadProducts()" class="btn btn-primary" style="margin-top: 1rem;">
+                            <i class="fas fa-redo"></i> 重新載入
+                        </button>
+                    </div>
+                `;
+            } finally {
+                isLoading = false;
+            }
+        }
+
+        function displayProducts() {
+            const productGrid = document.getElementById('product-grid');
+            const productCount = document.getElementById('product-count');
+            
+            // 更新計數
+            productCount.textContent = `顯示 ${currentProducts.length} 件商品`;
+            
+            if (currentProducts.length === 0) {
+                productGrid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 4rem; color: var(--metallic-silver);">
+                        <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 1rem; color: var(--primary-color);"></i>
+                        <h3 style="color: white; margin-bottom: 1rem;">找不到符合條件的商品</h3>
+                        <p>請嘗試調整搜尋條件或瀏覽其他分類</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // 立即更新 DOM，避免閃爍
+            productGrid.innerHTML = currentProducts.map(product => {
+                // 確保圖片路徑正確
+                const imagePath = product.image || 'images/parts/placeholder-product.png';
+                const fullImagePath = imagePath.startsWith('http') ? imagePath : `/${imagePath}`;
+                
+                // 判斷是否為新品或熱銷（基於創建時間和庫存）
+                const isNew = new Date(product.createdAt) > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000); // 30天內
+                const isHot = product.stock < 20; // 庫存少於20視為熱銷
+                
+                return `
+                    <article class="product-card" data-product-id="${product._id || product.id}">
+                        ${isNew ? '<div class="product-badge">新品</div>' : ''}
+                        ${isHot ? '<div class="product-badge" style="background: linear-gradient(45deg, #ff6b6b, #ff8e53);">熱銷</div>' : ''}
+                        
+                        <div class="product-image">
+                            <img src="${fullImagePath}" 
+                                 alt="${product.name}" 
+                                 loading="lazy" 
+                                 onerror="this.src='/images/parts/placeholder-product.png'">
+                        </div>
+                        
+                        <div class="product-info">
+                            <div class="product-category">${product.brand || 'MotoWeb'}</div>
+                            <h3>${product.name}</h3>
+                            <p class="product-description">${product.description || '優質改裝零件，提升您的騎乘體驗'}</p>
+                            
+                            <div class="product-price">
+                                NT$${product.price ? product.price.toLocaleString() : '0'}
+                                ${product.originalPrice && product.originalPrice > product.price ? 
+                                    `<span style="text-decoration: line-through; color: var(--metallic-silver); font-size: 0.8em; margin-left: 0.5rem;">NT$${product.originalPrice.toLocaleString()}</span>` 
+                                    : ''
+                                }
+                            </div>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <div style="color: #fbbf24;">
+                                        ${'★'.repeat(Math.floor(product.rating || 4.5))}${'☆'.repeat(5 - Math.floor(product.rating || 4.5))}
+                                    </div>
+                                    <span style="color: var(--metallic-silver); font-size: 0.9rem;">(${product.reviews || Math.floor(Math.random() * 200) + 50})</span>
+                                </div>
+                                <span style="color: ${product.stock > 10 ? 'var(--success-color)' : '#ef4444'}; font-size: 0.9rem;">
+                                    庫存: ${product.stock || 0}
+                                </span>
+                            </div>
+                            
+                            <div class="product-actions">
+                                <button class="btn btn-primary" onclick="addToCart('${product._id || product.id}')">
+                                    <i class="fas fa-shopping-cart"></i> 加入購物車
+                                </button>
+                                <button class="btn btn-outline" onclick="toggleWishlist('${product._id || product.id}')">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+
+            // 移除載入動畫類別，如果有的話
+            productGrid.classList.remove('loading');
+        }
+
+        function addToCart(productId) {
+            const product = allProducts.find(p => p._id === productId || p.id === productId);
+            if (product) {
+                // 這裡可以實現加入購物車邏輯
+                showNotification(`${product.name} 已加入購物車！`, 'success');
+            }
+        }
+
+        function toggleWishlist(productId) {
+            const product = allProducts.find(p => p._id === productId || p.id === productId);
+            if (product) {
+                // 這裡可以實現願望清單邏輯
+                showNotification(`${product.name} 已加入願望清單！`, 'info');
+            }
+        }
+
+        function showNotification(message, type = 'info') {
+            // 創建通知元素
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? 'linear-gradient(45deg, var(--success-color), #10b981)' : 'linear-gradient(45deg, var(--primary-color), var(--accent-color))'};
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 10px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                z-index: 1000;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // 動畫顯示
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            // 自動移除
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        function handleURLParams() {
             const urlParams = new URLSearchParams(window.location.search);
             const category = urlParams.get('category');
             
-            // 如果有分類參數，自動展開對應的分類並高亮顯示
             if (category) {
-                handleCategoryFromURL(category);
+                // 處理分類參數
+                const categoryMapping = {
+                    'performance': 'power',
+                    'suspension': 'suspension',
+                    'visual': 'appearance',
+                    'electronics': 'electronic'
+            };
+            
+                const mappedCategory = categoryMapping[category] || category;
+                filterByCategory(mappedCategory);
+                
+                // 自動展開相關分類
+                expandRelatedCategories(mappedCategory);
             }
+        }
 
-            // 初始化其他功能
-            if (typeof initMobileNav === 'function') initMobileNav();
-            if (typeof initAuthState === 'function') initAuthState();
-            
-            // 產品 API 初始化
-            window.productsAPI = new ProductsAPI();
-        });
-        
-        // 處理從URL參數來的分類
-        function handleCategoryFromURL(category) {
-            // 分類映射
-            const categoryMapping = {
-                'performance': ['power', '動力系統'],
-                'suspension': ['suspension', '避震', '懸吊'],
-                'visual': ['appearance', '外觀', '燈系'],
-                'comfort': ['comfort', '舒適']
-            };
-            
-            const mapping = categoryMapping[category];
-            if (!mapping) return;
-            
-            // 更新頁面標題
-            const pageTitle = document.querySelector('.page-header h1');
-            const categoryNames = {
-                'performance': '性能升級',
-                'suspension': '懸吊系統',
-                'visual': '外觀改造',
-                'comfort': '舒適度提升'
-            };
-            
-            if (pageTitle && categoryNames[category]) {
-                pageTitle.textContent = `${categoryNames[category]} - 改裝零件`;
-            }
-            
-            // 展開相關的分類選項
+        function expandRelatedCategories(category) {
             document.querySelectorAll('.filter-list a').forEach(link => {
-                const linkCategory = link.dataset.category || link.textContent;
-                if (mapping.some(keyword => linkCategory.includes(keyword))) {
+                const linkCategory = link.dataset.category || '';
+                if (linkCategory.includes(category)) {
                     // 展開父級分類
                     let parentList = link.closest('.filter-list');
                     while (parentList) {
@@ -578,21 +1251,60 @@
                         parentList = parentList.parentElement.closest('.filter-list');
                     }
                     
-                    // 高亮顯示匹配的連結
-                    link.style.backgroundColor = '#fff3cd';
-                    link.style.borderLeft = '3px solid var(--primary-color)';
-                    link.style.paddingLeft = '0.5rem';
+                    // 設置為活躍狀態
+                    link.classList.add('active');
                 }
             });
+        }
+
+        function initBackToTop() {
+            const backToTopButton = document.getElementById('backToTop');
             
-            // 更新產品顯示區域的提示文字
-            const productGrid = document.getElementById('product-grid');
-            if (productGrid && categoryNames[category]) {
-                productGrid.innerHTML = `<p>正在載入 ${categoryNames[category]} 相關產品...</p>`;
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTopButton.classList.add('visible');
+                } else {
+                    backToTopButton.classList.remove('visible');
+                }
+            });
+
+            backToTopButton.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
+
+        function initMobileNav() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener('click', () => {
+                    navLinks.classList.toggle('active');
+                    menuToggle.setAttribute('aria-expanded', 
+                        menuToggle.getAttribute('aria-expanded') === 'false' ? 'true' : 'false'
+                    );
+                });
             }
         }
 
-
+        function initAuthState() {
+            // 檢查登入狀態
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            const authButtons = document.querySelector('.auth-buttons');
+            const userMenu = document.querySelector('.user-menu');
+            
+            if (isLoggedIn) {
+                authButtons.style.display = 'none';
+                userMenu.style.display = 'block';
+                
+                // 設置用戶名稱
+                const username = localStorage.getItem('username') || '用戶';
+                document.querySelector('.username').textContent = username;
+            }
+        }
     </script>
 </body>
 </html>

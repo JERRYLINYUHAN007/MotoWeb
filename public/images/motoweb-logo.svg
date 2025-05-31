@@ -1,14 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="200" height="60" viewBox="0 0 200 60" version="1.1" xmlns="http://www.w3.org/2000/svg">
-  <!-- 背景圓形 -->
-  <circle cx="30" cy="30" r="25" fill="#e63946"/>
+  <defs>
+    <!-- 簡潔漸變 -->
+    <linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#00d4ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:1" />
+    </linearGradient>
+  </defs>
   
-  <!-- 摩托車圖標 -->
-  <path d="M22,40 L26,28 L38,28 L42,40" stroke="white" stroke-width="2.5" fill="none"/>
-  <circle cx="22" cy="40" r="5" fill="white"/>
-  <circle cx="42" cy="40" r="5" fill="white"/>
-  <path d="M32,24 L36,20 L40,24" stroke="white" stroke-width="2" fill="none"/>
+  <!-- 簡潔的圓形背景 -->
+  <circle cx="30" cy="30" r="25" fill="url(#iconGradient)" opacity="0.9"/>
   
-  <!-- 文字 -->
-  <text x="65" y="40" font-family="Arial, sans-serif" font-weight="bold" font-size="24" fill="#333333">MOTOWEB</text>
+  <!-- 簡化的摩托車圖標 -->
+  <g transform="translate(30,30)" stroke="white" stroke-width="2" fill="none">
+    <!-- 車身 -->
+    <path d="M-6,-2 L6,-2 L8,2 L-8,2 Z" fill="white" opacity="0.8"/>
+    
+    <!-- 前輪 -->
+    <circle cx="-8" cy="6" r="4"/>
+    <circle cx="-8" cy="6" r="1.5" fill="white"/>
+    
+    <!-- 後輪 -->
+    <circle cx="8" cy="6" r="4"/>
+    <circle cx="8" cy="6" r="1.5" fill="white"/>
+    
+    <!-- 把手 -->
+    <path d="M-2,-2 L0,-6 L2,-4"/>
+  </g>
+  
+  <!-- 簡潔文字 -->
+  <text x="65" y="37" font-family="'Montserrat', 'Arial', sans-serif" 
+        font-weight="700" font-size="20" fill="url(#textGradient)" letter-spacing="1px">
+    MOTOWEB
+  </text>
 </svg> 

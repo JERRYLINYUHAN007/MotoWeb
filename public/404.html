@@ -5,13 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>找不到頁面 - MotoWeb</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/tech-theme.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
+        /* 404 頁面專用樣式 - 現代科技風格 */
+        body {
+            background: var(--secondary-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
         .error-container {
-            min-height: 80vh;
+            flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -19,45 +28,226 @@
             text-align: center;
             padding: 2rem;
             margin-top: 80px;
+            background: 
+                linear-gradient(135deg, 
+                    rgba(10, 10, 10, 0.95), 
+                    rgba(31, 41, 55, 0.8)),
+                radial-gradient(circle at 30% 40%, rgba(0, 212, 255, 0.15), transparent),
+                radial-gradient(circle at 70% 60%, rgba(124, 58, 237, 0.15), transparent),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="error" patternUnits="userSpaceOnUse" width="25" height="25"><rect width="25" height="25" fill="%23111827"/><path d="M0,12.5 L25,12.5 M12.5,0 L12.5,25" stroke="%23374151" stroke-width="0.5" opacity="0.3"/><circle cx="12.5" cy="12.5" r="1" fill="%2300d4ff" opacity="0.4"/></pattern></defs><rect width="100" height="100" fill="url(%23error)"/></svg>');
+            background-size: cover, 600px 600px, 800px 800px, 50px 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .error-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100"><path d="M0,50 L250,30 L500,50 L750,30 L1000,50 L1000,70 L750,50 L500,70 L250,50 L0,70 Z" fill="rgba(0,212,255,0.08)"/></svg>') repeat-x;
+            animation: dataFlow 15s infinite linear;
+            z-index: 1;
+        }
+
+        .error-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
         }
         
         .error-title {
-            font-size: 10rem;
+            font-size: 12rem;
             font-weight: 700;
-            color: #3498db;
-            margin: 0;
+            margin: 0 0 2rem;
             line-height: 1;
+            background: linear-gradient(45deg, 
+                var(--primary-color), 
+                var(--accent-color), 
+                var(--success-color));
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: neonGlow 4s ease-in-out infinite;
+            text-shadow: 
+                0 0 30px rgba(0, 212, 255, 0.5),
+                0 0 60px rgba(124, 58, 237, 0.3);
         }
         
         .error-subtitle {
-            font-size: 2rem;
-            margin: 1rem 0 2rem;
+            font-size: 2.5rem;
+            margin: 0 0 2rem;
+            color: white;
+            font-weight: 700;
+            text-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
         }
         
         .error-text {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             max-width: 600px;
-            margin-bottom: 2rem;
-            color: #666;
+            margin: 0 auto 3rem;
+            color: var(--metallic-silver);
+            line-height: 1.6;
         }
         
-        .error-image {
-            width: 250px;
-            margin-bottom: 2rem;
+        .error-icon {
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .error-icon i {
+            font-size: 8rem;
+            color: var(--primary-color);
+            text-shadow: 
+                0 0 30px var(--primary-color),
+                0 0 60px rgba(124, 58, 237, 0.5);
+            animation: cyberpulse 3s infinite;
+            transition: all 0.3s ease;
+        }
+        
+        .error-icon:hover i {
+            transform: scale(1.1) rotateY(360deg);
+            color: var(--success-color);
+            text-shadow: 
+                0 0 40px var(--success-color),
+                0 0 80px var(--primary-color);
+        }
+
+        .error-actions {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .error-actions .btn {
+            font-size: 1.1rem;
+            padding: 1rem 2rem;
+        }
+
+        /* 背景動畫 */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .error-icon {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .error-title {
+                font-size: 8rem;
+            }
+
+            .error-subtitle {
+                font-size: 2rem;
+            }
+
+            .error-text {
+                font-size: 1.1rem;
+            }
+
+            .error-icon i {
+                font-size: 6rem;
+            }
+
+            .error-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .error-title {
+                font-size: 6rem;
+            }
+
+            .error-subtitle {
+                font-size: 1.5rem;
+            }
+
+            .error-icon i {
+                font-size: 4rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="error-container">
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                <a href="index.html" aria-label="motoweb首頁">
+                    <img src="MOTOWEB.png" alt="motoweb Logo" class="logo-img">
+                    <h1>motoweb</h1>
+                </a>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <div class="main-nav">
+                    <a href="index.html">首頁</a>
+                    <a href="products.html">改裝零件</a>
+                    <a href="community.html">社群討論</a>
+                    <a href="gallery.html">作品展示</a>
+                    <a href="events.html">改裝活動</a>
+                </div>
+                <div class="auth-buttons">
+                    <a href="login.html" class="btn btn-secondary">登入</a>
+                    <a href="register.html" class="btn btn-primary">註冊</a>
+                </div>
+                <div class="user-menu" style="display: none;">
+                    <div class="user-avatar">
+                        <img src="/images/default-avatar.svg" alt="用戶頭像" class="avatar">
+                        <span class="username">用戶名稱</span>
+                    </div>
+                    <div class="dropdown-menu">
+                        <a href="/profile.html"><i class="fas fa-user"></i> 個人資料</a>
+                        <a href="/garage.html"><i class="fas fa-motorcycle"></i> 我的車庫</a>
+                        <a href="/settings.html"><i class="fas fa-cog"></i> 帳號設定</a>
+                        <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> 登出</a>
+                    </div>
+                </div>
+            </div>
+            <button class="menu-toggle" aria-label="展開選單" aria-expanded="false" aria-controls="navLinks">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
+    </nav>
+
+    <main class="error-container">
+        <div class="error-content">
         <h1 class="error-title">404</h1>
         <h2 class="error-subtitle">找不到頁面</h2>
         <p class="error-text">很抱歉，您尋找的頁面不存在或已被移除。請確認您輸入的網址是否正確，或返回首頁繼續瀏覽。</p>
-        <div class="error-image">
-            <i class="fas fa-motorcycle fa-6x" style="color: #3498db;"></i>
+            <div class="error-icon">
+                <i class="fas fa-motorcycle"></i>
+            </div>
+            <div class="error-actions">
+                <a href="index.html" class="btn btn-primary">
+                    <i class="fas fa-home"></i> 返回首頁
+                </a>
+                <a href="javascript:history.back()" class="btn btn-outline">
+                    <i class="fas fa-arrow-left"></i> 回到上頁
+                </a>
+            </div>
         </div>
-        <a href="/" class="btn btn-primary">返回首頁</a>
-    </div>
+    </main>
     
-    <script src="js/common.js"></script>
+    <!-- JavaScript -->
+    <script src="/js/common.js"></script>
+    <script src="js/auth-state.js"></script>
+    <script>
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化通用功能
+            if (typeof initMobileNav === 'function') initMobileNav();
+            if (typeof initAuthState === 'function') initAuthState();
+        });
+    </script>
 </body>
 </html> 

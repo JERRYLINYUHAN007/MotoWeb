@@ -48,7 +48,15 @@ body {
   font-family: var(--font-primary);
   line-height: var(--line-height-base);
   color: var(--text-color);
-  background-color: var(--light-color);
+  background: var(--background-color);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Global Styles - 確保內容不被固定導航欄遮擋 */
+main {
+  margin-top: 80px;
 }
 
 /* Typography */
@@ -76,42 +84,90 @@ a:hover {
 /* Buttons */
 .btn {
   display: inline-block;
-  padding: var(--spacing-sm) var(--spacing-md);
-  border-radius: var(--border-radius-md);
+  padding: 1rem 2rem;
+  border-radius: 30px;
   font-weight: 600;
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  border: none;
+  border: 2px solid transparent;
+  text-decoration: none;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.3), 
+    transparent);
+  transition: left 0.5s ease;
+}
+
+.btn:hover::before {
+  left: 100%;
 }
 
 .btn-primary {
-  background-color: var(--button-color);
-  color: var(--light-color);
+  background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+  color: white;
+  border-color: var(--success-color);
+  box-shadow: 
+    0 8px 25px rgba(0, 212, 255, 0.4),
+    0 0 30px rgba(124, 58, 237, 0.2);
 }
 
 .btn-primary:hover {
-  background-color: var(--button-hover-color);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 
+    0 15px 40px rgba(0, 212, 255, 0.6),
+    0 0 60px var(--primary-color);
+  animation: cyberpulse 0.6s ease-in-out infinite;
 }
 
 .btn-secondary {
-  background-color: var(--secondary-color);
-  color: var(--light-color);
+  background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
+  color: white;
+  border-color: var(--carbon-gray);
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .btn-secondary:hover {
-  background-color: var(--primary-color);
+  background: linear-gradient(45deg, var(--carbon-gray), var(--light-surface));
+  border-color: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(0, 212, 255, 0.3);
 }
 
 .btn-outline {
-  background-color: transparent;
-  border: 2px solid var(--primary-color);
+  background: transparent;
+  border-color: var(--primary-color);
   color: var(--primary-color);
+  box-shadow: 
+    0 4px 15px rgba(0, 212, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .btn-outline:hover {
-  background-color: var(--primary-color);
-  color: var(--light-color);
+  background: linear-gradient(45deg, var(--primary-color), var(--neon-blue));
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 
+    0 8px 25px rgba(0, 212, 255, 0.4),
+    0 0 30px var(--primary-color);
 }
 
 /* Forms */
@@ -189,12 +245,21 @@ a:hover {
 
 /* Navigation */
 .navbar {
-  background-color: var(--navbar-bg);
-  padding: var(--spacing-md) 0;
-  box-shadow: var(--shadow-sm);
-  position: sticky;
+  background: var(--navbar-bg);
+  backdrop-filter: blur(20px);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.8),
+    0 1px 0 rgba(0, 212, 255, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 1000;
+  height: 80px;
+  border-bottom: 2px solid var(--primary-color);
+  display: flex;
+  align-items: center;
 }
 
 .nav-container {
@@ -222,16 +287,18 @@ a:hover {
 }
 
 .nav-links a:not(.btn) {
-  color: var(--text-color);
+  color: white;
   font-weight: 500;
   padding: 0.5rem 1rem;
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
+  position: relative;
 }
 
 .nav-links a:not(.btn):hover,
 .nav-links a:not(.btn).active {
   color: var(--primary-color);
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
 }
 
 .main-nav {
@@ -409,10 +476,13 @@ a:hover {
 
 /* Footer */
 .footer {
-  background-color: var(--dark-color);
-  color: white;
+  background: var(--footer-bg);
+  color: var(--footer-text);
   padding: var(--spacing-xl) 0;
-  margin-top: var(--spacing-xl);
+  border-top: 2px solid var(--primary-color);
+  box-shadow: 
+    0 -8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .footer-content {
@@ -447,16 +517,44 @@ a:hover {
 
 /* Cards */
 .card {
-  background-color: white;
-  border-radius: var(--border-radius-md);
-  box-shadow: var(--shadow-sm);
+  background: var(--card-bg);
+  border-radius: 20px;
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(0, 212, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border: 2px solid var(--card-border);
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, 
+    var(--primary-color), 
+    var(--accent-color), 
+    var(--success-color));
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.5),
+    0 0 40px rgba(0, 212, 255, 0.3),
+    0 0 60px rgba(124, 58, 237, 0.2);
+  border-color: var(--primary-color);
+}
+
+.card:hover::before {
+  opacity: 1;
 }
 
 .card-img {
@@ -472,11 +570,14 @@ a:hover {
 .card-title {
   font-size: 1.25rem;
   margin-bottom: var(--spacing-sm);
+  color: white;
+  font-weight: 700;
 }
 
 .card-text {
-  color: var(--gray-color);
+  color: var(--metallic-silver);
   margin-bottom: var(--spacing-md);
+  line-height: 1.6;
 }
 
 /* Alerts */

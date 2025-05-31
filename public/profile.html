@@ -3,22 +3,991 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>個人資料 - MotoMod 摩托車改裝社群</title>
-    <meta name="description" content="查看並編輯您的 MotoMod 個人資料">
+    <title>個人資料 - MotoWeb</title>
+    <meta name="description" content="查看並編輯您的 MotoWeb 個人資料">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/tech-theme.css">
     <link rel="stylesheet" href="css/profile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* 優化後的配色方案 - 科技主題 */
+        
+        /* 動畫效果 */
+        @keyframes titleGlow {
+            0%, 100% { 
+                text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+            }
+            50% { 
+                text-shadow: 0 0 30px rgba(124, 58, 237, 0.5);
+            }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+            }
+            50% { 
+                box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
+            }
+        }
+
+        /* 基本頁面樣式 */
+        .profile-page {
+            background: 
+                linear-gradient(135deg, 
+                    rgba(10, 10, 10, 0.95), 
+                    rgba(31, 41, 55, 0.9)),
+                radial-gradient(circle at 30% 40%, rgba(0, 212, 255, 0.05), transparent),
+                radial-gradient(circle at 70% 60%, rgba(124, 58, 237, 0.05), transparent);
+            min-height: 100vh;
+            color: white;
+        }
+
+        main {
+            padding: 2rem 0;
+            margin-top: 80px;
+        }
+
+        /* 個人資料標題區域 */
+        .profile-header {
+            background: linear-gradient(145deg, 
+                rgba(31, 41, 55, 0.9), 
+                rgba(17, 24, 39, 0.8));
+            border-radius: 25px;
+            box-shadow: 
+                0 15px 40px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(0, 212, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            border: 2px solid var(--carbon-gray);
+            backdrop-filter: blur(20px);
+        }
+
+        .profile-cover {
+            position: relative;
+            height: 280px;
+            overflow: hidden;
+            background: linear-gradient(135deg, 
+                rgba(0, 212, 255, 0.1), 
+                rgba(124, 58, 237, 0.1)),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="circuit" patternUnits="userSpaceOnUse" width="40" height="40"><rect width="40" height="40" fill="%23111827"/><path d="M0,20 L40,20 M20,0 L20,40" stroke="%2300d4ff" stroke-width="0.5" opacity="0.3"/><circle cx="20" cy="20" r="2" fill="%2300d4ff" opacity="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23circuit)"/></svg>');
+            background-size: cover, 80px 80px;
+        }
+
+        .profile-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+        }
+
+        .edit-cover-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: linear-gradient(45deg, 
+                rgba(0, 212, 255, 0.2), 
+                rgba(124, 58, 237, 0.2));
+            color: white;
+            border: 2px solid var(--primary-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .edit-cover-btn:hover {
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            box-shadow: 0 0 25px rgba(0, 212, 255, 0.5);
+            transform: scale(1.1);
+        }
+
+        .profile-info {
+            position: relative;
+            padding: 0 2.5rem 2.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+
+        .profile-avatar {
+            position: relative;
+            margin-top: -80px;
+            margin-right: 2.5rem;
+        }
+
+        .profile-avatar img {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            border: 5px solid var(--primary-color);
+            object-fit: cover;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(0, 212, 255, 0.3);
+            animation: pulseGlow 3s ease-in-out infinite;
+        }
+
+        .edit-avatar-btn {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: linear-gradient(45deg, var(--success-color), var(--primary-color));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.3);
+        }
+
+        .edit-avatar-btn:hover {
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.5);
+        }
+
+        .profile-details {
+            flex: 1;
+            min-width: 0;
+            padding-top: 1rem;
+        }
+
+        .profile-details h1 {
+            display: flex;
+            align-items: center;
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: white;
+            font-weight: 700;
+            animation: titleGlow 4s ease-in-out infinite;
+        }
+
+        .edit-btn {
+            margin-left: 1rem;
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .edit-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+            transform: scale(1.1);
+        }
+
+        .user-bio {
+            color: var(--metallic-silver);
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .user-stats {
+            display: flex;
+            gap: 3rem;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: linear-gradient(145deg, 
+                rgba(55, 65, 81, 0.5), 
+                rgba(31, 41, 55, 0.7));
+            border-radius: 15px;
+            border: 1px solid var(--carbon-gray);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            background: linear-gradient(145deg, 
+                rgba(0, 212, 255, 0.1), 
+                rgba(124, 58, 237, 0.1));
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.2);
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--metallic-silver);
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+
+        /* 側邊欄和主要內容 */
+        .profile-content {
+            display: grid;
+            grid-template-columns: minmax(280px, 1fr) 3fr;
+            gap: 2.5rem;
+        }
+
+        .profile-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .profile-section {
+            background: linear-gradient(145deg, 
+                rgba(31, 41, 55, 0.8), 
+                rgba(17, 24, 39, 0.9));
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--carbon-gray);
+            backdrop-filter: blur(20px);
+        }
+
+        .profile-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid var(--primary-color);
+            color: white;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+        }
+
+        .info-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            background: linear-gradient(145deg, 
+                rgba(55, 65, 81, 0.3), 
+                rgba(31, 41, 55, 0.5));
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .info-group:hover {
+            background: linear-gradient(145deg, 
+                rgba(0, 212, 255, 0.1), 
+                rgba(124, 58, 237, 0.1));
+            transform: translateX(5px);
+        }
+
+        .info-group i {
+            width: 24px;
+            margin-right: 1rem;
+            color: var(--success-color);
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+
+        .info-group p {
+            color: white;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .tag {
+            padding: 0.6rem 1.2rem;
+            background: linear-gradient(45deg, 
+                rgba(0, 212, 255, 0.2), 
+                rgba(124, 58, 237, 0.2));
+            color: white;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1px solid var(--primary-color);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .tag:hover {
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .quick-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .quick-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .quick-links a {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            color: white;
+            text-decoration: none;
+            background: linear-gradient(145deg, 
+                rgba(55, 65, 81, 0.3), 
+                rgba(31, 41, 55, 0.5));
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .quick-links a:hover {
+            background: linear-gradient(145deg, 
+                rgba(0, 212, 255, 0.2), 
+                rgba(124, 58, 237, 0.2));
+            border-color: var(--primary-color);
+            transform: translateX(8px);
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.2);
+        }
+
+        .quick-links i {
+            margin-right: 1rem;
+            color: var(--success-color);
+            width: 20px;
+            text-align: center;
+        }
+
+        /* 主要內容區域 */
+        .profile-main {
+            background: linear-gradient(145deg, 
+                rgba(31, 41, 55, 0.8), 
+                rgba(17, 24, 39, 0.9));
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 
+                0 15px 40px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--carbon-gray);
+            backdrop-filter: blur(20px);
+        }
+
+        .profile-tabs {
+            display: flex;
+            margin-bottom: 2.5rem;
+            border-bottom: 2px solid var(--carbon-gray);
+        }
+
+        .tab-btn {
+            padding: 1.2rem 2rem;
+            background: transparent;
+            border: none;
+            color: var(--metallic-silver);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .tab-btn:hover {
+            color: var(--primary-color);
+            background: linear-gradient(145deg, 
+                rgba(0, 212, 255, 0.1), 
+                rgba(124, 58, 237, 0.1));
+        }
+
+        .tab-btn.active {
+            color: white;
+            background: linear-gradient(145deg, 
+                rgba(0, 212, 255, 0.2), 
+                rgba(124, 58, 237, 0.2));
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        .tab-content {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .tab-content.hidden {
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 貼文列表樣式 */
+        .posts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .post-item {
+            background: linear-gradient(145deg, 
+                rgba(55, 65, 81, 0.5), 
+                rgba(31, 41, 55, 0.7));
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--carbon-gray);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .post-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, 
+                var(--primary-color), 
+                var(--accent-color), 
+                var(--success-color));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .post-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 15px 40px rgba(0, 0, 0, 0.4),
+                0 0 30px rgba(0, 212, 255, 0.2);
+            border-color: var(--primary-color);
+        }
+
+        .post-item:hover::before {
+            opacity: 1;
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .post-header h3 {
+            color: white;
+            font-size: 1.3rem;
+            margin: 0;
+            flex: 1;
+            font-weight: 700;
+        }
+
+        .post-date {
+            color: var(--success-color);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+
+        .post-excerpt {
+            color: var(--metallic-silver);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .post-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid var(--carbon-gray);
+        }
+
+        .post-stats {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .post-stats span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--metallic-silver);
+            font-size: 0.9rem;
+        }
+
+        .post-stats i {
+            color: var(--primary-color);
+        }
+
+        .post-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            border: 1px solid var(--primary-color);
+        }
+
+        .post-link:hover {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+        }
+
+        /* 車輛網格樣式 */
+        .bikes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .bike-card {
+            background: linear-gradient(145deg, 
+                rgba(55, 65, 81, 0.5), 
+                rgba(31, 41, 55, 0.7));
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--carbon-gray);
+            transition: all 0.4s ease;
+        }
+
+        .bike-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                0 0 30px rgba(0, 212, 255, 0.3);
+            border-color: var(--primary-color);
+        }
+
+        .bike-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bike-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .bike-card:hover .bike-image img {
+            transform: scale(1.1);
+        }
+
+        .bike-info {
+            padding: 1.5rem;
+        }
+
+        .bike-info h3 {
+            color: white;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .bike-details {
+            color: var(--metallic-silver);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .bike-mods {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .mod-tag {
+            padding: 0.3rem 0.8rem;
+            background: linear-gradient(45deg, 
+                rgba(0, 212, 255, 0.2), 
+                rgba(124, 58, 237, 0.2));
+            color: var(--primary-color);
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid var(--primary-color);
+        }
+
+        /* 收藏項目樣式 */
+        .likes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .liked-item {
+            background: linear-gradient(145deg, 
+                rgba(55, 65, 81, 0.5), 
+                rgba(31, 41, 55, 0.7));
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--carbon-gray);
+            transition: all 0.4s ease;
+        }
+
+        .liked-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                0 0 30px rgba(0, 212, 255, 0.3);
+            border-color: var(--primary-color);
+        }
+
+        .liked-item img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .liked-item-info {
+            padding: 1.5rem;
+        }
+
+        .liked-item-info h3 {
+            color: white;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .liked-item-info p {
+            color: var(--metallic-silver);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .liked-item-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price {
+            color: var(--success-color);
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            border-radius: 15px;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-small:hover {
+            background: linear-gradient(45deg, var(--accent-color), var(--success-color));
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* 模態框樣式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .modal.open {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: linear-gradient(145deg, 
+                rgba(31, 41, 55, 0.95), 
+                rgba(17, 24, 39, 0.95));
+            border-radius: 25px;
+            padding: 2.5rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 
+                0 25px 60px rgba(0, 0, 0, 0.6),
+                0 0 40px rgba(0, 212, 255, 0.2);
+            border: 2px solid var(--primary-color);
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: var(--metallic-silver);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: var(--primary-color);
+            transform: scale(1.2);
+        }
+
+        .modal h2 {
+            color: white;
+            margin-bottom: 2rem;
+            font-weight: 700;
+            text-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+        }
+
+        /* 表單樣式 */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: white;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(145deg, 
+                rgba(55, 65, 81, 0.5), 
+                rgba(31, 41, 55, 0.7));
+            border: 2px solid var(--carbon-gray);
+            border-radius: 15px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--metallic-silver);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(45deg, var(--accent-color), var(--success-color));
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--metallic-silver);
+            border: 2px solid var(--carbon-gray);
+        }
+
+        .btn-secondary:hover {
+            background: var(--carbon-gray);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 1200px) {
+            .profile-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .profile-sidebar {
+                grid-row: 2;
+                flex-direction: row;
+                overflow-x: auto;
+            }
+            
+            .profile-main {
+                grid-row: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .profile-info {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .profile-avatar {
+                margin-top: -80px;
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .profile-avatar img {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .user-stats {
+                justify-content: center;
+                gap: 1.5rem;
+            }
+            
+            .profile-cover {
+                height: 200px;
+            }
+            
+            .bikes-grid,
+            .likes-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-section {
+                padding: 1.5rem;
+            }
+            
+            .profile-main {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .profile-info {
+                padding: 0 1.5rem 1.5rem;
+            }
+            
+            .profile-details h1 {
+                font-size: 1.8rem;
+            }
+            
+            .profile-tabs {
+                flex-wrap: wrap;
+            }
+            
+            .tab-btn {
+                padding: 1rem 1.5rem;
+                font-size: 0.9rem;
+            }
+            
+            .modal-content {
+                padding: 2rem;
+                margin: 1rem;
+            }
+            
+            .user-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
 </head>
 <body class="profile-page">
     <nav class="navbar">
         <div class="container nav-container">
             <div class="logo">
                 <a href="index.html" aria-label="motoweb首頁">
-                    <img src="MOTOWEB.png" alt="motoweb Logo" class="logo-img">
-                    <h1>motoweb</h1>
+                    <img src="images/motoweb-logo.svg" alt="motoweb Logo" class="logo-img">
                 </a>
             </div>
             <div class="nav-links" id="navLinks">
@@ -387,8 +1356,8 @@
             <div class="footer-content">
                 <div class="footer-section about">
                     <div class="footer-logo">
-                        <img src="MOTOWEB.png" alt="motoweb Logo" class="footer-logo-img">
-                        <h3>motoweb</h3>
+                        <img src="images/motoweb-logo.svg" alt="motoweb Logo" class="footer-logo-img">
+                        <h3>MotoWeb</h3>
                     </div>
                     <p>專業的摩托車改裝社群平台，為車友提供交流與分享的空間。</p>
                     <div class="social-links">
@@ -413,7 +1382,7 @@
                 <div class="footer-section contact">
                     <h3>聯絡資訊</h3>
                     <ul class="contact-info">
-                        <li><i class="fas fa-envelope"></i> contact@motomod.com</li>
+                        <li><i class="fas fa-envelope"></i> contact@MotoWeb.com</li>
                         <li><i class="fas fa-phone"></i> (02) 1234-5678</li>
                         <li><i class="fas fa-map-marker-alt"></i> 台北市信義區松仁路100號</li>
                     </ul>
@@ -424,13 +1393,13 @@
                     <p>獲取最新改裝趨勢與活動資訊</p>
                     <form class="newsletter-form" action="subscribe.php" method="POST">
                         <input type="email" name="email" placeholder="您的電子郵件" required>
-                        <button type="submit" class="btn">訂閱</button>
+                        <button type="submit" class="btn btn-primary">訂閱</button>
                     </form>
                 </div>
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2025 MotoMod. 保留所有權利。</p>
+                <p>&copy; 2025 MotoWeb. 保留所有權利。</p>
                 <div class="footer-bottom-links">
                     <a href="privacy.html">隱私政策</a>
                     <a href="terms.html">使用條款</a>

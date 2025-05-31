@@ -1436,3 +1436,24 @@ function renderPagination(currentPage, totalPages) {
         });
     });
 }
+
+// 查看我的活動
+function viewMyEvents() {
+    // 檢查登入狀態
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    if (!isLoggedIn) {
+        alert('請先登入查看您的活動');
+        window.location.href = 'login.html';
+        return;
+    }
+    
+    // 這裡可以實現篩選用戶相關活動的邏輯
+    // 例如：用戶報名的活動、用戶創建的活動等
+    const currentUser = localStorage.getItem('username') || '用戶';
+    
+    // 暫時顯示提示訊息
+    alert(`${currentUser}，我的活動功能正在開發中，敬請期待！\n\n您可以：\n• 瀏覽全部活動\n• 搜尋感興趣的活動\n• 報名參加活動`);
+    
+    // 可以在這裡實現實際的篩選邏輯
+    // 例如：filterByUser(currentUser);
+}

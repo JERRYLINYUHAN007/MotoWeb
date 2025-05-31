@@ -87,8 +87,13 @@ function insertNavbar() {
     }
 }
 
-// 設置登出功能
+// 設置登出功能 - 已由 auth-state.js 統一處理，此函數保留但不執行實際操作
 function setupLogout() {
+    console.log('common.js setupLogout 被調用，但已被 auth-state.js 接管');
+    // 不再在這裡處理登出邏輯，由 auth-state.js 統一管理
+    
+    // 移除舊的實現，避免衝突
+    /*
     const logoutButton = document.getElementById('logout');
     
     if (logoutButton) {
@@ -109,6 +114,7 @@ function setupLogout() {
             }, 500);
         });
     }
+    */
 }
 
 // 插入頁尾

@@ -3,80 +3,509 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>社群討論 | 擎翔車業改裝專業網</title>
+    <title>社群討論 | MotoWeb</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/tech-theme.css">
     <link rel="stylesheet" href="css/community.css">
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* 用戶菜單樣式 */
-        .user-menu {
-            position: relative;
-            cursor: pointer;
+        /* Community 頁面專用樣式 - 現代科技風格 */
+        .main-container {
+            margin-top: 80px;
+            min-height: 100vh;
+            background: var(--secondary-color);
         }
-        
-        .user-avatar {
+
+        .community-main-content {
             display: flex;
-            align-items: center;
-            padding: 5px;
-            border-radius: 4px;
+            gap: 3rem;
+            padding: 2rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+            background: var(--secondary-color);
+        }
+
+        /* 側邊欄樣式 - 科技風格 */
+        .community-sidebar {
+            flex: 0 0 320px;
+            background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
+            padding: 2rem;
+            border-radius: 20px;
+            height: fit-content;
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.4),
+                0 0 20px rgba(0, 212, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--carbon-gray);
+            position: sticky;
+            top: 100px;
+        }
+
+        .community-sidebar h3 {
+            font-size: 1.6rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid var(--primary-color);
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+            font-weight: 700;
+        }
+
+        .category-list ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .category-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        .category-list a {
+            display: block;
+            padding: 0.8rem 1rem;
+            color: var(--metallic-silver);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .category-list a:hover,
+        .category-list a.active {
+            color: white;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            font-weight: 600;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+            transform: translateX(5px);
+        }
+
+        .popular-tags h3 {
+            margin-top: 2rem;
+        }
+
+        .tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            padding: 0.5rem 1rem;
+            background: linear-gradient(145deg, var(--light-surface), var(--mid-surface));
+            color: var(--metallic-silver);
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid var(--carbon-gray);
             transition: all 0.3s ease;
         }
-        
-        .user-avatar:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        
-        .user-avatar img {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            margin-right: 8px;
-        }
-        
-        .user-avatar .username {
+
+        .tag:hover {
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
             color: white;
-            font-weight: 500;
-            max-width: 120px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+            transform: translateY(-2px);
         }
-        
-        .dropdown-menu {
+
+        /* 討論區域樣式 */
+        .community-display-area {
+            flex: 1;
+            background: var(--secondary-color);
+        }
+
+        .community-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem 2rem;
+            background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
+            border-radius: 15px;
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .results-count {
+            color: var(--metallic-silver);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .view-options .btn {
+            font-size: 0.95rem;
+            padding: 10px 20px;
+        }
+
+        /* 討論列表樣式 */
+        .discussion-list {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .discussion-item {
+            background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.4),
+                0 0 20px rgba(0, 212, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid transparent;
+            position: relative;
+            color: white;
+        }
+
+        .discussion-item::before {
+            content: '';
             position: absolute;
-            top: 100%;
+            top: 0;
+            left: 0;
             right: 0;
-            width: 180px;
-            background-color: white;
-            border-radius: 4px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 8px 0;
-            z-index: 100;
-            display: none;
+            height: 4px;
+            background: linear-gradient(90deg, 
+                var(--primary-color), 
+                var(--accent-color), 
+                var(--success-color));
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
-        
-        .dropdown-menu.show {
-            display: block;
+
+        .discussion-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(0, 212, 255, 0.3),
+                0 0 60px rgba(124, 58, 237, 0.2);
+            border-color: var(--primary-color);
         }
-        
-        .dropdown-menu a {
-            display: block;
-            padding: 8px 16px;
-            color: #333;
-            text-decoration: none;
-            transition: background-color 0.2s;
+
+        .discussion-item:hover::before {
+            opacity: 1;
         }
-        
-        .dropdown-menu a:hover {
-            background-color: #f5f5f5;
+
+        .discussion-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            gap: 1rem;
         }
-        
-        .dropdown-menu i {
-            width: 16px;
-            margin-right: 8px;
+
+        .discussion-user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid var(--success-color);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+        }
+
+        .user-info h4 {
+            margin: 0;
+            color: white;
+            font-weight: 700;
+        }
+
+        .user-info span {
+            color: var(--metallic-silver);
+            font-size: 0.9rem;
+        }
+
+        .discussion-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .discussion-item:hover .discussion-title {
+            color: var(--primary-color);
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        .discussion-content {
+            color: var(--metallic-silver);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .discussion-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid var(--carbon-gray);
+        }
+
+        .discussion-stats {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .discussion-stats span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--metallic-silver);
+            font-size: 0.9rem;
+        }
+
+        .discussion-stats i {
+            color: var(--success-color);
+        }
+
+        .category-tag {
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* 載入指示器 */
+        .loading {
             text-align: center;
+            padding: 4rem;
+            color: var(--metallic-silver);
+            font-size: 1.2rem;
+        }
+
+        .loading i {
+            color: var(--primary-color);
+            margin-right: 0.8rem;
+        }
+
+        /* 分頁樣式 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 3rem;
+        }
+
+        .pagination a,
+        .pagination span {
+            padding: 0.8rem 1.2rem;
+            background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
+            color: var(--metallic-silver);
+            text-decoration: none;
+            border-radius: 12px;
+            border: 1px solid var(--carbon-gray);
+            transition: all 0.3s ease;
+        }
+
+        .pagination a:hover,
+        .pagination .active {
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            color: white;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 1200px) {
+            .community-main-content {
+                gap: 2rem;
+            }
+            
+            .community-sidebar {
+                flex: 0 0 280px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .community-main-content {
+                flex-direction: column;
+                padding: 1rem 3%;
+            }
+
+            .community-sidebar {
+                flex: none;
+                position: static;
+                margin-bottom: 2rem;
+            }
+
+            .community-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+                text-align: center;
+            }
+
+            .discussion-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.8rem;
+            }
+
+            .discussion-footer {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: center;
+            }
+        }
+
+        /* 頁面標題區塊樣式 */
+        .page-header {
+            background: 
+                linear-gradient(135deg, 
+                    rgba(10, 10, 10, 0.95), 
+                    rgba(31, 41, 55, 0.9)),
+                radial-gradient(circle at 30% 40%, rgba(0, 212, 255, 0.1), transparent),
+                radial-gradient(circle at 70% 60%, rgba(124, 58, 237, 0.1), transparent),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="circuit" patternUnits="userSpaceOnUse" width="40" height="40"><rect width="40" height="40" fill="%23111827"/><path d="M0,20 L40,20 M20,0 L20,40" stroke="%2300d4ff" stroke-width="0.5" opacity="0.3"/><circle cx="20" cy="20" r="2" fill="%2300d4ff" opacity="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23circuit)"/></svg>');
+            background-size: cover, cover, cover, 80px 80px;
+            color: white;
+            padding: 6rem 5% 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, var(--primary-color), transparent);
+            animation: scanEffect 8s infinite linear;
+        }
+
+        @keyframes scanEffect {
+            0% { transform: translateX(-100%); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(100%); opacity: 0; }
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { 
+                background-position: 0% 50%;
+                filter: brightness(1) drop-shadow(0 0 20px rgba(0, 212, 255, 0.5));
+            }
+            50% { 
+                background-position: 100% 50%;
+                filter: brightness(1.2) drop-shadow(0 0 30px rgba(124, 58, 237, 0.8));
+            }
+        }
+
+        .page-header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, 
+                #ffffff, 
+                var(--primary-color), 
+                var(--accent-color), 
+                var(--success-color), 
+                #ffffff);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleGlow 4s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+            position: relative;
+        }
+
+        .page-header p {
+            font-size: 1.3rem;
+            color: var(--metallic-silver);
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+        }
+
+        .search-bar {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            gap: 0;
+            background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
+            border-radius: 50px;
+            border: 2px solid var(--carbon-gray);
+            overflow: hidden;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 1.2rem 2rem;
+            border: none;
+            background: transparent;
+            color: white;
+            font-size: 1.1rem;
+            outline: none;
+        }
+
+        .search-bar input::placeholder {
+            color: var(--metallic-silver);
+        }
+
+        .search-bar .search-btn {
+            padding: 1.2rem 2rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            border: none;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .search-bar .search-btn:hover {
+            background: linear-gradient(45deg, var(--accent-color), var(--success-color));
+            box-shadow: 0 0 25px rgba(0, 212, 255, 0.5);
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 968px) {
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .page-header p {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-header {
+                padding: 4rem 5% 3rem;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .search-bar {
+                flex-direction: column;
+                border-radius: 20px;
+            }
+            
+            .search-bar input,
+            .search-bar .search-btn {
+                border-radius: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header {
+                padding: 3rem 5% 2rem;
+            }
+            
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
         }
     </style>
 </head>
@@ -85,8 +514,7 @@
         <div class="container nav-container">
             <div class="logo">
                 <a href="index.html" aria-label="motoweb首頁">
-                    <img src="MOTOWEB.png" alt="motoweb Logo" class="logo-img">
-                    <h1>motoweb</h1>
+                    <img src="images/motoweb-logo.svg" alt="motoweb Logo" class="logo-img">
                 </a>
             </div>
             <div class="nav-links" id="navLinks">
@@ -103,7 +531,7 @@
                 </div>
                 <div class="user-menu" style="display: none;">
                     <div class="user-avatar">
-                        <img src="/images/default-avatar.svg" alt="用戶頭像" class="avatar">
+                        <img src="images/default-avatar.svg" alt="用戶頭像" class="avatar">
                         <span class="username">用戶名稱</span>
                     </div>
                     <div class="dropdown-menu">
@@ -124,14 +552,14 @@
 
     <!-- 主要內容區域 -->
     <main class="main-container">
-        <header class="page-header" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('images/backgrounds/community-bg.jpg') center/cover no-repeat; padding: 4rem 5%; text-align: center; color: white;">
+        <header class="page-header">
             <h1>社群討論</h1>
             <p>分享你的改裝經驗，與車友們一起交流討論</p>
             <div class="search-bar">
                 <input type="text" id="search-input" placeholder="搜尋討論內容...">
                 <button class="search-btn" id="search-btn"><i class="fas fa-search"></i></button>
-        </div>
-    </header>
+            </div>
+        </header>
 
         <main class="community-main-content">
             <div class="content-layout">
@@ -170,7 +598,7 @@
                         <span id="discussion-count">討論文章</span>
                     </div>
                     <div class="view-options">
-                        <button class="btn-primary" id="new-post-btn">
+                        <button class="btn btn-primary" id="new-post-btn">
                             <i class="fas fa-plus"></i> 發表文章
                         </button>
                     </div>
@@ -204,33 +632,34 @@
             <div class="modal-body">
                 <form id="post-form">
                     <div class="form-group">
-                        <label for="post-title">標題 *</label>
-                        <input type="text" id="post-title" required maxlength="100">
+                        <label for="post-title">標題</label>
+                        <input type="text" id="post-title" class="form-control" required maxlength="100" placeholder="請輸入文章標題...">
                     </div>
                     
                     <div class="form-group">
-                        <label for="post-category">分類 *</label>
-                        <select id="post-category" required>
+                        <label for="post-category">分類</label>
+                        <select id="post-category" class="form-control" required>
                             <option value="">請選擇分類</option>
-                            <option value="排氣系統">排氣系統</option>
-                            <option value="懸吊系統">懸吊系統</option>
-                            <option value="引擎改裝">引擎改裝</option>
-                            <option value="電子系統">電子系統</option>
-                            <option value="外觀套件">外觀套件</option>
-                            <option value="保養維護">保養維護</option>
+                            <option value="排氣系統">🏍️ 排氣系統</option>
+                            <option value="懸吊系統">⚙️ 懸吊系統</option>
+                            <option value="引擎改裝">🔧 引擎改裝</option>
+                            <option value="電子系統">💡 電子系統</option>
+                            <option value="外觀套件">✨ 外觀套件</option>
+                            <option value="保養維護">🛠️ 保養維護</option>
                         </select>
                     </div>
                     
                     <div class="form-group">
-                        <label for="post-content">內容 *</label>
-                        <textarea id="post-content" required rows="8" placeholder="分享你的改裝經驗、心得或問題..."></textarea>
+                        <label for="post-content">內容</label>
+                        <textarea id="post-content" class="form-control" required rows="6" placeholder="分享你的改裝經驗、心得或問題...&#10;&#10;例如：&#10;• 使用了什麼零件？&#10;• 改裝過程如何？&#10;• 有什麼建議或注意事項？"></textarea>
                     </div>
                     
                     <div class="form-group">
-                        <label>標籤 (最多5個)</label>
+                        <label for="tag-input" class="optional-label">標籤 (最多5個，可選)</label>
                         <div class="tag-input-container" id="tag-container">
-                            <input type="text" id="tag-input" placeholder="輸入標籤後按 Enter">
+                            <input type="text" id="tag-input" class="tag-input" placeholder="輸入標籤後按 Enter，例如：排氣管、性能提升">
                         </div>
+                        <small class="form-hint">💡 添加相關標籤可以讓更多人找到你的文章</small>
                     </div>
                 </form>
             </div>
@@ -245,47 +674,59 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-section">
-                    <h3>擎翔車業</h3>
-                    <p>專業機車改裝，給你最棒的騎乘體驗</p>
+                <div class="footer-section about">
+                    <div class="footer-logo">
+                        <img src="images/motoweb-logo.svg" alt="motoweb Logo" class="footer-logo-img">
+                    </div>
+                    <p>專業的摩托車改裝社群平台，為車友提供交流與分享的空間。</p>
                     <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
                     </div>
                 </div>
-                <div class="footer-section">
-                    <h4>改裝服務</h4>
-                    <ul>
-                        <li><a href="products.html?category=power">動力系統</a></li>
-                        <li><a href="products.html?category=exhaust">排氣系統</a></li>
-                        <li><a href="products.html?category=suspension">懸吊系統</a></li>
-                        <li><a href="products.html?category=appearance">外觀套件</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>客戶服務</h4>
+                <div class="footer-section links">
+                    <h3>快速連結</h3>
                     <ul>
                         <li><a href="about.html">關於我們</a></li>
-                        <li><a href="contact.html">聯絡我們</a></li>
-                        <li><a href="warranty.html">保固說明</a></li>
-                        <li><a href="faq.html">常見問題</a></li>
+                        <li><a href="products.html">改裝零件</a></li>
+                        <li><a href="community.html">社群討論</a></li>
+                        <li><a href="gallery.html">作品展示</a></li>
+                        <li><a href="events.html">改裝活動</a></li>
                     </ul>
                 </div>
-                <div class="footer-section">
-                    <h4>聯絡資訊</h4>
-                    <div class="contact-info">
-                        <p><i class="fas fa-map-marker-alt"></i> 台中市西屯區工業區路123號</p>
-                        <p><i class="fas fa-phone"></i> (04) 2359-8888</p>
-                        <p><i class="fas fa-envelope"></i> info@cxmotor.com.tw</p>
-                    </div>
+                <div class="footer-section contact">
+                    <h3>聯絡資訊</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-envelope"></i> contact@MotoWeb.com</li>
+                        <li><i class="fas fa-phone"></i> (02) 1234-5678</li>
+                        <li><i class="fas fa-map-marker-alt"></i> 台北市信義區松仁路100號</li>
+                    </ul>
+                </div>
+                <div class="footer-section newsletter">
+                    <h3>訂閱電子報</h3>
+                    <p>獲取最新改裝趨勢與活動資訊</p>
+                    <form class="newsletter-form" action="subscribe.php" method="POST">
+                        <input type="email" name="email" placeholder="您的電子郵件" required>
+                        <button type="submit" class="btn btn-primary">訂閱</button>
+                    </form>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 擎翔車業. All rights reserved.</p>
+                <p>&copy; 2025 MotoWeb. 保留所有權利。</p>
+                <div class="footer-bottom-links">
+                    <a href="privacy.html">隱私政策</a>
+                    <a href="terms.html">使用條款</a>
+                    <a href="cookies.html">Cookie 政策</a>
+                </div>
             </div>
         </div>
     </footer>
+
+    <button id="backToTop" class="back-to-top" aria-label="返回頁面頂部">
+        <i class="fas fa-chevron-up"></i>
+    </button>
 
     <!-- JavaScript -->
     <script src="/js/common.js"></script>
@@ -310,16 +751,36 @@
         const searchBtn = document.getElementById('search-btn');
         const newPostBtn = document.getElementById('new-post-btn');
         const modal = document.getElementById('post-modal');
-        const closeBtn = modal.querySelector('.close');
+        const closeBtn = modal ? modal.querySelector('.close') : null;
         const cancelBtn = document.getElementById('cancel-btn');
         const submitBtn = document.getElementById('submit-btn');
 
         // 初始化
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('社群頁面 DOM 載入完成');
+            
+            // 確保模態框初始狀態是隱藏的
+            const modalElement = document.getElementById('post-modal');
+            if (modalElement) {
+                modalElement.style.removeProperty('display');
+                modalElement.classList.remove('show');
+                console.log('模態框初始狀態已設置為隱藏');
+                console.log('模態框初始類別:', modalElement.className);
+                console.log('模態框初始樣式:', window.getComputedStyle(modalElement).display);
+                console.log('模態框初始z-index:', window.getComputedStyle(modalElement).zIndex);
+            }
+            
+            // 檢查重要元素是否存在
+            console.log('新文章按鈕:', document.getElementById('new-post-btn'));
+            console.log('模態框:', document.getElementById('post-modal'));
+            console.log('關閉按鈕:', closeBtn ? closeBtn : null);
+            
             initializeFromURL();
             loadPosts();
             updateCategoryCounts();
             bindEvents();
+            
+            console.log('社群頁面初始化完成');
         });
 
         // 從URL初始化頁面狀態
@@ -387,7 +848,9 @@
             const postsHTML = posts.map(post => `
                 <article class="discussion-item">
                     <div class="discussion-avatar">
-                        <img src="${post.avatar || 'images/avatars/default-user.svg'}" alt="${post.author}">
+                        <img src="${post.avatar || 'images/default-avatar.svg'}" 
+                             alt="${post.author}的頭像" 
+                             onerror="this.src='images/default-avatar.svg'">
                     </div>
                     <div class="discussion-content">
                         <h3 class="discussion-title">
@@ -404,9 +867,9 @@
                         
                         <div class="discussion-tags">
                             ${post.tags.map(tag => `<span class="discussion-tag" data-tag="${tag}">#${tag}</span>`).join('')}
-                            </div>
+                        </div>
                         
-                            <div class="discussion-stats">
+                        <div class="discussion-stats">
                             <span class="stats-item"><i class="fas fa-thumbs-up"></i> ${post.likes}</span>
                             <span class="stats-item"><i class="fas fa-eye"></i> ${post.views}</span>
                             <span class="stats-item"><i class="fas fa-comments"></i> ${post.commentCount}</span>
@@ -490,6 +953,8 @@
 
         // 綁定事件
         function bindEvents() {
+            console.log('開始綁定事件');
+            
             // 分類點擊
             categoryLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
@@ -511,18 +976,44 @@
             });
             
             // 搜尋
-            searchBtn.addEventListener('click', performSearch);
-            searchInput.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') {
-                    performSearch();
-                }
-            });
+            if (searchBtn) {
+                searchBtn.addEventListener('click', performSearch);
+            }
+            if (searchInput) {
+                searchInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
             
-            // 模態框
-            newPostBtn.addEventListener('click', openModal);
-            closeBtn.addEventListener('click', closeModal);
-            cancelBtn.addEventListener('click', closeModal);
-            submitBtn.addEventListener('click', handleSubmitPost);
+            // 模態框事件
+            console.log('準備綁定模態框事件');
+            console.log('newPostBtn:', newPostBtn);
+            console.log('closeBtn:', closeBtn);
+            console.log('cancelBtn:', cancelBtn);
+            console.log('submitBtn:', submitBtn);
+            
+            if (newPostBtn) {
+                console.log('綁定新文章按鈕點擊事件');
+                newPostBtn.addEventListener('click', function(e) {
+                    console.log('新文章按鈕被點擊');
+                    e.preventDefault();
+                    openModal();
+                });
+            } else {
+                console.error('找不到新文章按鈕！');
+            }
+            
+            if (closeBtn) {
+                closeBtn.addEventListener('click', closeModal);
+            }
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', closeModal);
+            }
+            if (submitBtn) {
+                submitBtn.addEventListener('click', handleSubmitPost);
+            }
             
             // 點擊模態框外部關閉
             window.addEventListener('click', (e) => {
@@ -530,6 +1021,8 @@
                     closeModal();
                 }
             });
+            
+            console.log('事件綁定完成');
         }
 
         // 綁定標籤事件
@@ -590,23 +1083,41 @@
 
         // 開啟模態框
         function openModal() {
+            console.log('openModal 函數被調用');
+            
             // 檢查登入狀態
             const token = localStorage.getItem('token');
+            console.log('登入狀態檢查 - token:', token ? '存在' : '不存在');
+            
             if (!token) {
+                console.log('用戶未登入，顯示提示');
                 alert('請先登入才能發表文章');
-                // 可以導向登入頁面
                 window.location.href = 'login.html';
                 return;
             }
             
-            modal.style.display = 'block';
-            initTagInput();
+            const modalElement = document.getElementById('post-modal');
+            if (modalElement) {
+                console.log('顯示模態框');
+                // 移除所有內聯樣式，完全依賴CSS類別
+                modalElement.style.removeProperty('display');
+                modalElement.classList.add('show');
+                console.log('模態框類別已添加:', modalElement.className);
+                console.log('模態框computed樣式:', window.getComputedStyle(modalElement).display);
+                initTagInput();
+            } else {
+                console.error('模態框元素不存在！');
+            }
         }
 
         // 關閉模態框
         function closeModal() {
-            modal.style.display = 'none';
-            clearForm();
+            const modalElement = document.getElementById('post-modal');
+            if (modalElement) {
+                modalElement.classList.remove('show');
+                console.log('模態框已隱藏');
+                clearForm();
+            }
         }
 
         // 清空表單
@@ -768,6 +1279,137 @@
                 return date.toLocaleDateString('zh-TW');
             }
         }
+
+        // 測試函數 - 直接測試按鈕功能
+        function testButton() {
+            console.log('=== 按鈕測試開始 ===');
+            
+            setTimeout(() => {
+                const btn = document.getElementById('new-post-btn');
+                console.log('按鈕元素:', btn);
+                console.log('按鈕類別:', btn ? btn.className : '按鈕不存在');
+                console.log('按鈕文字:', btn ? btn.textContent : '按鈕不存在');
+                console.log('按鈕父元素:', btn ? btn.parentElement : '按鈕不存在');
+                
+                if (btn) {
+                    console.log('嘗試直接點擊按鈕...');
+                    btn.click();
+                }
+                
+                // 檢查模態框
+                const modal = document.getElementById('post-modal');
+                console.log('模態框元素:', modal);
+                console.log('模態框樣式:', modal ? window.getComputedStyle(modal).display : '模態框不存在');
+                
+                console.log('=== 按鈕測試結束 ===');
+            }, 2000);
+        }
+        
+        // 在頁面載入後執行測試
+        setTimeout(testButton, 3000);
+        
+        // 備用方案：直接在DOM載入完成後立即綁定按鈕事件
+        document.addEventListener('DOMContentLoaded', function() {
+            // 等待一小段時間確保DOM完全準備好
+            setTimeout(() => {
+                const backupBtn = document.getElementById('new-post-btn');
+                console.log('備用方案：查找按鈕', backupBtn);
+                
+                if (backupBtn) {
+                    // 移除可能存在的舊事件監聽器
+                    const newBtn = backupBtn.cloneNode(true);
+                    backupBtn.parentNode.replaceChild(newBtn, backupBtn);
+                    
+                    // 直接綁定點擊事件
+                    newBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log('備用方案：按鈕被點擊！');
+                        
+                        // 檢查登入狀態
+                        const token = localStorage.getItem('token');
+                        if (!token) {
+                            alert('請先登入才能發表文章');
+                            window.location.href = 'login.html';
+                            return;
+                        }
+                        
+                        // 直接顯示模態框
+                        const modal = document.getElementById('post-modal');
+                        if (modal) {
+                            modal.style.removeProperty('display');
+                            modal.classList.add('show');
+                            console.log('備用方案：模態框已顯示');
+                            console.log('備用方案：模態框類別:', modal.className);
+                            console.log('備用方案：模態框computed樣式:', window.getComputedStyle(modal).display);
+                        } else {
+                            console.error('備用方案：找不到模態框');
+                        }
+                    });
+                    
+                    console.log('備用方案：事件綁定完成');
+                } else {
+                    console.error('備用方案：找不到按鈕');
+                }
+            }, 500);
+        });
+        
+        // 測試用模擬數據 - 確保所有貼文都有預設頭像
+        function loadTestPosts() {
+            const testPosts = [
+                {
+                    _id: 'test1',
+                    title: '我的第一次改裝經驗分享',
+                    author: '改裝新手',
+                    avatar: '', // 空頭像測試預設頭像
+                    createdAt: new Date().toISOString(),
+                    category: '排氣系統',
+                    excerpt: '最近完成了我的第一次摩托車改裝，想跟大家分享一下經驗...',
+                    tags: ['新手', '排氣管', '經驗分享'],
+                    likes: 15,
+                    views: 234,
+                    commentCount: 8
+                },
+                {
+                    _id: 'test2',
+                    title: '選擇避震器的幾個要點',
+                    author: '車友大神',
+                    avatar: null, // null頭像測試預設頭像
+                    createdAt: new Date(Date.now() - 24*60*60*1000).toISOString(),
+                    category: '懸吊系統',
+                    excerpt: '避震器是影響騎乘舒適度和操控性的重要零件，選擇時需要注意...',
+                    tags: ['避震器', '選購指南', '懸吊'],
+                    likes: 42,
+                    views: 567,
+                    commentCount: 23
+                },
+                {
+                    _id: 'test3',
+                    title: 'LED大燈改裝心得',
+                    author: '夜騎俠',
+                    // 完全不設置avatar屬性
+                    createdAt: new Date(Date.now() - 2*24*60*60*1000).toISOString(),
+                    category: '電子系統',
+                    excerpt: 'LED大燈不僅省電，亮度也比傳統燈泡好很多，今天來分享改裝過程...',
+                    tags: ['LED', '大燈', '照明'],
+                    likes: 28,
+                    views: 189,
+                    commentCount: 12
+                }
+            ];
+            
+            displayPosts(testPosts);
+            document.getElementById('discussion-count').textContent = `找到 ${testPosts.length} 篇討論文章`;
+        }
+        
+        // 如果無法載入真實數據，則載入測試數據
+        setTimeout(() => {
+            const gridContent = document.getElementById('discussions-grid').innerHTML;
+            if (!gridContent || gridContent.includes('載入中') || gridContent.includes('沒有找到')) {
+                console.log('載入測試數據以確保預設頭像正常顯示');
+                loadTestPosts();
+            }
+        }, 5000);
     </script>
 </body>
 </html>

@@ -3,293 +3,254 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>作品展示 - MotoMod 摩托車改裝社群</title>
-    <meta name="description" content="探索精彩的摩托車改裝作品，欣賞獨特的改裝風格與技術">
+    <title>作品展示 - MotoWeb</title>
+    <meta name="description" content="探索精彩的摩托車改裝作品，尋找靈感，分享您的傑作">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/tech-theme.css">
     <link rel="stylesheet" href="css/gallery.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* 用戶菜單樣式 */
-        .user-menu {
-            position: relative;
-            cursor: pointer;
+        /* Gallery頁面科技風格標題 */
+        
+        /* 動畫效果 */
+        @keyframes scanEffect {
+            0% { transform: translateX(-100%); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(100%); opacity: 0; }
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { 
+                background-position: 0% 50%;
+                filter: brightness(1) drop-shadow(0 0 20px rgba(0, 212, 255, 0.5));
+            }
+            50% { 
+                background-position: 100% 50%;
+                filter: brightness(1.2) drop-shadow(0 0 30px rgba(124, 58, 237, 0.8));
+        }
+        }
+
+        /* 主容器樣式 */
+        .main-container {
+            margin-top: 80px;
+            min-height: 100vh;
+            background: 
+                linear-gradient(135deg, 
+                    rgba(10, 10, 10, 0.95), 
+                    rgba(31, 41, 55, 0.9)),
+                radial-gradient(circle at 30% 40%, rgba(0, 212, 255, 0.1), transparent),
+                radial-gradient(circle at 70% 60%, rgba(124, 58, 237, 0.1), transparent);
         }
         
-        .user-avatar {
-            display: flex;
-            align-items: center;
-            padding: 5px;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-        }
-        
-        .user-avatar:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        
-        .user-avatar img {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            margin-right: 8px;
-        }
-        
-        .user-avatar .username {
+        /* 頁面標題區塊樣式 */
+        .gallery-hero {
+            background: 
+                linear-gradient(135deg, 
+                    rgba(10, 10, 10, 0.95), 
+                    rgba(31, 41, 55, 0.9)),
+                radial-gradient(circle at 30% 40%, rgba(0, 212, 255, 0.1), transparent),
+                radial-gradient(circle at 70% 60%, rgba(124, 58, 237, 0.1), transparent),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="circuit" patternUnits="userSpaceOnUse" width="40" height="40"><rect width="40" height="40" fill="%23111827"/><path d="M0,20 L40,20 M20,0 L20,40" stroke="%2300d4ff" stroke-width="0.5" opacity="0.3"/><circle cx="20" cy="20" r="2" fill="%2300d4ff" opacity="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23circuit)"/></svg>');
+            background-size: cover, cover, cover, 80px 80px;
             color: white;
-            font-weight: 500;
-            max-width: 120px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .dropdown-menu {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            width: 180px;
-            background-color: white;
-            border-radius: 4px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 8px 0;
-            z-index: 100;
-            display: none;
-        }
-        
-        .dropdown-menu.show {
-            display: block;
-        }
-        
-        .dropdown-menu a {
-            display: block;
-            padding: 8px 16px;
-            color: #333;
-            text-decoration: none;
-            transition: background-color 0.2s;
-        }
-        
-        .dropdown-menu a:hover {
-            background-color: #f5f5f5;
-        }
-        
-        .dropdown-menu i {
-            width: 16px;
-            margin-right: 8px;
+            padding: 6rem 5% 4rem;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-top: 0;
+        }
+        
+        .gallery-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, var(--primary-color), transparent);
+            animation: scanEffect 8s infinite linear;
         }
 
-        /* 側邊欄樣式 */
-        .content-layout {
+        .gallery-hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, 
+                #ffffff, 
+                var(--primary-color), 
+                var(--accent-color), 
+                var(--success-color), 
+                #ffffff);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleGlow 4s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+            position: relative;
+        }
+
+        .gallery-hero p {
+            font-size: 1.3rem;
+            color: var(--metallic-silver);
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
+
+        .hero-actions {
             display: flex;
+            flex-direction: column;
+            align-items: center;
             gap: 2rem;
-            max-width: 1400px;
             margin: 0 auto;
-            padding: 2rem 5%;
+            max-width: 800px;
         }
 
-        .gallery-sidebar {
-            flex: 0 0 280px;
-            background-color: #f9f9f9;
-            padding: 1.5rem;
-            border-radius: 8px;
-            height: fit-content;
-        }
-
-        .gallery-sidebar h3 {
-            font-size: 1.5rem;
-            color: var(--secondary-color);
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid #eee;
-        }
-
-        .filter-group .group-title {
-            font-weight: bold;
-            color: var(--text-color);
-            margin-top: 1rem;
-            margin-bottom: 0.5rem;
-            cursor: pointer;
+        .search-bar {
+            width: 100%;
+            max-width: 600px;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.5rem 0;
-        }
-
-        .filter-group .group-title i {
-            transition: transform 0.3s ease;
-        }
-
-        .filter-group .group-title.open i {
-            transform: rotate(90deg);
-        }
-
-        .filter-list {
-            list-style: none;
-            padding-left: 0;
-            max-height: 0;
+            gap: 0;
+            background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
+            border-radius: 50px;
+            border: 2px solid var(--carbon-gray);
             overflow: hidden;
-            transition: max-height 0.3s ease-out;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
-        .filter-list.open {
-            max-height: 1000px;
-        }
-
-        .filter-list li a {
-            text-decoration: none;
-            color: var(--text-color-light);
-            display: block;
-            padding: 0.4rem 0;
-            transition: color 0.2s ease;
-        }
-
-        .filter-list li a:hover,
-        .filter-list li a.active {
-            color: var(--primary-color);
-            font-weight: 500;
-        }
-
-        .gallery-main {
+        .search-bar input {
             flex: 1;
-        }
-
-        .gallery-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            padding: 0.5rem;
-            background-color: #fff;
-            border-radius: 6px;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .view-options button {
-            background: none;
-            border: 1px solid #ddd;
-            padding: 0.5rem;
-            margin-left: 0.5rem;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .view-options button.active {
-            background-color: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-        }
-
-        .applied-filters h4 {
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-            color: var(--secondary-color);
-        }
-
-        .filter-tags {
-            margin-bottom: 1rem;
-        }
-
-        .btn-small {
-            padding: 0.3rem 0.8rem;
-            font-size: 0.85rem;
-        }
-
-        /* 側邊欄摺疊樣式 */
-        .group-title {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.75rem 0;
-            cursor: pointer;
-            font-weight: 600;
-            color: var(--secondary-color);
-            border-bottom: 1px solid #eee;
-            transition: color 0.3s ease;
-        }
-
-        .group-title:hover {
-            color: var(--primary-color);
-        }
-
-        .group-title i {
-            transition: transform 0.3s ease;
-        }
-
-        .group-title.open i {
-            transform: rotate(90deg);
-        }
-
-        .filter-list {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .filter-list.open {
-            max-height: 500px !important;
-            padding: 0.5rem 0;
-        }
-
-        .filter-list li {
-            margin: 0.25rem 0;
-        }
-
-        .filter-list a {
-            display: block;
-            padding: 0.5rem 1rem;
-            color: #666;
-            text-decoration: none;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-        }
-
-        .filter-list a:hover {
-            background-color: #f5f5f5;
-            color: var(--primary-color);
-        }
-
-        .filter-list a.active {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        /* 篩選標籤樣式 */
-        .filter-tag {
-            display: inline-flex;
-            align-items: center;
-            background-color: #e3f2fd;
-            border: 1px solid #2196f3;
-            border-radius: 20px;
-            padding: 0.25rem 0.75rem;
-            margin: 0.25rem 0.25rem 0.25rem 0;
-            font-size: 0.875rem;
-            color: #1976d2;
-        }
-
-        .filter-tag .remove-tag {
-            background: none;
+            padding: 1.2rem 2rem;
             border: none;
-            color: #1976d2;
-            cursor: pointer;
-            margin-left: 0.5rem;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            font-size: 0.75rem;
+            background: transparent;
+            color: white;
+            font-size: 1.1rem;
+            outline: none;
+            min-width: 200px;
         }
 
-        .filter-tag .remove-tag:hover {
-            color: #d32f2f;
+        .search-bar input::placeholder {
+            color: var(--metallic-silver);
+        }
+
+        .search-bar .search-btn {
+            padding: 1.2rem 2rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            border: none;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .search-bar .search-btn:hover {
+            background: linear-gradient(45deg, var(--accent-color), var(--success-color));
+            box-shadow: 0 0 25px rgba(0, 212, 255, 0.5);
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .upload-btn {
+            padding: 1.2rem 2.5rem;
+            background: linear-gradient(45deg, var(--success-color), var(--primary-color));
+            border: none;
+            color: white;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-size: 1.1rem;
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+        }
+
+        .upload-btn:hover {
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+            transform: translateY(-3px);
+        }
+
+        .secondary-btn {
+            padding: 1.2rem 2rem;
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-size: 1rem;
+        }
+
+        .secondary-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: 0 0 25px rgba(0, 212, 255, 0.5);
+            transform: translateY(-3px);
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 968px) {
+            .gallery-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .gallery-hero p {
+                font-size: 1.1rem;
+        }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            gap: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .gallery-hero {
+                padding: 4rem 5% 3rem;
+            }
+
+            .gallery-hero h1 {
+                font-size: 2rem;
+            }
+
+            .search-bar {
+                width: 100%;
+            }
+            
+            .upload-btn, .secondary-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gallery-hero {
+                padding: 3rem 5% 2rem;
+            }
+
+            .gallery-hero h1 {
+                font-size: 1.8rem;
+            }
         }
     </style>
 </head>
+
 <body class="gallery-page">
+    <!-- 導航列 -->
     <nav class="navbar">
         <div class="container nav-container">
             <div class="logo">
@@ -311,7 +272,7 @@
                 </div>
                 <div class="user-menu" style="display: none;">
                     <div class="user-avatar">
-                        <img src="/images/default-avatar.svg" alt="用戶頭像" class="avatar">
+                        <img src="images/default-avatar.svg" alt="用戶頭像" class="avatar">
                         <span class="username">用戶名稱</span>
                     </div>
                     <div class="dropdown-menu">
@@ -330,140 +291,275 @@
         </div>
     </nav>
 
-    <main>
-        <section class="gallery-hero">
+    <!-- 主內容 -->
+    <div class="main-container">
+        <!-- 頁面標題區域 -->
+        <div class="gallery-hero">
             <div class="container">
-                <h1>改裝作品展示</h1>
-                <p>探索精彩的摩托車改裝作品，尋找靈感，分享您的傑作</p>
-                <div class="hero-actions">
-                    <button class="btn btn-primary upload-btn">
-                        <i class="fas fa-upload"></i>
-                        上傳作品
-                    </button>
+            <h1>作品展示</h1>
+            <p>探索精彩的摩托車改裝作品，尋找靈感，分享您的傑作</p>
+                
+                <!-- 動作按鈕 -->
+            <div class="hero-actions">
                     <div class="search-bar">
-                        <input type="text" placeholder="搜尋作品..." aria-label="搜尋作品">
-                        <button type="button" class="search-btn" aria-label="搜尋">
+                        <input type="text" placeholder="搜尋作品..." id="searchInput">
+                        <button class="search-btn" onclick="searchGallery()">
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-primary upload-btn" onclick="openUploadModal()">
+                            <i class="fas fa-plus"></i>
+                    上傳作品
+                </button>
+                        <button class="btn secondary-btn" onclick="viewMyGallery()">
+                            <i class="fas fa-user"></i>
+                            我的作品
+                    </button>
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <section class="gallery-content">
-            <div class="container">
-                <div class="content-layout">
-                    <aside class="gallery-sidebar" id="gallery-sidebar">
-                        <h3>篩選條件</h3>
+        <!-- 作品展示內容 -->
+        <div class="gallery-content">
+                <div class="gallery-layout">
+                <!-- 側邊欄篩選器 -->
+                    <aside class="gallery-sidebar">
+                    <h3>篩選作品</h3>
                         
-                        <div class="filter-group">
-                            <div class="group-title" data-toggle="category-filter">
-                                車輛分類 <i class="fas fa-chevron-right"></i>
+                    <!-- 分類篩選 -->
+                    <div class="filter-group">
+                        <div class="group-title" onclick="toggleFilterGroup(this)">
+                            <span>車種分類</span>
+                                <i class="fas fa-chevron-right"></i>
                             </div>
-                            <ul class="filter-list" id="category-filter">
-                                <li><a href="#" data-category="all" class="active">全部作品</a></li>
-                                <li><a href="#" data-category="scooter">速克達車系</a></li>
+                            <ul class="filter-list">
+                            <li><a href="#" onclick="filterByCategory('all')" class="active">全部</a></li>
+                            <li><a href="#" onclick="filterByCategory('sport')">運動車</a></li>
+                            <li><a href="#" onclick="filterByCategory('cruiser')">巡航車</a></li>
+                            <li><a href="#" onclick="filterByCategory('adventure')">冒險車</a></li>
+                            <li><a href="#" onclick="filterByCategory('street')">街車</a></li>
+                            <li><a href="#" onclick="filterByCategory('touring')">旅行車</a></li>
                             </ul>
                         </div>
 
-                        <div class="filter-group">
-                            <div class="group-title" data-toggle="style-filter">
-                                改裝風格 <i class="fas fa-chevron-right"></i>
+                    <!-- 改裝風格篩選 -->
+                    <div class="filter-group">
+                        <div class="group-title" onclick="toggleFilterGroup(this)">
+                                <span>改裝風格</span>
+                                <i class="fas fa-chevron-right"></i>
                             </div>
-                            <ul class="filter-list" id="style-filter">
-                                <li><a href="#" data-style="all" class="active">所有風格</a></li>
-                                <li><a href="#" data-style="racing">競技風格</a></li>
-                                <li><a href="#" data-style="street">街頭風格</a></li>
-                                <li><a href="#" data-style="custom">客製化</a></li>
-                                <li><a href="#" data-style="japanese">日系風格</a></li>
-                                <li><a href="#" data-style="adventure">冒險風格</a></li>
-                                <li><a href="#" data-style="retro">復古風格</a></li>
-                                <li><a href="#" data-style="maintenance">保養升級</a></li>
+                            <ul class="filter-list">
+                            <li><a href="#" onclick="filterByStyle('all')" class="active">全部</a></li>
+                            <li><a href="#" onclick="filterByStyle('cafe-racer')">咖啡賽車</a></li>
+                            <li><a href="#" onclick="filterByStyle('bobber')">短尾車</a></li>
+                            <li><a href="#" onclick="filterByStyle('scrambler')">攀爬車</a></li>
+                            <li><a href="#" onclick="filterByStyle('tracker')">追蹤車</a></li>
+                            <li><a href="#" onclick="filterByStyle('custom')">客製化</a></li>
                             </ul>
                         </div>
 
-                        <div class="filter-group">
-                            <div class="group-title" data-toggle="sort-filter">
-                                排序方式 <i class="fas fa-chevron-right"></i>
-                            </div>
-                            <ul class="filter-list" id="sort-filter">
-                                <li><a href="#" data-sort="latest" class="active">最新上傳</a></li>
-                                <li><a href="#" data-sort="popular">最受歡迎</a></li>
-                                <li><a href="#" data-sort="views">最多瀏覽</a></li>
-                                <li><a href="#" data-sort="comments">最多評論</a></li>
-                            </ul>
+                    <!-- 已應用的篩選條件 -->
+                    <div class="applied-filters">
+                        <h4>已選篩選條件</h4>
+                        <div class="filter-tags" id="appliedFilters">
+                            <!-- 動態生成的篩選標籤 -->
                         </div>
-
-                        <div class="applied-filters">
-                            <h4>已套用篩選</h4>
-                            <div class="filter-tags" id="filterTags">
-                                <!-- 已套用的篩選條件將在這裡顯示 -->
-                            </div>
-                            <button id="clearFilters" class="btn btn-small">清除篩選</button>
                         </div>
                     </aside>
 
-                    <section class="gallery-main">
+                <!-- 主要內容區域 -->
+                <main class="gallery-main">
+                    <!-- 結果統計和檢視選項 -->
                         <div class="gallery-header">
-                            <div class="results-count">
-                                <span id="gallery-count">載入中...</span>
-                            </div>
+                        <div class="results-count" id="gallery-count">共 0 個作品</div>
                             <div class="view-options">
-                                <button class="view-toggle active" data-view="grid">
-                                    <i class="fas fa-th"></i> 網格檢視
+                            <button class="view-toggle active" onclick="switchView('grid')" data-view="grid">
+                                    <i class="fas fa-th"></i>
+                                網格檢視
                                 </button>
-                                <button class="view-toggle" data-view="list">
-                                    <i class="fas fa-list"></i> 列表檢視
+                            <button class="view-toggle" onclick="switchView('list')" data-view="list">
+                                    <i class="fas fa-list"></i>
+                                列表檢視
                                 </button>
                             </div>
                         </div>
 
+                    <!-- 作品網格 -->
                         <div class="gallery-items" id="galleryItems">
-                            <!-- 作品項目將在這裡動態載入 -->
-                            <div class="loading-indicator">
-                                <i class="fas fa-spinner fa-spin"></i>
-                                <span>載入作品中...</span>
-                            </div>
+                        <!-- 作品項目將通過JavaScript動態載入 -->
                         </div>
                         
+                    <!-- 載入更多按鈕 -->
                         <div class="load-more-container">
-                            <button class="btn btn-secondary" id="loadMore">載入更多</button>
-                        </div>
-                    </section>
-                </div>
-            </div>
-        </section>
-        
-        <section class="gallery-featured">
-            <div class="container">
-                <h2 class="section-title">精選作品</h2>
-                <div class="featured-slider">
-                    <div class="slider-wrapper" id="featuredSlider">
-                        <!-- 精選作品將由 JavaScript 動態生成 -->
+                        <button class="btn btn-outline" id="loadMoreBtn" onclick="loadMoreItems()">
+                            載入更多作品
+                    </button>
                     </div>
-                    <button class="slider-control prev" aria-label="上一個">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <button class="slider-control next" aria-label="下一個">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <!-- 上傳模態框 -->
+    <div class="modal" id="uploadModal">
+        <div class="upload-modal-content">
+            <button class="close-upload" onclick="closeUploadModal()">&times;</button>
+            <h2 style="color: white; text-align: center; margin-bottom: 2rem; text-shadow: 0 0 15px var(--primary-color);">上傳您的改裝作品</h2>
+            
+            <form id="uploadForm" enctype="multipart/form-data">
+                <!-- 圖片上傳區域 -->
+                <div class="upload-area" onclick="document.getElementById('imageInput').click()">
+                    <input type="file" id="imageInput" name="images" accept="image/*" multiple hidden>
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>點擊或拖放圖片到此處</p>
+                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">支援多張圖片上傳</p>
+                </div>
+
+                <!-- 圖片預覽 -->
+                <div class="upload-preview" id="imagePreview"></div>
+                
+                <!-- 作品資訊 -->
+                <div class="upload-fields">
+                    <div class="field-group">
+                        <label for="workTitle">作品標題 *</label>
+                        <input type="text" id="workTitle" name="title" required>
+                    </div>
+                    
+                    <div class="field-row">
+                        <div class="field-group">
+                            <label for="bikeModel">車輛型號</label>
+                            <input type="text" id="bikeModel" name="model" placeholder="例如：Yamaha MT-07">
+                        </div>
+                        <div class="field-group">
+                            <label for="workCategory">車種分類</label>
+                            <select id="workCategory" name="category">
+                                <option value="sport">運動車</option>
+                                <option value="cruiser">巡航車</option>
+                                <option value="adventure">冒險車</option>
+                                <option value="street">街車</option>
+                                <option value="touring">旅行車</option>
+                            </select>
+                        </div>
+                        </div>
+                        
+                    <div class="field-row">
+                        <div class="field-group">
+                            <label for="workStyle">改裝風格</label>
+                            <select id="workStyle" name="style">
+                                <option value="cafe-racer">咖啡賽車</option>
+                                <option value="bobber">短尾車</option>
+                                <option value="scrambler">攀爬車</option>
+                                <option value="tracker">追蹤車</option>
+                                <option value="custom">客製化</option>
+                            </select>
+                        </div>
+                        <div class="field-group">
+                            <label for="workYear">改裝年份</label>
+                            <input type="number" id="workYear" name="year" min="1900" max="2024" value="2024">
+                        </div>
+                    </div>
+                    
+                    <div class="field-group">
+                        <label for="workDescription">作品描述 *</label>
+                        <textarea id="workDescription" name="description" rows="4" required placeholder="請描述您的改裝理念和過程..."></textarea>
+                    </div>
+                    
+                    <div class="field-group">
+                        <label for="workTags">標籤</label>
+                        <div class="tag-container" onclick="document.getElementById('tagInput').focus()">
+                            <input type="text" id="tagInput" placeholder="輸入標籤後按Enter">
+                        </div>
+                        <input type="hidden" id="tagsData" name="tags">
+                    </div>
+                </div>
+                
+                <!-- 按鈕 -->
+                <div class="upload-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeUploadModal()">取消</button>
+                    <button type="submit" class="btn btn-primary" id="submitUpload">上傳作品</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 作品預覽模態框 -->
+    <div class="modal" id="imagePreview">
+        <div class="preview-content">
+            <button class="close-preview" aria-label="關閉">&times;</button>
+            <div class="preview-main">
+                <img src="" alt="" id="previewImage">
+                <div class="preview-info">
+                    <h2 class="preview-title"></h2>
+                    <div class="preview-meta">
+                        <div class="author-info">
+                            <img src="" alt="" class="author-avatar">
+                            <div class="author-details">
+                                <span class="author-name"></span>
+                                <span class="post-date"></span>
+                            </div>
+                        </div>
+                        <div class="preview-stats">
+                            <button id="likeBtn" class="stat-btn">
+                                <i class="far fa-heart"></i>
+                                <span id="likesCount">0</span>
+                            </button>
+                            <button id="commentBtn" class="stat-btn">
+                                <i class="far fa-comment"></i>
+                                <span id="commentsCount">0</span>
+                            </button>
+                            <button id="shareBtn" class="stat-btn">
+                                <i class="fas fa-share"></i>
+                                分享
+                            </button>
+                        </div>
+                    </div>
+                    <p class="preview-description"></p>
+                    <div class="preview-tags"></div>
                 </div>
             </div>
-        </section>
-        
-        <section class="gallery-cta">
-            <div class="container">
-                <div class="cta-content">
-                    <h2>分享您的改裝傑作</h2>
-                    <p>加入 MotoMod 社群，上傳您的作品，與全球車友交流，獲得專業建議</p>
-                    <button class="btn btn-primary upload-btn-large">
-                        <i class="fas fa-upload"></i>
-                        立即上傳作品
-                    </button>
+            
+            <!-- 評論區域 -->
+            <div class="comments-section" id="commentsSection">
+                <h3>評論</h3>
+                <div class="comments-list">
+                    <!-- 評論內容將動態載入 -->
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </div>
+
+    <!-- 分享模態框 -->
+    <div class="modal" id="shareModal">
+        <div class="share-modal-content">
+            <button class="close-share" onclick="closeShareModal()">&times;</button>
+            <h3>分享這個作品</h3>
+            <div class="share-options">
+                <button class="share-option" data-platform="facebook">
+                    <i class="fab fa-facebook"></i>
+                    Facebook
+                </button>
+                <button class="share-option" data-platform="twitter">
+                    <i class="fab fa-twitter"></i>
+                    Twitter
+                </button>
+                <button class="share-option" data-platform="pinterest">
+                    <i class="fab fa-pinterest"></i>
+                    Pinterest
+                </button>
+                <button class="share-option" data-platform="line">
+                    <i class="fab fa-line"></i>
+                    LINE
+                </button>
+            </div>
+            <div class="share-link">
+                <input type="text" id="shareLink" readonly>
+                <button id="copyLink" class="btn btn-small">複製連結</button>
+            </div>
+        </div>
+    </div>
 
     <footer class="footer">
         <div class="container">
@@ -480,7 +576,6 @@
                         <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
                     </div>
                 </div>
-                
                 <div class="footer-section links">
                     <h3>快速連結</h3>
                     <ul>
@@ -491,28 +586,25 @@
                         <li><a href="events.html">改裝活動</a></li>
                     </ul>
                 </div>
-                
                 <div class="footer-section contact">
                     <h3>聯絡資訊</h3>
                     <ul class="contact-info">
-                        <li><i class="fas fa-envelope"></i> contact@motomod.com</li>
+                        <li><i class="fas fa-envelope"></i> contact@MotoWeb.com</li>
                         <li><i class="fas fa-phone"></i> (02) 1234-5678</li>
                         <li><i class="fas fa-map-marker-alt"></i> 台北市信義區松仁路100號</li>
                     </ul>
                 </div>
-                
                 <div class="footer-section newsletter">
                     <h3>訂閱電子報</h3>
                     <p>獲取最新改裝趨勢與活動資訊</p>
                     <form class="newsletter-form" action="subscribe.php" method="POST">
-                        <input type="email" name="email" placeholder="您的電子郵件" required aria-label="電子郵件地址">
-                        <button type="submit" class="btn">訂閱</button>
+                        <input type="email" name="email" placeholder="您的電子郵件" required>
+                        <button type="submit" class="btn btn-primary">訂閱</button>
                     </form>
                 </div>
             </div>
-            
             <div class="footer-bottom">
-                <p>&copy; 2025 MotoMod. 保留所有權利。</p>
+                <p>&copy; 2025 MotoWeb. 保留所有權利。</p>
                 <div class="footer-bottom-links">
                     <a href="privacy.html">隱私政策</a>
                     <a href="terms.html">使用條款</a>
@@ -522,283 +614,12 @@
         </div>
     </footer>
 
-    <!-- 圖片預覽模態框 -->
-    <div class="modal" id="imageModal">
-        <div class="modal-content">
-            <button class="close-modal" aria-label="關閉">&times;</button>
-            <div class="modal-body">
-                <div class="image-preview">
-                    <img src="" alt="作品預覽" id="previewImage">
-                    <div class="image-controls">
-                        <button class="img-control prev" aria-label="上一張">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <button class="img-control next" aria-label="下一張">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="image-info">
-                    <h2 class="image-title" id="imageTitle"></h2>
-                    <div class="author-info">
-                        <img src="" alt="作者頭像" class="author-avatar" id="authorAvatar">
-                        <div class="author-meta">
-                            <span class="author-name" id="authorName"></span>
-                            <span class="post-date" id="postDate"></span>
-                        </div>
-                    </div>
-                    <p class="image-description" id="imageDescription"></p>
-                    <div class="image-details">
-                        <div class="detail-item">
-                            <span class="detail-label">車型：</span>
-                            <span class="detail-value" id="bikeModel"></span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">改裝類型：</span>
-                            <span class="detail-value" id="modType"></span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">標籤：</span>
-                            <div class="image-tags" id="imageTags"></div>
-                        </div>
-                    </div>
-                    <div class="image-stats">
-                        <button class="stat-btn like-btn" id="likeBtn">
-                            <i class="far fa-heart"></i>
-                            <span class="likes-count" id="likesCount">0</span>
-                        </button>
-                        <button class="stat-btn comment-btn" id="commentBtn">
-                            <i class="far fa-comment"></i>
-                            <span class="comments-count" id="commentsCount">0</span>
-                        </button>
-                        <span class="stat-item">
-                            <i class="far fa-eye"></i>
-                            <span class="views-count" id="viewsCount">0</span>
-                        </span>
-                        <button class="stat-btn share-btn" id="shareBtn">
-                            <i class="fas fa-share-alt"></i>
-                            分享
-                        </button>
-                    </div>
-                    <div class="comments-section" id="commentsSection">
-                        <h3>評論 (<span id="commentCount">0</span>)</h3>
-                        <div class="comment-form">
-                            <textarea placeholder="發表您的評論..." class="comment-input" id="commentInput"></textarea>
-                            <button class="btn btn-primary" id="submitComment">發表</button>
-                        </div>
-                        <div class="comments-list" id="commentsList">
-                            <!-- 評論將在這裡顯示 -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 作品上傳模態框 -->
-    <div class="modal" id="uploadModal">
-        <div class="modal-content">
-            <button class="close-modal" aria-label="關閉">&times;</button>
-            <div class="modal-header">
-                <h2>上傳您的改裝作品</h2>
-            </div>
-            <div class="modal-body">
-                <form id="uploadForm" class="upload-form">
-                    <div class="form-group">
-                        <label for="uploadTitle">作品標題</label>
-                        <input type="text" id="uploadTitle" class="form-control" placeholder="為您的作品取一個吸引人的標題" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="uploadDescription">作品描述</label>
-                        <textarea id="uploadDescription" class="form-control" placeholder="描述您的改裝理念和過程" rows="4" required></textarea>
-                    </div>
-                    <div class="form-group upload-area" id="uploadArea">
-                        <input type="file" id="uploadFiles" multiple accept="image/*" class="file-input">
-                        <div class="upload-placeholder">
-                            <i class="fas fa-cloud-upload-alt"></i>
-                            <p>拖放圖片到此處，或點擊上傳</p>
-                            <span class="upload-info">最多可上傳5張圖片，每張不超過5MB</span>
-                        </div>
-                        <div class="upload-preview" id="uploadPreview">
-                            <!-- 上傳預覽將在這裡顯示 -->
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group half">
-                            <label for="uploadCategory">車輛分類</label>
-                            <select id="uploadCategory" class="form-control" required>
-                                <option value="">請選擇分類</option>
-                                <option value="sport">運動車系</option>
-                                <option value="naked">街車系</option>
-                                <option value="cruiser">巡航車系</option>
-                                <option value="adventure">冒險車系</option>
-                                <option value="touring">旅行車系</option>
-                                <option value="custom">客製化</option>
-                            </select>
-                        </div>
-                        <div class="form-group half">
-                            <label for="uploadStyle">改裝風格</label>
-                            <select id="uploadStyle" class="form-control" required>
-                                <option value="">請選擇風格</option>
-                                <option value="racing">競技風格</option>
-                                <option value="street">街頭風格</option>
-                                <option value="cafe">咖啡風格</option>
-                                <option value="touring">旅行風格</option>
-                                <option value="scrambler">越野風格</option>
-                                <option value="bobber">短尾風格</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="uploadModel">車輛型號</label>
-                        <input type="text" id="uploadModel" class="form-control" placeholder="例如：Yamaha MT-09, Ducati Monster, Honda CB650R" required>
-                    </div>
-                    <div class="form-group">
-                        <label>改裝標籤</label>
-                        <div class="tag-input-container" id="tagContainer">
-                            <input type="text" class="tag-input" id="tagInput" placeholder="輸入標籤後按Enter">
-                        </div>
-                        <small class="form-text">最多添加5個標籤，例如：排氣管、懸吊、車燈</small>
-                    </div>
-                    <div class="form-actions">
-                        <button type="button" class="btn btn-secondary" id="cancelUpload">取消</button>
-                        <button type="submit" class="btn btn-primary" id="submitUpload">發佈作品</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- 分享選項模態框 -->
-    <div class="modal" id="shareModal">
-        <div class="modal-content modal-sm">
-            <button class="close-modal" aria-label="關閉">&times;</button>
-            <div class="modal-header">
-                <h3>分享此作品</h3>
-            </div>
-            <div class="modal-body">
-                <div class="share-options">
-                    <a href="#" class="share-option" data-platform="facebook">
-                        <i class="fab fa-facebook"></i>
-                        <span>Facebook</span>
-                    </a>
-                    <a href="#" class="share-option" data-platform="twitter">
-                        <i class="fab fa-twitter"></i>
-                        <span>Twitter</span>
-                    </a>
-                    <a href="#" class="share-option" data-platform="pinterest">
-                        <i class="fab fa-pinterest"></i>
-                        <span>Pinterest</span>
-                    </a>
-                    <a href="#" class="share-option" data-platform="whatsapp">
-                        <i class="fab fa-whatsapp"></i>
-                        <span>WhatsApp</span>
-                    </a>
-                    <a href="#" class="share-option" data-platform="line">
-                        <i class="fab fa-line"></i>
-                        <span>LINE</span>
-                    </a>
-                </div>
-                <div class="share-link">
-                    <input type="text" id="shareLink" class="form-control" readonly>
-                    <button id="copyLink" class="btn btn-small">
-                        <i class="fas fa-copy"></i>
-                        複製
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <button id="backToTop" class="back-to-top" aria-label="返回頁面頂部">
+        <i class="fas fa-chevron-up"></i>
+    </button>
 
     <script src="js/main.js"></script>
     <script src="js/gallery.js"></script>
     <script src="js/auth-state.js"></script>
-    <script>
-        // 側邊欄摺疊功能
-        document.addEventListener('DOMContentLoaded', function() {
-            // 初始化畫廊頁面功能
-            if (typeof initGalleryPage === 'function') {
-                initGalleryPage();
-            }
-            
-            // 初始化側邊欄摺疊功能
-            initSidebarToggle();
-            
-            // 初始化其他功能
-            if (typeof initMobileNav === 'function') initMobileNav();
-            if (typeof initAuthState === 'function') initAuthState();
-        });
-
-        function initSidebarToggle() {
-            // 初始展開所有篩選組
-            setTimeout(() => {
-                document.querySelectorAll('.filter-list').forEach(list => {
-                    list.classList.add('open');
-                });
-                document.querySelectorAll('.group-title').forEach(title => {
-                    title.classList.add('open');
-                });
-            }, 100);
-            
-            // 側邊欄摺疊功能
-            document.querySelectorAll('[data-toggle]').forEach(toggle => {
-                toggle.addEventListener('click', (e) => {
-                    const targetId = e.currentTarget.getAttribute('data-toggle');
-                    const targetElement = document.getElementById(targetId);
-                    
-                    if (targetElement) {
-                        targetElement.classList.toggle('open');
-                        e.currentTarget.classList.toggle('open');
-                    }
-                });
-            });
-
-            // 篩選功能
-            document.querySelectorAll('[data-category], [data-style], [data-sort]').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    
-                    // 移除同組的active狀態
-                    const parent = e.target.closest('.filter-list');
-                    parent.querySelectorAll('a').forEach(a => a.classList.remove('active'));
-                    
-                    // 添加active狀態
-                    e.target.classList.add('active');
-                    
-                    // 觸發篩選功能
-                    if (typeof applyFiltersFromSidebar === 'function') {
-                        applyFiltersFromSidebar(e.target.dataset);
-                    }
-                });
-            });
-
-            // 清除篩選按鈕
-            const clearFiltersBtn = document.getElementById('clearFilters');
-            if (clearFiltersBtn) {
-                clearFiltersBtn.addEventListener('click', () => {
-                    // 重置所有篩選條件
-                    document.querySelectorAll('.filter-list a').forEach(a => {
-                        a.classList.remove('active');
-                    });
-                    
-                    // 設定預設選項為active
-                    document.querySelectorAll('[data-category="all"], [data-style="all"], [data-sort="latest"]').forEach(a => {
-                        a.classList.add('active');
-                    });
-                    
-                    // 清空篩選標籤
-                    const filterTags = document.getElementById('filterTags');
-                    if (filterTags) {
-                        filterTags.innerHTML = '';
-                    }
-                    
-                    // 重載作品
-                    if (typeof loadGalleryItems === 'function') {
-                        loadGalleryItems();
-                    }
-                });
-            }
-        }
-    </script>
 </body>
 </html>

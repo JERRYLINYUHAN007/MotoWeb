@@ -3,18 +3,37 @@
  * 統一處理所有頁面的用戶登入狀態和導航欄顯示
  */
 
+// 防止重複初始化
+let authStateInitialized = false;
+
 document.addEventListener('DOMContentLoaded', function() {
-    initializeAuthState();
+    if (!authStateInitialized) {
+        initializeAuthState();
+        authStateInitialized = true;
+    }
 });
 
 /**
  * 初始化認證狀態管理
  */
 function initializeAuthState() {
-    console.log('初始化認證狀態管理...');
+    console.log('初始化認證狀態管理...', window.location.pathname);
+    
+    // 檢查是否存在認證狀態
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    console.log('當前認證狀態:', isLoggedIn);
+    
     updateAuthUI();
     setupLogoutButton();
     setupUserMenu();
+    
+    // 監聽 localStorage 變化（如果其他標籤頁修改了狀態）
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'isLoggedIn') {
+            console.log('登入狀態已更改:', e.newValue);
+            updateAuthUI();
+        }
+    });
 }
 
 /**
@@ -24,7 +43,7 @@ function updateAuthUI() {
     const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
     const username = localStorage.getItem('username') || '用戶';
     
-    console.log('用戶登入狀態:', isLoggedIn);
+    console.log('更新UI - 用戶登入狀態:', isLoggedIn, '頁面:', window.location.pathname);
     console.log('用戶名稱:', username);
     
     // 查找認證相關元素
@@ -102,22 +121,35 @@ function setupLogoutButton() {
     const logoutButtons = document.querySelectorAll('#logout, .logout-btn, [data-action="logout"]');
     
     logoutButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            handleLogout();
-        });
+        // 先移除可能的舊事件監聽器
+        button.removeEventListener('click', handleLogoutClick);
+        button.addEventListener('click', handleLogoutClick);
     });
+}
+
+/**
+ * 登出按鈕點擊處理器
+ */
+function handleLogoutClick(e) {
+    e.preventDefault();
+    console.log('登出按鈕被點擊');
+    
+    // 確認登出
+    if (confirm('確定要登出嗎？')) {
+        handleLogout();
+    }
 }
 
 /**
  * 處理登出操作
  */
 function handleLogout() {
-    console.log('執行登出操作...');
+    console.log('執行登出操作...', window.location.pathname);
     
     // 清除所有認證相關的localStorage
     const authKeys = ['isLoggedIn', 'token', 'username', 'userEmail', 'userId'];
     authKeys.forEach(key => {
+        console.log('清除 localStorage:', key);
         localStorage.removeItem(key);
     });
     
@@ -131,10 +163,13 @@ function handleLogout() {
     // 更新UI狀態
     updateAuthUI();
     
-    // 重新導向到首頁（延遲以顯示提示）
-    setTimeout(function() {
-        window.location.href = '/index.html';
-    }, 1000);
+    // 只在非首頁且使用者確實要登出時重定向
+    const currentPath = window.location.pathname;
+    if (currentPath !== '/index.html' && currentPath !== '/' && !currentPath.endsWith('/index.html')) {
+        setTimeout(function() {
+            window.location.href = 'index.html';
+        }, 1000);
+    }
 }
 
 /**

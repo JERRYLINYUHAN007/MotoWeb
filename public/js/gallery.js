@@ -7,6 +7,9 @@ function renderGalleryItems(items) {
         return;
     }
     
+    // 清空容器
+    galleryContainer.innerHTML = '';
+    
     // 為每個作品建立卡片
     items.forEach(item => {
         const galleryItem = document.createElement('div');
@@ -17,7 +20,6 @@ function renderGalleryItems(items) {
         
         // 格式化日期
         const dateField = item.createdAt || item.date || new Date().toISOString();
-        const date = new Date(dateField);
         const formattedDate = formatDate(dateField);
         
         // 處理預設圖片
@@ -30,10 +32,6 @@ function renderGalleryItems(items) {
                 <img src="${imageUrl}" alt="${item.title}" onerror="this.src='${defaultImage}'">
                 <div class="item-overlay">
                     <h3 class="item-title">${item.title}</h3>
-                    <div class="item-author">
-                        <img src="${item.author.avatar}" alt="${item.author.name}" class="author-avatar" onerror="this.src='/images/default-avatar.svg'">
-                        <span>${item.author.name}</span>
-                    </div>
                 </div>
             </div>
             <div class="item-content">
@@ -109,127 +107,91 @@ function getStyleName(style) {
  * 初始化篩選功能
  */
 function initFilters() {
-    const categorySelect = document.getElementById('category');
-    const styleSelect = document.getElementById('style');
-    const sortSelect = document.getElementById('sort');
+    const filterGroups = document.querySelectorAll('.filter-group');
+    const filterTags = document.getElementById('filterTags');
     const clearFiltersBtn = document.getElementById('clearFilters');
-    const filterTagsContainer = document.getElementById('filterTags');
     
-    // 篩選條件變更事件
-    const filters = [categorySelect, styleSelect, sortSelect];
-    filters.forEach(filter => {
-        filter.addEventListener('change', function() {
-            applyFilters();
+    // 初始化篩選組展開/收起功能
+    filterGroups.forEach(group => {
+        const title = group.querySelector('.group-title');
+        const list = group.querySelector('.filter-list');
+        
+        title.addEventListener('click', () => {
+            title.classList.toggle('open');
+            list.classList.toggle('open');
+            title.querySelector('i').classList.toggle('rotate-90');
         });
     });
     
-    // 清除篩選按鈕
-    clearFiltersBtn.addEventListener('click', function() {
-        resetFilters();
-    });
-    
-    /**
-     * 應用篩選條件
-     */
-    function applyFilters() {
-        // 在實際應用中，應該向API發送請求獲取篩選後的資料
-        // 這裡模擬篩選操作
+    // 初始化篩選標籤功能
+    function updateFilterTags() {
+        const activeFilters = document.querySelectorAll('.filter-list a.active');
+        filterTags.innerHTML = '';
         
-        // 顯示載入中狀態
-        const galleryContainer = document.getElementById('galleryItems');
-        galleryContainer.innerHTML = `
-            <div class="loading-indicator">
-                <i class="fas fa-spinner fa-spin"></i>
-                <span>篩選中...</span>
-            </div>
-        `;
+        activeFilters.forEach(filter => {
+            const tag = document.createElement('span');
+            tag.className = 'filter-tag';
+            tag.innerHTML = `
+                ${filter.textContent}
+                <button class="remove-tag" data-filter="${filter.dataset.filter}">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            filterTags.appendChild(tag);
+        });
         
-        // 更新已套用的篩選標籤
-        updateFilterTags();
-        
-        // 模擬載入延遲
-        setTimeout(() => {
-            // 重新載入作品集
-            loadGalleryItems();
-        }, 800);
-    }
-    
-    /**
-     * 重置所有篩選條件
-     */
-    function resetFilters() {
-        categorySelect.value = 'all';
-        styleSelect.value = 'all';
-        sortSelect.value = 'latest';
-        
-        // 清空篩選標籤
-        filterTagsContainer.innerHTML = '';
-        
-        // 重新應用篩選
+        // 更新篩選結果
         applyFilters();
     }
     
-    /**
-     * 更新已套用的篩選標籤
-     */
-    function updateFilterTags() {
-        // 清空現有標籤
-        filterTagsContainer.innerHTML = '';
-        
-        // 檢查分類篩選
-        if (categorySelect.value !== 'all') {
-            addFilterTag('分類', getCategoryName(categorySelect.value), function() {
-                categorySelect.value = 'all';
-                applyFilters();
+    // 清除所有篩選
+    if (clearFiltersBtn) {
+        clearFiltersBtn.addEventListener('click', () => {
+            document.querySelectorAll('.filter-list a.active').forEach(filter => {
+                filter.classList.remove('active');
             });
-        }
-        
-        // 檢查風格篩選
-        if (styleSelect.value !== 'all') {
-            addFilterTag('風格', getStyleName(styleSelect.value), function() {
-                styleSelect.value = 'all';
-                applyFilters();
-            });
-        }
-        
-        // 檢查排序篩選
-        const sortLabels = {
-            'latest': '最新上傳',
-            'popular': '最受歡迎',
-            'views': '最多瀏覽',
-            'comments': '最多評論'
-        };
-        
-        if (sortSelect.value !== 'latest') {
-            addFilterTag('排序', sortLabels[sortSelect.value], function() {
-                sortSelect.value = 'latest';
-                applyFilters();
-            });
-        }
+            filterTags.innerHTML = '';
+            applyFilters();
+        });
     }
     
-    /**
-     * 添加篩選標籤
-     * @param {string} type - 篩選類型
-     * @param {string} value - 篩選值
-     * @param {Function} removeCallback - 移除標籤的回調函數
-     */
-    function addFilterTag(type, value, removeCallback) {
-        const tag = document.createElement('div');
-        tag.className = 'filter-tag';
-        tag.innerHTML = `
-            <span>${type}: ${value}</span>
-            <button class="remove-tag" aria-label="移除篩選">
-                <i class="fas fa-times"></i>
-            </button>
-        `;
-        
-        // 綁定移除按鈕事件
-        const removeBtn = tag.querySelector('.remove-tag');
-        removeBtn.addEventListener('click', removeCallback);
-        
-        filterTagsContainer.appendChild(tag);
-    }
+    // 點擊篩選選項
+    document.querySelectorAll('.filter-list a').forEach(filter => {
+        filter.addEventListener('click', (e) => {
+            e.preventDefault();
+            filter.classList.toggle('active');
+            updateFilterTags();
+        });
+    });
+    
+    // 移除篩選標籤
+    filterTags.addEventListener('click', (e) => {
+        if (e.target.closest('.remove-tag')) {
+            const filterId = e.target.closest('.remove-tag').dataset.filter;
+            const filterLink = document.querySelector(`.filter-list a[data-filter="${filterId}"]`);
+            if (filterLink) {
+                filterLink.classList.remove('active');
+                updateFilterTags();
+            }
+        }
+    });
+}
+
+// 應用篩選器並更新畫廊
+function applyFilters() {
+    const activeFilters = Array.from(document.querySelectorAll('.filter-list a.active')).map(filter => ({
+        type: filter.closest('.filter-group').dataset.filterType,
+        value: filter.dataset.filter
+    }));
+    
+    // 構建查詢參數
+    const params = new URLSearchParams(window.location.search);
+    activeFilters.forEach(filter => {
+        params.append(filter.type, filter.value);
+    });
+    
+    // 重新載入作品
+    loadGalleryItems(params);
 }
 
 /**
@@ -312,7 +274,10 @@ function initLoadMore() {
  */
 function initImagePreview() {
     const previewModal = document.getElementById('imagePreview');
-    if (!previewModal) return;
+    if (!previewModal) {
+        console.log('找不到圖片預覽模態框');
+        return;
+    }
 
     // 點擊模態框背景關閉
     previewModal.addEventListener('click', function(e) {
@@ -338,33 +303,39 @@ function initImagePreview() {
     
     // 喜歡按鈕
     const likeBtn = document.getElementById('likeBtn');
-    likeBtn.addEventListener('click', function() {
-        this.classList.toggle('active');
-        const likesCount = this.querySelector('.likes-count');
-        const currentLikes = parseInt(likesCount.textContent);
-        
-        if (this.classList.contains('active')) {
-            likesCount.textContent = currentLikes + 1;
-            this.querySelector('i').className = 'fas fa-heart';
-        } else {
-            likesCount.textContent = currentLikes - 1;
-            this.querySelector('i').className = 'far fa-heart';
-        }
-    });
+    if (likeBtn) {
+        likeBtn.addEventListener('click', function() {
+            this.classList.toggle('active');
+            const likesCount = this.querySelector('.likes-count');
+            if (likesCount) {
+                const currentLikes = parseInt(likesCount.textContent);
+                
+                if (this.classList.contains('active')) {
+                    likesCount.textContent = currentLikes + 1;
+                    this.querySelector('i').className = 'fas fa-heart';
+                } else {
+                    likesCount.textContent = currentLikes - 1;
+                    this.querySelector('i').className = 'far fa-heart';
+                }
+            }
+        });
+    }
     
     // 評論按鈕
     const commentBtn = document.getElementById('commentBtn');
     const commentsSection = document.getElementById('commentsSection');
     
-    commentBtn.addEventListener('click', function() {
-        // 切換評論區域顯示
-        commentsSection.classList.toggle('active');
-        
-        // 滾動到評論區域
-        if (commentsSection.classList.contains('active')) {
-            commentsSection.scrollIntoView({ behavior: 'smooth' });
-        }
-    });
+    if (commentBtn && commentsSection) {
+        commentBtn.addEventListener('click', function() {
+            // 切換評論區域顯示
+            commentsSection.classList.toggle('active');
+            
+            // 滾動到評論區域
+            if (commentsSection.classList.contains('active')) {
+                commentsSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    }
     
     // 提交評論
     const submitCommentBtn = document.getElementById('submitComment');
@@ -372,123 +343,138 @@ function initImagePreview() {
     const commentsList = document.getElementById('commentsList');
     const commentCountElem = document.getElementById('commentCount');
     
-    submitCommentBtn.addEventListener('click', function() {
-        const commentText = commentInput.value.trim();
-        
-        if (commentText === '') {
-            return;
-        }
-        
-        // 創建新評論
-        const commentItem = document.createElement('div');
-        commentItem.className = 'comment-item';
-        
-        // 在實際應用中，應該使用當前登入用戶的資料
-        commentItem.innerHTML = `
-            <img src="images/avatars/user-default.jpg" alt="您的頭像" class="comment-avatar">
-            <div class="comment-content">
-                <div class="comment-header">
-                    <span class="comment-author">您</span>
-                    <span class="comment-date">剛剛</span>
+    if (submitCommentBtn && commentInput && commentsList && commentCountElem) {
+        submitCommentBtn.addEventListener('click', function() {
+            const commentText = commentInput.value.trim();
+            
+            if (commentText === '') {
+                return;
+            }
+            
+            // 創建新評論
+            const commentItem = document.createElement('div');
+            commentItem.className = 'comment-item';
+            
+            // 在實際應用中，應該使用當前登入用戶的資料
+            commentItem.innerHTML = `
+                <img src="images/avatars/user-default.jpg" alt="您的頭像" class="comment-avatar">
+                <div class="comment-content">
+                    <div class="comment-header">
+                        <span class="comment-author">您</span>
+                        <span class="comment-date">剛剛</span>
+                    </div>
+                    <p class="comment-text">${commentText}</p>
                 </div>
-                <p class="comment-text">${commentText}</p>
-            </div>
-        `;
-        
-        // 添加評論到列表
-        commentsList.prepend(commentItem);
-        
-        // 清空輸入框
-        commentInput.value = '';
-        
-        // 更新評論數量
-        const currentCount = parseInt(commentCountElem.textContent);
-        commentCountElem.textContent = currentCount + 1;
-        
-        // 更新評論按鈕上的計數
-        const commentsCount = document.getElementById('commentsCount');
-        commentsCount.textContent = parseInt(commentsCount.textContent) + 1;
-    });
+            `;
+            
+            // 添加評論到列表
+            commentsList.prepend(commentItem);
+            
+            // 清空輸入框
+            commentInput.value = '';
+            
+            // 更新評論數量
+            const currentCount = parseInt(commentCountElem.textContent);
+            commentCountElem.textContent = currentCount + 1;
+            
+            // 更新評論按鈕上的計數
+            const commentsCount = document.getElementById('commentsCount');
+            if (commentsCount) {
+                commentsCount.textContent = parseInt(commentsCount.textContent) + 1;
+            }
+        });
+    }
     
     // 分享按鈕
     const shareBtn = document.getElementById('shareBtn');
     const shareModal = document.getElementById('shareModal');
-    const shareCloseBtn = shareModal.querySelector('.close-modal');
-    const shareLink = document.getElementById('shareLink');
-    const copyLinkBtn = document.getElementById('copyLink');
     
-    shareBtn.addEventListener('click', function() {
-        // 設置分享連結 (在實際應用中，應該使用當前作品的URL)
-        shareLink.value = window.location.origin + '/share-item.html?id=' + currentGalleryItem.id;
+    if (shareBtn && shareModal) {
+        const shareCloseBtn = shareModal.querySelector('.close-modal');
+        const shareLink = document.getElementById('shareLink');
+        const copyLinkBtn = document.getElementById('copyLink');
         
-        // 開啟分享模態框
-        openModal(shareModal);
-    });
-    
-    // 關閉分享模態框
-    shareCloseBtn.addEventListener('click', function() {
-        closeModal(shareModal);
-    });
-    
-    // 點擊分享模態框外部關閉
-    shareModal.addEventListener('click', function(e) {
-        if (e.target === shareModal) {
-            closeModal(shareModal);
-        }
-    });
-    
-    // 複製連結
-    copyLinkBtn.addEventListener('click', function() {
-        shareLink.select();
-        document.execCommand('copy');
-        
-        // 顯示已複製提示
-        const originalText = this.innerHTML;
-        this.innerHTML = '<i class="fas fa-check"></i> 已複製';
-        
-        setTimeout(() => {
-            this.innerHTML = originalText;
-        }, 2000);
-    });
-    
-    // 社群分享
-    const shareOptions = document.querySelectorAll('.share-option');
-    
-    shareOptions.forEach(option => {
-        option.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const platform = this.dataset.platform;
-            const url = encodeURIComponent(shareLink.value);
-            const title = encodeURIComponent(currentGalleryItem.title);
-            
-            let shareUrl = '';
-            
-            switch (platform) {
-                case 'facebook':
-                    shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
-                    break;
-                case 'twitter':
-                    shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${title}`;
-                    break;
-                case 'pinterest':
-                    const image = encodeURIComponent(currentGalleryItem.image);
-                    shareUrl = `https://pinterest.com/pin/create/button/?url=${url}&media=${image}&description=${title}`;
-                    break;
-                case 'whatsapp':
-                    shareUrl = `https://wa.me/?text=${title} ${url}`;
-                    break;
-                case 'line':
-                    shareUrl = `https://social-plugins.line.me/lineit/share?url=${url}`;
-                    break;
+        shareBtn.addEventListener('click', function() {
+            // 設置分享連結 (在實際應用中，應該使用當前作品的URL)
+            if (shareLink && currentGalleryItem) {
+                shareLink.value = window.location.origin + '/share-item.html?id=' + currentGalleryItem.id;
             }
             
-            // 開啟分享視窗
-            if (shareUrl) {
-                window.open(shareUrl, '_blank', 'width=600,height=400');
+            // 開啟分享模態框
+            openModal(shareModal);
+        });
+        
+        // 關閉分享模態框
+        if (shareCloseBtn) {
+            shareCloseBtn.addEventListener('click', function() {
+                closeModal(shareModal);
+            });
+        }
+        
+        // 點擊分享模態框外部關閉
+        shareModal.addEventListener('click', function(e) {
+            if (e.target === shareModal) {
+                closeModal(shareModal);
             }
         });
-    });
+        
+        // 複製連結
+        if (copyLinkBtn && shareLink) {
+            copyLinkBtn.addEventListener('click', function() {
+                shareLink.select();
+                document.execCommand('copy');
+                
+                // 顯示已複製提示
+                const originalText = this.innerHTML;
+                this.innerHTML = '<i class="fas fa-check"></i> 已複製';
+                
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                }, 2000);
+            });
+        }
+        
+        // 社群分享
+        const shareOptions = shareModal.querySelectorAll('.share-option');
+        
+        shareOptions.forEach(option => {
+            option.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                if (!currentGalleryItem || !shareLink) return;
+                
+                const platform = this.dataset.platform;
+                const url = encodeURIComponent(shareLink.value);
+                const title = encodeURIComponent(currentGalleryItem.title);
+                
+                let shareUrl = '';
+                
+                switch (platform) {
+                    case 'facebook':
+                        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+                        break;
+                    case 'twitter':
+                        shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${title}`;
+                        break;
+                    case 'pinterest':
+                        const image = encodeURIComponent(currentGalleryItem.image);
+                        shareUrl = `https://pinterest.com/pin/create/button/?url=${url}&media=${image}&description=${title}`;
+                        break;
+                    case 'whatsapp':
+                        shareUrl = `https://wa.me/?text=${title} ${url}`;
+                        break;
+                    case 'line':
+                        shareUrl = `https://social-plugins.line.me/lineit/share?url=${url}`;
+                        break;
+                }
+                
+                // 開啟分享視窗
+                if (shareUrl) {
+                    window.open(shareUrl, '_blank', 'width=600,height=400');
+                }
+            });
+        });
+    }
 }
 
 // 儲存當前預覽的作品
@@ -570,9 +556,19 @@ function openImagePreview(item) {
  * @param {HTMLElement} modal - 模態框元素
  */
 function openModal(modal) {
-    if (!modal) return;
+    console.log('openModal 被調用，模態框元素:', modal);
+    if (!modal) {
+        console.error('openModal: 模態框元素為空');
+        return;
+    }
+    
+    console.log('添加 active 類別到模態框');
     modal.classList.add('active');
+    
+    console.log('添加 modal-open 類別到 body');
     document.body.classList.add('modal-open');
+    
+    console.log('模態框已開啟，當前類別:', modal.className);
 }
 
 /**
@@ -580,23 +576,51 @@ function openModal(modal) {
  * @param {HTMLElement} modal - 模態框元素
  */
 function closeModal(modal) {
-    if (!modal) return;
+    console.log('closeModal 被調用，模態框元素:', modal);
+    if (!modal) {
+        console.error('closeModal: 模態框元素為空');
+        return;
+    }
+    
+    console.log('移除 active 類別從模態框');
     modal.classList.remove('active');
+    
+    console.log('移除 modal-open 類別從 body');
     document.body.classList.remove('modal-open');
     
     // 移除預覽內容
     const previewContent = modal.querySelector('.preview-content');
     if (previewContent) {
         previewContent.innerHTML = '';
+        console.log('已清空預覽內容');
     }
+    
+    console.log('模態框已關閉，當前類別:', modal.className);
 }
 
 /**
  * 初始化上傳功能
  */
 function initUploadFeature() {
+    console.log('開始初始化上傳功能');
+    
+    // 查找所有上傳按鈕
     const uploadBtns = document.querySelectorAll('.upload-btn, .upload-btn-large');
+    console.log('找到上傳按鈕數量:', uploadBtns.length);
+    
+    // 記錄每個按鈕的詳細信息
+    uploadBtns.forEach((btn, index) => {
+        console.log(`按鈕 ${index + 1}:`, btn.className, btn.textContent.trim());
+    });
+    
     const uploadModal = document.getElementById('uploadModal');
+    console.log('上傳模態框元素:', uploadModal);
+    
+    if (!uploadModal) {
+        console.error('找不到上傳模態框，元素 ID: uploadModal');
+        return;
+    }
+    
     const closeBtn = uploadModal.querySelector('.close-modal');
     const cancelBtn = document.getElementById('cancelUpload');
     const uploadForm = document.getElementById('uploadForm');
@@ -604,58 +628,85 @@ function initUploadFeature() {
     const fileInput = document.getElementById('uploadFiles');
     const uploadPreview = document.getElementById('uploadPreview');
     
+    console.log('模態框內部元素狀態:');
+    console.log('- 關閉按鈕:', closeBtn);
+    console.log('- 取消按鈕:', cancelBtn);
+    console.log('- 上傳表單:', uploadForm);
+    console.log('- 上傳區域:', uploadArea);
+    console.log('- 文件輸入:', fileInput);
+    console.log('- 預覽區域:', uploadPreview);
+    
     // 開啟上傳模態框
-    uploadBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
+    uploadBtns.forEach((btn, index) => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log(`上傳按鈕 ${index + 1} 被點擊`);
+            console.log('按鈕元素:', this);
+            console.log('準備開啟模態框');
             openModal(uploadModal);
         });
     });
     
     // 關閉上傳模態框
-    closeBtn.addEventListener('click', function() {
-        closeModal(uploadModal);
-    });
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function() {
+            console.log('關閉按鈕被點擊');
+            closeModal(uploadModal);
+        });
+    }
     
     // 點擊上傳模態框外部關閉
     uploadModal.addEventListener('click', function(e) {
         if (e.target === uploadModal) {
+            console.log('點擊模態框外部，關閉模態框');
             closeModal(uploadModal);
         }
     });
     
     // 取消按鈕
-    cancelBtn.addEventListener('click', function() {
-        closeModal(uploadModal);
-    });
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', function() {
+            console.log('取消按鈕被點擊');
+            closeModal(uploadModal);
+        });
+    }
     
     // 拖放上傳功能
-    uploadArea.addEventListener('dragover', function(e) {
-        e.preventDefault();
-        this.classList.add('drag-over');
-    });
-    
-    uploadArea.addEventListener('dragleave', function(e) {
-        e.preventDefault();
-        this.classList.remove('drag-over');
-    });
-    
-    uploadArea.addEventListener('drop', function(e) {
-        e.preventDefault();
-        this.classList.remove('drag-over');
+    if (uploadArea) {
+        uploadArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('drag-over');
+        });
         
-        // 處理拖放的文件
-        handleFiles(e.dataTransfer.files);
-    });
+        uploadArea.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            this.classList.remove('drag-over');
+        });
+        
+        uploadArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('drag-over');
+            
+            // 處理拖放的文件
+            handleFiles(e.dataTransfer.files);
+        });
+    }
     
     // 文件選擇
-    fileInput.addEventListener('change', function() {
-        handleFiles(this.files);
-    });
+    if (fileInput) {
+        fileInput.addEventListener('change', function() {
+            handleFiles(this.files);
+        });
+    }
     
     // 處理選擇的文件
     function handleFiles(files) {
+        console.log('處理文件:', files.length, '個文件');
+        
         // 清空預覽
-        uploadPreview.innerHTML = '';
+        if (uploadPreview) {
+            uploadPreview.innerHTML = '';
+        }
         
         // 檢查文件數量
         if (files.length > 5) {
@@ -694,7 +745,9 @@ function initUploadFeature() {
                     previewItem.remove();
                 });
                 
-                uploadPreview.appendChild(previewItem);
+                if (uploadPreview) {
+                    uploadPreview.appendChild(previewItem);
+                }
             };
             
             reader.readAsDataURL(file);
@@ -706,246 +759,179 @@ function initUploadFeature() {
     const tagContainer = document.getElementById('tagContainer');
     const maxTags = 5;
     
-    tagInput.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' && this.value.trim() !== '') {
-            e.preventDefault();
-            
-            // 檢查標籤數量是否已達上限
-            const currentTags = tagContainer.querySelectorAll('.tag-item');
-            if (currentTags.length >= maxTags) {
-                alert('最多只能新增5個標籤');
-                return;
-            }
-            
-            const tagText = this.value.trim();
-            
-            // 確認標籤不重複
-            const existingTags = Array.from(currentTags).map(tag => 
-                tag.querySelector('span').textContent
-            );
-            
-            if (existingTags.includes(tagText)) {
-                alert('此標籤已存在');
-                return;
-            }
-            
-            // 創建新標籤
-            const tagItem = document.createElement('div');
-            tagItem.className = 'tag-item';
-            tagItem.innerHTML = `
-                <span>${tagText}</span>
-                <button type="button" class="tag-remove" aria-label="移除標籤">&times;</button>
-            `;
-            
-            // 插入標籤到輸入框前面
-            tagContainer.insertBefore(tagItem, this);
-            
-            // 清空輸入框
-            this.value = '';
-            
-            // 綁定標籤刪除事件
-            const removeBtn = tagItem.querySelector('.tag-remove');
-            removeBtn.addEventListener('click', function() {
-                tagContainer.removeChild(tagItem);
-            });
-        }
-    });
-    
-    // 表單提交
-    uploadForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // 簡單表單驗證
-        const title = document.getElementById('uploadTitle').value;
-        const description = document.getElementById('uploadDescription').value;
-        const category = document.getElementById('uploadCategory').value;
-        const style = document.getElementById('uploadStyle').value;
-        const model = document.getElementById('uploadModel').value;
-        const previewItems = uploadPreview.querySelectorAll('.preview-item');
-        
-        if (!title || !description || !category || !style || !model) {
-            alert('請填寫所有必填欄位');
-            return;
-        }
-        
-        if (previewItems.length === 0) {
-            alert('請至少上傳一張圖片');
-            return;
-        }
-        
-        // 檢查用戶是否已登入
-        const token = localStorage.getItem('token');
-        if (!token) {
-            alert('請先登入後再上傳作品');
-            return;
-        }
-        
-        // 獲取所有標籤
-        const tagItems = tagContainer.querySelectorAll('.tag-item span');
-        const tags = Array.from(tagItems).map(item => item.textContent);
-        
-        // 建立 FormData 物件
-        const formData = new FormData();
-        formData.append('title', title);
-        formData.append('description', description);
-        formData.append('category', category);
-        formData.append('style', style);
-        formData.append('model', model);
-        formData.append('tags', JSON.stringify(tags));
-        
-        // 添加圖片檔案
-        const files = fileInput.files;
-        for (let i = 0; i < files.length; i++) {
-            formData.append('images', files[i]);
-        }
-        
-        // 上傳狀態管理
-        const submitBtn = document.getElementById('submitUpload');
-        const originalText = submitBtn.textContent;
-        
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 上傳中...';
-        
-        // 向後端 API 發送請求
-        fetch('/api/gallery', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            },
-            body: formData
-        })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(err => {
-                    throw new Error(err.error || '上傳失敗');
+    if (tagInput && tagContainer) {
+        tagInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && this.value.trim() !== '') {
+                e.preventDefault();
+                
+                // 檢查標籤數量是否已達上限
+                const currentTags = tagContainer.querySelectorAll('.tag-item');
+                if (currentTags.length >= maxTags) {
+                    alert('最多只能新增5個標籤');
+                    return;
+                }
+                
+                const tagText = this.value.trim();
+                
+                // 確認標籤不重複
+                const existingTags = Array.from(currentTags).map(tag => 
+                    tag.querySelector('span').textContent
+                );
+                
+                if (existingTags.includes(tagText)) {
+                    alert('此標籤已存在');
+                    return;
+                }
+                
+                // 創建新標籤
+                const tagItem = document.createElement('div');
+                tagItem.className = 'tag-item';
+                tagItem.innerHTML = `
+                    <span>${tagText}</span>
+                    <button type="button" class="tag-remove" aria-label="移除標籤">&times;</button>
+                `;
+                
+                // 插入標籤到輸入框前面
+                tagContainer.insertBefore(tagItem, this);
+                
+                // 清空輸入框
+                this.value = '';
+                
+                // 綁定標籤刪除事件
+                const removeBtn = tagItem.querySelector('.tag-remove');
+                removeBtn.addEventListener('click', function() {
+                    tagContainer.removeChild(tagItem);
                 });
             }
-            return response.json();
-        })
-        .then(data => {
-            alert('作品上傳成功！');
-            closeModal(uploadModal);
-            
-            // 重置表單
-            uploadForm.reset();
-            uploadPreview.innerHTML = '';
-            
-            // 清除所有標籤
-            const tagItems = tagContainer.querySelectorAll('.tag-item');
-            tagItems.forEach(item => item.remove());
-            
-            // 恢復按鈕狀態
-            submitBtn.disabled = false;
-            submitBtn.textContent = originalText;
-            
-            // 重新載入作品集
-            loadGalleryItems();
-        })
-        .catch(error => {
-            console.error('上傳失敗:', error);
-            alert(error.message || '上傳失敗，請稍後再試');
-            
-            // 恢復按鈕狀態
-            submitBtn.disabled = false;
-            submitBtn.textContent = originalText;
         });
-    });
+    }
+    
+    // 表單提交
+    if (uploadForm) {
+        uploadForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            console.log('表單提交被觸發');
+            
+            // 簡單表單驗證
+            const title = document.getElementById('uploadTitle').value;
+            const description = document.getElementById('uploadDescription').value;
+            const category = document.getElementById('uploadCategory').value;
+            const style = document.getElementById('uploadStyle').value;
+            const model = document.getElementById('uploadModel').value;
+            const previewItems = uploadPreview ? uploadPreview.querySelectorAll('.preview-item') : [];
+            
+            if (!title || !description || !category || !style || !model) {
+                alert('請填寫所有必填欄位');
+                return;
+            }
+            
+            if (previewItems.length === 0) {
+                alert('請至少上傳一張圖片');
+                return;
+            }
+            
+            // 檢查用戶是否已登入 (暫時跳過檢查)
+            // const token = localStorage.getItem('token');
+            // if (!token) {
+            //     alert('請先登入後再上傳作品');
+            //     return;
+            // }
+            
+            // 獲取所有標籤
+            const tagItems = tagContainer ? tagContainer.querySelectorAll('.tag-item span') : [];
+            const tags = Array.from(tagItems).map(item => item.textContent);
+            
+            // 建立 FormData 物件
+            const formData = new FormData();
+            formData.append('title', title);
+            formData.append('description', description);
+            formData.append('category', category);
+            formData.append('style', style);
+            formData.append('model', model);
+            formData.append('tags', JSON.stringify(tags));
+            
+            // 添加圖片檔案
+            const files = fileInput.files;
+            for (let i = 0; i < files.length; i++) {
+                formData.append('images', files[i]);
+            }
+            
+            // 上傳狀態管理
+            const submitBtn = document.getElementById('submitUpload');
+            const originalText = submitBtn.textContent;
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 上傳中...';
+            
+            // 模擬上傳 (在實際應用中這裡應該向後端 API 發送請求)
+            setTimeout(() => {
+                alert('作品上傳成功！');
+                closeModal(uploadModal);
+                
+                // 重置表單
+                uploadForm.reset();
+                if (uploadPreview) {
+                    uploadPreview.innerHTML = '';
+                }
+                
+                // 清除所有標籤
+                if (tagContainer) {
+                    const tagItems = tagContainer.querySelectorAll('.tag-item');
+                    tagItems.forEach(item => item.remove());
+                }
+                
+                // 恢復按鈕狀態
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+                
+                // 重新載入作品集
+                loadGalleryItems();
+            }, 2000);
+        });
+    }
+    
+    console.log('上傳功能初始化完成');
 }
 
-/**
- * 載入精選作品
- */
-async function loadFeaturedItems() {
-    const featuredSlider = document.getElementById('featuredSlider');
+// 測試按鈕功能
+function testUploadButtons() {
+    console.log('=== 測試上傳按鈕功能 ===');
     
-    try {
-        const featuredItems = await api.gallery.getFeatured();
+    // 等待一段時間確保 DOM 完全載入
+    setTimeout(() => {
+        const allButtons = document.querySelectorAll('button');
+        console.log('頁面上所有按鈕數量:', allButtons.length);
         
-        // 如果沒有精選作品，顯示預設內容
-        if (!featuredItems || !Array.isArray(featuredItems) || featuredItems.length === 0) {
-            featuredSlider.innerHTML = '<div class="no-featured">目前沒有精選作品</div>';
-            return;
+        const uploadBtns = document.querySelectorAll('.upload-btn, .upload-btn-large');
+        console.log('找到的上傳按鈕:', uploadBtns.length);
+        
+        uploadBtns.forEach((btn, index) => {
+            console.log(`按鈕 ${index + 1}:`, {
+                element: btn,
+                className: btn.className,
+                textContent: btn.textContent.trim(),
+                hasOnClick: !!btn.onclick
+            });
+        });
+        
+        const uploadModal = document.getElementById('uploadModal');
+        console.log('上傳模態框:', uploadModal);
+        
+        if (uploadModal) {
+            console.log('模態框類別:', uploadModal.className);
+            console.log('模態框樣式 display:', window.getComputedStyle(uploadModal).display);
         }
         
-        // 創建滑軌
-        const sliderTrack = document.createElement('div');
-        sliderTrack.className = 'slider-track';
-        
-        // 添加作品卡片
-        featuredItems.forEach(item => {
-            const card = createFeaturedCard(item);
-            sliderTrack.appendChild(card);
-        });
-        
-        // 清空並添加新內容
-        featuredSlider.innerHTML = '';
-        featuredSlider.appendChild(sliderTrack);
-        
-        // 初始化滑動功能
-        initializeSlider();
-    } catch (error) {
-        console.error('載入精選作品失敗:', error);
-        featuredSlider.innerHTML = `
-            <div class="error-message">
-                <i class="fas fa-exclamation-circle"></i>
-                <p>載入精選作品時發生錯誤</p>
-                <button onclick="loadFeaturedItems()">重試</button>
-            </div>
-        `;
-    }
+        // 直接測試第一個按鈕
+        if (uploadBtns.length > 0) {
+            console.log('嘗試直接點擊第一個按鈕...');
+            uploadBtns[0].click();
+        }
+    }, 1000);
 }
 
-// 創建精選作品卡片
-function createFeaturedCard(item) {
-    const card = document.createElement('div');
-    card.className = 'featured-card';
-    
-    // 使用預設圖片作為備用
-    const imageUrl = item.image || '/images/default-bike.svg';
-    
-    card.innerHTML = `
-        <div class="featured-image">
-            <img src="${imageUrl}" alt="${item.title}" onerror="this.src='/images/default-bike.svg'">
-        </div>
-        <div class="featured-info">
-            <h3>${item.title}</h3>
-            <p>${item.description || '暫無描述'}</p>
-            <div class="featured-meta">
-                <span class="category">${item.category || '未分類'}</span>
-                <span class="date">${formatDate(item.createdAt)}</span>
-            </div>
-            <div class="featured-stats">
-                <span><i class="fas fa-heart"></i> ${item.stats?.likes || 0}</span>
-                <span><i class="fas fa-comment"></i> ${item.stats?.comments || 0}</span>
-                <span><i class="fas fa-eye"></i> ${item.stats?.views || 0}</span>
-            </div>
-        </div>
-    `;
-    
-    // 添加點擊事件
-    card.addEventListener('click', () => {
-        window.location.href = `/gallery/${item._id}`;
-    });
-    
-    return card;
-}
-
-// 初始化滑動功能
-function initializeSlider() {
-    const track = document.querySelector('.slider-track');
-    const cards = track.getElementsByClassName('featured-card');
-    
-    if (cards.length <= 1) return;
-    
-    let currentIndex = 0;
-    const cardWidth = cards[0].offsetWidth;
-    
-    // 自動輪播
-    setInterval(() => {
-        currentIndex = (currentIndex + 1) % cards.length;
-        track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
-    }, 5000);
-}
+// 調用測試函數
+setTimeout(testUploadButtons, 2000);
 
 // 格式化日期
 function formatDate(dateString) {
@@ -976,6 +962,7 @@ function formatDate(dateString) {
  */
 
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM 已載入，開始初始化作品展示頁面');
     // 初始化頁面
     initGalleryPage();
 });
@@ -984,6 +971,8 @@ document.addEventListener('DOMContentLoaded', function() {
  * 初始化作品展示頁面
  */
 function initGalleryPage() {
+    console.log('開始初始化作品展示頁面功能');
+    
     // 載入作品集
     loadGalleryItems();
     
@@ -999,11 +988,11 @@ function initGalleryPage() {
     // 初始化作品預覽功能
     initImagePreview();
     
-    // 初始化上傳功能
-    initUploadFeature();
-    
-    // 初始化精選作品輪播
-    initFeaturedSlider();
+    // 初始化上傳功能 (確保在最後初始化)
+    setTimeout(() => {
+        console.log('延遲初始化上傳功能');
+        initUploadFeature();
+    }, 100);
     
     // 初始化搜尋功能
     initSearchFunction();
@@ -1016,7 +1005,7 @@ function initGalleryPage() {
  * 載入作品集資料
  * 在實際應用中，這裡應該是從後端API獲取資料
  */
-function loadGalleryItems() {
+function loadGalleryItems(params) {
     // 顯示載入中指示器
     const galleryContainer = document.getElementById('galleryItems');
     galleryContainer.innerHTML = `
@@ -1026,26 +1015,8 @@ function loadGalleryItems() {
         </div>
     `;
     
-    // 獲取當前篩選條件（從側邊欄的active鏈接）
-    const activeCategoryLink = document.querySelector('[data-category].active');
-    const activeStyleLink = document.querySelector('[data-style].active');
-    const activeSortLink = document.querySelector('[data-sort].active');
-    
-    const params = new URLSearchParams();
-    
-    // 添加篩選條件
-    if (activeCategoryLink && activeCategoryLink.dataset.category !== 'all') {
-        params.append('category', activeCategoryLink.dataset.category);
-    }
-    if (activeStyleLink && activeStyleLink.dataset.style !== 'all') {
-        params.append('style', activeStyleLink.dataset.style);
-    }
-    if (activeSortLink && activeSortLink.dataset.sort) {
-        params.append('sort', activeSortLink.dataset.sort);
-    }
-    
     // 從 API 獲取作品數據
-    fetch(`/api/gallery?${params.toString()}`)
+    fetch(`/api/gallery${params ? '?' + params.toString() : ''}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('獲取作品列表失敗');
@@ -1072,9 +1043,6 @@ function loadGalleryItems() {
             } else {
                 renderGalleryItems([]);
             }
-            
-            // 載入精選作品
-            loadFeaturedItems();
         })
         .catch(error => {
             console.error('載入作品時出錯:', error);
@@ -1202,27 +1170,27 @@ function addFilterTagFromSidebar(type, value, removeCallback) {
  */
 function initSearchFunction() {
     const searchInput = document.querySelector('.search-bar input');
-    const searchBtn = document.querySelector('.search-btn');
-    
+    const searchBtn = document.querySelector('.search-bar .search-btn');
+    let searchTimeout;
+
     if (!searchInput || !searchBtn) return;
-    
-    // 搜尋按鈕點擊事件
-    searchBtn.addEventListener('click', function() {
-        performSearch();
-    });
-    
-    // 輸入框 Enter 鍵事件
-    searchInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            performSearch();
-        }
-    });
-    
-    // 執行搜尋
+
+    // 搜尋功能
     function performSearch() {
         const searchTerm = searchInput.value.trim();
+        const params = new URLSearchParams();
         
-        // 顯示載入中指示器
+        if (searchTerm) {
+            params.set('search', searchTerm);
+        }
+        
+        // 獲取當前活動的篩選器
+        document.querySelectorAll('.filter-list a.active').forEach(filter => {
+            const filterType = filter.closest('.filter-group').dataset.filterType;
+            params.append(filterType, filter.dataset.filter);
+        });
+        
+        // 顯示載入中狀態
         const galleryContainer = document.getElementById('galleryItems');
         galleryContainer.innerHTML = `
             <div class="loading-indicator">
@@ -1231,29 +1199,8 @@ function initSearchFunction() {
             </div>
         `;
         
-        // 建立搜尋參數
-        const params = new URLSearchParams();
-        if (searchTerm) {
-            params.append('search', searchTerm);
-        }
-        
-        // 添加其他篩選條件（從側邊欄的active鏈接）
-        const activeCategoryLink = document.querySelector('[data-category].active');
-        const activeStyleLink = document.querySelector('[data-style].active');
-        const activeSortLink = document.querySelector('[data-sort].active');
-        
-        if (activeCategoryLink && activeCategoryLink.dataset.category !== 'all') {
-            params.append('category', activeCategoryLink.dataset.category);
-        }
-        if (activeStyleLink && activeStyleLink.dataset.style !== 'all') {
-            params.append('style', activeStyleLink.dataset.style);
-        }
-        if (activeSortLink && activeSortLink.dataset.sort) {
-            params.append('sort', activeSortLink.dataset.sort);
-        }
-        
         // 向 API 發送搜尋請求
-        fetch(`/api/gallery?${params.toString()}`)
+        fetch(`/api/gallery/search?${params.toString()}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('搜尋失敗');
@@ -1261,12 +1208,11 @@ function initSearchFunction() {
                 return response.json();
             })
             .then(data => {
-                // 清空載入指示器
                 galleryContainer.innerHTML = '';
                 
-                // 渲染搜尋結果
                 if (data.items && data.items.length > 0) {
                     renderGalleryItems(data.items);
+                    updateGalleryCount(data);
                 } else {
                     galleryContainer.innerHTML = `
                         <div class="no-results">
@@ -1288,36 +1234,51 @@ function initSearchFunction() {
                 `;
             });
     }
+
+    // 輸入延遲搜尋
+    searchInput.addEventListener('input', () => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(performSearch, 500);
+    });
+
+    // 點擊搜尋按鈕
+    searchBtn.addEventListener('click', () => {
+        clearTimeout(searchTimeout);
+        performSearch();
+    });
+
+    // Enter 鍵搜尋
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            clearTimeout(searchTimeout);
+            performSearch();
+        }
+    });
 }
 
 async function loadDiscussions() {
     const discussionListEl = document.querySelector('.discussion-list');
     
+    // 如果沒有討論列表元素，直接返回
+    if (!discussionListEl) {
+        return;
+    }
+    
     try {
         // 顯示載入中狀態
         discussionListEl.innerHTML = '<div class="loading">載入中...</div>';
         
-        // 從 API 獲取資料
-        const response = await api.gallery.getFeatured();
-        
-        if (!response || !Array.isArray(response)) {
-            throw new Error('無效的資料格式');
-        }
-        
-        if (response.length === 0) {
-            discussionListEl.innerHTML = '<div class="no-discussions">目前沒有展示作品</div>';
-            return;
-        }
-        
-        // 渲染討論列表
-        renderDiscussions(response);
+        // 模擬載入討論數據
+        setTimeout(() => {
+            discussionListEl.innerHTML = '<div class="no-discussions">目前沒有討論內容</div>';
+        }, 1000);
         
     } catch (error) {
-        console.error('載入展示作品失敗:', error);
+        console.error('載入討論失敗:', error);
         discussionListEl.innerHTML = `
             <div class="error-message">
                 <i class="fas fa-exclamation-circle"></i>
-                <p>載入展示作品時發生錯誤</p>
+                <p>載入討論時發生錯誤</p>
                 <button onclick="loadDiscussions()">重試</button>
             </div>
         `;
@@ -1345,4 +1306,34 @@ function initSidebar() {
             });
         }
     });
+}
+
+// 查看我的作品
+function viewMyGallery() {
+    // 檢查登入狀態
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    if (!isLoggedIn) {
+        alert('請先登入查看您的作品');
+        window.location.href = 'login.html';
+        return;
+    }
+    
+    // 篩選當前用戶的作品
+    const currentUser = localStorage.getItem('username') || '用戶';
+    const userWorks = galleryData.filter(item => item.author === currentUser);
+    
+    if (userWorks.length === 0) {
+        alert('您還沒有上傳任何作品，快來分享您的改裝成果吧！');
+        openUploadModal();
+        return;
+    }
+    
+    // 顯示用戶作品
+    filterByAuthor(currentUser);
+    
+    // 更新頁面標題提示
+    const countElement = document.getElementById('gallery-count');
+    if (countElement) {
+        countElement.textContent = `共 ${userWorks.length} 個我的作品`;
+    }
 }

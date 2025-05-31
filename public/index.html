@@ -6,408 +6,237 @@
     <title>MotoWeb - 摩托車改裝社群</title>
     <meta name="description" content="MotoWeb是台灣最大的摩托車改裝社群平台，提供改裝零件展示、經驗分享與交流">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/tech-theme.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* 用戶菜單樣式 */
-        .user-menu {
-            position: relative;
-            cursor: pointer;
-        }
+        /* 首頁專用樣式 - 現代科技風格 */
         
-        .user-avatar {
-            display: flex;
-            align-items: center;
-            padding: 8px 12px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .user-avatar:hover {
-            background-color: rgba(0, 0, 0, 0.05);
-        }
-        
-        .user-avatar .avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            margin-right: 10px;
-            object-fit: cover;
-            border: 2px solid var(--primary-color);
-            transition: transform 0.3s ease;
-        }
-        
-        .user-avatar:hover .avatar {
-            transform: scale(1.05);
-        }
-        
-        .user-avatar .username {
-            color: var(--secondary-color);
-            font-weight: 600;
-            max-width: 120px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-size: 0.95rem;
-        }
-        
-        .dropdown-menu {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            width: 180px;
-            background-color: white;
-            border-radius: 4px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 8px 0;
-            z-index: 100;
-            display: none;
-        }
-        
-        .dropdown-menu.show {
-            display: block;
-        }
-        
-        .dropdown-menu a {
-            display: block;
-            padding: 8px 16px;
-            color: #333;
-            text-decoration: none;
-            transition: background-color 0.2s;
-        }
-        
-        .dropdown-menu a:hover {
-            background-color: #f5f5f5;
-        }
-        
-        .dropdown-menu i {
-            width: 16px;
-            margin-right: 8px;
-            text-align: center;
+        /* 首頁特殊動畫 */
+        @keyframes scanLine {
+            0% { transform: translateY(-100%); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
         }
 
-        /* 導航欄樣式 */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            z-index: 1000;
-            height: 80px;
+        @keyframes waveFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 100%;
-            padding: 0 5%;
-            max-width: 1400px;
-            margin: 0 auto;
+        @keyframes particleFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
+        @keyframes textGlow {
+            0%, 100% { 
+                text-shadow: 
+                    0 0 5px var(--primary-color),
+                    0 0 15px var(--primary-color),
+                    0 0 25px var(--primary-color),
+                    0 0 35px var(--accent-color);
+        }
+            50% { 
+                text-shadow: 
+                    0 0 10px var(--primary-color),
+                    0 0 25px var(--primary-color),
+                    0 0 40px var(--primary-color),
+                    0 0 55px var(--accent-color);
+        }
         }
 
-        .logo a {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            color: var(--secondary-color);
+        /* 主要區域樣式 */
+        .main-container {
+            margin-top: 80px;
+            background: var(--secondary-color);
         }
 
-        .logo-img {
-            height: 40px;
-            margin-right: 1rem;
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--secondary-color);
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary-color);
-        }
-
-        .nav-links a.active {
-            color: var(--primary-color);
-        }
-
-        .auth-buttons {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .menu-toggle {
-            display: none;
-        }
-
-        /* 首頁特定樣式 */
-        .hero {
+        /* 英雄區域 - 全新設計 */
+        .hero-section {
             height: 100vh;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
-                        url('/images/hero-bg.jpg') center/cover;
-            display: flex;
-            align-items: center;
-            color: white;
-            padding: 0 5%;
-            margin-top: -80px;
-        }
-
-        .hero .container {
-            max-width: 1400px;
-            margin: 0 auto;
+            background: 
+                linear-gradient(135deg, 
+                    rgba(10, 10, 10, 0.95), 
+                    rgba(31, 41, 55, 0.8)),
+                radial-gradient(circle at 20% 30%, rgba(0, 212, 255, 0.15), transparent),
+                radial-gradient(circle at 80% 70%, rgba(124, 58, 237, 0.15), transparent),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="circuit" patternUnits="userSpaceOnUse" width="40" height="40"><rect width="40" height="40" fill="%23111827"/><path d="M0,20 L40,20 M20,0 L20,40" stroke="%2300d4ff" stroke-width="0.5" opacity="0.3"/><circle cx="20" cy="20" r="2" fill="%2300d4ff" opacity="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23circuit)"/></svg>');
+            background-size: cover, 800px 800px, 1000px 1000px, 80px 80px;
             display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding: 2rem 0;
+        }
+
+        .hero-section .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100%;
+            width: 100%;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(45deg, transparent, rgba(0, 212, 255, 0.08), transparent),
+                linear-gradient(-45deg, transparent, rgba(124, 58, 237, 0.08), transparent);
+            animation: waveFlow 12s infinite ease-in-out;
+            z-index: 1;
+        }
+
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, var(--primary-color), transparent);
+            animation: scanLine 10s infinite linear;
+            z-index: 2;
         }
 
         .hero-content {
-            max-width: 800px;
+            text-align: center;
+            z-index: 3;
+            position: relative;
+            max-width: 1000px;
+            width: 100%;
+            padding: 0 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
         }
 
         .hero-title {
-            font-size: 3.5rem;
+            font-size: 4.5rem;
+            font-weight: 700;
             margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, 
+                #ffffff, 
+                var(--primary-color), 
+                var(--accent-color), 
+                var(--success-color));
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: textGlow 6s ease-in-out infinite;
             line-height: 1.2;
+            text-align: center;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
         }
 
         .hero-subtitle {
-            font-size: 1.2rem;
+            font-size: 1.5rem;
+            color: var(--metallic-silver);
             margin-bottom: 2.5rem;
             line-height: 1.6;
+            opacity: 0.9;
+            text-align: center;
+            max-width: 700px;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
         }
 
         .hero-buttons {
             display: flex;
-            gap: 1rem;
+            gap: 1.5rem;
             justify-content: center;
-        }
-
-        .hero-image {
-            flex: 1;
-            max-width: 600px;
-        }
-
-        .hero-image img {
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
             width: 100%;
-            height: auto;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
-        /* 特色區塊樣式 */
-        .featured-section {
-            padding: 6rem 5%;
-            background: white;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-            position: relative;
-        }
-
-        .section-header h2 {
-            font-size: 2.5rem;
-            color: var(--secondary-color);
-            margin-bottom: 1rem;
-            position: relative;
-            display: inline-block;
-        }
-        
-        .section-header h2:after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 3px;
-            background-color: var(--primary-color);
-            margin: 15px auto 0;
-        }
-
-        .section-header p {
-            color: #666;
+        .hero-buttons .btn {
             font-size: 1.1rem;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .featured-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        .section-footer {
-            text-align: center;
-            margin-top: 3rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .section-footer .btn {
-            display: inline-block;
-            margin-top: 1rem;
-        }
-
-        .featured-card {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-        }
-
-        .featured-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card-image {
-            position: relative;
-            height: 250px;
-        }
-
-        .card-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .card-tag {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: var(--primary-color);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            font-size: 0.9rem;
-        }
-
-        .card-content {
-            padding: 1.5rem;
-        }
-
-        .card-content h3 {
-            margin: 0 0 1rem;
-            color: var(--secondary-color);
-        }
-
-        .card-content p {
-            color: #666;
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-        }
-
-        .card-meta {
+            padding: 1rem 2rem;
+            min-width: 180px;
             display: flex;
             align-items: center;
-            gap: 1rem;
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        .meta-item {
-            display: flex;
-            align-items: center;
+            justify-content: center;
             gap: 0.5rem;
         }
 
-        .card-link {
-            margin-left: auto;
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        /* 分類區塊樣式 */
-        .categories-section {
-            padding: 6rem 5%;
-            background: var(--background-color);
-        }
-
-        .categories-grid {
+        .hero-features {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
-            max-width: 1400px;
+            width: 100%;
+            max-width: 900px;
             margin: 0 auto;
         }
-
-        .category-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
+        
+        .hero-feature {
+            background: linear-gradient(145deg, 
+                rgba(31, 41, 55, 0.8), 
+                rgba(17, 24, 39, 0.9));
+            padding: 2rem 1.5rem;
+            border-radius: 20px;
+            border: 1px solid var(--carbon-gray);
             text-align: center;
-            text-decoration: none;
-            color: var(--secondary-color);
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .hero-feature:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-8px);
+            box-shadow: 
+                0 15px 40px rgba(0, 212, 255, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
 
-        .category-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .category-icon {
-            font-size: 2.5rem;
+        .hero-feature i {
+            font-size: 3rem;
             color: var(--primary-color);
             margin-bottom: 1.5rem;
+            display: block;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
         }
 
-        .category-card h3 {
-            margin-bottom: 1rem;
+        .hero-feature h3 {
+            color: white;
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
         }
 
-        .category-card p {
-            color: #666;
-            font-size: 0.9rem;
-            line-height: 1.6;
+        .hero-feature p {
+            color: var(--metallic-silver);
+            font-size: 1rem;
+            line-height: 1.5;
+            margin: 0;
         }
 
-        /* 社群討論區塊樣式 - 重新設計 */
-        .community-section {
-            padding: 8rem 5%;
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .community-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="%23dc2626" opacity="0.1"/><circle cx="80" cy="40" r="3" fill="%23dc2626" opacity="0.05"/><circle cx="40" cy="80" r="1.5" fill="%23dc2626" opacity="0.1"/></svg>') repeat;
-            z-index: 0;
-        }
-
-        .community-section .container {
-            position: relative;
-            z-index: 1;
-        }
-
+        /* 區段標題統一樣式 */
         .section-header {
             text-align: center;
             margin-bottom: 4rem;
@@ -415,454 +244,415 @@
 
         .section-header h2 {
             font-size: 3rem;
-            font-weight: 700;
-            color: var(--secondary-color);
+            color: white;
             margin-bottom: 1rem;
-            position: relative;
-        }
-
-        .section-header h2::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary-color), #ff6b6b);
-            border-radius: 2px;
+            font-weight: 700;
+            background: linear-gradient(45deg, 
+                white, 
+                var(--primary-color), 
+                var(--accent-color));
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: neonGlow 4s ease-in-out infinite;
         }
 
         .section-header p {
             font-size: 1.3rem;
-            color: #64748b;
+            color: var(--metallic-silver);
             max-width: 600px;
             margin: 0 auto;
             line-height: 1.6;
         }
 
-        .discussion-list {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 2.5rem;
+        /* 特色區域 - 重新設計 */
+        .features-section {
+            padding: 8rem 5%;
+            background: 
+                linear-gradient(135deg, 
+                    rgba(10, 10, 10, 0.95), 
+                    rgba(31, 41, 55, 0.85)),
+                radial-gradient(circle at 30% 40%, rgba(0, 212, 255, 0.1), transparent),
+                radial-gradient(circle at 70% 60%, rgba(124, 58, 237, 0.1), transparent);
+            position: relative;
         }
 
-        .discussion-card {
-            background: white;
-            border-radius: 20px;
-            padding: 2.5rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        .features-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" patternUnits="userSpaceOnUse" width="20" height="20"><rect width="20" height="20" fill="transparent"/><circle cx="10" cy="10" r="0.5" fill="%2300d4ff" opacity="0.2"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
+            z-index: 0;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-card {
+            background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
+            padding: 3rem 2rem;
+            border-radius: 25px;
+            text-align: center;
+            box-shadow: 
+                0 15px 40px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(0, 212, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid transparent;
             position: relative;
             overflow: hidden;
-            border: 1px solid rgba(226, 232, 240, 0.5);
         }
 
-        .discussion-card::before {
+        .feature-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(90deg, var(--primary-color), #ff6b6b, #4f46e5);
+            background: linear-gradient(90deg, 
+                var(--primary-color), 
+                var(--accent-color), 
+                var(--success-color));
             opacity: 0;
             transition: opacity 0.3s ease;
         }
 
-        .discussion-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        .feature-card::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.1), transparent);
+            transition: all 0.6s ease;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
         }
 
-        .discussion-card:hover::before {
+        .feature-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 
+                0 30px 60px rgba(0, 0, 0, 0.6),
+                0 0 50px rgba(0, 212, 255, 0.3),
+                0 0 80px rgba(124, 58, 237, 0.2);
+            border-color: var(--primary-color);
+        }
+
+        .feature-card:hover::before {
             opacity: 1;
         }
 
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.8rem;
+        .feature-card:hover::after {
+            width: 300px;
+            height: 300px;
         }
 
-                .discussion-card .user-avatar {
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--primary-color);
-            transition: transform 0.3s ease;
+        .feature-icon {
+            font-size: 4.5rem;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.6);
+            transition: all 0.5s ease;
+            position: relative;
+            z-index: 2;
         }
         
-        .discussion-card:hover .user-avatar {
-            transform: scale(1.05);
+        .feature-card:hover .feature-icon {
+            transform: scale(1.2) rotateY(360deg);
+            color: var(--success-color);
+            animation: particleFloat 2s ease-in-out infinite;
         }
 
-        .user-meta h4 {
-            color: var(--secondary-color);
-            margin: 0;
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-
-        .user-meta span {
-            color: #64748b;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: 0.2rem;
-        }
-
-        .user-meta span i {
-            color: var(--primary-color);
-        }
-
-        .discussion-title {
-            margin: 0 0 1.2rem;
-            color: var(--secondary-color);
-            font-size: 1.4rem;
-            font-weight: 600;
-            line-height: 1.4;
-            transition: color 0.3s ease;
-        }
-
-        .discussion-card:hover .discussion-title {
-            color: var(--primary-color);
-        }
-
-        .discussion-excerpt {
-            color: #64748b;
-            margin-bottom: 2rem;
-            line-height: 1.7;
-            font-size: 1rem;
-        }
-
-        .discussion-meta {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding-top: 1.5rem;
-            border-top: 1px solid #e2e8f0;
-        }
-
-        .discussion-stats {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .discussion-stats span {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: #64748b;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .discussion-stats i {
-            color: var(--primary-color);
-            font-size: 1rem;
-        }
-
-        .discussion-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-            padding: 0.7rem 1.5rem;
-            border: 2px solid var(--primary-color);
-            border-radius: 25px;
-            transition: all 0.3s ease;
-            background: transparent;
-        }
-
-        .discussion-link:hover {
-            background: var(--primary-color);
+        .feature-card h3 {
             color: white;
-            transform: translateX(2px);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            position: relative;
+            z-index: 2;
         }
 
-        .discussion-link i {
-            transition: transform 0.3s ease;
+        .feature-card p {
+            color: var(--metallic-silver);
+            line-height: 1.7;
+            font-size: 1.1rem;
+            position: relative;
+            z-index: 2;
         }
 
-        .discussion-link:hover i {
-            transform: translateX(3px);
+        /* 分類區域 - 全新設計 */
+        .categories-section {
+            padding: 8rem 5%;
+            background: 
+                linear-gradient(135deg, 
+                    rgba(31, 41, 55, 0.95), 
+                    rgba(17, 24, 39, 0.9)),
+                radial-gradient(circle at 80% 20%, rgba(0, 212, 255, 0.15), transparent);
+            position: relative;
         }
 
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .category-card {
+            background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
+            padding: 2.5rem 2rem;
+            border-radius: 20px;
+            text-decoration: none;
+            color: inherit;
+            border: 2px solid var(--carbon-gray);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            display: block;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(0, 212, 255, 0.1), 
+                transparent);
+            transition: left 0.6s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--primary-color);
+            box-shadow: 
+                0 20px 50px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(0, 212, 255, 0.3);
+        }
+
+        .category-card:hover::before {
+            left: 100%;
+        }
+
+        .category-icon {
+            font-size: 3.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .category-card:hover .category-icon {
+            color: var(--success-color);
+            transform: scale(1.1) rotateY(360deg);
+        }
+
+        .category-card h3 {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .category-card p {
+            color: var(--metallic-silver);
+            line-height: 1.6;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        /* 區段底部按鈕 */
         .section-footer {
             text-align: center;
             margin-top: 4rem;
         }
 
-        .section-footer .btn {
-            padding: 1rem 2.5rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border-radius: 30px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
-        }
-
-        .section-footer .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4);
-        }
-
-        /* CTA 區塊樣式 */
+        /* CTA區域 - 重新設計 */
         .cta-section {
-            padding: 6rem 5%;
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
-                        url('/images/cta-bg.jpg') center/cover;
-            color: white;
-            text-align: center;
+            padding: 8rem 5%;
+            background: 
+                linear-gradient(135deg, 
+                    rgba(10, 10, 10, 0.95), 
+                    rgba(31, 41, 55, 0.8)),
+                radial-gradient(circle at 50% 50%, rgba(124, 58, 237, 0.2), transparent);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100"><path d="M0,30 L250,50 L500,30 L750,50 L1000,30 L1000,70 L750,50 L500,70 L250,50 L0,70 Z" fill="rgba(0,212,255,0.1)"/></svg>') repeat-x;
+            animation: dataFlow 20s infinite linear;
         }
 
         .cta-content {
-            max-width: 800px;
-            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            background: linear-gradient(145deg, 
+                rgba(31, 41, 55, 0.8), 
+                rgba(17, 24, 39, 0.6));
+            padding: 4rem;
+            border-radius: 25px;
+            border: 2px solid var(--primary-color);
+            box-shadow: 
+                0 20px 50px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(0, 212, 255, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         .cta-content h2 {
-            font-size: 2.5rem;
+            font-size: 3rem;
+            color: white;
             margin-bottom: 1.5rem;
+            font-weight: 700;
+            animation: textGlow 4s ease-in-out infinite;
         }
 
         .cta-content p {
-            font-size: 1.2rem;
-            margin-bottom: 2.5rem;
+            font-size: 1.3rem;
+            color: var(--metallic-silver);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
             line-height: 1.6;
         }
 
         .cta-buttons {
             display: flex;
-            gap: 1rem;
-            justify-content: center;
-        }
-
-        /* 頁尾樣式 */
-        .footer {
-            background: var(--secondary-color);
-            color: white;
-            padding: 4rem 5% 2rem;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 4rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .footer-logo {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .footer-logo-img {
-            height: 40px;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .social-links a {
-            color: white;
-            font-size: 1.5rem;
-            transition: color 0.3s ease;
-        }
-
-        .social-links a:hover {
-            color: var(--primary-color);
-        }
-
-        .footer-section h3 {
-            margin-bottom: 1.5rem;
-            font-size: 1.2rem;
-        }
-
-        .footer-section ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .footer-section ul li {
-            margin-bottom: 0.8rem;
-        }
-
-        .footer-section a {
-            color: white;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-section a:hover {
-            color: var(--primary-color);
-        }
-
-        .contact-info li {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .newsletter-form {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .newsletter-form input {
-            flex: 1;
-            padding: 0.8rem;
-            border: none;
-            border-radius: 5px;
-        }
-
-        .footer-bottom {
-            max-width: 1400px;
-            margin: 4rem auto 0;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .footer-bottom-links {
-            display: flex;
             gap: 2rem;
-        }
-
-        /* 返回頂部按鈕 */
-        .back-to-top {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: var(--primary-color);
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
             justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-buttons .btn {
             font-size: 1.2rem;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            opacity: 0;
-            visibility: hidden;
+            padding: 1.2rem 2.5rem;
+            min-width: 200px;
         }
 
-        .back-to-top.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .back-to-top:hover {
-            background: #c1121f;
-            transform: translateY(-5px);
-        }
-
-
-        
-
-
-        /* 響應式設計 */
-        @media (max-width: 1200px) {
-            .featured-grid,
-            .categories-grid {
-                grid-template-columns: repeat(2, 1fr);
+        /* 響應式設計增強 */
+        @media (max-width: 968px) {
+            .hero-features {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1.5rem;
+            }
+            
+            .hero-feature {
+                padding: 1.5rem 1rem;
+                min-height: 180px;
             }
 
-            .footer-content {
-                grid-template-columns: repeat(2, 1fr);
+            .hero-feature i {
+                font-size: 2.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .hero-feature h3 {
+                font-size: 1.1rem;
+                margin-bottom: 0.6rem;
+            }
+
+            .hero-feature p {
+                font-size: 0.9rem;
             }
         }
 
         @media (max-width: 768px) {
-            .navbar {
-                height: 60px;
-            }
-
-            .menu-toggle {
-                display: block;
-                background: none;
-                border: none;
-                cursor: pointer;
-                padding: 0;
-            }
-
-            .bar {
-                display: block;
-                width: 25px;
-                height: 3px;
-                background: var(--secondary-color);
-                margin: 5px 0;
-                transition: all 0.3s ease;
-            }
-
-            .nav-links {
-                position: fixed;
-                top: 60px;
-                left: 0;
-                right: 0;
-                background: white;
-                flex-direction: column;
-                padding: 2rem;
-                gap: 1.5rem;
-                transform: translateY(-100%);
-                opacity: 0;
-                visibility: hidden;
-                transition: all 0.3s ease;
-            }
-
-            .nav-links.active {
-                transform: translateY(0);
-                opacity: 1;
-                visibility: visible;
-            }
-
-            .hero-title {
-                font-size: 2.5rem;
-            }
-
-            .featured-grid,
-            .categories-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .footer-content {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .footer-bottom {
-                flex-direction: column;
-                gap: 1rem;
+            .hero-content {
+                min-height: 85vh;
+                padding: 0 1.5rem;
                 text-align: center;
             }
 
-            .footer-bottom-links {
-                flex-direction: column;
-                gap: 1rem;
+            .hero-title {
+                font-size: 2.8rem;
+                margin-bottom: 1.2rem;
+                text-align: center;
+                width: 100%;
+                margin-left: auto;
+                margin-right: auto;
             }
 
-            .community-section {
-                padding: 5rem 3%;
+            .hero-subtitle {
+                font-size: 1.2rem;
+                margin-bottom: 2rem;
+                text-align: center;
+                width: 100%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+                margin-bottom: 2.5rem;
+                width: 100%;
+            }
+
+            .hero-buttons .btn {
+                width: 100%;
+                max-width: 280px;
+                font-size: 1rem;
+                padding: 0.9rem 1.5rem;
+            }
+
+            .hero-features {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .hero-feature {
+                padding: 1.5rem 1.2rem;
+                min-height: auto;
+            }
+
+            .hero-feature i {
+                font-size: 2.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .hero-feature h3 {
+                font-size: 1.1rem;
+                margin-bottom: 0.6rem;
+            }
+
+            .hero-feature p {
+                font-size: 0.9rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+            .categories-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
 
             .section-header h2 {
@@ -873,26 +663,216 @@
                 font-size: 1.1rem;
             }
 
-            .discussion-list {
-                grid-template-columns: 1fr;
-                gap: 2rem;
+            .cta-content {
+                padding: 3rem 2rem;
             }
 
-            .discussion-card {
-                padding: 2rem;
+            .cta-content h2 {
+                font-size: 2.2rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .cta-buttons .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content {
+                min-height: 90vh;
+                padding: 0 1rem;
+                text-align: center;
+            }
+
+            .hero-title {
+                font-size: 2.2rem;
+                line-height: 1.3;
+                text-align: center;
+                width: 100%;
+                margin-left: auto;
+                margin-right: auto;
+                word-wrap: break-word;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+                text-align: center;
+                width: 100%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-features {
+                gap: 1.2rem;
+            }
+
+            .hero-feature {
+                padding: 1.2rem 1rem;
+            }
+
+            .hero-feature i {
+                font-size: 2.2rem;
+            }
+
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .feature-icon {
+                font-size: 3.5rem;
+            }
+        }
+
+        /* 社群討論區域 */
+        .community-section {
+            padding: 8rem 5%;
+            background: 
+                linear-gradient(135deg, 
+                    rgba(10, 10, 10, 0.95), 
+                    rgba(31, 41, 55, 0.85)),
+                radial-gradient(circle at 70% 30%, rgba(0, 212, 255, 0.1), transparent),
+                radial-gradient(circle at 30% 70%, rgba(124, 58, 237, 0.1), transparent);
+            position: relative;
+        }
+
+        .discussion-list {
+            display: grid;
+                gap: 2rem;
+            margin-bottom: 4rem;
+            }
+
+        .discussion-card {
+            background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
+            padding: 2rem;
+            border-radius: 20px;
+            border: 2px solid var(--carbon-gray);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .discussion-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(0, 212, 255, 0.1), 
+                transparent);
+            transition: left 0.6s ease;
+            }
+
+        .discussion-card:hover {
+            transform: translateY(-8px) scale(1.01);
+            border-color: var(--primary-color);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(0, 212, 255, 0.3);
+            }
+
+        .discussion-card:hover::before {
+            left: 100%;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            gap: 1rem;
+            }
+
+        .discussion-user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-color);
+            object-fit: cover;
+            }
+
+        .user-meta h4 {
+            color: white;
+                font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            }
+
+        .user-meta span {
+            color: var(--metallic-silver);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            }
+
+        .discussion-title {
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        .discussion-excerpt {
+            color: var(--metallic-silver);
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
             }
 
             .discussion-meta {
-                flex-direction: column;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
                 gap: 1rem;
-                align-items: flex-start;
+        }
+
+        .discussion-stats {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .discussion-stats span {
+            color: var(--metallic-silver);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .discussion-stats i {
+            color: var(--primary-color);
             }
 
             .discussion-link {
-                align-self: flex-end;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
             }
             
-
+        .discussion-link:hover {
+            color: var(--success-color);
+            transform: translateX(5px);
         }
     </style>
 </head>
@@ -937,31 +917,69 @@
         </div>
     </nav>
 
-    <header class="hero">
+    <div class="main-container">
+        <header class="hero-section">
         <div class="container">
             <div class="hero-content">
-                <h1 class="hero-title">摩托車改裝的專業社群</h1>
-                <p class="hero-subtitle">分享您的改裝經驗，尋找專業建議，展示您獨一無二的愛車</p>
+                    <h1 class="hero-title">摩托車改裝的科技殿堂</h1>
+                    <p class="hero-subtitle">融合科技美學與機械工藝，打造專屬於你的終極騎乘體驗</p>
                 <div class="hero-buttons">
-                    <a href="#featured" class="btn btn-primary">探索改裝作品</a>
-                    <a href="community.html" class="btn btn-outline">加入討論</a>
+                        <a href="#featured" class="btn btn-primary">
+                            <i class="fas fa-rocket"></i> 探索改裝世界
+                        </a>
+                        <a href="community.html" class="btn btn-outline">
+                            <i class="fas fa-users"></i> 加入社群
+                        </a>
                 </div>
+                    <div class="hero-features">
+                        <div class="hero-feature">
+                            <i class="fas fa-bolt"></i>
+                            <h3>極速性能</h3>
+                            <p>突破極限的動力提升</p>
+                        </div>
+                        <div class="hero-feature">
+                            <i class="fas fa-palette"></i>
+                            <h3>視覺美學</h3>
+                            <p>獨特的外觀設計理念</p>
+                        </div>
+                        <div class="hero-feature">
+                            <i class="fas fa-shield-alt"></i>
+                            <h3>安全保障</h3>
+                            <p>專業的改裝品質認證</p>
+                        </div>
+                    </div>
             </div>
         </div>
     </header>
 
     <main>
-        <section id="featured" class="featured-section">
+            <section id="featured" class="features-section">
             <div class="container">
                 <div class="section-header">
-                    <h2>精選改裝作品</h2>
-                    <p>來自社群的最受歡迎改裝案例</p>
+                        <h2>精選改裝傑作</h2>
+                        <p>來自全球頂尖改裝師的創意結晶，每一台都是藝術品級的存在</p>
                 </div>
-                <div class="featured-grid">
-                    <!-- 動態載入的改裝作品卡片 -->
+                    <div class="features-grid">
+                        <article class="feature-card">
+                            <div class="feature-icon"><i class="fas fa-fire"></i></div>
+                            <h3>超跑級性能改裝</h3>
+                            <p>透過精密的引擎調校和空力套件，讓您的愛車擁有超跑般的性能表現，在道路上成為眾人矚目的焦點。</p>
+                        </article>
+                        <article class="feature-card">
+                            <div class="feature-icon"><i class="fas fa-gem"></i></div>
+                            <h3>奢華外觀定製</h3>
+                            <p>採用頂級材質和先進工藝，打造獨一無二的視覺效果，讓每一個細節都展現您的品味和個性。</p>
+                        </article>
+                        <article class="feature-card">
+                            <div class="feature-icon"><i class="fas fa-cog"></i></div>
+                            <h3>智能科技整合</h3>
+                            <p>融合最新的電子科技，從智能儀表到輔助系統，讓傳統機械與現代科技完美結合。</p>
+                        </article>
                 </div>
                 <div class="section-footer">
-                    <a href="gallery.html" class="btn btn-primary">查看所有作品 <i class="fas fa-arrow-right"></i></a>
+                        <a href="gallery.html" class="btn btn-primary">
+                            <i class="fas fa-images"></i> 查看所有作品
+                        </a>
                 </div>
             </div>
         </section>
@@ -969,33 +987,35 @@
         <section class="categories-section">
             <div class="container">
                 <div class="section-header">
-                    <h2>改裝分類</h2>
-                    <p>依照您的需求探索不同類型的改裝</p>
+                        <h2>改裝專業領域</h2>
+                        <p>從動力心臟到外觀美學，全方位的改裝解決方案</p>
                 </div>
                 <div class="categories-grid">
                     <a href="products.html?category=performance" class="category-card">
                         <div class="category-icon"><i class="fas fa-tachometer-alt"></i></div>
-                        <h3>性能升級</h3>
-                        <p>引擎調校、排氣系統、進氣系統</p>
+                            <h3>動力系統</h3>
+                            <p>引擎調校 • 渦輪增壓 • 排氣系統 • ECU優化</p>
                     </a>
                     <a href="products.html?category=suspension" class="category-card">
-                        <div class="category-icon"><i class="fas fa-cogs"></i></div>
-                        <h3>懸吊系統</h3>
-                        <p>前叉、後避震、車身高度調整</p>
+                            <div class="category-icon"><i class="fas fa-road"></i></div>
+                            <h3>底盤懸吊</h3>
+                            <p>避震器 • 煞車系統 • 輪胎輪框 • 穩定桿</p>
                     </a>
                     <a href="products.html?category=visual" class="category-card">
                         <div class="category-icon"><i class="fas fa-paint-brush"></i></div>
-                        <h3>外觀改造</h3>
-                        <p>整流罩、塗裝、貼膜、尾翼</p>
+                            <h3>外觀套件</h3>
+                            <p>車身空力 • 燈具改裝 • 塗裝貼膜 • 裝飾配件</p>
                     </a>
-                    <a href="products.html?category=comfort" class="category-card">
-                        <div class="category-icon"><i class="fas fa-couch"></i></div>
-                        <h3>舒適度提升</h3>
-                        <p>座墊、把手、腳踏板、儀表板</p>
+                        <a href="products.html?category=electronics" class="category-card">
+                            <div class="category-icon"><i class="fas fa-microchip"></i></div>
+                            <h3>電子系統</h3>
+                            <p>儀表板 • 音響系統 • 導航設備 • 智能配件</p>
                     </a>
                 </div>
                 <div class="section-footer">
-                    <a href="products.html" class="btn btn-primary">查看所有分類 <i class="fas fa-arrow-right"></i></a>
+                        <a href="products.html" class="btn btn-primary">
+                            <i class="fas fa-shopping-cart"></i> 瀏覽所有商品
+                        </a>
                 </div>
             </div>
         </section>
@@ -1003,14 +1023,16 @@
         <section class="community-section">
             <div class="container">
                 <div class="section-header">
-                    <h2>熱門討論</h2>
-                    <p>加入社群對話，分享您的經驗與問題</p>
+                        <h2>活躍社群動態</h2>
+                        <p>與全球改裝愛好者分享經驗，探討最新改裝趨勢</p>
                 </div>
                 <div class="discussion-list">
                     <!-- 動態載入的討論卡片 -->
                 </div>
                 <div class="section-footer">
-                    <a href="community.html" class="btn btn-primary">查看所有討論 <i class="fas fa-arrow-right"></i></a>
+                        <a href="community.html" class="btn btn-primary">
+                            <i class="fas fa-comments"></i> 參與所有討論
+                        </a>
                 </div>
             </div>
         </section>
@@ -1018,16 +1040,21 @@
         <section class="cta-section">
             <div class="container">
                 <div class="cta-content">
-                    <h2>加入我們的摩托車改裝社群</h2>
-                    <p>立即註冊取得專業建議、分享您的改裝經驗，並展示您的愛車</p>
+                        <h2>開啟您的改裝之旅</h2>
+                        <p>加入我們的專業改裝社群，獲得專家建議、分享改裝心得，與志同道合的車友一起探索無限可能</p>
                     <div class="cta-buttons">
-                        <a href="register.html" class="btn btn-primary">免費註冊</a>
-                        <a href="about.html" class="btn btn-outline">了解更多</a>
+                            <a href="register.html" class="btn btn-primary">
+                                <i class="fas fa-user-plus"></i> 立即註冊
+                            </a>
+                            <a href="about.html" class="btn btn-outline">
+                                <i class="fas fa-info-circle"></i> 了解更多
+                            </a>
                     </div>
                 </div>
             </div>
         </section>
     </main>
+    </div>
 
     <footer class="footer">
         <div class="container">
@@ -1109,23 +1136,18 @@
                 const response = await fetch('/api/featured-works');
                 const data = await response.json();
                 
-                const featuredGrid = document.querySelector('.featured-grid');
+                const featuredGrid = document.querySelector('.features-grid');
                 data.works.forEach(work => {
                     const card = document.createElement('article');
-                    card.className = 'featured-card';
+                    card.className = 'feature-card';
                     card.innerHTML = `
-                        <div class="card-image">
-                            <img src="${work.image}" alt="${work.title}" loading="lazy">
-                            <div class="card-tag">${work.tag}</div>
-                        </div>
-                        <div class="card-content">
+                        <div class="feature-icon"><i class="fas fa-heart"></i></div>
                             <h3>${work.title}</h3>
                             <p>${work.description}</p>
                             <div class="card-meta">
                                 <span class="meta-item"><i class="fas fa-heart"></i> ${work.likes}</span>
                                 <span class="meta-item"><i class="fas fa-comment"></i> ${work.comments}</span>
                                 <a href="project.html?id=${work.id}" class="card-link">查看詳情</a>
-                            </div>
                         </div>
                     `;
                     featuredGrid.appendChild(card);
@@ -1190,7 +1212,7 @@
                     
                                         card.innerHTML = `
                         <div class="user-info">
-                            <img src="${discussion.userAvatar}" alt="${discussion.userName}的頭像" class="user-avatar" loading="lazy">
+                            <img src="${discussion.userAvatar}" alt="${discussion.userName}的頭像" class="discussion-user-avatar" loading="lazy">
                             <div class="user-meta">
                                 <h4>${discussion.userName}</h4>
                                 <span><i class="fas fa-clock"></i> ${discussion.timeAgo}</span>
