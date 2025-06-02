@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discussion Detail - MotoWeb</title>
-    <meta name="description" content="Motorcycle Modification Community Discussion Details">
+    <title>Discussion Detail | MotoWeb</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/tech-theme.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/community.css">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         /* 討論詳情頁面專用樣式 - 現代科技風格 */
-        body {
-            background: var(--secondary-color);
-            margin-top: 80px;
+        .main-container {
+            min-height: 100vh;
         }
 
         .discussion-detail-container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 2rem auto;
             padding: 2.5rem;
             background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
@@ -31,6 +31,7 @@
             border: 2px solid var(--primary-color);
             position: relative;
             overflow: hidden;
+            color: white;
         }
 
         .discussion-detail-container::before {
@@ -56,7 +57,7 @@
         .post-title {
             font-size: 2.8rem;
             color: white;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             font-weight: 700;
             background: linear-gradient(45deg, 
                 white, 
@@ -66,18 +67,24 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: neonGlow 4s ease-in-out infinite;
+            animation: titleGlow 4s ease-in-out infinite;
             text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+            line-height: 1.2;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
         
         .author-info {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            font-size: 1rem;
+            gap: 1.5rem;
+            font-size: 1.1rem;
             color: var(--metallic-silver);
             margin-bottom: 1.5rem;
-            padding: 1rem;
+            padding: 1.5rem;
             background: linear-gradient(145deg, var(--dark-surface), var(--mid-surface));
             border-radius: 15px;
             border: 1px solid var(--carbon-gray);
@@ -85,24 +92,43 @@
         }
         
         .author-avatar {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             object-fit: cover;
-            border: 2px solid var(--success-color);
-            box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+            border: 3px solid var(--success-color);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .author-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(0, 255, 136, 0.6);
+        }
+
+        .author-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
         }
 
         .author-name {
             color: white;
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .post-date {
+            color: var(--metallic-silver);
+            font-size: 0.95rem;
         }
         
         .post-meta {
             display: flex;
             align-items: center;
-            gap: 1.5rem;
-            margin-bottom: 1rem;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
         }
 
         .post-meta span {
@@ -111,10 +137,23 @@
             gap: 0.5rem;
             color: var(--metallic-silver);
             font-weight: 500;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(145deg, var(--dark-surface), var(--mid-surface));
+            border-radius: 10px;
+            border: 1px solid var(--carbon-gray);
         }
 
         .post-meta i {
             color: var(--primary-color);
+        }
+
+        .category-badge {
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color)) !important;
+            color: white !important;
+            font-weight: 600 !important;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
         }
         
         .post-tags {
@@ -125,7 +164,7 @@
             display: inline-block;
             background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
             color: white;
-            padding: 0.5rem 1rem;
+            padding: 0.6rem 1.2rem;
             border-radius: 20px;
             font-size: 0.9rem;
             font-weight: 600;
@@ -135,11 +174,13 @@
             letter-spacing: 0.5px;
             box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
             transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .tag:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
+            background: linear-gradient(45deg, var(--accent-color), var(--success-color));
         }
         
         .post-content {
@@ -148,7 +189,7 @@
             color: var(--metallic-silver);
             margin-bottom: 2.5rem;
             background: linear-gradient(145deg, var(--dark-surface), var(--mid-surface));
-            padding: 2rem;
+            padding: 2.5rem;
             border-radius: 15px;
             border: 1px solid var(--carbon-gray);
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
@@ -163,6 +204,7 @@
         .post-content h4 {
             color: var(--primary-color);
             margin: 2rem 0 1rem;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
         }
 
         .post-content ul, 
@@ -180,7 +222,7 @@
             display: flex;
             align-items: center;
             gap: 2rem;
-            padding: 1.5rem 0;
+            padding: 2rem 0;
             border-top: 2px solid var(--carbon-gray);
             border-bottom: 2px solid var(--carbon-gray);
             margin-bottom: 2.5rem;
@@ -200,109 +242,118 @@
             box-shadow: 
                 0 4px 15px rgba(0, 212, 255, 0.2),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
         }
 
         .like-button:hover {
-            background: linear-gradient(45deg, var(--primary-color), var(--neon-blue));
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
             color: white;
             transform: translateY(-3px);
             box-shadow: 
                 0 8px 25px rgba(0, 212, 255, 0.4),
                 0 0 30px var(--primary-color);
         }
-        
+
         .like-button.liked {
-            background: linear-gradient(45deg, var(--success-color), var(--cyber-green));
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
             color: white;
-            border-color: var(--success-color);
             box-shadow: 
-                0 8px 25px rgba(0, 255, 136, 0.4),
-                0 0 30px var(--success-color);
-        }
-        
-        .like-button i {
-            margin-right: 0.8rem;
-            font-size: 1.1rem;
+                0 0 30px rgba(0, 212, 255, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
 
-        .post-actions span {
+        .stats-item {
             display: flex;
             align-items: center;
             gap: 0.5rem;
             color: var(--metallic-silver);
             font-weight: 500;
-            font-size: 1.1rem;
+            padding: 0.8rem 1.2rem;
+            background: linear-gradient(145deg, var(--dark-surface), var(--mid-surface));
+            border-radius: 15px;
+            border: 1px solid var(--carbon-gray);
         }
 
-        .post-actions i {
-            color: var(--primary-color);
+        .stats-item i {
+            color: var(--success-color);
         }
-        
+
+        /* 評論區域 */
         .comments-section {
-            margin-top: 2.5rem;
+            margin-top: 3rem;
         }
-        
+
         .comments-section h3 {
-            font-size: 2.2rem;
+            font-size: 2rem;
             color: white;
             margin-bottom: 2rem;
             font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
             text-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
         }
-        
+
+        .comments-section h3 i {
+            color: var(--primary-color);
+        }
+
         .comment {
             background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
-            padding: 1.5rem;
             border-radius: 15px;
+            padding: 1.5rem;
             margin-bottom: 1.5rem;
-            border: 2px solid var(--carbon-gray);
+            border: 1px solid var(--carbon-gray);
             box-shadow: 
-                0 8px 25px rgba(0, 0, 0, 0.3),
+                0 4px 15px rgba(0, 0, 0, 0.3),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
             transition: all 0.3s ease;
         }
 
         .comment:hover {
-            border-color: var(--primary-color);
-            box-shadow: 
-                0 12px 35px rgba(0, 0, 0, 0.4),
-                0 0 20px rgba(0, 212, 255, 0.2);
             transform: translateY(-2px);
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.4),
+                0 0 15px rgba(0, 212, 255, 0.1);
         }
-        
+
         .comment-author {
             display: flex;
             align-items: center;
             gap: 1rem;
-            font-weight: 700;
-            color: white;
             margin-bottom: 1rem;
+            font-weight: 600;
+            color: white;
         }
-        
+
         .comment-author img {
             width: 40px;
             height: 40px;
             border-radius: 50%;
+            object-fit: cover;
             border: 2px solid var(--success-color);
             box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
         }
-        
+
         .comment-date {
+            color: var(--metallic-silver);
             font-size: 0.9rem;
-            color: var(--carbon-gray);
+            font-weight: normal;
             margin-left: auto;
-            font-weight: 500;
         }
-        
+
         .comment-text {
-            font-size: 1.1rem;
             color: var(--metallic-silver);
             line-height: 1.7;
+            padding-left: 3rem;
         }
         
         .comment-form {
             background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
-            padding: 2rem;
+            padding: 2.5rem;
             border-radius: 20px;
             border: 2px solid var(--primary-color);
             box-shadow: 
@@ -314,14 +365,21 @@
 
         .comment-form h4 {
             color: white;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             margin-bottom: 1.5rem;
             font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .comment-form h4 i {
+            color: var(--primary-color);
         }
 
         .comment-form textarea {
             width: 100%;
-            padding: 1.2rem;
+            padding: 1.5rem;
             border: 2px solid var(--carbon-gray);
             border-radius: 15px;
             min-height: 120px;
@@ -347,39 +405,78 @@
             color: var(--carbon-gray);
         }
 
-        /* 返回按鈕 */
+        .comment-form .btn {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* 返回按鈕 - 現代科技風格 */
         .back-button {
             position: fixed;
             top: 100px;
-            left: 20px;
-            z-index: 100;
+            left: 30px;
+            z-index: 1000;
             background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
             border: 2px solid var(--primary-color);
             color: var(--primary-color);
-            padding: 12px 16px;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            padding: 15px 20px;
+            border-radius: 50px;
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 0.8rem;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 
-                0 4px 15px rgba(0, 212, 255, 0.2),
+                0 8px 25px rgba(0, 0, 0, 0.3),
+                0 0 20px rgba(0, 212, 255, 0.2),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(10px);
+            animation: slideInLeft 0.6s ease-out;
         }
 
         .back-button:hover {
             background: linear-gradient(45deg, var(--primary-color), var(--neon-blue));
             color: white;
-            transform: translateY(-3px) scale(1.1);
+            transform: translateY(-5px) scale(1.05);
             box-shadow: 
-                0 8px 25px rgba(0, 212, 255, 0.4),
-                0 0 30px var(--primary-color);
+                0 15px 40px rgba(0, 0, 0, 0.4),
+                0 0 40px var(--primary-color),
+                0 0 60px rgba(0, 212, 255, 0.3);
+        }
+
+        .back-button i {
+            font-size: 1.2rem;
+        }
+
+        .back-button-text {
+            font-size: 0.9rem;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         /* 響應式設計 */
+        @media (max-width: 1200px) {
+            .discussion-detail-container {
+                margin: 1.5rem;
+                padding: 2rem;
+            }
+        }
+
         @media (max-width: 768px) {
             .discussion-detail-container {
                 margin: 1rem;
@@ -393,7 +490,8 @@
             .author-info {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 0.8rem;
+                gap: 1rem;
+                text-align: left;
             }
 
             .post-meta {
@@ -410,11 +508,16 @@
 
             .back-button {
                 position: static;
-            margin-bottom: 1rem;
-                width: auto;
-                height: auto;
-                padding: 12px 20px;
+                margin-bottom: 1rem;
                 border-radius: 30px;
+            }
+
+            .back-button-text {
+                display: none;
+            }
+
+            .comment-text {
+                padding-left: 0;
             }
         }
 
@@ -431,6 +534,47 @@
             .comments-section h3 {
                 font-size: 1.8rem;
             }
+
+            .author-avatar {
+                width: 50px;
+                height: 50px;
+            }
+
+            .comment-author img {
+                width: 35px;
+                height: 35px;
+            }
+        }
+
+        /* Loading 和 Error 狀態 */
+        .loading {
+            text-align: center;
+            padding: 4rem;
+            color: var(--metallic-silver);
+            font-size: 1.2rem;
+        }
+
+        .loading i {
+            color: var(--primary-color);
+            font-size: 2rem;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            text-align: center;
+            padding: 4rem;
+            color: var(--danger-color);
+            font-size: 1.2rem;
+            background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
+            border-radius: 15px;
+            border: 2px solid var(--danger-color);
         }
     </style>
 </head>
@@ -438,9 +582,8 @@
     <nav class="navbar">
         <div class="container nav-container">
             <div class="logo">
-                <a href="index.html" aria-label="motoweb home">
-                    <img src="MOTOWEB.png" alt="motoweb Logo" class="logo-img">
-                    <h1>motoweb</h1>
+                <a href="index.html" aria-label="MotoWeb homepage">
+                    <img src="images/motoweb-logo.svg" alt="MotoWeb Logo" class="logo-img">
                 </a>
             </div>
             <div class="nav-links" id="navLinks">
@@ -450,7 +593,6 @@
                     <a href="community.html" class="active" aria-current="page">Community</a>
                     <a href="gallery.html">Gallery</a>
                     <a href="events.html">Events</a>
-                    <a href="about.html">About Us</a>
                 </div>
                 <div class="auth-buttons">
                     <a href="login.html" class="btn btn-secondary">Login</a>
@@ -469,7 +611,7 @@
                     </div>
                 </div>
             </div>
-            <button class="menu-toggle" aria-label="Toggle Menu" aria-expanded="false" aria-controls="navLinks">
+            <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -478,20 +620,25 @@
     </nav>
 
     <!-- Back Button -->
-    <button class="back-button" onclick="history.back()" aria-label="Go Back">
+    <button class="back-button" onclick="history.back()" aria-label="Back to Community">
         <i class="fas fa-arrow-left"></i>
+        <span class="back-button-text">Back</span>
     </button>
 
-    <main>
+    <main class="main-container">
         <div class="discussion-detail-container">
             <header class="post-header">
                 <h1 id="post-title" class="post-title">Loading post title...</h1>
                 <div class="author-info">
-                    <img id="author-avatar" src="/images/avatars/user1.svg" alt="Author Avatar" class="author-avatar">
-                    <span id="author-name">Author</span> - <span id="post-date">Date</span>
+                    <img id="author-avatar" src="/images/default-avatar.svg" alt="Author Avatar" class="author-avatar" onerror="this.src='/images/default-avatar.svg'">
+                    <div class="author-details">
+                        <div class="author-name" id="author-name">Loading author...</div>
+                        <div class="post-date" id="post-date">Loading date...</div>
+                    </div>
                 </div>
                 <div class="post-meta">
-                    <span><i class="fas fa-folder"></i> <span id="post-category">Category</span></span>
+                    <span class="category-badge"><i class="fas fa-folder"></i> <span id="post-category">Loading category...</span></span>
+                    <span class="stats-item"><i class="fas fa-eye"></i> <span id="view-count">0</span> views</span>
                 </div>
                 <div id="post-tags" class="post-tags">
                     <!-- Tags will be dynamically inserted -->
@@ -499,26 +646,33 @@
             </header>
 
             <article id="post-content" class="post-content">
-                <p>Loading post content...</p>
+                <div class="loading">
+                    <i class="fas fa-spinner"></i>
+                    Loading post content...
+                </div>
             </article>
 
             <div class="post-actions">
                 <button id="like-button" class="like-button">
                     <i class="far fa-thumbs-up"></i> <span id="like-count">0</span>
                 </button>
-                <span><i class="fas fa-eye"></i> <span id="view-count">0</span> views</span>
             </div>
 
             <section class="comments-section">
-                <h3><span id="comment-count">0</span> Comments</h3>
+                <h3><i class="fas fa-comments"></i> <span id="comment-count">0</span> Comments</h3>
                 <div id="comments-list">
                     <!-- Comments will be dynamically inserted -->
-                    <p>No comments yet</p>
+                    <div class="loading">
+                        <i class="fas fa-spinner"></i>
+                        Loading comments...
+                    </div>
                 </div>
                 <form id="comment-form" class="comment-form">
-                    <h4>Add a Comment</h4>
-                    <textarea id="comment-text" placeholder="Share your thoughts..." required></textarea>
-                    <button type="submit" class="btn btn-primary">Submit Comment</button>
+                    <h4><i class="fas fa-plus-circle"></i> Add a Comment</h4>
+                    <textarea id="comment-text" placeholder="Share your thoughts and experiences..." required></textarea>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Submit Comment
+                    </button>
                 </form>
             </section>
         </div>
@@ -529,10 +683,9 @@
             <div class="footer-content">
                 <div class="footer-section about">
                     <div class="footer-logo">
-                        <img src="MOTOWEB.png" alt="motoweb Logo" class="footer-logo-img">
-                        <h3>motoweb</h3>
+                        <img src="images/motoweb-logo.svg" alt="MotoWeb Logo" class="footer-logo-img">
                     </div>
-                    <p>Professional motorcycle modification community platform for riders to share and connect.</p>
+                    <p>Professional motorcycle modification community platform, providing a space for riders to communicate and share.</p>
                     <div class="social-links">
                         <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
                         <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
@@ -545,7 +698,7 @@
                     <ul>
                         <li><a href="about.html">About Us</a></li>
                         <li><a href="products.html">Modification Parts</a></li>
-                        <li><a href="community.html">Community</a></li>
+                        <li><a href="community.html">Community Forum</a></li>
                         <li><a href="gallery.html">Gallery</a></li>
                         <li><a href="events.html">Events</a></li>
                     </ul>
@@ -555,14 +708,14 @@
                     <ul class="contact-info">
                         <li><i class="fas fa-envelope"></i> contact@MotoWeb.com</li>
                         <li><i class="fas fa-phone"></i> (02) 1234-5678</li>
-                        <li><i class="fas fa-map-marker-alt"></i> 100 Xinyi Road, Xinyi District, Taipei</li>
+                        <li><i class="fas fa-map-marker-alt"></i> No. 100, Songren Rd., Xinyi Dist., Taipei City</li>
                     </ul>
                 </div>
                 <div class="footer-section newsletter">
                     <h3>Newsletter</h3>
-                    <p>Get the latest modification trends and event updates</p>
+                    <p>Get the latest modification trends and event information</p>
                     <form class="newsletter-form" action="subscribe.php" method="POST">
-                        <input type="email" name="email" placeholder="Enter your email" required>
+                        <input type="email" name="email" placeholder="Your email" required>
                         <button type="submit" class="btn btn-primary">Subscribe</button>
                     </form>
                 </div>
@@ -578,6 +731,10 @@
         </div>
     </footer>
 
+    <button id="backToTop" class="back-to-top" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
     <script src="/js/common.js"></script>
     <script src="/js/auth-state.js"></script>
     <script src="/js/community-api.js"></script>
@@ -586,6 +743,18 @@
         const communityAPI = new CommunityAPI();
         let currentPost = null;
 
+        // 分類顯示名稱映射
+        const categoryDisplayNames = {
+            'performance': 'Performance Mods',
+            'suspension': 'Suspension & Handling', 
+            'exhaust': 'Exhaust Systems',
+            'electronics': 'Electronics & Tech',
+            'appearance': 'Appearance Mods',
+            'maintenance': 'Maintenance & Care',
+            'track': 'Track Experience',
+            'review': 'Product Reviews'
+        };
+
         document.addEventListener('DOMContentLoaded', function() {
             const urlParams = new URLSearchParams(window.location.search);
             const postId = urlParams.get('id');
@@ -593,10 +762,10 @@
             if (postId) {
                 loadPost(postId);
             } else {
-                showError('Post not found');
+                showError('Post ID not found in URL');
             }
             
-            // Common functionality
+            // Initialize common functionality
             if (typeof initMobileNav === 'function') initMobileNav();
             if (typeof initAuthState === 'function') initAuthState();
         });
@@ -613,7 +782,7 @@
                 
             } catch (error) {
                 console.error('Failed to load post:', error);
-                showError(error.message || 'Failed to load post');
+                showError(error.message || 'Failed to load post. The post may not exist or has been deleted.');
             } finally {
                 hideLoading();
             }
@@ -621,13 +790,24 @@
 
         // Display post
         function displayPost(post) {
-            document.title = post.title + " - MotoWeb";
+            document.title = post.title + " | MotoWeb Community";
             document.getElementById('post-title').textContent = post.title;
-            document.getElementById('author-avatar').src = post.avatar || 'images/avatars/default-user.svg';
-            document.getElementById('author-avatar').alt = post.author + "'s avatar";
+            
+            // 處理頭像 - 修復頭像顯示問題
+            const avatarElement = document.getElementById('author-avatar');
+            if (post.avatar && post.avatar.trim() !== '') {
+                avatarElement.src = post.avatar;
+            } else {
+                avatarElement.src = '/images/default-avatar.svg';
+            }
+            avatarElement.alt = post.author + "'s avatar";
+            
             document.getElementById('author-name').textContent = post.author;
             document.getElementById('post-date').textContent = formatDate(post.createdAt);
-            document.getElementById('post-category').textContent = post.category;
+            
+            // 使用分類顯示名稱映射
+            const categoryDisplay = categoryDisplayNames[post.category] || post.category;
+            document.getElementById('post-category').textContent = categoryDisplay;
             
             // Display tags
             const tagsContainer = document.getElementById('post-tags');
@@ -637,6 +817,10 @@
                     const tagElement = document.createElement('span');
                     tagElement.className = 'tag';
                     tagElement.textContent = '#' + tag;
+                    tagElement.addEventListener('click', () => {
+                        // 點擊標籤跳轉到社群頁面並搜尋該標籤
+                        window.location.href = `community.html?search=${encodeURIComponent(tag)}`;
+                    });
                     tagsContainer.appendChild(tagElement);
                 });
             }
@@ -669,10 +853,15 @@
                 comments.forEach(comment => {
                     const commentElement = document.createElement('div');
                     commentElement.className = 'comment';
+                    
+                    // 處理評論作者頭像
+                    const commentAvatar = comment.avatar && comment.avatar.trim() !== '' ? 
+                        comment.avatar : '/images/default-avatar.svg';
+                    
                     commentElement.innerHTML = `
                         <div class="comment-author">
-                            <img src="${comment.avatar || 'images/avatars/default-user.svg'}" alt="${comment.author}'s avatar">
-                            ${comment.author}
+                            <img src="${commentAvatar}" alt="${comment.author}'s avatar" onerror="this.src='/images/default-avatar.svg'">
+                            <span>${comment.author}</span>
                             <span class="comment-date">${formatDate(comment.createdAt || comment.date)}</span>
                         </div>
                         <div class="comment-text">${comment.text || comment.content}</div>
@@ -680,23 +869,35 @@
                     commentsList.appendChild(commentElement);
                 });
             } else {
-                commentsList.innerHTML = '<p>No comments yet</p>';
+                commentsList.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: var(--metallic-silver);">
+                        <i class="fas fa-comment-slash" style="font-size: 2rem; margin-bottom: 1rem; display: block; color: var(--carbon-gray);"></i>
+                        <p>No comments yet. Be the first to share your thoughts!</p>
+                    </div>
+                `;
             }
             
             commentCountSpan.textContent = comments ? comments.length : 0;
         }
         
-        // Bind post functionality
+        // Bind like button functionality
         function bindLikeButton() {
             const likeButton = document.getElementById('like-button');
-            let liked = false; // Actually get from backend
+            let liked = false; // 實際應該從後端獲取用戶是否已點讚
+            
             likeButton.addEventListener('click', function() {
                 // Check if logged in
-                const token = localStorage.getItem('token');
-                if (!token) {
+                const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+                if (!isLoggedIn) {
                     alert('Please login to like this post');
                     return;
                 }
+                
+                // 添加點擊動畫效果
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 100);
                 
                 liked = !liked;
                 if (liked) {
@@ -709,7 +910,8 @@
                     likeButton.innerHTML = `<i class="far fa-thumbs-up"></i> ${currentPost.likes}`;
                 }
                 
-                // Note: This only updates client-side, should call API to update
+                // 這裡應該調用 API 更新後端數據
+                // communityAPI.likePost(currentPost._id, liked);
             });
         }
 
@@ -721,8 +923,8 @@
                 e.preventDefault();
                 
                 // Check if logged in
-                const token = localStorage.getItem('token');
-                if (!token) {
+                const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+                if (!isLoggedIn) {
                     alert('Please login to comment');
                     return;
                 }
@@ -731,8 +933,13 @@
                 const commentText = commentTextarea.value.trim();
 
                 if (commentText) {
+                    // 獲取用戶信息（實際應該從認證狀態獲取）
+                    const userName = localStorage.getItem('userName') || 'Anonymous User';
+                    const userAvatar = localStorage.getItem('userAvatar') || '/images/default-avatar.svg';
+                    
                     const newComment = {
-                        author: "User", // Actually get from login
+                        author: userName,
+                        avatar: userAvatar,
                         createdAt: new Date().toISOString(),
                         text: commentText
                     };
@@ -744,7 +951,19 @@
                     renderComments(currentPost.comments);
                     commentTextarea.value = '';
                     
-                    // Note: This only updates client-side, should call API to save
+                    // 顯示成功提示
+                    const submitBtn = commentForm.querySelector('button[type="submit"]');
+                    const originalText = submitBtn.innerHTML;
+                    submitBtn.innerHTML = '<i class="fas fa-check"></i> Comment Added!';
+                    submitBtn.disabled = true;
+                    
+                    setTimeout(() => {
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+                    }, 2000);
+                    
+                    // 這裡應該調用 API 保存評論
+                    // communityAPI.addComment(currentPost._id, newComment);
                 }
             });
         }
@@ -752,7 +971,18 @@
         // Show loading
         function showLoading() {
             document.getElementById('post-title').textContent = 'Loading...';
-            document.getElementById('post-content').innerHTML = '<p>Loading post content...</p>';
+            document.getElementById('post-content').innerHTML = `
+                <div class="loading">
+                    <i class="fas fa-spinner"></i>
+                    Loading post content...
+                </div>
+            `;
+            document.getElementById('comments-list').innerHTML = `
+                <div class="loading">
+                    <i class="fas fa-spinner"></i>
+                    Loading comments...
+                </div>
+            `;
         }
 
         // Hide loading
@@ -763,7 +993,15 @@
         // Show error
         function showError(message) {
             document.getElementById('post-title').textContent = 'Post Not Found';
-            document.getElementById('post-content').innerHTML = `<p>${message}</p>`;
+            document.getElementById('post-content').innerHTML = `
+                <div class="error-message">
+                    <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 1rem; display: block;"></i>
+                    <p>${message}</p>
+                    <a href="community.html" class="btn btn-primary" style="margin-top: 1rem; display: inline-block;">
+                        <i class="fas fa-arrow-left"></i> Back to Community
+                    </a>
+                </div>
+            `;
             document.getElementById('author-name').textContent = '';
             document.getElementById('post-date').textContent = '';
             document.getElementById('post-category').textContent = '';
@@ -779,6 +1017,8 @@
             if (!dateString) return '';
             
             const date = new Date(dateString);
+            if (isNaN(date.getTime())) return '';
+            
             const now = new Date();
             const diffTime = Math.abs(now - date);
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -789,9 +1029,13 @@
                 return `${diffDays} days ago`;
             } else if (diffDays < 30) {
                 const weeks = Math.floor(diffDays / 7);
-                return `${weeks} weeks ago`;
+                return `${weeks} week${weeks > 1 ? 's' : ''} ago`;
             } else {
-                return date.toLocaleDateString('en-US');
+                return date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
             }
         }
     </script>
