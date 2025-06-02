@@ -332,6 +332,8 @@
 .gallery-content {
     padding: 3rem 5%;
     background: var(--secondary-color);
+    position: relative;
+    z-index: 1;
 }
 
 .gallery-layout {
@@ -340,6 +342,8 @@
     align-items: flex-start;
     max-width: 1400px;
     margin: 0 auto;
+    position: relative;
+    z-index: 1;
 }
 
 /* 作品展示側邊欄樣式 - 增強科技風格 */
@@ -362,6 +366,9 @@
     top: 100px;
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
+    z-index: 10;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
 }
 
 .gallery-sidebar:hover {
@@ -706,6 +713,9 @@
     .gallery-sidebar {
         flex: 0 0 280px;
         padding: 1.5rem;
+        position: sticky;
+        top: 100px;
+        z-index: 1;
     }
     
     .gallery-sidebar h3 {
@@ -723,11 +733,36 @@
 }
 
 @media (max-width: 992px) {
+    .gallery-content {
+        padding: 2rem 3%;
+    }
+    
+    .gallery-layout {
+        flex-direction: column;
+        gap: 2rem;
+        align-items: stretch;
+    }
+    
     .gallery-sidebar {
-        position: static;
+        position: static !important;
         flex: none;
+        order: 1;
         margin-bottom: 2rem;
-        max-width: 100%;
+        max-width: 100% !important;
+        width: 100% !important;
+        z-index: auto;
+        top: auto;
+        max-height: none;
+        overflow-y: visible;
+        box-sizing: border-box;
+    }
+    
+    .gallery-main {
+        order: 2;
+        z-index: auto;
+        max-width: 100% !important;
+        width: 100% !important;
+        box-sizing: border-box;
     }
     
     .filter-group {
@@ -745,9 +780,40 @@
 }
 
 @media (max-width: 768px) {
+    .gallery-content {
+        padding: 2rem 3%;
+    }
+    
+    .gallery-layout {
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: stretch;
+    }
+    
     .gallery-sidebar {
+        position: static !important;
         padding: 1rem;
         border-radius: 15px;
+        order: 1;
+        margin-bottom: 1.5rem;
+        width: 100% !important;
+        max-width: 100% !important;
+        z-index: auto;
+        top: auto;
+        transform: none !important;
+        max-height: none;
+        overflow-y: visible;
+        box-sizing: border-box;
+        flex: none;
+    }
+    
+    .gallery-main {
+        order: 2;
+        z-index: auto;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box;
+        flex: none;
     }
     
     .gallery-sidebar h3 {
@@ -781,9 +847,30 @@
     }
 }
 
+@media (max-width: 576px) {
+    .gallery-content {
+        padding: 1rem 2%;
+    }
+    
+    .gallery-layout {
+        gap: 1rem;
+    }
+    
+    .gallery-sidebar {
+        padding: 0.8rem;
+        margin-bottom: 1rem;
+    }
+}
+
 /* 主要內容區域樣式 */
 .gallery-main {
     flex: 1;
+    position: relative;
+    z-index: 20;
+    background: var(--secondary-color);
+    min-height: 100vh;
+    width: 100%;
+    max-width: calc(100% - 340px);
 }
 
 .gallery-header {
@@ -1256,9 +1343,15 @@
     }
 
     .gallery-sidebar {
-        order: 2;
+        order: 1;
         flex: none;
         width: 100%;
+        position: static !important;
+        margin-bottom: 2rem;
+    }
+    
+    .gallery-main {
+        order: 2;
     }
 
     .search-bar {
@@ -1270,7 +1363,7 @@
     .gallery-content {
         padding: 2rem 3%;
     }
-
+    
     .page-header {
         padding: 3rem 0;
     }
