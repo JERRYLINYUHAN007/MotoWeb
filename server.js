@@ -2679,27 +2679,6 @@ app.use((req, res) => {
   res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
 });
 
-// 啟動服務器
-(async () => {
-  const connected = await connectToDatabase();
-  
-  if (!connected) {
-    console.error('無法連接到任何 MongoDB 資料庫，服務器將以有限功能模式啟動');
-    console.error('請檢查 MongoDB 連接設置或確保 MongoDB 服務已運行');
-  } else {
-    // 如果資料庫連接成功，初始化示例資料
-    await initializeSampleEvents();
-    await initializeSamplePosts();
-    // 移除 await initializeSampleGallery(); - 使用現有數據
-  }
-  
-  app.listen(PORT, () => {
-    console.log(`服務器運行在 http://localhost:${PORT}`);
-    console.log(`API 文檔: http://localhost:${PORT}/api-docs`);
-    console.log(`MongoDB 連接狀態: ${connected ? '已連接' : '未連接 (有限功能模式)'}`);
-  });
-})();
-
 // 初始化示例活動資料
 async function initializeSampleEvents() {
   try {
