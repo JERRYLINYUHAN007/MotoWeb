@@ -180,7 +180,7 @@ function loadUserProfile() {
     
     // Get user data based on current logged in user
     const userData = getUserData(currentUser.username);
-    
+
     // Fill basic profile info
     document.getElementById('profileUsername').firstChild.textContent = userData.username;
     document.getElementById('userBio').textContent = userData.bio;
@@ -254,7 +254,7 @@ function loadUserProfile() {
     
     // Insert bike cards before the add button
     if (addBikeCard) {
-        addBikeCard.insertAdjacentHTML('beforebegin', bikeCards);
+    addBikeCard.insertAdjacentHTML('beforebegin', bikeCards);
     }
 
     // Fill posts list
