@@ -1,0 +1,28 @@
+# PHP Backend Runtime Files
+# 運行時檔案 - 不應納入版本控制
+
+# 日誌檔案
+*.log
+*.jsonl
+request_log.*
+
+# 測試檔案
+test.*
+*.tmp
+
+# 上傳檔案目錄
+uploads/
+temp/
+
+# PHP 相關
+vendor/
+.env
+.env.local
+
+# IDE 檔案
+.vscode/
+.idea/
+
+# 系統檔案
+.DS_Store
+Thumbs.db 
