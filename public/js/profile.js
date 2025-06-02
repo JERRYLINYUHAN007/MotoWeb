@@ -165,102 +165,50 @@ function showNotification(message, type = 'info') {
  * Load user profile data
  */
 function loadUserProfile() {
-    // Mock user data
-    const mockUserData = {
-        username: "JohnRider",
-        bio: "Passionate motorcycle enthusiast with 5+ years of modification experience. Love sharing knowledge and helping fellow riders.",
-        memberSince: "2024-01-15",
-        location: "Taipei City",
-        email: "john.rider@email.com",
-        stats: {
-            bikes: 2,
-            mods: 15,
-            photos: 24,
-            posts: 8
-        },
-        tags: ["Sport Bikes", "Performance", "LED Lighting", "Suspension", "Exhaust"],
-        activities: [
-            "Added new Monster Factory Z2 PRO Fork - 2024-06-20",
-            "Posted photos of JET modification - 2024-06-18", 
-            "Shared brake system upgrade experience - 2024-06-15",
-            "Liked KOSO LED Tail Light review - 2024-06-12",
-            "Commented on suspension setup guide - 2024-06-10"
-        ],
-        achievements: [
-            {
-                icon: "fa-wrench",
-                title: "Modification Master",
-                description: "Completed 10+ modifications"
-            },
-            {
-                icon: "fa-users", 
-                title: "Community Contributor",
-                description: "Made 50+ helpful comments"
-            },
-            {
-                icon: "fa-camera",
-                title: "Photo Enthusiast", 
-                description: "Shared 20+ photos"
-            }
-        ],
-        bikes: [
-            {
-                name: "SYM JET SL 125",
-                year: "2023",
-                mods: "8 modifications"
-            },
-            {
-                name: "YAMAHA FORCE 2.0",
-                year: "2024", 
-                mods: "7 modifications"
-            }
-        ],
-        posts: [
-            {
-                title: "Monster Factory Z2 PRO Fork Review",
-                date: "2024-06-21",
-                excerpt: "After installing the new fork, the handling has improved significantly...",
-                comments: 8,
-                likes: 25
-            },
-            {
-                title: "LED Tail Light Installation Guide", 
-                date: "2024-06-16",
-                excerpt: "Step-by-step guide for installing the KOSO LED tail light...",
-                comments: 12,
-                likes: 34
-            }
-        ]
-    };
-
+    // Get current user from localStorage
+    const currentUser = getCurrentUser();
+    const isLoggedIn = isUserLoggedIn();
+    
+    console.log('Loading profile for user:', currentUser);
+    
+    // If user is not logged in, redirect to login page
+    if (!isLoggedIn || !currentUser) {
+        console.log('User not logged in, redirecting to login page');
+        window.location.href = '/login.html';
+        return;
+    }
+    
+    // Get user data based on current logged in user
+    const userData = getUserData(currentUser.username);
+    
     // Fill basic profile info
-    document.getElementById('profileUsername').firstChild.textContent = mockUserData.username;
-    document.getElementById('userBio').textContent = mockUserData.bio;
-    document.getElementById('memberSince').textContent = mockUserData.memberSince;
-    document.getElementById('userLocation').textContent = mockUserData.location;
-    document.getElementById('userEmail').textContent = mockUserData.email;
+    document.getElementById('profileUsername').firstChild.textContent = userData.username;
+    document.getElementById('userBio').textContent = userData.bio;
+    document.getElementById('memberSince').textContent = userData.memberSince;
+    document.getElementById('userLocation').textContent = userData.location;
+    document.getElementById('userEmail').textContent = userData.email;
     
     // Fill stats
-    document.getElementById('bikeCount').textContent = mockUserData.stats.bikes;
-    document.getElementById('modCount').textContent = mockUserData.stats.mods;
-    document.getElementById('photoCount').textContent = mockUserData.stats.photos;
-    document.getElementById('postCount').textContent = mockUserData.stats.posts;
+    document.getElementById('bikeCount').textContent = userData.stats.bikes;
+    document.getElementById('modCount').textContent = userData.stats.mods;
+    document.getElementById('photoCount').textContent = userData.stats.photos;
+    document.getElementById('postCount').textContent = userData.stats.posts;
 
     // Fill tags
     const tagsContainer = document.getElementById('userTags');
-    tagsContainer.innerHTML = mockUserData.tags.map(tag => 
+    tagsContainer.innerHTML = userData.tags.map(tag => 
         `<span class="tag">${tag}</span>`
     ).join('');
 
     // Fill recent activities
     const activityList = document.getElementById('activityList');
-    activityList.innerHTML = mockUserData.activities.map(activity => 
+    activityList.innerHTML = userData.activities.map(activity => 
         `<li>${activity}</li>`
     ).join('');
 
     // Fill achievements
     const achievementsList = document.getElementById('achievementsList');
-    achievementsList.innerHTML = mockUserData.achievements.map(achievement => `
+    achievementsList.innerHTML = userData.achievements.map(achievement => `
         <div class="achievement">
             <i class="fas ${achievement.icon}" style="color: var(--primary-color); font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
             <h4 style="color: var(--primary-color); margin-bottom: 0.5rem;">${achievement.title}</h4>
@@ -271,7 +219,7 @@ function loadUserProfile() {
     // Fill bikes grid
     const bikesGrid = document.getElementById('bikesGrid');
     const addBikeCard = bikesGrid.querySelector('.add-bike-card');
-    const bikeCards = mockUserData.bikes.map(bike => `
+    const bikeCards = userData.bikes.map(bike => `
         <div class="bike-card" style="
             background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
             border-radius: var(--border-radius-md);
@@ -305,11 +253,13 @@ function loadUserProfile() {
     `).join('');
     
     // Insert bike cards before the add button
-    addBikeCard.insertAdjacentHTML('beforebegin', bikeCards);
+    if (addBikeCard) {
+        addBikeCard.insertAdjacentHTML('beforebegin', bikeCards);
+    }
 
     // Fill posts list
     const postsList = document.getElementById('postsList');
-    postsList.innerHTML = mockUserData.posts.map(post => `
+    postsList.innerHTML = userData.posts.map(post => `
         <div class="post-item" style="
             background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
             border-radius: var(--border-radius-md);
@@ -346,33 +296,8 @@ function loadUserProfile() {
     const photosGrid = document.getElementById('photosGrid');
     const addPhotoCard = photosGrid.querySelector('.add-photo-card');
     
-    // Mock photo data
-    const mockPhotos = [
-        {
-            id: 1,
-            title: "SYM JET SL 125 - LED Lighting Setup",
-            thumbnail: "https://via.placeholder.com/300x200/333/fff?text=LED+Lights",
-            uploadDate: "2024-06-20",
-            likes: 15
-        },
-        {
-            id: 2,
-            title: "YAMAHA FORCE Exhaust Upgrade",
-            thumbnail: "https://via.placeholder.com/300x200/333/fff?text=Exhaust",
-            uploadDate: "2024-06-18",
-            likes: 23
-        },
-        {
-            id: 3,
-            title: "Monster Factory Z2 PRO Installation",
-            thumbnail: "https://via.placeholder.com/300x200/333/fff?text=Fork+Upgrade",
-            uploadDate: "2024-06-15",
-            likes: 31
-        }
-    ];
-
     // Create photo cards and insert before the add button
-    const photoCards = mockPhotos.map(photo => `
+    const photoCards = userData.photos.map(photo => `
         <div class="photo-card" style="
             background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
             border-radius: var(--border-radius-md);
@@ -411,33 +336,8 @@ function loadUserProfile() {
     // Fill likes grid
     const likesGrid = document.getElementById('likesGrid');
     
-    // Mock liked items data
-    const mockLikedItems = [
-        {
-            type: "modification",
-            title: "KOSO LED Tail Light Review",
-            author: "TechRider99",
-            likes: 45,
-            date: "2024-06-19"
-        },
-        {
-            type: "discussion",
-            title: "Best Exhaust Systems for Sport Bikes",
-            author: "BikeExpert",
-            likes: 67,
-            date: "2024-06-17"
-        },
-        {
-            type: "photo",
-            title: "Honda CBR1000RR Track Build",
-            author: "SpeedDemon",
-            likes: 89,
-            date: "2024-06-15"
-        }
-    ];
-
     // Create liked items cards
-    const likedItemsHTML = mockLikedItems.map(item => `
+    const likedItemsHTML = userData.likedItems.map(item => `
         <div class="liked-item-card" style="
             background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
             border-radius: var(--border-radius-md);
@@ -465,9 +365,250 @@ function loadUserProfile() {
     likesGrid.innerHTML = likedItemsHTML;
 
     // Fill form with user data
-    document.getElementById('displayName').value = mockUserData.username;
-    document.getElementById('bio').value = mockUserData.bio;
-    document.getElementById('location').value = mockUserData.location;
+    document.getElementById('displayName').value = userData.username;
+    document.getElementById('bio').value = userData.bio;
+    document.getElementById('location').value = userData.location;
+}
+
+/**
+ * Get user data based on username
+ */
+function getUserData(username) {
+    // Define different user profiles
+    const userProfiles = {
+        'admin': {
+            username: 'admin',
+            bio: 'System Administrator - Managing MotoWeb community platform with extensive experience in motorcycle technology and system administration.',
+            memberSince: '2024-01-01',
+            location: 'System HQ',
+            email: 'admin@motoweb.com',
+            stats: {
+                bikes: 5,
+                mods: 50,
+                photos: 100,
+                posts: 25
+            },
+            tags: ['System Admin', 'All Categories', 'Platform Management', 'Technical Support', 'Community Moderation'],
+            activities: [
+                'System maintenance and updates - 2024-06-25',
+                'Reviewed community guidelines - 2024-06-24',
+                'Added new product categories - 2024-06-23',
+                'Moderated community discussions - 2024-06-22',
+                'Updated platform security features - 2024-06-21'
+            ],
+            achievements: [
+                {
+                    icon: 'fa-crown',
+                    title: 'Platform Administrator',
+                    description: 'System administrator and community manager'
+                },
+                {
+                    icon: 'fa-shield-alt',
+                    title: 'Security Expert',
+                    description: 'Ensures platform security and user safety'
+                },
+                {
+                    icon: 'fa-users-cog',
+                    title: 'Community Manager',
+                    description: 'Manages and supports the riding community'
+                }
+            ],
+            bikes: [
+                {
+                    name: 'BMW S1000RR',
+                    year: '2024',
+                    mods: '15 modifications'
+                },
+                {
+                    name: 'Ducati Panigale V4',
+                    year: '2023',
+                    mods: '12 modifications'
+                },
+                {
+                    name: 'Kawasaki Ninja ZX-10R',
+                    year: '2024',
+                    mods: '10 modifications'
+                }
+            ],
+            posts: [
+                {
+                    title: 'Community Guidelines Update',
+                    date: '2024-06-25',
+                    excerpt: 'Important updates to our community posting guidelines and moderation policies...',
+                    comments: 15,
+                    likes: 45
+                },
+                {
+                    title: 'New Features Release Notes',
+                    date: '2024-06-20',
+                    excerpt: 'Exciting new features have been added to improve your MotoWeb experience...',
+                    comments: 22,
+                    likes: 67
+                }
+            ],
+            photos: [
+                {
+                    id: 1,
+                    title: 'BMW S1000RR - Track Configuration',
+                    thumbnail: 'https://via.placeholder.com/300x200/333/fff?text=BMW+S1000RR',
+                    uploadDate: '2024-06-25',
+                    likes: 89
+                },
+                {
+                    id: 2,
+                    title: 'Ducati Panigale V4 - Street Setup',
+                    thumbnail: 'https://via.placeholder.com/300x200/333/fff?text=Ducati+V4',
+                    uploadDate: '2024-06-23',
+                    likes: 76
+                },
+                {
+                    id: 3,
+                    title: 'Platform Features Overview',
+                    thumbnail: 'https://via.placeholder.com/300x200/333/fff?text=Platform+Guide',
+                    uploadDate: '2024-06-20',
+                    likes: 54
+                }
+            ],
+            likedItems: [
+                {
+                    type: 'modification',
+                    title: 'Advanced ECU Tuning Guide',
+                    author: 'TechMaster',
+                    likes: 156,
+                    date: '2024-06-24'
+                },
+                {
+                    type: 'discussion',
+                    title: 'Best Practices for Track Days',
+                    author: 'RaceProRider',
+                    likes: 234,
+                    date: '2024-06-22'
+                },
+                {
+                    type: 'photo',
+                    title: 'Stunning Sunset Ride Photography',
+                    author: 'PhotoRider',
+                    likes: 189,
+                    date: '2024-06-21'
+                }
+            ]
+        },
+        'JohnRider': {
+            username: 'JohnRider',
+            bio: 'Passionate motorcycle enthusiast with 5+ years of modification experience. Love sharing knowledge and helping fellow riders.',
+            memberSince: '2024-01-15',
+            location: 'Taipei City',
+            email: 'john.rider@email.com',
+            stats: {
+                bikes: 2,
+                mods: 15,
+                photos: 24,
+                posts: 8
+            },
+            tags: ['Sport Bikes', 'Performance', 'LED Lighting', 'Suspension', 'Exhaust'],
+            activities: [
+                'Added new Monster Factory Z2 PRO Fork - 2024-06-20',
+                'Posted photos of JET modification - 2024-06-18', 
+                'Shared brake system upgrade experience - 2024-06-15',
+                'Liked KOSO LED Tail Light review - 2024-06-12',
+                'Commented on suspension setup guide - 2024-06-10'
+            ],
+            achievements: [
+                {
+                    icon: 'fa-wrench',
+                    title: 'Modification Master',
+                    description: 'Completed 10+ modifications'
+                },
+                {
+                    icon: 'fa-users', 
+                    title: 'Community Contributor',
+                    description: 'Made 50+ helpful comments'
+                },
+                {
+                    icon: 'fa-camera',
+                    title: 'Photo Enthusiast', 
+                    description: 'Shared 20+ photos'
+                }
+            ],
+            bikes: [
+                {
+                    name: 'SYM JET SL 125',
+                    year: '2023',
+                    mods: '8 modifications'
+                },
+                {
+                    name: 'YAMAHA FORCE 2.0',
+                    year: '2024', 
+                    mods: '7 modifications'
+                }
+            ],
+            posts: [
+                {
+                    title: 'Monster Factory Z2 PRO Fork Review',
+                    date: '2024-06-21',
+                    excerpt: 'After installing the new fork, the handling has improved significantly...',
+                    comments: 8,
+                    likes: 25
+                },
+                {
+                    title: 'LED Tail Light Installation Guide', 
+                    date: '2024-06-16',
+                    excerpt: 'Step-by-step guide for installing the KOSO LED tail light...',
+                    comments: 12,
+                    likes: 34
+                }
+            ],
+            photos: [
+                {
+                    id: 1,
+                    title: 'SYM JET SL 125 - LED Lighting Setup',
+                    thumbnail: 'https://via.placeholder.com/300x200/333/fff?text=LED+Lights',
+                    uploadDate: '2024-06-20',
+                    likes: 15
+                },
+                {
+                    id: 2,
+                    title: 'YAMAHA FORCE Exhaust Upgrade',
+                    thumbnail: 'https://via.placeholder.com/300x200/333/fff?text=Exhaust',
+                    uploadDate: '2024-06-18',
+                    likes: 23
+                },
+                {
+                    id: 3,
+                    title: 'Monster Factory Z2 PRO Installation',
+                    thumbnail: 'https://via.placeholder.com/300x200/333/fff?text=Fork+Upgrade',
+                    uploadDate: '2024-06-15',
+                    likes: 31
+                }
+            ],
+            likedItems: [
+                {
+                    type: 'modification',
+                    title: 'KOSO LED Tail Light Review',
+                    author: 'TechRider99',
+                    likes: 45,
+                    date: '2024-06-19'
+                },
+                {
+                    type: 'discussion',
+                    title: 'Best Exhaust Systems for Sport Bikes',
+                    author: 'BikeExpert',
+                    likes: 67,
+                    date: '2024-06-17'
+                },
+                {
+                    type: 'photo',
+                    title: 'Honda CBR1000RR Track Build',
+                    author: 'SpeedDemon',
+                    likes: 89,
+                    date: '2024-06-15'
+                }
+            ]
+        }
+    };
+    
+    // Return user data or default to JohnRider if user not found
+    return userProfiles[username] || userProfiles['JohnRider'];
 }
 
 /**
