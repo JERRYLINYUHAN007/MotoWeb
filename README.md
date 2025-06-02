@@ -1,7 +1,7 @@
-# MotoMod 摩托車改裝社群平台
+# MotoWeb 摩托車社群平台
 
 ## 專案概述
-MotoMod 是一個專業的摩托車改裝社群平台，為車友提供改裝零件展示、技術交流、作品分享和活動參與的綜合服務平台。
+MotoWeb 是一個現代化的摩托車愛好者社群平台，提供會員管理、個人資料、活動資訊、產品展示等功能。採用科技風格的深色主題設計，支援響應式佈局，為摩托車愛好者打造專業的線上交流空間。
 
 ## 系統架構
 
@@ -9,294 +9,313 @@ MotoMod 是一個專業的摩托車改裝社群平台，為車友提供改裝零
 - **前端**: HTML5, CSS3, JavaScript (ES6+)
 - **後端**: Node.js, Express.js
 - **資料庫**: MongoDB
-- **認證**: JWT (JSON Web Tokens)
-- **檔案上傳**: Multer
+- **認證**: JWT (JSON Web Tokens) + localStorage
+- **檔案處理**: Multer (多媒體上傳)
 - **密碼加密**: bcryptjs
+- **UI 風格**: 科技深色主題 + 響應式設計
 
 ### 專案結構
 ```
-MotoMod/
-├── server.js                 # 主要後端伺服器檔案
-├── config.js                 # 系統配置檔案
-├── package.json              # Node.js 依賴管理
-├── docker-compose.yml        # Docker 容器編排
-├── Dockerfile               # Docker 映像檔配置
-├── public/                  # 前端靜態檔案
-│   ├── css/                 # 樣式檔案
-│   │   ├── colors.css       # 全站配色變數
-│   │   ├── style.css        # 共用樣式
-│   │   ├── tech-theme.css   # 技術主題樣式
-│   │   └── [其他頁面樣式]
-│   ├── js/                  # JavaScript 檔案
-│   │   ├── main.js          # 共用腳本
-│   │   ├── auth-state.js    # 認證狀態管理
-│   │   ├── api.js           # API 通訊
-│   │   └── [各頁面腳本]
-│   ├── images/              # 圖片資源
-│   ├── uploads/             # 使用者上傳檔案
-│   └── [HTML 頁面檔案]
-├── scripts/                 # 工具腳本
-└── 啟動指南.md              # 快速啟動指南
+MotoWeb/
+├── server.js                     # Node.js 後端伺服器
+├── package.json                  # 依賴管理和啟動腳本
+├── public/                       # 前端靜態資源
+│   ├── css/                      # 樣式檔案系統
+│   │   ├── colors.css            # 科技風格配色方案
+│   │   ├── style.css             # 全域樣式 (75%縮放優化)
+│   │   ├── tech-theme.css        # 科技主題樣式
+│   │   ├── common.css            # 共用元件樣式
+│   │   ├── profile.css           # 個人資料頁面樣式
+│   │   ├── events.css            # 活動頁面樣式
+│   │   └── navbar.css            # 導航欄樣式
+│   ├── js/                       # JavaScript 模組
+│   │   ├── main.js               # 主要腳本和初始化
+│   │   ├── auth-state.js         # 認證狀態管理
+│   │   ├── api.js                # API 通訊層
+│   │   ├── profile.js            # 個人資料功能
+│   │   ├── navbar.js             # 導航欄互動
+│   │   └── events.js             # 活動頁面功能
+│   ├── images/                   # 圖片資源
+│   ├── uploads/                  # 使用者上傳內容
+│   ├── index.html                # 首頁 (英雄區域 + 特色功能)
+│   ├── login.html                # 登入頁面
+│   ├── register.html             # 註冊頁面
+│   ├── profile.html              # 個人資料頁面
+│   ├── events.html               # 活動頁面
+│   ├── products.html             # 產品展示頁面
+│   ├── gallery.html              # 作品展示頁面
+│   ├── showcase.html             # 改裝案例頁面
+│   ├── community.html            # 社群討論頁面
+│   └── [其他頁面]
+└── README.md                     # 專案說明文件
 ```
 
-## 功能特點
+## 核心功能特點
 
-### 1. 使用者系統
-- **會員註冊/登入** (`register.html`, `login.html`)
-- **個人資料管理** (`profile.html`)
-- **密碼重置功能** (`forgot-password.html`, `reset-password.html`)
-- **使用者設定** (`settings.html`)
-- **個人車庫** (`garage.html`)
+### 1. 使用者認證系統
+- **註冊/登入** - 完整的使用者認證流程
+- **JWT Token 管理** - 安全的身份驗證
+- **狀態持久化** - localStorage 儲存登入狀態
+- **使用者角色** - 支援 admin 和一般用戶
+- **密碼安全** - bcrypt 加密保護
 
-### 2. 改裝零件展示 (`products.html`)
-- 分類瀏覽系統（引擎、排氣、懸吊、煞車等）
-- 進階搜尋和篩選功能
-- 品牌、價格範圍、適用車種篩選
-- 詳細零件資訊展示
-- 產品詳情頁面 (`product-detail.html`)
+### 2. 個人資料管理
+- **動態用戶資料** - 根據登入用戶顯示個人資訊
+- **多標籤頁介面** - 個人資訊/文章/照片/喜歡的內容
+- **固定封面背景** - 不可編輯的專業背景
+- **模擬內容展示** - 文章、照片、喜歡項目的展示
+- **響應式設計** - 適配各種螢幕尺寸
 
-### 3. 社群討論區 (`community.html`)
-- 分類討論區
-- 熱門標籤系統
-- 發表新主題功能
-- 互動評論系統
-- 討論詳情頁面 (`discussion-detail.html`)
+### 3. 活動管理系統
+- **活動日曆** - 視覺化活動時間表
+- **進階搜尋** - 完整的搜尋欄功能
+- **多視圖切換** - 網格/列表/日曆檢視
+- **活動篩選** - 按類型、時間、地點篩選
+- **活動詳情** - 完整的活動資訊展示
 
-### 4. 作品展示區 (`gallery.html`)
-- 網格/列表檢視切換
-- 作品上傳功能
-- 圖片預覽和分享
-- 標籤系統
-- 互動評論
+### 4. 響應式UI設計
+- **75% 縮放優化** - 針對 100% 瀏覽器縮放優化顯示
+- **科技深色主題** - 專業的視覺風格
+- **漸層效果** - 豐富的視覺層次
+- **動畫過渡** - 流暢的使用者體驗
+- **卡片佈局** - 現代化的內容展示
 
-### 5. 活動專區 (`events.html`)
-- 活動日曆
-- 多視圖切換（網格/列表/日曆）
-- 活動報名系統
-- 活動篩選功能
+### 5. 產品與內容展示
+- **產品目錄** (`products.html`) - 摩托車相關產品展示
+- **作品展示** (`gallery.html`) - 使用者作品集
+- **改裝案例** (`showcase.html`) - 專業改裝案例
+- **社群討論** (`community.html`) - 車友交流平台
 
-### 6. 其他功能
-- **改裝案例展示** (`showcase.html`)
-- **車款圖庫** (`bikes-gallery.html`)
-- **關於我們** (`about.html`)
-- **隱私政策** (`privacy.html`)
-- **服務條款** (`terms.html`)
-- **Cookie 政策** (`cookies.html`)
+## 設計系統
+
+### 配色方案 (科技深色主題)
+```css
+/* 主要配色 */
+--primary-color: #00d4ff;          /* 霓虹藍 - 主要強調色 */
+--secondary-color: #7c3aed;        /* 紫色 - 次要強調色 */
+--accent-color: #00ff88;           /* 霓虹綠 - 輔助強調色 */
+--success-color: #10b981;          /* 成功色 */
+
+/* 背景色系 */
+--background-color: #0a0a0a;       /* 深黑背景 */
+--dark-surface: #1a1a1a;          /* 深色表面 */
+--mid-surface: #2a2a2a;           /* 中色表面 */
+--light-surface: #3a3a3a;         /* 淺色表面 */
+
+/* 文字色系 */
+--text-color: #ffffff;             /* 主要文字 */
+--metallic-silver: #b0b0b0;       /* 次要文字 */
+--carbon-gray: #404040;           /* 邊框色 */
+```
+
+### 響應式斷點
+- **桌面**: > 992px (完整功能顯示)
+- **平板**: 768px - 992px (適配中等螢幕)
+- **手機**: < 768px (移動端優化)
+
+### 字體系統 (75% 縮放)
+- **基準字體**: 12px (原 16px 的 75%)
+- **Body 字體**: 1.2rem (補償縮放)
+- **標題層級**: h1(2.25rem) → h6(0.75rem)
+- **按鈕**: 0.9rem
 
 ## 安裝與啟動
 
-### 方法一：Node.js 直接啟動
+### 環境要求
+- Node.js 18.0.0 或更高版本
+- MongoDB (本地或遠端)
+- 現代瀏覽器 (Chrome, Firefox, Safari, Edge)
 
-#### 準備工作
-1. 安裝 Node.js (v18.0.0 或更高版本)
-2. 安裝 MongoDB 並確保服務運行
-
-#### 啟動步驟
+### 快速啟動
 ```bash
-# 1. 安裝依賴套件
+# 1. 安裝依賴
 npm install
 
-# 2. 初始化資料庫 (選擇性)
-npm run db:init
+# 2. 啟動 MongoDB (如果使用本地)
+mongod
 
-# 3. 啟動開發模式
-npm run dev
-
-# 或啟動生產模式
+# 3. 啟動開發伺服器
 npm start
+# 或
+node server.js
+
+# 4. 開啟瀏覽器
+http://localhost:3001
 ```
 
-#### 訪問網站
-開啟瀏覽器訪問: http://localhost:3001
-
-### 方法二：Docker Compose 啟動 (推薦)
-
-#### 準備工作
-確保已安裝 Docker 和 Docker Compose
-
-#### 啟動步驟
+### 環境配置
 ```bash
-# 1. 啟動整個應用
-docker-compose up -d
-
-# 2. 初始化資料庫 (選擇性)
-docker-compose exec app npm run db:init
-```
-
-#### 訪問網站
-開啟瀏覽器訪問: http://localhost:3001
-
-## 環境配置
-
-### 環境變數
-系統支援以下環境變數配置：
-
-```bash
-# 伺服器設定
+# .env 檔案 (可選)
 PORT=3001
-NODE_ENV=development
-HOST=localhost
-
-# MongoDB 連接
 MONGODB_URI=mongodb://localhost:27017/motoweb
-
-# JWT 設定
 JWT_SECRET=your_jwt_secret_key
-JWT_EXPIRES_IN=7d
-
-# 檔案上傳設定
-MAX_FILE_SIZE=10485760
-ALLOWED_FILE_TYPES=jpg,jpeg,png,gif,webp
-
-# 管理員設定
-ADMIN_EMAIL=admin@motoweb.com
-ADMIN_PASSWORD=admin123
-
-# 其他設定
-LOG_LEVEL=info
-ENABLE_CORS=true
+NODE_ENV=development
 ```
 
-### 資料庫配置
-- **本地 MongoDB**: `mongodb://localhost:27017/motoweb`
-- **Docker MongoDB**: `mongodb://mongo:27017/motoweb`
-- **MongoDB Atlas**: 使用完整的連接字串
-
-## API 文檔
-
-### 認證相關 API
-- `POST /api/register` - 使用者註冊
-- `POST /api/login` - 使用者登入
-- `POST /api/logout` - 使用者登出
-- `POST /api/forgot-password` - 忘記密碼
-- `POST /api/reset-password` - 重置密碼
-
-### 使用者相關 API
-- `GET /api/profile` - 獲取使用者資料
-- `PUT /api/profile` - 更新使用者資料
-- `POST /api/upload/avatar` - 上傳頭像
-
-### 內容相關 API
-- `GET /api/products` - 獲取產品列表
-- `GET /api/products/:id` - 獲取產品詳情
-- `GET /api/showcase` - 獲取改裝案例
-- `GET /api/posts` - 獲取社群文章
-- `GET /api/events` - 獲取活動列表
-- `GET /api/galleries` - 獲取作品展示
-
-### 檔案上傳 API
-- `POST /api/upload/:type` - 上傳檔案 (type: gallery, showcase, avatar 等)
-
-## 網站配色方案
-
-### 主要顏色
-- **深咖啡色** (`#534739`): 主要強調色，按鈕和標題
-- **淺咖啡色** (`#9E8774`): 次要強調色，懸停狀態
-- **淺灰白色** (`#F0F2F1`): 淺色背景
-- **深藍灰色** (`#1F2D33`): 主要文字顏色
-- **深黑色** (`#0D0D0C`): 特殊強調色
-
-### CSS 變數系統
-所有顏色定義在 `public/css/colors.css` 中，通過 CSS 變數實現全站一致的視覺風格。
-
-## 常見問題
-
-### 端口被佔用
-修改環境變數中的 `PORT` 設定：
-```bash
-PORT=3002
-```
-
-### MongoDB 連接失敗
-1. 確保 MongoDB 服務已啟動
-2. 檢查連接字串是否正確
-3. 如使用 MongoDB Atlas，確認 IP 白名單設定
-
-### MongoDB Atlas 連接問題
-1. 登入 MongoDB Atlas 控制台
-2. 進入 Network Access 設定
-3. 添加當前 IP 地址到白名單
-4. 等待設定生效後重新啟動應用
-
-### Windows 下運行 MongoDB
-1. 下載 MongoDB Community Edition
-2. 創建資料目錄: `mkdir C:\data\db`
-3. 啟動服務: `mongod --dbpath="C:\data\db"`
-
-## 預設帳號
+## 預設測試帳號
 
 ### 管理員帳號
-- 使用者名稱: `admin`
-- 密碼: `admin123`
+- **用戶名**: `admin`
+- **電子信箱**: `admin@motoweb.com`
+- **密碼**: `admin123`
+- **權限**: 完整管理權限
 
-### 測試使用者帳號
-- 使用者名稱: `user`
-- 密碼: `user123`
+### 一般用戶帳號
+- **用戶名**: `JohnRider`
+- **電子信箱**: `john@motoweb.com`
+- **密碼**: `password123`
+- **權限**: 標準用戶權限
 
-## 部署選項
+## API 端點
 
-### Vercel 部署
-```bash
-npm run vercel-build
+### 認證相關
+```javascript
+POST /api/auth/register    // 用戶註冊
+POST /api/auth/login       // 用戶登入
+POST /api/auth/logout      // 用戶登出
+GET  /api/auth/verify      // 驗證 Token
 ```
 
-### Netlify 部署
-使用 `netlify.toml` 配置檔案
-
-### Docker 部署
-```bash
-docker build -t motomod .
-docker run -p 3001:3001 motomod
+### 用戶相關
+```javascript
+GET  /api/users/profile    // 獲取用戶資料
+PUT  /api/users/profile    // 更新用戶資料
+GET  /api/users/:id        // 獲取指定用戶
 ```
+
+### 內容相關
+```javascript
+GET  /api/products         // 獲取產品列表
+GET  /api/events           // 獲取活動列表
+GET  /api/gallery          // 獲取作品展示
+GET  /api/posts            // 獲取社群文章
+```
+
+## 特色功能詳解
+
+### 1. 智能響應式設計
+- **75% 縮放優化**: 所有元素針對 100% 瀏覽器縮放進行精確調整
+- **水平卡片對齊**: 使用 flexbox 確保卡片在同一水平線
+- **最小寬度控制**: 防止在小螢幕上內容過度壓縮
+
+### 2. 現代科技風格
+- **深色主題**: 專業的視覺體驗
+- **霓虹配色**: 未來科技感的配色方案
+- **漸層效果**: 豐富的視覺層次
+- **動畫過渡**: 平滑的互動反饋
+
+### 3. 用戶體驗優化
+- **狀態管理**: 完整的登入狀態追蹤
+- **錯誤處理**: 友善的錯誤提示
+- **載入狀態**: 視覺化的載入反饋
+- **導航記憶**: 頁面間的狀態保持
 
 ## 開發指南
 
-### 程式碼規範
-- 使用語意化 HTML
-- 遵循 BEM CSS 命名規範
-- JavaScript 使用 ES6+ 語法
-- 保持程式碼註釋完整
+### 程式碼結構
+```javascript
+// 模組化設計範例
+// auth-state.js - 認證狀態管理
+const AuthState = {
+    getCurrentUser: () => { /* 獲取當前用戶 */ },
+    isUserLoggedIn: () => { /* 檢查登入狀態 */ },
+    login: (credentials) => { /* 登入處理 */ },
+    logout: () => { /* 登出處理 */ }
+};
 
-### 檔案組織
-- CSS 檔案按功能模組化
-- JavaScript 檔案按頁面分離
-- 圖片資源分類存放
-- API 路由邏輯分離
+// profile.js - 動態用戶資料
+function loadUserProfile() {
+    const currentUser = getCurrentUser();
+    // 根據實際登入用戶載入資料
+}
+```
 
-### 安全性考量
-- 密碼使用 bcrypt 加密
-- JWT 身份驗證
-- 檔案上傳安全限制
-- API 錯誤處理
-- CORS 設定
+### CSS 架構
+```css
+/* 75% 縮放系統 */
+:root {
+    --font-size-base: 12px;    /* 基準字體 75% */
+    --spacing-md: 0.75rem;     /* 間距 75% */
+    --border-radius-md: 6px;   /* 圓角 75% */
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+```
+
+## 部署建議
+
+### 生產環境設定
+```bash
+# 設定環境變數
+NODE_ENV=production
+JWT_SECRET=your_secure_secret_key
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/motoweb
+
+# 啟動生產模式
+npm start
+```
+
+### 安全性檢查清單
+- [ ] 更改預設密碼
+- [ ] 設定安全的 JWT 密鑰
+- [ ] 配置 HTTPS
+- [ ] 設定檔案上傳限制
+- [ ] 配置 CORS 政策
+- [ ] 啟用日誌記錄
+
+## 常見問題 FAQ
+
+### Q: 網站在 100% 縮放時卡片上下排列？
+A: 系統已針對此問題進行優化，將卡片最小寬度調整為 200px，確保在 100% 縮放時仍能水平排列。
+
+### Q: 用戶資料顯示錯誤？
+A: 確保已正確登入，系統會根據實際登入用戶動態載入對應資料。
+
+### Q: 搜尋欄顯示不完整？
+A: 已修復搜尋欄樣式，確保在所有螢幕尺寸下完整顯示。
+
+### Q: MongoDB 連接失敗？
+A: 檢查 MongoDB 服務狀態，確認連接字串正確，並檢查防火牆設定。
 
 ## 瀏覽器支援
-- Chrome (最新版)
-- Firefox (最新版)
-- Safari (最新版)
-- Edge (最新版)
+- ✅ Chrome 90+
+- ✅ Firefox 88+
+- ✅ Safari 14+
+- ✅ Edge 90+
+- ⚠️ IE 11 (部分功能限制)
 
-## 響應式設計
-- 手機：< 576px
-- 平板：576px - 992px
-- 桌面：> 992px
+## 版本資訊
+- **目前版本**: 2.0.0
+- **最後更新**: 2024年12月
+- **Node.js**: 18.0.0+
+- **MongoDB**: 4.4+
 
-## 授權協議
-本專案採用 MIT 授權協議。
+## 授權與聯絡
 
-## 聯絡資訊
-- 專案名稱: MotoMod
-- 版本: 1.0.0
-- 作者: MotoWeb Team
-- 電子郵件: contact@motoweb.com
+### 授權協議
+本專案採用 MIT 授權協議，允許自由使用、修改和分發。
 
-## 貢獻指南
-1. Fork 專案
-2. 創建功能分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 發起 Pull Request
+### 聯絡資訊
+- **專案名稱**: MotoWeb
+- **開發團隊**: MotoWeb Development Team
+- **技術支援**: tech@motoweb.com
+- **GitHub**: [專案連結]
+
+### 貢獻指南
+1. Fork 本專案
+2. 建立功能分支 (`git checkout -b feature/NewFeature`)
+3. 提交變更 (`git commit -m 'Add NewFeature'`)
+4. 推送分支 (`git push origin feature/NewFeature`)
+5. 建立 Pull Request
 
 ---
 
-**注意**: 請確保在生產環境中更改預設密碼和 JWT 密鑰，並正確配置資料庫連接。 
+**🏍️ 歡迎來到 MotoWeb - 專為摩托車愛好者打造的數位社群平台！**
+
+*注意: 請在生產環境中務必更改所有預設密碼和安全設定。* 
