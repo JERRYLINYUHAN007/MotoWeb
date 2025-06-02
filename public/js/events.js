@@ -302,7 +302,7 @@ async function openEventDetails(eventId) {
         </div>
     `;
     
-    // 更新報名資訊
+    // 更新報名資訊 (主要內容區域)
         document.getElementById('registrationStatus').textContent = getStatusText(formattedEvent.status);
         document.getElementById('registrationStatus').className = `registration-status ${formattedEvent.status}`;
     
@@ -326,6 +326,42 @@ async function openEventDetails(eventId) {
             document.getElementById('registrationDeadline').textContent = `報名截止日期：${formatDate(formattedEvent.deadline)}`;
         }
     
+    // 更新側邊欄報名資訊
+    const registrationStatusSidebar = document.getElementById('registrationStatusSidebar');
+    if (registrationStatusSidebar) {
+        registrationStatusSidebar.textContent = getStatusText(formattedEvent.status);
+        registrationStatusSidebar.className = `registration-status ${formattedEvent.status}`;
+    }
+    
+    const registrationDetailsSidebar = document.getElementById('registrationDetailsSidebar');
+    if (registrationDetailsSidebar) {
+        registrationDetailsSidebar.innerHTML = `
+            <p>請於截止日期前完成報名，名額有限，額滿為止。</p>
+            <p>報名成功後，將收到確認電子郵件，請於活動當天出示QR碼報到。</p>
+        `;
+    }
+    
+    const priceInfoSidebar = document.getElementById('priceInfoSidebar');
+    if (priceInfoSidebar) {
+        priceInfoSidebar.textContent = formattedEvent.fee > 0 ? `NT$ ${formattedEvent.fee}` : '免費';
+        priceInfoSidebar.className = formattedEvent.fee > 0 ? 'price-info' : 'price-info free';
+    }
+    
+    const remainingSpotsSidebar = document.getElementById('remainingSpotsSidebar');
+    if (remainingSpotsSidebar) {
+        remainingSpotsSidebar.innerHTML = `
+            <div>剩餘名額：${remaining}/${formattedEvent.capacity}</div>
+            <div class="spots-progress">
+                <div class="spots-bar" style="width: ${(formattedEvent.registered / formattedEvent.capacity) * 100}%"></div>
+            </div>
+        `;
+    }
+    
+    const registrationDeadlineSidebar = document.getElementById('registrationDeadlineSidebar');
+    if (registrationDeadlineSidebar && formattedEvent.deadline) {
+        registrationDeadlineSidebar.textContent = `報名截止日期：${formatDate(formattedEvent.deadline)}`;
+    }
+    
     // 更新按鈕狀態
     const registerBtn = document.getElementById('registerBtn');
         registerBtn.disabled = formattedEvent.status === 'closed';
@@ -335,8 +371,9 @@ async function openEventDetails(eventId) {
         document.getElementById('addCalendarBtn').dataset.eventId = formattedEvent.id;
         document.getElementById('shareEventBtn').dataset.eventId = formattedEvent.id;
     
-    // 更新主辦方資訊
+    // 更新主辦方資訊 (主要內容區域)
     const organizerInfo = document.getElementById('organizerInfo');
+    if (organizerInfo) {
         organizerInfo.innerHTML = `
             <div class="organizer-info">
                 <div class="organizer-avatar" style="background-color: #e9ecef; display: flex; align-items: center; justify-content: center;">
@@ -348,6 +385,24 @@ async function openEventDetails(eventId) {
             </div>
             <p>主辦方資訊</p>
         `;
+    }
+    
+    // 更新側邊欄主辦方資訊
+    const organizerInfoSidebar = document.getElementById('organizerInfoSidebar');
+    if (organizerInfoSidebar) {
+        organizerInfoSidebar.innerHTML = `
+            <div class="organizer-info">
+                <div class="organizer-avatar" style="background-color: #e9ecef; display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; border-radius: 50%; margin-bottom: 1rem;">
+                    <i class="fas fa-user" style="font-size: 1.5rem; color: #6c757d;"></i>
+                </div>
+                <div>
+                    <div class="organizer-name" style="color: white; font-weight: 600; margin-bottom: 0.5rem;">${formattedEvent.organizer}</div>
+                    <div style="color: var(--metallic-silver); font-size: 0.9rem;">Event Organizer</div>
+                </div>
+            </div>
+            <p style="color: var(--metallic-silver); line-height: 1.6; margin-top: 1rem;">專業的摩托車改裝活動主辦方，致力於提供高品質的改裝體驗。</p>
+        `;
+    }
     
     // 激活第一個頁籤
     document.querySelectorAll('.event-tab').forEach(tab => tab.classList.remove('active'));
@@ -529,7 +584,7 @@ async function submitRegistration() {
  * 初始化活動創建功能
  */
 function initCreateEvent() {
-    const createEventBtns = document.querySelectorAll('.create-event-btn, .create-event-btn-large');
+    const createEventBtns = document.querySelectorAll('.create-event-btn, #createEventBtn, .create-event-btn-large');
     const createEventModal = document.getElementById('createEventModal');
     const closeCreateEventModal = document.getElementById('closeCreateEventModal');
     const cancelCreateEventBtn = document.getElementById('cancelCreateEventBtn');
@@ -538,142 +593,274 @@ function initCreateEvent() {
     const eventImageFile = document.getElementById('eventImageFile');
     const eventImagePreview = document.getElementById('eventImagePreview');
     
-    // 開啟按鈕
-    createEventBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
+    // Check if required elements exist
+    if (!createEventModal || !createEventForm) {
+        console.warn('Create event functionality: Required DOM elements not found');
+        return;
+    }
+    
+    console.log('Found create event buttons:', createEventBtns.length);
+    console.log('Create event modal:', createEventModal ? 'Found' : 'Not found');
+    
+    // Bind click events for create event buttons
+    createEventBtns.forEach((btn, index) => {
+        console.log(`Binding create event button ${index + 1}`);
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('Create event button clicked');
+            
+            // Check login status
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            
+            if (!isLoggedIn) {
+                console.log('User not logged in, showing login prompt');
+                showLoginPromptModal();
+                return;
+            }
+            
+            console.log('User logged in, opening create event modal');
+            
+            // Reset form
+            createEventForm.reset();
+            if (eventImagePreview) {
+                eventImagePreview.innerHTML = '';
+            }
+            
+            // Show modal
             createEventModal.classList.add('active');
             document.body.style.overflow = 'hidden';
+            console.log('Modal opened');
+            
+            // Auto focus on first input
+            const firstInput = createEventForm.querySelector('input, select, textarea');
+            if (firstInput) {
+                setTimeout(() => firstInput.focus(), 100);
+            }
         });
     });
     
-    // 關閉按鈕
-    closeCreateEventModal.addEventListener('click', function() {
-        createEventModal.classList.remove('active');
-        document.body.style.overflow = '';
-    });
+    // Close button events
+    if (closeCreateEventModal) {
+        closeCreateEventModal.addEventListener('click', function() {
+            console.log('Close button clicked');
+            closeModal();
+        });
+    }
     
-    // 點擊模態框外部關閉
+    // Cancel button events
+    if (cancelCreateEventBtn) {
+        cancelCreateEventBtn.addEventListener('click', function() {
+            console.log('Cancel button clicked');
+            closeModal();
+        });
+    }
+    
+    // Click outside modal to close
     createEventModal.addEventListener('click', function(e) {
         if (e.target === createEventModal) {
-            createEventModal.classList.remove('active');
-            document.body.style.overflow = '';
+            console.log('Clicked outside modal to close');
+            closeModal();
         }
     });
     
-    // 取消按鈕
-    cancelCreateEventBtn.addEventListener('click', function() {
+    // ESC key to close modal
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && createEventModal.classList.contains('active')) {
+            console.log('ESC key to close modal');
+            closeModal();
+        }
+    });
+    
+    // Close modal function
+    function closeModal() {
         createEventModal.classList.remove('active');
         document.body.style.overflow = '';
-    });
+        console.log('Modal closed');
+    }
     
-    // 圖片上傳預覽
-    eventImageFile.addEventListener('change', function() {
-        const file = this.files[0];
+    // 圖片上傳功能
+    if (eventImageUpload && eventImageFile && eventImagePreview) {
+        console.log('Initializing image upload functionality');
         
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                eventImagePreview.innerHTML = `<img src="${e.target.result}" alt="活動圖片預覽">`;
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-    
-    // 拖放上傳功能
-    eventImageUpload.addEventListener('dragover', function(e) {
-        e.preventDefault();
-        this.classList.add('drag-over');
-    });
-    
-    eventImageUpload.addEventListener('dragleave', function(e) {
-        e.preventDefault();
-        this.classList.remove('drag-over');
-    });
-    
-    eventImageUpload.addEventListener('drop', function(e) {
-        e.preventDefault();
-        this.classList.remove('drag-over');
+        // Click upload area to trigger file selection
+        eventImageUpload.addEventListener('click', function(e) {
+            if (e.target !== eventImageFile) {
+                eventImageFile.click();
+            }
+        });
         
-        const file = e.dataTransfer.files[0];
+        // File selection change event
+        eventImageFile.addEventListener('change', function() {
+            handleImagePreview(this.files[0]);
+        });
         
-        if (file && file.type.startsWith('image/')) {
-            eventImageFile.files = e.dataTransfer.files;
+        // Drag and drop functionality
+        eventImageUpload.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('drag-over');
+        });
+        
+        eventImageUpload.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            this.classList.remove('drag-over');
+        });
+        
+        eventImageUpload.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('drag-over');
             
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                eventImagePreview.innerHTML = `<img src="${e.target.result}" alt="活動圖片預覽">`;
-            };
-            reader.readAsDataURL(file);
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                // Manually set file to input
+                const dt = new DataTransfer();
+                dt.items.add(file);
+                eventImageFile.files = dt.files;
+                
+                handleImagePreview(file);
+            }
+        });
+        
+        // Handle image preview
+        function handleImagePreview(file) {
+            if (file && file.type.startsWith('image/')) {
+                console.log('Handling image preview:', file.name);
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    eventImagePreview.innerHTML = `
+                        <div style="position: relative; display: inline-block;">
+                            <img src="${e.target.result}" alt="活動圖片預覽" style="max-width: 100%; max-height: 200px; border-radius: 8px;">
+                            <button type="button" onclick="removeImagePreview()" style="
+                                position: absolute; 
+                                top: -8px; 
+                                right: -8px; 
+                                background: var(--danger-color); 
+                                color: white; 
+                                border: none; 
+                                border-radius: 50%; 
+                                width: 24px; 
+                                height: 24px; 
+                                cursor: pointer;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                font-size: 12px;
+                            ">&times;</button>
+                        </div>
+                    `;
+                };
+                reader.readAsDataURL(file);
+            }
         }
-    });
+        
+        // Remove image preview function
+        window.removeImagePreview = function() {
+            eventImagePreview.innerHTML = '';
+            eventImageFile.value = '';
+            console.log('Image preview removed');
+        };
+    }
     
-    // 創建活動表單提交
+    // Form submission event
     createEventForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        
-        // 獲取表單數據
-        const formData = new FormData(createEventForm);
-        
-        // 驗證表單
-        const title = formData.get('title');
-        const location = formData.get('location');
-        const eventDate = formData.get('eventDate');
-        
-        if (!title || !location || !eventDate) {
-            alert('請填寫必填欄位（標題、地點、日期）');
-            return;
-        }
-        
-        // 禁用提交按鈕，顯示載入中
+        console.log('Form submission event triggered');
+        submitCreateEventForm();
+    });
+    
+    // Submit form function
+    async function submitCreateEventForm() {
         const submitBtn = document.getElementById('submitCreateEventBtn');
         const originalText = submitBtn.textContent;
-        submitBtn.disabled = true;
-        submitBtn.textContent = '處理中...';
         
-        // 發送到服務器
-        fetch('/api/events', {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
+        try {
+            console.log('Starting to submit create event form');
+            
+            // Disable submit button
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 處理中...';
+            
+            // Collect form data
+            const formData = new FormData(createEventForm);
+            
+            // Validate required fields
+            const title = formData.get('title');
+            const category = formData.get('category');
+            const location = formData.get('location');
+            const eventDate = formData.get('eventDate');
+            const description = formData.get('description');
+            
+            console.log('Form data:', { title, category, location, eventDate, description });
+            
+            if (!title || !category || !location || !eventDate || !description) {
+                throw new Error('請填寫所有必填欄位');
             }
-        })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(err => {
-                    throw new Error(err.error || '創建活動失敗');
-                });
+            
+            // Validate date
+            const selectedDate = new Date(eventDate);
+            const now = new Date();
+            if (selectedDate <= now) {
+                throw new Error('活動日期必須是未來時間');
             }
-            return response.json();
-        })
-        .then(data => {
-            // 關閉創建活動模態框
-            createEventModal.classList.remove('active');
             
-            // 顯示成功模態框
-            const successModal = document.getElementById('successModal');
-            document.getElementById('successTitle').textContent = '活動創建成功';
-            document.getElementById('successMessage').textContent = '您的活動已成功創建，可在「我的活動」中查看和管理。';
+            // Prepare event data
+            const eventData = {
+                title: title.trim(),
+                category: category,
+                location: location.trim(),
+                eventDate: eventDate,
+                endDate: formData.get('endDate') || null,
+                description: description.trim(),
+                maxAttendees: parseInt(formData.get('maxAttendees')) || 0,
+                fee: parseFloat(formData.get('fee')) || 0,
+                address: formData.get('address')?.trim() || ''
+            };
             
-            successModal.classList.add('active');
+            // Get image file
+            const imageFile = eventImageFile.files[0] || null;
             
-            // 重置表單和按鈕狀態
-            createEventForm.reset();
-            eventImagePreview.innerHTML = '';
+            console.log('Event data preparation completed:', eventData);
             
-            // 重新載入活動列表，顯示新建的活動
+            // Check if user is logged in
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            if (!isLoggedIn) {
+                throw new Error('請先登入再創建活動');
+            }
+            
+            // Call API to create event
+            const result = await window.eventsAPI.createEvent(eventData, imageFile);
+            console.log('Event creation successful:', result);
+            
+            // Close create event modal
+            closeModal();
+            
+            // Show success message
+            showSuccessMessage('活動創建成功', '您的活動已成功創建，可在活動列表中查看。');
+            
+            // Reload events
             loadEvents();
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert(error.message || '創建活動失敗，請稍後再試');
-        })
-        .finally(() => {
-            // 恢復按鈕狀態
+            
+        } catch (error) {
+            console.error('Event creation failed:', error);
+            alert('活動創建失敗：' + error.message);
+        } finally {
+            // Reset button state
             submitBtn.disabled = false;
             submitBtn.textContent = originalText;
-        });
-    });
+        }
+    }
+    
+    // Show success message
+    function showSuccessMessage(title, message) {
+        const successModal = document.getElementById('successModal');
+        if (successModal) {
+            document.getElementById('successTitle').textContent = title;
+            document.getElementById('successMessage').textContent = message;
+            successModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        } else {
+            alert(title + '\n' + message);
+        }
+    }
 }
 
 /**
@@ -1486,4 +1673,61 @@ function viewMyEvents() {
     
     // 可以在這裡實現實際的篩選邏輯
     // 例如：filterByUser(currentUser);
+}
+
+/**
+ * Show login prompt modal
+ */
+function showLoginPromptModal() {
+    // Create login prompt modal
+    let loginPromptModal = document.getElementById('loginPromptModal');
+    
+    if (!loginPromptModal) {
+        loginPromptModal = document.createElement('div');
+        loginPromptModal.id = 'loginPromptModal';
+        loginPromptModal.className = 'modal';
+        loginPromptModal.innerHTML = `
+            <div class="modal-content" style="max-width: 500px; text-align: center; padding: 3rem 2rem;">
+                <button class="modal-close" id="closeLoginPrompt">&times;</button>
+                <div class="login-prompt-content">
+                    <div class="login-icon" style="margin-bottom: 2rem;">
+                        <i class="fas fa-user-lock" style="font-size: 4rem; color: var(--primary-color); text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);"></i>
+                    </div>
+                    <h2 style="color: white; margin-bottom: 1.5rem; text-shadow: 0 0 10px var(--primary-color);">Login Required to Create Event</h2>
+                    <p style="color: var(--metallic-silver); margin-bottom: 2rem; line-height: 1.6;">
+                        You need to log in to your account to create and manage events.<br>
+                        Log in to enjoy the full event management features.
+                    </p>
+                    <div class="login-actions" style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                        <a href="login.html" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none;">
+                            <i class="fas fa-sign-in-alt"></i> Login Now
+                        </a>
+                        <a href="register.html" class="btn btn-outline" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; color: var(--primary-color); border-color: var(--primary-color);">
+                            <i class="fas fa-user-plus"></i> Register Account
+                        </a>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(loginPromptModal);
+        
+        // Bind close events
+        const closeLoginPrompt = loginPromptModal.querySelector('#closeLoginPrompt');
+        closeLoginPrompt.addEventListener('click', function() {
+            loginPromptModal.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+        
+        // Click outside modal to close
+        loginPromptModal.addEventListener('click', function(e) {
+            if (e.target === loginPromptModal) {
+                loginPromptModal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    }
+    
+    // Show modal
+    loginPromptModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
 }

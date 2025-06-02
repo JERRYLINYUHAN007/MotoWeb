@@ -35,17 +35,15 @@
 
         /* Main container styles */
         .main-container {
-            margin-top: 80px;
             min-height: 100vh;
-            background: 
-                linear-gradient(135deg, 
-                    rgba(10, 10, 10, 0.95), 
-                    rgba(31, 41, 55, 0.9)),
-                radial-gradient(circle at 30% 40%, rgba(0, 212, 255, 0.1), transparent),
-                radial-gradient(circle at 70% 60%, rgba(124, 58, 237, 0.1), transparent);
         }
         
-        /* Gallery hero styles */
+        /* Gallery content specific styles */
+        .gallery-content {
+            padding: 2rem 0;
+        }
+
+        /* Gallery hero styles - unified */
         .gallery-hero {
             background: 
                 linear-gradient(135deg, 
@@ -55,14 +53,13 @@
                 radial-gradient(circle at 70% 60%, rgba(124, 58, 237, 0.1), transparent),
                 url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="circuit" patternUnits="userSpaceOnUse" width="40" height="40"><rect width="40" height="40" fill="%23111827"/><path d="M0,20 L40,20 M20,0 L20,40" stroke="%2300d4ff" stroke-width="0.5" opacity="0.3"/><circle cx="20" cy="20" r="2" fill="%2300d4ff" opacity="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23circuit)"/></svg>');
             background-size: cover, cover, cover, 80px 80px;
-            color: white;
             padding: 6rem 5% 4rem;
             text-align: center;
+            color: white;
             position: relative;
             overflow: hidden;
-            margin-top: 0;
         }
-        
+
         .gallery-hero::before {
             content: '';
             position: absolute;
@@ -96,22 +93,13 @@
         .gallery-hero p {
             font-size: 1.3rem;
             color: var(--metallic-silver);
-            margin-bottom: 3rem;
+            margin-bottom: 2.5rem;
             opacity: 0.9;
         }
 
-        .hero-actions {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2rem;
-            margin: 0 auto;
-            max-width: 800px;
-        }
-
         .search-bar {
-            width: 100%;
             max-width: 600px;
+            margin: 0 auto 2rem auto;
             display: flex;
             gap: 0;
             background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
@@ -131,14 +119,13 @@
             color: white;
             font-size: 1.1rem;
             outline: none;
-            min-width: 200px;
         }
 
         .search-bar input::placeholder {
             color: var(--metallic-silver);
         }
 
-        .search-bar .search-btn {
+        .search-bar button {
             padding: 1.2rem 2rem;
             background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
             border: none;
@@ -149,7 +136,7 @@
             white-space: nowrap;
         }
 
-        .search-bar .search-btn:hover {
+        .search-bar button:hover {
             background: linear-gradient(45deg, var(--accent-color), var(--success-color));
             box-shadow: 0 0 25px rgba(0, 212, 255, 0.5);
         }
@@ -226,10 +213,6 @@
             .gallery-hero h1 {
                 font-size: 2rem;
             }
-
-            .search-bar {
-                width: 100%;
-            }
             
             .upload-btn, .secondary-btn {
                 width: 100%;
@@ -295,28 +278,23 @@
     <div class="main-container">
         <!-- Gallery hero -->
         <div class="gallery-hero">
-            <div class="container">
             <h1>Modification Masterpieces</h1>
             <p>Discover and share amazing motorcycle modification works</p>
-                
-                <!-- Hero actions -->
-            <div class="hero-actions">
-                    <div class="search-bar">
-                        <input type="text" placeholder="Search by bike model, style, or creator..." aria-label="Search gallery">
-                        <button type="button" class="search-btn">
-                            <i class="fas fa-search"></i> Search
-                        </button>
-                    </div>
-                    
-                    <div class="action-buttons">
-                        <button class="btn btn-primary upload-btn" id="uploadBtn">
-                            <i class="fas fa-cloud-upload-alt"></i> Share Your Work
-                        </button>
-                        <button class="btn secondary-btn" id="filterBtn">
-                            <i class="fas fa-filter"></i> Filter Gallery
-                        </button>
-                    </div>
-                </div>
+            
+            <div class="search-bar">
+                <input type="text" placeholder="Search by bike model, style, or creator..." aria-label="Search gallery">
+                <button type="button">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-primary upload-btn" id="uploadBtn">
+                    <i class="fas fa-cloud-upload-alt"></i> Share Your Work
+                </button>
+                <button class="btn secondary-btn" id="filterBtn">
+                    <i class="fas fa-filter"></i> Filter Gallery
+                </button>
             </div>
         </div>
 
@@ -325,63 +303,67 @@
                 <div class="gallery-layout">
                 <!-- Gallery filters -->
                     <aside class="gallery-sidebar">
-                    <h3>Categories</h3>
                         
                     <!-- Category filters -->
                     <div class="filter-group">
                         <div class="group-title" onclick="toggleFilterGroup(this)">
                             <span>Categories</span>
-                                <i class="fas fa-chevron-right"></i>
-                            </div>
-                            <ul class="filter-list">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                        <ul class="filter-list">
                             <li><a href="#" onclick="filterByCategory('all')" class="active">All Works</a></li>
                             <li><a href="#" onclick="filterByCategory('performance')">Performance Upgrades</a></li>
                             <li><a href="#" onclick="filterByCategory('visual')">Visual Styling</a></li>
                             <li><a href="#" onclick="filterByCategory('suspension')">Suspension Systems</a></li>
                             <li><a href="#" onclick="filterByCategory('exhaust')">Exhaust Modifications</a></li>
-                            </ul>
-                        </div>
+                        </ul>
+                    </div>
 
                     <!-- Bike brand filters -->
                     <div class="filter-group">
                         <div class="group-title" onclick="toggleFilterGroup(this)">
-                                <span>Motorcycle Brands</span>
-                                <i class="fas fa-chevron-right"></i>
-                            </div>
-                            <ul class="filter-list">
+                            <span>Motorcycle Brands</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                        <ul class="filter-list">
                             <li><a href="#" onclick="filterByBrand('all')" class="active">All Brands</a></li>
                             <li><a href="#" onclick="filterByBrand('SYM')">SYM</a></li>
                             <li><a href="#" onclick="filterByBrand('YAMAHA')">YAMAHA</a></li>
                             <li><a href="#" onclick="filterByBrand('KYMCO')">KYMCO</a></li>
                             <li><a href="#" onclick="filterByBrand('AUGUR')">AUGUR</a></li>
-                            </ul>
-                        </div>
+                        </ul>
+                    </div>
 
                     <!-- Style filters -->
                     <div class="filter-group">
                         <div class="group-title" onclick="toggleFilterGroup(this)">
-                                <span>Modification Styles</span>
-                                <i class="fas fa-chevron-right"></i>
-                            </div>
-                            <ul class="filter-list">
+                            <span>Modification Styles</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                        <ul class="filter-list">
                             <li><a href="#" onclick="filterByStyle('all')" class="active">All Styles</a></li>
                             <li><a href="#" onclick="filterByStyle('sport')">Sport Style</a></li>
                             <li><a href="#" onclick="filterByStyle('racing')">Racing Style</a></li>
                             <li><a href="#" onclick="filterByStyle('custom')">Custom Style</a></li>
                             <li><a href="#" onclick="filterByStyle('retro')">Retro Classic</a></li>
                             <li><a href="#" onclick="filterByStyle('vintage')">Vintage Style</a></li>
-                            </ul>
-                        </div>
+                        </ul>
+                    </div>
 
                     <!-- Sort by filters -->
                     <div class="filter-group">
-                        <h3>Sort By</h3>
-                        <select class="sort-select">
-                            <option value="latest">Latest Uploads</option>
-                            <option value="popular">Most Popular</option>
-                            <option value="likes">Most Liked</option>
-                            <option value="comments">Most Discussed</option>
-                        </select>
+                        <div class="group-title" onclick="toggleFilterGroup(this)">
+                            <span>Sort By</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                        <div class="filter-list">
+                            <select class="sort-select" onchange="handleSortChange(this.value)">
+                                <option value="latest">Latest Uploads</option>
+                                <option value="popular">Most Popular</option>
+                                <option value="likes">Most Liked</option>
+                                <option value="comments">Most Discussed</option>
+                            </select>
+                        </div>
                     </div>
 
                     <!-- Applied filters -->
@@ -390,8 +372,8 @@
                         <div class="filter-tags" id="appliedFilters">
                             <!-- Applied filters will be dynamically added here -->
                         </div>
-                        </div>
-                    </aside>
+                    </div>
+                </aside>
 
                 <!-- Main gallery content -->
                 <main class="gallery-main">
@@ -429,48 +411,48 @@
     <!-- Upload modal -->
     <div class="modal" id="uploadModal">
         <div class="upload-modal-content">
-            <button class="close-upload" onclick="closeUploadModal()">&times;</button>
+            <button class="close-modal close-upload" id="closeUploadModal">&times;</button>
             <h2 style="color: white; text-align: center; margin-bottom: 2rem; text-shadow: 0 0 15px var(--primary-color);">Upload Your Work</h2>
             
             <form id="uploadForm" enctype="multipart/form-data">
                 <!-- Upload area -->
-                <div class="upload-area" onclick="document.getElementById('imageInput').click()">
-                    <input type="file" id="imageInput" name="images" accept="image/*" multiple hidden>
+                <div class="upload-area" id="uploadArea" onclick="document.getElementById('uploadFiles').click()">
+                    <input type="file" id="uploadFiles" name="images" accept="image/*" multiple hidden>
                     <i class="fas fa-cloud-upload-alt"></i>
                     <p>Click or drag and drop files here</p>
                     <p style="font-size: 0.9rem; margin-top: 0.5rem;">Supports multiple image uploads</p>
                 </div>
 
                 <!-- Image preview -->
-                <div class="upload-preview" id="imagePreview"></div>
+                <div class="upload-preview" id="uploadPreview"></div>
                 
                 <!-- Work details -->
                 <div class="upload-fields">
                     <div class="field-group">
-                        <label for="workTitle">Work Title *</label>
-                        <input type="text" id="workTitle" name="title" required>
+                        <label for="uploadTitle">Work Title *</label>
+                        <input type="text" id="uploadTitle" name="title" required>
                     </div>
                     
                     <div class="field-row">
                         <div class="field-group">
-                            <label for="bikeModel">Bike Model</label>
-                            <input type="text" id="bikeModel" name="model" placeholder="Example: Yamaha MT-07">
+                            <label for="uploadModel">Bike Model</label>
+                            <input type="text" id="uploadModel" name="model" placeholder="Example: Yamaha MT-07">
                         </div>
                         <div class="field-group">
-                            <label for="workCategory">Category</label>
-                            <select id="workCategory" name="category">
+                            <label for="uploadCategory">Category</label>
+                            <select id="uploadCategory" name="category">
                                 <option value="performance">Performance Mods</option>
                                 <option value="visual">Visual Customization</option>
                                 <option value="suspension">Suspension & Handling</option>
                                 <option value="exhaust">Exhaust Systems</option>
                             </select>
                         </div>
-                        </div>
+                    </div>
                         
                     <div class="field-row">
                         <div class="field-group">
-                            <label for="workStyle">Style</label>
-                            <select id="workStyle" name="style">
+                            <label for="uploadStyle">Style</label>
+                            <select id="uploadStyle" name="style">
                                 <option value="cafe-racer">Cafe Racer</option>
                                 <option value="bobber">Bobber</option>
                                 <option value="scrambler">Scrambler</option>
@@ -479,19 +461,19 @@
                             </select>
                         </div>
                         <div class="field-group">
-                            <label for="workYear">Year</label>
-                            <input type="number" id="workYear" name="year" min="1900" max="2024" value="2024">
+                            <label for="uploadYear">Year</label>
+                            <input type="number" id="uploadYear" name="year" min="1900" max="2024" value="2024">
                         </div>
                     </div>
                     
                     <div class="field-group">
-                        <label for="workDescription">Description *</label>
-                        <textarea id="workDescription" name="description" rows="4" required placeholder="Please describe your modification ideas..."></textarea>
+                        <label for="uploadDescription">Description *</label>
+                        <textarea id="uploadDescription" name="description" rows="4" required placeholder="Please describe your modification ideas..."></textarea>
                     </div>
                     
                     <div class="field-group">
-                        <label for="workTags">Tags</label>
-                        <div class="tag-container" onclick="document.getElementById('tagInput').focus()">
+                        <label for="uploadTags">Tags</label>
+                        <div class="tag-container" id="tagContainer" onclick="document.getElementById('tagInput').focus()">
                             <input type="text" id="tagInput" placeholder="Enter tags and press Enter">
                         </div>
                         <input type="hidden" id="tagsData" name="tags">
@@ -500,7 +482,7 @@
                 
                 <!-- Upload actions -->
                 <div class="upload-actions">
-                    <button type="button" class="btn btn-outline" onclick="closeUploadModal()">Cancel</button>
+                    <button type="button" class="btn btn-outline" id="cancelUpload">Cancel</button>
                     <button type="submit" class="btn btn-primary" id="submitUpload">Upload Work</button>
                 </div>
             </form>

@@ -110,6 +110,21 @@ const authenticate = async (req, res, next) => {
   }
 };
 
+// Database connection middleware for Vercel
+const ensureDbConnection = async (req, res, next) => {
+  if (!db) {
+    try {
+      await connectToDatabase();
+    } catch (error) {
+      return res.status(500).json({ error: 'Database connection failed' });
+    }
+  }
+  next();
+};
+
+// Apply database connection middleware to all API routes
+app.use('/api', ensureDbConnection);
+
 // 產品資料庫 - 中文產品資料
 const productsDatabase = [
     // SYM JET系列
@@ -3055,18 +3070,35 @@ async function startServer() {
   try {
     await connectToDatabase();
     
-    await initializeSampleEvents();
-    await initializeSamplePosts();
-    // galleries集合已清空，準備使用用戶的真實數據
-    
-    app.listen(PORT, () => {
-      console.log(`🚀 服務器運行在 http://localhost:${PORT}`);
-      console.log(`📚 API 文檔: http://localhost:${PORT}/api-docs`);
-      console.log(`💾 MongoDB 連接狀態: ${db ? '已連接' : '未連接'}`);
+    // 在 Vercel 環境中跳過示例數據初始化，避免冷啟動超時
+    if (!process.env.VERCEL) {
+      await initializeSampleEvents();
+      await initializeSamplePosts();
       console.log(`🎯 Gallery已準備好接收您的真實數據`);
-    });
+    } else {
+      console.log('🔄 Running in Vercel environment - skipping sample data initialization');
+    }
+    
+    // 只有在非 Vercel 環境下才啟動本地伺服器
+    if (!process.env.VERCEL) {
+      app.listen(PORT, () => {
+        console.log(`🚀 服務器運行在 http://localhost:${PORT}`);
+        console.log(`📚 API 文檔: http://localhost:${PORT}/api-docs`);
+        console.log(`💾 MongoDB 連接狀態: ${db ? '已連接' : '未連接'}`);
+      });
+    } else {
+      console.log('✅ Vercel serverless function ready');
+    }
   } catch (error) {
     console.error('啟動服務器時出錯:', error);
-    process.exit(1);
+    if (!process.env.VERCEL) {
+      process.exit(1);
+    }
   }
 }
+
+// 啟動伺服器
+startServer();
+
+// Export the app for Vercel
+module.exports = app;
