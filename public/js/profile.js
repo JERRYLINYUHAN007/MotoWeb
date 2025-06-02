@@ -342,6 +342,128 @@ function loadUserProfile() {
         </div>
     `).join('');
 
+    // Fill photos grid
+    const photosGrid = document.getElementById('photosGrid');
+    const addPhotoCard = photosGrid.querySelector('.add-photo-card');
+    
+    // Mock photo data
+    const mockPhotos = [
+        {
+            id: 1,
+            title: "SYM JET SL 125 - LED Lighting Setup",
+            thumbnail: "https://via.placeholder.com/300x200/333/fff?text=LED+Lights",
+            uploadDate: "2024-06-20",
+            likes: 15
+        },
+        {
+            id: 2,
+            title: "YAMAHA FORCE Exhaust Upgrade",
+            thumbnail: "https://via.placeholder.com/300x200/333/fff?text=Exhaust",
+            uploadDate: "2024-06-18",
+            likes: 23
+        },
+        {
+            id: 3,
+            title: "Monster Factory Z2 PRO Installation",
+            thumbnail: "https://via.placeholder.com/300x200/333/fff?text=Fork+Upgrade",
+            uploadDate: "2024-06-15",
+            likes: 31
+        }
+    ];
+
+    // Create photo cards and insert before the add button
+    const photoCards = mockPhotos.map(photo => `
+        <div class="photo-card" style="
+            background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
+            border-radius: var(--border-radius-md);
+            border: 1px solid var(--carbon-gray);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        ">
+            <div style="
+                height: 200px;
+                background: url('${photo.thumbnail}') center/cover;
+                position: relative;
+            ">
+                <div style="
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+                    padding: 1rem;
+                    color: white;
+                ">
+                    <h4 style="margin: 0 0 0.5rem 0; font-size: 0.9rem;">${photo.title}</h4>
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem;">
+                        <span style="color: var(--metallic-silver);">${photo.uploadDate}</span>
+                        <span style="color: var(--primary-color);"><i class="fas fa-heart"></i> ${photo.likes}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `).join('');
+    
+    if (addPhotoCard) {
+        addPhotoCard.insertAdjacentHTML('beforebegin', photoCards);
+    }
+
+    // Fill likes grid
+    const likesGrid = document.getElementById('likesGrid');
+    
+    // Mock liked items data
+    const mockLikedItems = [
+        {
+            type: "modification",
+            title: "KOSO LED Tail Light Review",
+            author: "TechRider99",
+            likes: 45,
+            date: "2024-06-19"
+        },
+        {
+            type: "discussion",
+            title: "Best Exhaust Systems for Sport Bikes",
+            author: "BikeExpert",
+            likes: 67,
+            date: "2024-06-17"
+        },
+        {
+            type: "photo",
+            title: "Honda CBR1000RR Track Build",
+            author: "SpeedDemon",
+            likes: 89,
+            date: "2024-06-15"
+        }
+    ];
+
+    // Create liked items cards
+    const likedItemsHTML = mockLikedItems.map(item => `
+        <div class="liked-item-card" style="
+            background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
+            border-radius: var(--border-radius-md);
+            border: 1px solid var(--carbon-gray);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        ">
+            <div style="margin-bottom: 1rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                    <i class="fas ${item.type === 'modification' ? 'fa-wrench' : item.type === 'discussion' ? 'fa-comments' : 'fa-camera'}" style="color: var(--primary-color);"></i>
+                    <span style="color: var(--metallic-silver); font-size: 0.9rem; text-transform: capitalize;">${item.type}</span>
+                </div>
+                <h4 style="color: var(--primary-color); margin-bottom: 0.5rem; font-size: 1.1rem;">${item.title}</h4>
+                <p style="color: var(--metallic-silver); margin-bottom: 1rem; font-size: 0.9rem;">by ${item.author} • ${item.date}</p>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="color: var(--primary-color); font-size: 0.9rem;">
+                    <i class="fas fa-heart"></i> ${item.likes} likes
+                </span>
+                <button class="btn btn-secondary" style="font-size: 0.8rem; padding: 0.5rem 1rem;">View</button>
+            </div>
+        </div>
+    `).join('');
+    
+    likesGrid.innerHTML = likedItemsHTML;
+
     // Fill form with user data
     document.getElementById('displayName').value = mockUserData.username;
     document.getElementById('bio').value = mockUserData.bio;
