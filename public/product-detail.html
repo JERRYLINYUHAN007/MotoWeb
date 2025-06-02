@@ -12,16 +12,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* Product detail page specific styles - Modern tech theme */
+        /* Enhanced Product detail page - Modern tech theme */
         body {
             background: var(--secondary-color);
             margin-top: 80px;
         }
 
         .product-detail-main {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 2rem auto;
-            padding: 0 2rem;
+            padding: 0 1rem;
         }
 
         .breadcrumb {
@@ -31,7 +31,9 @@
             background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
             border-radius: 15px;
             border: 1px solid var(--carbon-gray);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         .breadcrumb li {
@@ -70,13 +72,13 @@
         .product-detail-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 3rem;
+            gap: 4rem;
             background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
             padding: 3rem;
-            border-radius: 20px;
+            border-radius: 25px;
             box-shadow: 
-                0 15px 40px rgba(0, 0, 0, 0.5),
-                0 0 30px rgba(0, 212, 255, 0.1),
+                0 20px 60px rgba(0, 0, 0, 0.6),
+                0 0 40px rgba(0, 212, 255, 0.1),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
             border: 2px solid var(--primary-color);
             position: relative;
@@ -100,28 +102,100 @@
             position: relative;
         }
 
-        .product-image-section img {
+        .main-image-container {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .product-image-section .main-image {
             width: 100%;
-            height: auto;
-            border-radius: 15px;
+            height: 400px;
+            border-radius: 20px;
             border: 2px solid var(--carbon-gray);
             object-fit: cover;
             box-shadow: 
-                0 8px 25px rgba(0, 0, 0, 0.4),
-                0 0 20px rgba(0, 212, 255, 0.1);
+                0 15px 50px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(0, 212, 255, 0.2);
             transition: all 0.3s ease;
+            cursor: zoom-in;
         }
 
-        .product-image-section img:hover {
+        .product-image-section .main-image:hover {
             border-color: var(--primary-color);
             box-shadow: 
-                0 15px 40px rgba(0, 0, 0, 0.5),
-                0 0 30px rgba(0, 212, 255, 0.3);
+                0 20px 60px rgba(0, 0, 0, 0.6),
+                0 0 40px rgba(0, 212, 255, 0.4);
             transform: scale(1.02);
         }
 
+        .image-gallery {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .gallery-thumb {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            border: 2px solid var(--carbon-gray);
+            object-fit: cover;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0.7;
+        }
+
+        .gallery-thumb:hover,
+        .gallery-thumb.active {
+            border-color: var(--primary-color);
+            opacity: 1;
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
+        }
+
+        .zoom-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+
+        .zoom-overlay img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        }
+
+        .zoom-close {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .zoom-close:hover {
+            background: var(--accent-color);
+            transform: scale(1.1);
+        }
+
         .product-info-section .product-title {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             font-weight: 700;
             color: white;
             margin-bottom: 1rem;
@@ -135,10 +209,11 @@
             background-clip: text;
             animation: neonGlow 4s ease-in-out infinite;
             text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+            line-height: 1.2;
         }
 
         .product-info-section .product-brand {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: var(--metallic-silver);
             margin-bottom: 1.5rem;
             display: flex;
@@ -151,95 +226,291 @@
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s ease;
+            padding: 0.3rem 0.8rem;
+            border-radius: 8px;
+            border: 1px solid var(--primary-color);
         }
 
         .product-info-section .product-brand a:hover {
             color: var(--success-color);
+            border-color: var(--success-color);
             text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+            background: rgba(0, 255, 136, 0.1);
         }
 
         .product-info-section .product-price {
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             font-weight: 700;
             color: var(--success-color);
             margin-bottom: 2rem;
-            text-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
             animation: cyberpulse 3s infinite;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .price-badge {
+            background: linear-gradient(45deg, var(--success-color), var(--primary-color));
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: white;
         }
 
         .product-info-section .product-short-description {
-            font-size: 1.1rem;
-            line-height: 1.7;
-            margin-bottom: 2rem;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 2.5rem;
             color: var(--metallic-silver);
-            background: linear-gradient(145deg, var(--dark-surface), var(--mid-surface));
-            padding: 1.5rem;
-            border-radius: 12px;
-            border: 1px solid var(--carbon-gray);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        }
-
-        .product-actions {
             background: linear-gradient(145deg, var(--dark-surface), var(--mid-surface));
             padding: 2rem;
             border-radius: 15px;
             border: 1px solid var(--carbon-gray);
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .product-short-description::before {
+            content: '💡';
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .product-actions {
+            background: linear-gradient(145deg, var(--dark-surface), var(--mid-surface));
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid var(--carbon-gray);
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         .product-actions .quantity-selector {
             margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
 
         .product-actions label {
-            margin-right: 1rem;
             font-weight: 600;
             color: white;
             font-size: 1.1rem;
+            min-width: 80px;
         }
 
         .product-actions input[type="number"] {
-            width: 80px;
-            padding: 0.8rem;
-            text-align: center;
+            background: var(--dark-surface);
             border: 2px solid var(--carbon-gray);
-            border-radius: 10px;
-            background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
             color: white;
-            font-size: 1rem;
-            font-weight: 600;
+            padding: 0.8rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            width: 80px;
+            text-align: center;
             transition: all 0.3s ease;
         }
 
         .product-actions input[type="number"]:focus {
-            outline: none;
             border-color: var(--primary-color);
             box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+            outline: none;
         }
 
-        .product-actions .add-to-cart-btn {
+        .add-to-cart-btn {
+            width: 100%;
             background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
             color: white;
-            padding: 1.2rem 2.5rem;
             border: none;
-            border-radius: 30px;
-            cursor: pointer;
+            padding: 1.2rem 2rem;
+            border-radius: 15px;
             font-size: 1.2rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            font-weight: 600;
+            cursor: pointer;
             transition: all 0.3s ease;
-            width: 100%;
-            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
+        }
+
+        .add-to-cart-btn:hover {
+            background: linear-gradient(45deg, var(--accent-color), var(--success-color));
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.5);
+        }
+
+        .add-to-cart-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .product-additional-details {
+            margin-top: 3rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .product-description,
+        .product-specs {
+            background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid var(--carbon-gray);
             box-shadow: 
-                0 8px 25px rgba(0, 212, 255, 0.4),
-                0 0 30px rgba(124, 58, 237, 0.2);
-            border: 2px solid var(--success-color);
+                0 15px 40px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .product-description h3,
+        .product-specs h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .description-content,
+        .specs-content {
+            color: var(--metallic-silver);
+            line-height: 1.8;
+        }
+
+        .specs-content ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .specs-content li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--carbon-gray);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .specs-content li:last-child {
+            border-bottom: none;
+        }
+
+        .specs-content li strong {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .product-detail-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 2rem;
+            }
+
+            .product-additional-details {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .product-info-section .product-title {
+                font-size: 2.2rem;
+            }
+
+            .product-info-section .product-price {
+                font-size: 2rem;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .breadcrumb {
+                padding: 1rem;
+            }
+
+            .product-detail-main {
+                padding: 0 1rem;
+            }
+
+            .main-image {
+                height: 300px !important;
+            }
+        }
+
+        /* Animations */
+        @keyframes neonGlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes cyberpulse {
+            0%, 100% { text-shadow: 0 0 20px rgba(0, 255, 136, 0.5); }
+            50% { text-shadow: 0 0 30px rgba(0, 255, 136, 0.8), 0 0 40px rgba(0, 255, 136, 0.3); }
+        }
+
+        /* Product not found styling */
+        #product-not-found {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
+            border-radius: 20px;
+            border: 1px solid var(--carbon-gray);
+            color: var(--metallic-silver);
+        }
+
+        #product-not-found h2 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+
+        #product-not-found a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        #product-not-found a:hover {
+            color: var(--success-color);
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+
+        /* Enhanced Back Button */
+        .back-button-container {
+            position: fixed;
+            top: 100px;
+            left: 2rem;
+            z-index: 1000;
+        }
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: linear-gradient(145deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 
+                0 8px 25px rgba(0, 212, 255, 0.3),
+                0 4px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
             position: relative;
             overflow: hidden;
         }
 
-        .product-actions .add-to-cart-btn::before {
+        .back-button::before {
             content: '';
             position: absolute;
             top: 0;
@@ -248,168 +519,82 @@
             height: 100%;
             background: linear-gradient(90deg, 
                 transparent, 
-                rgba(255, 255, 255, 0.3), 
+                rgba(255, 255, 255, 0.2), 
                 transparent);
             transition: left 0.5s ease;
         }
 
-        .product-actions .add-to-cart-btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 
-                0 15px 40px rgba(0, 212, 255, 0.6),
-                0 0 60px var(--primary-color);
-            animation: cyberpulse 0.6s ease-in-out infinite;
-        }
-
-        .product-actions .add-to-cart-btn:hover::before {
+        .back-button:hover::before {
             left: 100%;
-        }
-        
-        .product-additional-details {
-            margin-top: 3rem;
-            background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
-            padding: 3rem;
-            border-radius: 20px;
-            box-shadow: 
-                0 15px 40px rgba(0, 0, 0, 0.5),
-                0 0 30px rgba(0, 212, 255, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            border: 2px solid var(--primary-color);
-        }
-
-        .product-additional-details h3 {
-            font-size: 2rem;
-            color: white;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--carbon-gray);
-            font-weight: 700;
-            text-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
-        }
-
-        .product-additional-details .description-content,
-        .product-additional-details .specs-content {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: var(--metallic-silver);
-        }
-        
-        .product-additional-details .specs-content ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .product-additional-details .specs-content li {
-            padding: 1rem 0;
-            border-bottom: 1px dashed var(--carbon-gray);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-
-        .product-additional-details .specs-content li:hover {
-            background: rgba(0, 212, 255, 0.1);
-            padding-left: 1rem;
-            border-radius: 8px;
-        }
-
-        .product-additional-details .specs-content li:last-child {
-            border-bottom: none;
-        }
-
-        .product-additional-details .specs-content li strong {
-            color: var(--primary-color);
-            min-width: 150px;
-            font-weight: 600;
-        }
-
-        .product-additional-details .specs-content li span {
-            color: white;
-            font-weight: 500;
-        }
-
-        /* 返�??��? */
-        .back-button {
-            position: fixed;
-            top: 100px;
-            left: 20px;
-            z-index: 100;
-            background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
-            border: 2px solid var(--primary-color);
-            color: var(--primary-color);
-            padding: 12px 16px;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 
-                0 4px 15px rgba(0, 212, 255, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         .back-button:hover {
-            background: linear-gradient(45deg, var(--primary-color), var(--neon-blue));
-            color: white;
-            transform: translateY(-3px) scale(1.1);
+            background: linear-gradient(145deg, var(--accent-color), var(--success-color));
+            transform: translateY(-2px) scale(1.05);
             box-shadow: 
-                0 8px 25px rgba(0, 212, 255, 0.4),
-                0 0 30px var(--primary-color);
+                0 12px 35px rgba(0, 212, 255, 0.4),
+                0 6px 20px rgba(0, 0, 0, 0.3);
         }
 
-        /* ?��?式設�?*/
-        @media (max-width: 992px) {
-            .product-detail-container {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-            }
+        .back-button:active {
+            transform: translateY(-1px) scale(1.02);
+        }
 
+        .back-button i {
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .back-button:hover i {
+            transform: translateX(-3px);
+        }
+
+        .back-text {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        /* Responsive back button */
         @media (max-width: 768px) {
-            .product-detail-main {
-                padding: 0 1rem;
-            }
-
-            .product-detail-container {
-                padding: 2rem;
-            }
-
-            .product-info-section .product-title {
-                font-size: 2rem;
-            }
-
-            .product-info-section .product-price {
-                font-size: 1.8rem;
+            .back-button-container {
+                top: 90px;
+                left: 1rem;
             }
 
             .back-button {
-                position: static;
-                margin-bottom: 1rem;
-                width: auto;
-                height: auto;
-                padding: 12px 20px;
-                border-radius: 30px;
+                padding: 0.8rem 1.2rem;
+                font-size: 0.9rem;
+                gap: 0.6rem;
+            }
+
+            .back-text {
+                display: none;
+            }
+
+            .back-button {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                justify-content: center;
+                padding: 0;
             }
         }
 
-        @media (max-width: 480px) {
-             .product-info-section .product-title {
-                font-size: 1.6rem;
+        /* Animation for back button entrance */
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
             }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
 
-            .product-info-section .product-price {
-                font-size: 1.5rem;
-            }
-
-            .product-additional-details .specs-content li {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.5rem;
-            }
+        .back-button-container {
+            animation: slideInLeft 0.6s ease-out;
         }
     </style>
 </head>
@@ -456,10 +641,13 @@
         </div>
     </nav>
 
-    <!-- 返�??��? -->
-    <button class="back-button" onclick="history.back()" aria-label="Go Back">
-        <i class="fas fa-arrow-left"></i>
-    </button>
+    <!-- Back button -->
+    <div class="back-button-container">
+        <button class="back-button" onclick="history.back()" aria-label="Go Back">
+            <i class="fas fa-arrow-left"></i>
+            <span class="back-text">Back</span>
+        </button>
+    </div>
 
     <main class="product-detail-main">
         <nav aria-label="breadcrumb">
@@ -475,23 +663,30 @@
 
         <section class="product-detail-container" id="product-detail-content">
             <div class="product-image-section">
-                <img id="product-image" src="/images/parts/placeholder-product.png" alt="Product Image">
-                <!-- TODO: Image gallery thumbnails could go here -->
+                <div class="main-image-container">
+                    <img id="product-image" class="main-image" src="/images/parts/placeholder-product.png" alt="Product Image">
+                </div>
+                <div class="image-gallery" id="image-gallery">
+                    <!-- Gallery thumbnails will be populated by JavaScript -->
+                </div>
             </div>
 
             <div class="product-info-section">
-                <h1 id="product-name" class="product-title">Loading product name...</h1>
+                <h1 id="product-name" class="product-title">Loading product...</h1>
                 <p class="product-brand">Brand: <a href="#" id="product-brand-link"><span id="product-brand">N/A</span></a></p>
-                <p id="product-price" class="product-price">NT$0</p>
+                <div class="product-price">
+                    <span id="product-price">NT$0</span>
+                    <span class="price-badge">Best Price</span>
+                </div>
                 
                 <div id="product-short-description" class="product-short-description">
-                    <p>Loading product description...</p>
+                    <p>No product description available</p>
                 </div>
 
                 <div class="product-actions">
                     <div class="quantity-selector">
                         <label for="quantity">Quantity:</label>
-                        <input type="number" id="quantity" name="quantity" value="1" min="1">
+                        <input type="number" id="quantity" name="quantity" value="1" min="1" max="99">
                     </div>
                     <button id="add-to-cart-btn" class="add-to-cart-btn">
                         <i class="fas fa-shopping-cart"></i> Add to Cart
@@ -504,10 +699,9 @@
             <div class="product-description">
                 <h3><i class="fas fa-file-alt"></i> Product Details</h3>
                 <div id="product-full-description" class="description-content">
-                    <p>Loading detailed description...</p>
+                    <p>No detailed description available</p>
                 </div>
             </div>
-            <hr style="margin: 2rem 0; border-color: #eee;">
             <div class="product-specs">
                 <h3><i class="fas fa-list-ul"></i> Specifications</h3>
                 <div id="product-specifications" class="specs-content">
@@ -519,6 +713,12 @@
         </section>
     </main>
 
+    <!-- Image zoom overlay -->
+    <div class="zoom-overlay" id="zoom-overlay">
+        <button class="zoom-close" id="zoom-close">&times;</button>
+        <img id="zoom-image" src="" alt="Zoomed Product Image">
+    </div>
+
     <footer class="footer">
         <!-- Footer content will be inserted by common.js -->
     </footer>
@@ -527,1171 +727,314 @@
     <script src="/js/auth-state.js"></script>
     <script>
         // Mock product data (This should ideally be in a shared file or fetched from a backend)
-        // Adding more fields like shortDescription, fullDescription, specifications
+        // Updated to match server.js productsDatabase exactly
         const mockProductDetailDB = {
-            "jet-z2-fork": { 
-                id: "jet-z2-fork", 
-                name: "Monster Factory Z2 PRO Fork", 
+            "jet-z2-pro-fork": { 
+                id: "jet-z2-pro-fork", 
+                name: "怪獸工廠Z2 PRO前叉", 
                 price: 18800, 
-                image: "images/parts/monster-z2-pro-fork.webp", 
-                category: "sym-jet-suspension", 
+                image: "images/parts/怪獸工廠ZR後避震2.webp", 
+                images: [
+                    "images/parts/怪獸工廠ZR後避震2.webp"
+                ],
+                category: "suspension", 
                 mainCategory: "sym-jet", 
-                brand: "Monster Factory", 
+                brand: "怪獸工廠", 
                 dateAdded: "2024-05-01",
-                shortDescription: "Specially designed Z2 PRO shock absorber for JET series, providing superior control and comfort",
-                fullDescription: "<p>Monster Factory's latest Z2 PRO shock absorber uses precision CNC machining and enhanced damping settings to absorb road impacts and improve riding stability. Whether for racing competition or mountain road cruising, it can bring the ultimate riding experience.</p><p>Features:<br>- Customizable settings<br>- Adjustable damping<br>- Lightweight and durable</p>",
-                specifications: { "Compatible Models": "SYM JET Series", "Material": "Aerospace Grade Aluminum", "Warranty": "One Year Factory Warranty" }
+                shortDescription: "專為JET系列設計的高性能Z2 PRO前懸吊，提供卓越的操控性和舒適性",
+                fullDescription: "<p>怪獸工廠最新的Z2 PRO避震器採用精密CNC加工和增強阻尼設定，能有效吸收路面衝擊，提升騎乘穩定性。無論是賽道競技或山路巡航，都能帶來極致的騎乘體驗。</p><p><strong>特色功能：</strong><br>• 可客製化設定<br>• 阻尼可調<br>• 輕量化耐用設計</p>",
+                specifications: { "適用車型": "SYM JET系列", "材質": "航太級鋁合金", "保固": "一年原廠保固", "調整功能": "預載可調、阻尼可調" }
             },
-            "mmbcu-brembo-caliper": {
-                "id": "mmbcu-brembo-caliper",
-                "name": "Brembo MMBCU Caliper",
-                "price": 7800,
-                "image": "images/parts/ANC72-big-brake-caliper.webp",
-                "category": "sym-mmbcu-brake",
-                "mainCategory": "sym-mmbcu",
-                "brand": "Brembo",
-                "dateAdded": "2024-03-01",
-                "shortDescription": "Brembo's high-performance caliper, made in Italy, providing superior performance",
-                "fullDescription": "<p>Brembo's high-performance caliper is made in Italy, providing superior performance. It's suitable for both racing and mountain road riding.</p>",
-                "specifications": {
-                    "Compatible Models": "SYM MMBCU",
-                    "Performance": "High-Performance",
-                    "Material": "Aerospace Grade Aluminum"
-                }
-            },
-            "jet-simota-mirror": { 
-                id: "jet-simota-mirror",
-                name: "SIMOTA 碳纖維後視鏡",
-                price: 8000,
-                image: "images/parts/SIMOTA-carbon-fiber-mirror.webp",
-                category: "sym-jet-appearance",
-                mainCategory: "sym-jet",
-                brand: "SIMOTA",
-                dateAdded: "2024-04-20",
-                shortDescription: "輕量化 SIMOTA 碳纖維後視鏡，獨特鏡面設計，提升車輛質感",
-                fullDescription: "<p>SIMOTA 高品質碳纖維後視鏡，採用正碳纖維材質，具有輕量化和高強度。獨特外型設計，搭配防眩光鏡面，提升整體車輛質感。</p>",
-                specifications: {
-                    "適用車種": "通用型（需車系轉接座）",
-                    "材質": "碳纖維 + 鋁合金",
-                    "表面": "消光碳纖維"
-                }
-            },
-            "jet-masa-disk-fixed": {
-                "id": "jet-masa-disk-fixed",
-                "name": "MASA Disc Brake Rotor",
-                "price": 3200,
-                "image": "images/parts/MASA-disc-brake-rotor.webp",
-                "category": "sym-jet-brake",
-                "mainCategory": "sym-jet",
-                "brand": "MASA",
-                "dateAdded": "2024-04-15",
-                "shortDescription": "MASA's high-quality fixed brake rotor, providing better performance",
-                "fullDescription": "<p>MASA's disc brake rotor is made from high-quality steel, with a special design for better performance. It's lightweight and durable.</p>",
-                "specifications": {
-                    "Compatible Models": "SYM JET Series",
-                    "Material": "High-Quality Steel",
-                    "Size": "Standard"
-                }
-            },
-            "jet-koso-taillight": {
-                id: "jet-koso-taillight",
-                name: "KOSO 衝刺尾燈組",
-                price: 2800,
-                image: "images/parts/KOSO-tail-light.webp",
-                category: "sym-jet-appearance",
-                mainCategory: "sym-jet",
-                brand: "KOSO",
-                dateAdded: "2024-04-10",
-                shortDescription: "KOSO 新款 LED 尾燈，流線型設計，提供更好的視覺效果和安全性",
-                fullDescription: "<p>KOSO 衝刺尾燈採用最新 LED 照明技術，提供更好的夜間行車視野。流線型外型設計完美融入車身，安裝簡單且實用。</p>",
-                specifications: {
-                    "適用車種": "SYM JET系列",
-                    "光源": "LED",
-                    "功能": "煞車燈/位置燈/方向燈"
-                }
-            },
-            "jet-baphomet-fuel-cap": {
-                "id": "jet-baphomet-fuel-cap",
-                "name": "巴風特油箱蓋",
-                "price": 1500,
-                "image": "images/parts/baphomet-fuel-cap.webp",
-                "category": "sym-jet-appearance",
-                "mainCategory": "sym-jet",
-                "brand": "巴風特",
-                "dateAdded": "2024-04-05",
-                "shortDescription": "CNC 精密加工油箱蓋，造型獨特，安裝簡單",
-                "fullDescription": "<p>巴風特油箱蓋使用航太級鋁合金材質，CNC 精密數控加工，表面採用硬質陽極處理，耐用度高。造型獨特，安裝簡單，可直接替換原廠油箱蓋。</p>",
-                "specifications": {
-                    "適用車種": "SYM JET系列",
-                    "材質": "鋁合金",
-                    "表面處理": "硬質陽極"
-                }
-            },
-            "jet-apexx-gt-exhaust-cover": {
-                "id": "jet-apexx-gt-exhaust-cover",
-                "name": "APEXX GT 排氣管護蓋",
-                "price": 2200,
-                "image": "images/parts/APEXX-GT-exhaust-cover.webp",
-                "category": "sym-jet-appearance",
-                "mainCategory": "sym-jet",
-                "brand": "APEXX",
-                "dateAdded": "2024-04-01",
-                "shortDescription": "APEXX GT系列排氣管防燙蓋，有效降低燙傷風險",
-                "fullDescription": "<p>APEXX GT排氣管護蓋採用特殊隔熱材質，有效降低排氣管表面溫度，防止燙傷。外觀設計時尚，與車身完美融合，安裝簡單。</p>",
-                "specifications": {
-                    "適用車種": "SYM JET系列",
-                    "材質": "特殊隔熱材質",
-                    "重量": "輕量化設計"
-                }
-            },
-            "jet-gjms-tcd2000": {
-                "id": "jet-gjms-tcd2000",
-                "name": "GJMS TCD2000 避震器",
-                "price": 16800,
-                "image": "images/parts/GJMS-TCD2000.webp",
-                "category": "sym-jet-suspension",
-                "mainCategory": "sym-jet",
-                "brand": "GJMS",
-                "dateAdded": "2024-03-25",
-                "shortDescription": "GJMS 頂級 TCD2000 避震，提供卓越的路感控制與舒適性",
-                "fullDescription": "<p>GJMS TCD2000 避震器採用先進阻尼控制技術，有效吸收路面顛簸。全段可調設定，可依據騎士需求進行細部調整，適合日常騎乘和長途勤務。</p>",
-                "specifications": {
-                    "適用車種": "SYM JET系列",
-                    "功能": "阻尼/回彈可調",
-                    "材質": "高級鋁合金"
-                }
-            },
-            "jet-apexx-eye": {
-                "id": "jet-apexx-eye",
-                "name": "APEXX 媚眼大燈飾蓋",
-                "price": 3500,
-                "image": "images/parts/APEXX-eye-cover.webp",
-                "category": "sym-jet-appearance",
-                "mainCategory": "sym-jet",
-                "brand": "APEXX",
-                "dateAdded": "2024-03-20",
-                "shortDescription": "APEXX 媚眼大燈飾蓋，造型獨特，提升整體視覺效果",
-                "fullDescription": "<p>APEXX 媚眼大燈飾蓋使用高品質 ABS 材質，精密設計讓安裝簡單，無需修改任何線路。獨特的外型設計，讓您的愛車在人群中更加出眾。</p>",
-                "specifications": {
-                    "適用車種": "SYM JET系列",
-                    "材質": "ABS",
-                    "顏色": "亮黑"
-                }
-            },
-            "jet-koso-filter": {
-                "id": "jet-koso-filter",
-                "name": "KOSO 透明空濾外蓋",
-                "price": 1800,
-                "image": "images/parts/KOSO-air-filter-cover.webp",
-                "category": "sym-jet-power",
-                "mainCategory": "sym-jet",
-                "brand": "KOSO",
-                "dateAdded": "2024-03-15",
-                "shortDescription": "KOSO 透明空濾外蓋，展現引擎部美學設計",
-                "fullDescription": "<p>KOSO 透明空濾外蓋採用高品質壓克力材質，燻黑透明設計調和奢華與透視感設計，可以清楚看見內部運作，同時保護空濾不受污染。</p>",
-                "specifications": {
-                    "適用車種": "SYM JET系列",
-                    "材質": "高強度透明壓克力",
-                    "顏色": "燻黑"
-                }
-            },
-            "jet-guangsheng-bone": {
-                "id": "jet-guangsheng-bone",
-                "name": "廣昇 999R CNC 鋁合金骨架",
-                "price": 4500,
-                "image": "images/parts/guangsheng-999R-frame.webp",
-                "category": "sym-jet-power",
-                "mainCategory": "sym-jet",
-                "brand": "廣昇",
-                "dateAdded": "2024-03-10",
-                "shortDescription": "廣昇 CNC 鋁合金骨架，提升引擎動力輸出效能",
-                "fullDescription": "<p>廣昇 999R CNC 鋁合金骨架採用高強度鋁合金材質，經過 CNC 精密數控加工，兼具輕量化和高強度。優化進氣流道，提升引擎動力輸出和加速性能。</p>",
-                "specifications": {
-                    "適用車種": "SYM JET系列",
-                    "材質": "鋁合金",
-                    "顏色": "陽極黑"
-                }
-            },
-            "jet-snake-exhaust": {
-                "id": "jet-snake-exhaust",
-                "name": "毒蛇 SP1 競格排氣管",
-                "price": 9800,
-                "image": "images/parts/snake-SP1-exhaust.webp",
-                "category": "sym-jet-power",
-                "mainCategory": "sym-jet",
-                "brand": "毒蛇",
-                "dateAdded": "2024-03-05",
-                "shortDescription": "毒蛇 SP1 競格排氣管，通過噪音檢測，提供優質聲浪和動力表現",
-                "fullDescription": "<p>毒蛇 SP1 競格排管使用高品質不銹鋼材質，經過精密焊接處理，外觀亮眼。特殊內部設計，提供渾厚的排氣聲浪，已經通過噪音檢測，合法上路無虞。</p>",
-                "specifications": {
-                    "適用車種": "SYM JET系列",
-                    "材質": "不銹鋼",
-                    "認證": "噪音合格"
-                }
-            },
-            "jet-monster-zr": {
-                "id": "jet-monster-zr",
-                "name": "怪獸工廠 ZR 後避震器",
-                "price": 12800,
-                "image": "images/parts/monster-ZR-rear-shock.webp",
-                "category": "sym-jet-suspension",
-                "mainCategory": "sym-jet",
-                "brand": "怪獸工廠",
-                "dateAdded": "2024-03-01",
-                "shortDescription": "怪獸工廠 ZR 後避震器，全可調設計，提供卓越操控性與舒適度",
-                "fullDescription": "<p>怪獸工廠 ZR 後避震採用特殊阻尼控制技術，有效吸收路面顛簸。預載、回彈、壓縮全可調設定，可依據騎士體重和騎乘需求進行調整，適合日常騎乘和長途勤務。</p>",
-                "specifications": {
-                    "適用車種": "SYM JET系列",
-                    "功能": "預載/回彈/壓縮可調",
-                    "材質": "高級鋁合金"
-                }
-            },
-            "jet-limit-fuel-cap": {
-                "id": "jet-limit-fuel-cap",
-                "name": "LIMIT 精品油箱蓋",
-                "price": 1800,
-                "image": "images/parts/LIMIT-fuel-cap.webp",
-                "category": "sym-jet-appearance",
-                "mainCategory": "sym-jet",
-                "brand": "LIMIT",
-                "dateAdded": "2024-02-25",
-                "shortDescription": "LIMIT 精品油箱蓋，日系風格設計，高品質感",
-                "fullDescription": "<p>LIMIT 精品油箱蓋採用高品質鋁合金材質，CNC 精密數控加工，表面採用硬質陽極處理，耐用度高。日系風格設計，低調時尚，安裝簡單，可直接替換原廠油箱蓋。</p>",
-                "specifications": {
-                    "適用車種": "SYM JET系列",
-                    "材質": "鋁合金",
-                    "表面處理": "硬質陽極"
-                }
-            },
-            "jet-skuny-screen": {
-                "id": "jet-skuny-screen",
-                "name": "SKUNY 儀表螢幕保護殼",
-                "price": 1200,
-                "image": "images/parts/SKUNY-screen-protector.webp",
-                "category": "sym-jet-appearance",
-                "mainCategory": "sym-jet",
-                "brand": "SKUNY",
-                "dateAdded": "2024-02-20",
-                "shortDescription": "SKUNY 儀表螢幕保護殼，防刮防水防塵",
-                "fullDescription": "<p>SKUNY 儀表螢幕保護殼採用高硬度強化材質，有效防止儀表螢幕刮傷和水氣滲入。全包覆設計，安裝簡單且不影響觸控，提供最佳保護。</p>",
-                "specifications": {
-                    "適用車種": "SYM JET系列",
-                    "材質": "高透光度強化材質",
-                    "功能": "防刮/防水/防塵"
-                }
-            },
-            "jet-skuny-headlight": {
-                "id": "jet-skuny-headlight",
-                "name": "SKUNY 大燈護甲",
-                "price": 1500,
-                "image": "images/parts/SKUNY-headlight-guard.webp",
-                "category": "sym-jet-appearance",
-                "mainCategory": "sym-jet",
-                "brand": "SKUNY",
-                "dateAdded": "2024-02-15",
-                "shortDescription": "SKUNY 大燈護甲，全方位保護大燈安全",
-                "fullDescription": "<p>SKUNY 大燈護甲使用高強度材質，有效保護車頭大燈不受飛石和外物傷害。造型獨特，增添整體視覺效果，安裝簡單，不影響大燈照明效果。</p>",
-                "specifications": {
-                    "適用車種": "SYM JET系列",
-                    "材質": "高強度塑料",
-                    "功能": "保護/裝飾"
-                }
-            },
-            "jet-ghost-radiator": {
-                "id": "jet-ghost-radiator",
-                "name": "Ghost Factory 水箱護網",
-                "price": 2200,
-                "image": "images/parts/ghost-factory-radiator-guard.webp",
-                "category": "sym-jet-appearance",
-                "mainCategory": "sym-jet",
-                "brand": "Ghost Factory",
-                "dateAdded": "2024-02-10",
-                "shortDescription": "Ghost Factory 水箱護網，保護水箱安全",
-                "fullDescription": "<p>Ghost Factory 水箱護網採用高品質不銹鋼材質，精密雷射切割工藝，外觀精美，有效保護水箱免受石子、異物傷害，延長水箱使用壽命。</p>",
-                "specifications": {
-                    "適用車種": "SYM JET系列",
-                    "材質": "不銹鋼",
-                    "表面處理": "拋光處理"
-                }
-            },
-            "jet-masa-disk-float": {
-                "id": "jet-masa-disk-float",
-                "name": "MASA 浮動碟盤",
-                "price": 4500,
-                "image": "images/parts/MASA-floating-disc.webp",
-                "category": "sym-jet-brake",
-                "mainCategory": "sym-jet",
-                "brand": "MASA",
-                "dateAdded": "2024-02-05",
-                "shortDescription": "MASA 浮動碟盤，提供更好的制動性能和制動感",
-                "fullDescription": "<p>MASA 浮動碟盤使用高品質不銹鋼外盤和鋁合金內盤，浮動設計有效降低熱變形，提供穩定的制動力。特殊波浪設計增加散熱面積，提升制動性能和壽命。</p>",
-                "specifications": {
-                    "適用車種": "SYM JET系列",
-                    "材質": "不銹鋼+鋁合金",
-                    "設計": "浮動式"
-                }
-            },
-            "drg-far-disk": {
-                "id": "drg-far-disk",
-                "name": "FAR 黑鈦碟盤",
-                "price": 3800,
-                "image": "images/parts/FAR-black-titanium-disc.webp",
-                "category": "sym-drg-brake",
-                "mainCategory": "sym-drg",
-                "brand": "FAR",
-                "dateAdded": "2024-02-01",
-                "shortDescription": "FAR 黑鈦碟盤，特殊塗層提供穩定制動力",
-                "fullDescription": "<p>FAR 黑鈦碟盤使用高品質不銹鋼材質，特殊塗層防鏽耐用，提升整體觀感。特殊開孔設計增加散熱效果，提供穩定制動力，適合日常騎乘使用。</p>",
-                "specifications": {
-                    "適用車種": "SYM DRG系列",
-                    "材質": "不銹鋼",
-                    "表面處理": "黑鈦塗層"
-                }
-            },
-            "drg-cowking-exhaust": {
-                "id": "drg-cowking-exhaust",
-                "name": "牛王 SVR 排氣管",
-                "price": 12800,
-                "image": "images/parts/cowking-SVR-exhaust.webp",
-                "category": "sym-drg-power",
-                "mainCategory": "sym-drg",
-                "brand": "牛王",
-                "dateAdded": "2024-01-25",
-                "shortDescription": "牛王 SVR 排氣管，提供渾厚聲浪和優異動力表現",
-                "fullDescription": "<p>牛王 SVR 排氣管採用高品質不銹鋼材質，經過精密焊接工藝，外觀氣派。特殊內部設計，提供渾厚的排氣聲浪，搭配中高轉動力輸出，讓加速更加銳利。</p>",
-                "specifications": {
-                    "適用車種": "SYM DRG系列",
-                    "材質": "不銹鋼",
-                    "認證": "噪音合格"
-                }
-            },
-            "drg-arx-fork": {
-                "id": "drg-arx-fork",
-                "name": "蠻牛工廠 ARX 經典版預載可調前叉",
-                "price": 17800,
-                "image": "images/parts/savage-bull-ARX-fork.webp",
-                "category": "sym-drg-suspension",
-                "mainCategory": "sym-drg",
-                "brand": "蠻牛工廠",
-                "dateAdded": "2024-01-20",
-                "shortDescription": "蠻牛工廠 ARX 前叉，預載可調，提供卓越操控性",
-                "fullDescription": "<p>蠻牛工廠 ARX 經典版前叉採用航太級鋁合金材質，預載調整設計，可依據騎士需求進行彈性調整。優質阻尼控制，有效吸收路面顛簸，提供騎乘舒適度和穩定性。</p>",
-                "specifications": {
-                    "適用車種": "SYM DRG系列",
-                    "功能": "預載可調",
-                    "材質": "航太級鋁合金"
-                }
-            },
-            "aj-taillight": {
-                "id": "aj-taillight",
-                "name": "AJ LED尾燈組",
-                "price": 2500,
-                "image": "images/parts/AJ-tail-light.webp",
-                "category": "sym-drg-appearance",
-                "mainCategory": "sym-drg",
-                "brand": "AJ",
-                "dateAdded": "2024-01-15",
-                "shortDescription": "AJ LED尾燈，流線型設計，提供更好的視覺效果和安全性",
-                "fullDescription": "<p>AJ尾燈採用最新LED照明技術，提供更好的夜間行車視野。流線型外型設計完美融入車身，安裝簡單且實用，無需修改線路。</p>",
-                "specifications": {
-                    "適用車種": "SYM DRG系列",
-                    "光源": "LED",
-                    "功能": "煞車燈/位置燈/方向燈"
-                }
-            },
-            "m7-taillight": {
-                "id": "m7-taillight",
-                "name": "星爵 M7尾燈組",
-                "price": 2800,
-                "image": "images/parts/star-lord-M7-tail-light.webp",
-                "category": "sym-drg-appearance",
-                "mainCategory": "sym-drg",
-                "brand": "星爵",
-                "dateAdded": "2024-01-10",
-                "shortDescription": "星爵 M7 LED尾燈，流線型設計，提供更好的視覺效果和安全性",
-                "fullDescription": "<p>星爵 M7尾燈採用最新LED照明技術，提供更好的夜間行車視野。流線型外型設計完美融入車身，安裝簡單且實用，無需修改線路。</p>",
-                "specifications": {
-                    "適用車種": "SYM DRG系列",
-                    "光源": "LED",
-                    "功能": "煞車燈/位置燈/方向燈"
-                }
-            },
-            "drg-ohlins-shock": {
-                "id": "drg-ohlins-shock",
-                "name": "瑞典 Öhlins DRG後避震",
-                "price": 28000,
-                "image": "images/parts/drg-shock-ohlins.jpg",
-                "category": "sym-drg-suspension",
-                "mainCategory": "sym-drg",
-                "brand": "Öhlins",
-                "dateAdded": "2024-01-05",
-                "shortDescription": "Öhlins專用DRG後避震，全可調設計，提供卓越的操控性和舒適度",
-                "fullDescription": "<p>Öhlins DRG後避震採用獨家的TTX技術，有效吸收異常路面震動。預載、回彈、壓縮全可調設定，可依據騎士體重和騎乘需求進行性能調整，適合長途騎乘和日常勤務。</p>",
-                "specifications": {
-                    "適用車種": "SYM DRG系列",
-                    "功能": "預載/回彈/壓縮可調",
-                    "材質": "高強度鋁合金"
-                }
-            },
-            "ccd-c53-fork": {
-                "id": "ccd-c53-fork",
-                "name": "台灣 CCD C53前叉",
-                "price": 18800,
-                "image": "images/parts/CCD-C53-fork.webp",
-                "category": "sym-drg-suspension",
-                "mainCategory": "sym-drg",
-                "brand": "CCD",
-                "dateAdded": "2024-01-01",
-                "shortDescription": "CCD C53前叉，全可調設計，提供卓越的操控性和舒適度",
-                "fullDescription": "<p>CCD C53前叉採用最新阻尼控制技術，有效吸收異常路面震動。預載、回彈、壓縮全可調設定，可依據騎士需求進行性能調整，適合長途騎乘和日常勤務。</p>",
-                "specifications": {
-                    "適用車種": "SYM DRG系列",
-                    "功能": "預載/回彈/壓縮可調",
-                    "材質": "航太級鋁合金"
-                }
-            },
-            "monster-factory-zr-shock": { 
-                id: "monster-factory-zr-shock", 
-                name: "Monster Factory ZR 後避震器", 
-                price: 12800, 
-                image: "images/parts/placeholder-product.png", 
-                category: "sym-jet-suspension", 
-                mainCategory: "sym-jet", 
-                brand: "Monster Factory", 
-                dateAdded: "2024-06-08",
-                shortDescription: "Monster Factory ZR 後避震器，全可調式設計，提供卓越的操控性和舒適性",
-                fullDescription: "<p>Monster Factory ZR 後避震器採用航太級鋁合金製造，全可調式設計包含預載、回彈和阻尼調整，適合競技和山道騎乘。</p><p>產品特點：</p><ul><li>全可調式設計</li><li>航太級鋁合金材質</li><li>原廠一年保固</li><li>專業技師安裝建議</li></ul>",
-                specifications: { 
-                    "適用車種": "SYM JET 系列",
-                    "材質": "航太級鋁合金",
-                    "功能": "全可調式避震",
-                    "保固": "原廠一年保固"
-                }
-            },
-            "ajmb-aero-kit": { 
-                id: "ajmb-aero-kit", 
-                name: "AJMB 空力套件", 
-                price: 4200, 
-                image: "images/parts/placeholder-product.png", 
-                category: "sym-jet-appearance", 
-                mainCategory: "sym-jet", 
-                brand: "AJMB", 
-                dateAdded: "2024-06-07",
-                shortDescription: "AJMB 空力套件，提供更好的空氣動力學效果和視覺效果",
-                fullDescription: "<p>AJMB 空力套件採用高品質 ABS 材質製造，不僅提升車輛的空氣動力學效果，還能帶來更好的視覺效果。</p><p>產品特點：</p><ul><li>高品質 ABS 材質</li><li>完美貼合車身</li><li>簡易安裝</li><li>提升空力效果</li></ul>",
-                specifications: { 
-                    "適用車種": "SYM JET 系列",
-                    "材質": "高品質 ABS",
-                    "安裝方式": "螺絲固定",
-                    "配件": "完整安裝配件"
-                }
-            },
-            "reys-coolant-cap": { 
-                id: "reys-coolant-cap", 
-                name: "REYS 水箱蓋", 
-                price: 580, 
-                image: "images/parts/placeholder-product.png", 
-                category: "sym-jet-appearance", 
-                mainCategory: "sym-jet", 
-                brand: "REYS", 
-                dateAdded: "2024-06-06",
-                shortDescription: "REYS 水箱蓋，採用 CNC 加工，提供更好的散熱效果",
-                fullDescription: "<p>REYS 水箱蓋採用 CNC 加工製造，不僅美觀，還能提供更好的散熱效果。</p><p>產品特點：</p><ul><li>CNC 加工</li><li>鋁合金材質</li><li>簡易安裝</li><li>提升散熱效果</li></ul>",
-                specifications: { 
-                    "適用車種": "SYM JET 系列",
-                    "材質": "鋁合金",
-                    "加工方式": "CNC 加工",
-                    "功能": "散熱優化"
-                }
-            },
-            "apexx-eye-cover": {
-                id: "apexx-eye-cover",
-                name: "APEXX 媚眼大燈飾蓋",
-                price: 2800,
-                image: "images/parts/placeholder-product.png",
-                category: "sym-jet-appearance",
-                mainCategory: "sym-jet",
-                brand: "APEXX",
-                dateAdded: "2024-06-05",
-                shortDescription: "APEXX 媚眼大燈飾蓋，提供獨特的視覺效果",
-                fullDescription: "<p>APEXX 媚眼大燈飾蓋採用高品質材質製造，不僅提供獨特的視覺效果，還能保護大燈。</p><p>產品特點：</p><ul><li>高品質材質</li><li>完美貼合</li><li>簡易安裝</li><li>提供保護</li></ul>",
-                specifications: {
-                    "適用車種": "SYM JET 系列",
-                    "材質": "高品質 ABS",
-                    "安裝方式": "卡扣固定",
-                    "功能": "裝飾保護"
-                }
-            },
-            "koso-filter-cover": {
-                id: "koso-filter-cover",
-                name: "KOSO 透明空濾外蓋",
-                price: 1200,
-                image: "images/parts/placeholder-product.png",
-                category: "sym-jet-appearance",
-                mainCategory: "sym-jet",
-                brand: "KOSO",
-                dateAdded: "2024-06-04",
-                shortDescription: "KOSO 透明空濾外蓋，讓您輕鬆檢查空濾狀態",
-                fullDescription: "<p>KOSO 透明空濾外蓋採用高強度壓克力製造，讓您輕鬆檢查空濾狀態，同時提供完善的防護。</p><p>產品特點：</p><ul><li>高強度壓克力</li><li>透明設計</li><li>簡易安裝</li><li>防水防塵</li></ul>",
-                specifications: {
-                    "適用車種": "SYM JET 系列",
-                    "材質": "高強度壓克力",
-                    "安裝方式": "螺絲固定",
-                    "功能": "空濾檢查"
-                }
-            },
-            "gs-999r-frame": {
-                id: "gs-999r-frame",
-                name: "廣昇 999R CNC 鋁合金骨架",
-                price: 8800,
-                image: "images/parts/placeholder-product.png",
-                category: "sym-jet-suspension",
-                mainCategory: "sym-jet",
-                brand: "廣昇",
-                dateAdded: "2024-06-03",
-                shortDescription: "廣昇 999R CNC 鋁合金骨架，提供更好的車身剛性",
-                fullDescription: "<p>廣昇 999R CNC 鋁合金骨架採用航太級鋁合金製造，CNC 精密加工，提供更好的車身剛性和操控性。</p><p>產品特點：</p><ul><li>航太級鋁合金</li><li>CNC 精密加工</li><li>提升剛性</li><li>原廠保固</li></ul>",
-                specifications: {
-                    "適用車種": "SYM JET 系列",
-                    "材質": "航太級鋁合金",
-                    "加工方式": "CNC 精密加工",
-                    "保固": "原廠一年保固"
-                }
-            },
-            "snake-sp1-exhaust": {
-                id: "snake-sp1-exhaust",
-                name: "毒蛇 SP1 競格排氣管",
-                price: 16800,
-                image: "images/parts/placeholder-product.png",
-                category: "sym-jet-power",
-                mainCategory: "sym-jet",
-                brand: "毒蛇",
-                dateAdded: "2024-06-02",
-                shortDescription: "毒蛇 SP1 競格排氣管，提供更好的動力輸出和聲浪",
-                fullDescription: "<p>毒蛇 SP1 競格排氣管採用鈦合金製造，提供更好的動力輸出和獨特的聲浪。</p><p>產品特點：</p><ul><li>鈦合金材質</li><li>可調式消音塞</li><li>提升動力</li><li>原廠保固</li></ul>",
-                specifications: {
-                    "適用車種": "SYM JET 系列",
-                    "材質": "鈦合金",
-                    "功能": "動力提升",
-                    "保固": "原廠一年保固"
-                }
-            },
-            "limit-fuel-cap-pro": {
-                id: "limit-fuel-cap-pro",
-                name: "LIMIT 精品油箱蓋",
-                price: 1500,
-                image: "images/parts/placeholder-product.png",
-                category: "sym-jet-appearance",
-                mainCategory: "sym-jet",
-                brand: "LIMIT",
-                dateAdded: "2024-06-01",
-                shortDescription: "LIMIT 精品油箱蓋，CNC 加工，提供更好的使用體驗",
-                fullDescription: "<p>LIMIT 精品油箱蓋採用鋁合金 CNC 加工製造，不僅美觀，還提供更好的使用體驗。</p><p>產品特點：</p><ul><li>鋁合金材質</li><li>CNC 加工</li><li>簡易安裝</li><li>防水設計</li></ul>",
-                specifications: {
-                    "適用車種": "SYM JET 系列",
-                    "材質": "鋁合金",
-                    "加工方式": "CNC 加工",
-                    "功能": "美觀實用"
-                }
-            },
-            "skuny-screen-protector": {
-                id: "skuny-screen-protector",
-                name: "SKUNY 儀表螢幕保護殼",
-                price: 650,
-                image: "images/parts/placeholder-product.png",
-                category: "sym-jet-appearance",
-                mainCategory: "sym-jet",
-                brand: "SKUNY",
-                dateAdded: "2024-05-31",
-                shortDescription: "SKUNY 儀表螢幕保護殼，保護您的儀表螢幕",
-                fullDescription: "<p>SKUNY 儀表螢幕保護殼採用高品質壓克力製造，完美保護您的儀表螢幕，同時保持清晰的視覺效果。</p><p>產品特點：</p><ul><li>高品質壓克力</li><li>完美貼合</li><li>簡易安裝</li><li>防刮耐磨</li></ul>",
-                specifications: {
-                    "適用車種": "SYM JET 系列",
-                    "材質": "高品質壓克力",
-                    "安裝方式": "貼合固定",
-                    "功能": "螢幕保護"
-                }
-            },
-            "skuny-headlight-armor": {
-                id: "skuny-headlight-armor",
-                name: "SKUNY 大燈護甲",
-                price: 1200,
-                image: "images/parts/placeholder-product.png",
-                category: "sym-jet-appearance",
-                mainCategory: "sym-jet",
-                brand: "SKUNY",
-                dateAdded: "2024-05-30",
-                shortDescription: "SKUNY 大燈護甲，保護您的大燈免受損傷",
-                fullDescription: "<p>SKUNY 大燈護甲採用高強度壓克力製造，完美保護您的大燈，同時保持清晰的光線透射。</p><p>產品特點：</p><ul><li>高強度壓克力</li><li>完美貼合</li><li>簡易安裝</li><li>防刮耐磨</li></ul>",
-                specifications: {
-                    "適用車種": "SYM JET 系列",
-                    "材質": "高強度壓克力",
-                    "安裝方式": "卡扣固定",
-                    "功能": "大燈保護"
-                }
-            },
-            "ghost-radiator-guard": {
-                id: "ghost-radiator-guard",
-                name: "Ghost Factory 水箱護網",
-                price: 2200,
-                image: "images/parts/placeholder-product.png",
-                category: "sym-jet-appearance",
-                mainCategory: "sym-jet",
-                brand: "Ghost Factory",
-                dateAdded: "2024-05-29",
-                shortDescription: "Ghost Factory 水箱護網，保護您的水箱免受損傷",
-                fullDescription: "<p>Ghost Factory 水箱護網採用高強度鋁合金製造，完美保護您的水箱免受石頭和雜物的損傷。</p><p>產品特點：</p><ul><li>高強度鋁合金</li><li>完美貼合</li><li>簡易安裝</li><li>防護效果好</li></ul>",
-                specifications: {
-                    "適用車種": "SYM JET 系列",
-                    "材質": "高強度鋁合金",
-                    "安裝方式": "螺絲固定",
-                    "功能": "水箱保護"
-                }
-            },
-            "masa-floating-disc": {
-                id: "masa-floating-disc",
-                name: "MASA 浮動碟盤",
-                price: 3600,
-                image: "images/parts/placeholder-product.png",
-                category: "sym-jet-brake",
-                mainCategory: "sym-jet",
-                brand: "MASA",
-                dateAdded: "2024-05-28",
-                shortDescription: "MASA 浮動碟盤，提供更好的制動效果",
-                fullDescription: "<p>MASA 浮動碟盤採用高級不銹鋼製造，提供更好的制動效果和散熱性能。</p><p>產品特點：</p><ul><li>高級不銹鋼</li><li>浮動設計</li><li>散熱效果好</li><li>制動力強</li></ul>",
-                specifications: {
-                    "適用車種": "SYM JET 系列",
-                    "材質": "高級不銹鋼",
-                    "尺寸": "原廠規格",
-                    "功能": "制動提升"
-                }
-            },
-            "far-black-titanium-disc": {
-                id: "far-black-titanium-disc",
-                name: "FAR 黑鈦碟盤",
-                price: 4200,
-                image: "images/parts/placeholder-product.png",
-                category: "sym-jet-brake",
-                mainCategory: "sym-jet",
-                brand: "FAR",
-                dateAdded: "2024-05-27",
-                shortDescription: "FAR 黑鈦碟盤，提供更好的制動效果和視覺效果",
-                fullDescription: "<p>FAR 黑鈦碟盤採用高級不銹鋼製造，黑鈦處理工藝，提供更好的制動效果和獨特的視覺效果。</p><p>產品特點：</p><ul><li>高級不銹鋼</li><li>黑鈦處理</li><li>散熱效果好</li><li>制動力強</li></ul>",
-                specifications: {
-                    "適用車種": "SYM JET 系列",
-                    "材質": "高級不銹鋼",
-                    "處理": "黑鈦處理",
-                    "功能": "制動提升"
-                }
-            },
-            "bull-king-svr-exhaust": {
-                id: "bull-king-svr-exhaust",
-                name: "牛王 SVR 排氣管",
-                price: 15800,
-                image: "images/parts/placeholder-product.png",
-                category: "sym-jet-power",
-                mainCategory: "sym-jet",
-                brand: "牛王",
-                dateAdded: "2024-05-26",
-                shortDescription: "牛王 SVR 排氣管，提供更好的動力輸出和聲浪",
-                fullDescription: "<p>牛王 SVR 排氣管採用特殊合金製造，提供更好的動力輸出和獨特的聲浪。</p><p>產品特點：</p><ul><li>特殊合金材質</li><li>可調式消音塞</li><li>提升動力</li><li>原廠保固</li></ul>",
-                specifications: {
-                    "適用車種": "SYM JET 系列",
-                    "材質": "特殊合金",
-                    "功能": "動力提升",
-                    "保固": "原廠一年保固"
-                }
-            },
-            "mad-bull-arx-fork": {
-                id: "mad-bull-arx-fork",
-                name: "蠻牛工廠 ARX 經典版預載可調前叉",
-                price: 22800,
-                image: "images/parts/placeholder-product.png",
-                category: "sym-jet-suspension",
-                mainCategory: "sym-jet",
-                brand: "蠻牛工廠",
-                dateAdded: "2024-05-25",
-                shortDescription: "蠻牛工廠 ARX 經典版預載可調前叉，提供更好的操控性",
-                fullDescription: "<p>蠻牛工廠 ARX 經典版預載可調前叉採用航太級鋁合金製造，提供更好的操控性和舒適性。</p><p>產品特點：</p><ul><li>航太級鋁合金</li><li>預載可調</li><li>提升操控</li><li>原廠保固</li></ul>",
-                specifications: {
-                    "適用車種": "SYM JET 系列",
-                    "材質": "航太級鋁合金",
-                    "功能": "預載可調",
-                    "保固": "原廠一年保固"
-                }
-            }
-        };
-        
-        // Simplified category mapping for breadcrumbs
-        const categoryDisplayNames = {
-            "all-products": "All Products",
-            // SYM
-            "sym-jet": "SYM JET Series",
-            "sym-jet-power": "JET Power System",
-            "sym-jet-brake": "JET Brake System",
-            "sym-jet-suspension": "JET Suspension",
-            "sym-jet-appearance": "JET Appearance",
-            "sym-drg": "SYM DRG",
-            "sym-drg-power": "DRG Power System",
-            "sym-drg-brake": "DRG Brake System",
-            "sym-drg-suspension": "DRG Suspension",
-            "sym-drg-appearance": "DRG Appearance",
-            "sym-mmbcu": "SYM MMBCU",
-            "sym-mmbcu-power": "MMBCU??系統",
-            "sym-mmbcu-brake": "MMBCU????",
-            "sym-mmbcu-suspension": "MMBCU????",
-            "sym-mmbcu-appearance": "MMBCU??外??系",
-            // YAMAHA
-            "yamaha-cygnus": "YAMAHA CYGNUS GRYPHUS",
-            "yamaha-cygnus-power": "CYGNUS GRYPHUS??系統",
-            "yamaha-cygnus-brake": "CYGNUS GRYPHUS???",
-            "yamaha-cygnus-suspension": "CYGNUS GRYPHUS???",
-            "yamaha-cygnus-appearance": "CYGNUS GRYPHUS?外??系",
-            "yamaha-force-smax": "YAMAHA FORCE1.0/SMAX",
-            "yamaha-force-smax-power": "FORCE1.0/SMAX??系統",
-            "yamaha-force-smax-brake": "FORCE1.0/SMAX???",
-            "yamaha-force-smax-suspension": "FORCE1.0/SMAX???",
-            "yamaha-force-smax-appearance": "FORCE1.0/SMAX?外??系",
-            "yamaha-force2": "YAMAHA FORCE2.0",
-            "yamaha-force2-power": "FORCE2.0??系統",
-            "yamaha-force2-brake": "FORCE2.0???",
-            "yamaha-force2-suspension": "FORCE2.0???",
-            "yamaha-force2-appearance": "FORCE2.0?外??系",
-            // KYMCO
-
-
-            "kymco-krv": "KYMCO KRV",
-            "kymco-krv-power": "KRV??系統",
-            "kymco-krv-brake": "KRV???",
-            "kymco-krv-suspension": "KRV???",
-            "kymco-krv-appearance": "KRV?外??系"
-        };
-
-        // ?本??資??(簡?????products.html ?????
-        const mockProductsDB = {
-            // JET Series
-            "jet-z2-fork": { 
-                id: "jet-z2-fork", 
-                name: "Monster Factory Z2 PRO Fork", 
-                price: 18800, 
-                image: "images/parts/monster-z2-pro-fork.webp", 
-                category: "sym-jet-suspension", 
-                mainCategory: "sym-jet", 
-                brand: "Monster Factory", 
-                dateAdded: "2024-05-01",
-                shortDescription: "Specially designed Z2 PRO shock absorber for JET series, providing superior control and comfort",
-                fullDescription: "<p>Monster Factory's latest Z2 PRO shock absorber uses precision CNC machining and enhanced damping settings to absorb road impacts and improve riding stability. Whether for racing competition or mountain road cruising, it can bring the ultimate riding experience.</p><p>Features:<br>- Customizable settings<br>- Adjustable damping<br>- Lightweight and durable</p>",
-                specifications: { "Compatible Models": "SYM JET Series", "Material": "Aerospace Grade Aluminum", "Warranty": "One Year Factory Warranty" }
-            },
-            "jet-simota-mirror": { 
-                id: "jet-simota-mirror", 
-                name: "SIMOTA Carbon Fiber Mirror", 
-                price: 8000, 
-                image: "images/parts/SIMOTA-carbon-fiber-mirror.webp", 
-                category: "sym-jet-appearance", 
-                mainCategory: "sym-jet", 
-                brand: "SIMOTA", 
-                dateAdded: "2024-04-20",
-                shortDescription: "Lightweight SIMOTA carbon fiber mirror, with a unique design, and high strength",
-                fullDescription: "<p>SIMOTA's carbon fiber mirror is made from high-quality carbon fiber, and features a unique design with a matte finish. It's lightweight and high strength.</p>",
-                specifications: { "Compatible Models": "Used on JET series (check compatibility)", "Material": "Carbon Fiber", "Finish": "Matte" }
-            },
-            "jet-masa-disk-fixed": { 
-                id: "jet-masa-disk-fixed", 
-                name: "MASA Disc Brake Rotor", 
-                price: 3200, 
-                image: "images/parts/MASA-disc-brake-rotor.webp", 
-                category: "sym-jet-brake", 
-                mainCategory: "sym-jet", 
-                brand: "MASA", 
-                dateAdded: "2024-04-15",
-                shortDescription: "MASA's high-quality fixed brake rotor, providing better performance",
-                fullDescription: "<p>MASA's disc brake rotor is made from high-quality steel, with a special design for better performance. It's lightweight and durable.</p>",
-                specifications: { "Compatible Models": "SYM JET Series", "Material": "High-Quality Steel", "Size": "Standard" }
-            },
-            "jet-koso-taillight": { 
-                id: "jet-koso-taillight", 
-                name: "KOSO LED Tail Light", 
-                price: 3600, 
-                image: "images/parts/KOSO-LED-tail-light.webp", 
-                category: "sym-jet-appearance", 
-                mainCategory: "sym-jet", 
-                brand: "KOSO", 
-                dateAdded: "2023-12-25",
-                shortDescription: "KOSO's LED tail light, with a simple design, providing better visibility",
-                fullDescription: "<p>KOSO's LED tail light uses a simple design, providing better visibility. It's easy to install and looks great.</p>",
-                specifications: { "Compatible Models": "SYM JET Series", "Type": "LED", "Position": "Tail" }
-            },
-            "jet-baphomet-fuel-cap": { 
-                id: "jet-baphomet-fuel-cap", 
-                name: "Baphomet Fuel Tank", 
-                price: 1300, 
-                image: "images/parts/Baphomet-fuel-tank.webp", 
-                category: "sym-jet-appearance", 
-                mainCategory: "sym-jet", 
-                brand: "Baphomet", 
-                dateAdded: "2024-04-11",
-                shortDescription: "CNC-machined fuel tank, with a simple design",
-                fullDescription: "<p>Baphomet's fuel tank is made from high-quality material, CNC-machined, and has a simple design. It's durable and looks great.</p>",
-                specifications: { "Compatible Models": "SYM JET Series", "Material": "High-Quality Material", "Surface": "Matte" }
-            },
-            "jet-gjms-tcd2000": { 
-                id: "jet-gjms-tcd2000", 
-                name: "GJMS TCD2000", 
-                price: 9000, 
-                image: "images/parts/GJMS-TCD2000.webp", 
-                category: "sym-jet-suspension", 
-                mainCategory: "sym-jet", 
-                brand: "GJMS", 
-                dateAdded: "2024-03-15",
-                shortDescription: "GJMS's TCD2000 is a high-performance suspension system",
-                fullDescription: "<p>GJMS's TCD2000 is a high-performance suspension system that provides excellent control and comfort. It's suitable for both racing and mountain road riding.</p>",
-                specifications: { "Compatible Models": "SYM JET Series", "Performance": "High-Performance", "Material": "High-Quality Aluminum" }
-            },
-            "jet-apexx-gt-exhaust-cover": { 
-                id: "jet-apexx-gt-exhaust-cover", 
-                name: "APEXX GT Exhaust Cover", 
-                price: 980, 
-                image: "images/parts/APEXX-GT-exhaust-cover.webp", 
-                category: "sym-jet-appearance", 
-                mainCategory: "sym-jet", 
-                brand: "APEXX", 
-                dateAdded: "2024-01-20",
-                shortDescription: "APEXX GT exhaust cover, made from carbon fiber, lightweight and durable",
-                fullDescription: "<p>APEXX GT exhaust cover is made from high-quality carbon fiber, and is lightweight and durable. It's a great choice for your bike.</p>",
-                specifications: { "Compatible Models": "SYM JET Series", "Material": "Carbon Fiber", "Weight": "Lightweight" }
-            },
-            // DRG系?
-            "drg-ohlins-rear-shock": { 
-                id: "drg-ohlins-rear-shock", 
-                name: "Öhlins DRG Rear Shock", 
-                price: 32000, 
-                image: "images/parts/drg-shock-ohlins.jpg", 
-                category: "sym-drg-suspension", 
-                mainCategory: "sym-drg", 
-                brand: "Öhlins", 
-                dateAdded: "2024-04-15",
-                shortDescription: "Öhlins's high-performance rear shock, providing excellent control and comfort",
-                fullDescription: "<p>Öhlins's high-performance rear shock is made from high-quality materials and provides excellent control and comfort. It's suitable for both racing and mountain road riding.</p>",
-                specifications: { "Compatible Models": "SYM DRG Series", "Material": "High-Quality Materials", "Damping": "Adjustable" }
-            },
-            "drg-star-lord-m7-taillight": {
-                id: "drg-star-lord-m7-taillight", 
-                name: "M7 Tail Light for DRG Series", 
-                price: 4500, 
-                image: "images/parts/M7-tail-light-DRG-series.webp", 
-                category: "sym-drg-appearance", 
-                mainCategory: "sym-drg", 
-                brand: "Star Lord", 
-                dateAdded: "2024-06-08",
-                shortDescription: "Star Lord's M7 tail light, with a simple design, providing better visibility",
-                fullDescription: "<p>Star Lord's M7 tail light uses a simple design, providing better visibility. It's easy to install and looks great.</p>",
-                specifications: { "Compatible Models": "SYM DRG Series", "Type": "LED", "Position": "Tail" }
-            },
-            "drg-aj-taillight": {
-                id: "drg-aj-taillight", 
-                name: "AJ Tail Light for DRG Series", 
-                price: 4000, 
-                image: "images/parts/AJ-tail-light-DRG-series.webp", 
-                category: "sym-drg-appearance", 
-                mainCategory: "sym-drg", 
-                brand: "AJ", 
-                dateAdded: "2024-06-09",
-                shortDescription: "AJ LED tail light, with a simple design, providing better visibility",
-                fullDescription: "<p>AJ's LED tail light uses a simple design, providing better visibility. It's easy to install and looks great.</p>",
-                specifications: { "Compatible Models": "SYM DRG Series", "Type": "LED", "Position": "Tail" }
-            },
-            "drg-anc72-caliper": {
-                id: "drg-anc72-caliper", 
-                name: "ANC72 Big Brake Caliper", 
-                price: 6000, 
-                image: "images/parts/ANC72-big-brake-caliper.webp", 
-                category: "sym-drg-brake", 
-                mainCategory: "sym-drg", 
-                brand: "ANC", 
-                dateAdded: "2024-06-10",
-                shortDescription: "ANC72's big brake caliper, CNC-machined, providing high performance",
-                fullDescription: "<p>ANC72's big brake caliper is CNC-machined, providing high performance. It's suitable for both racing and mountain road riding.</p>",
-                specifications: { "Compatible Models": "SYM DRG Series", "Performance": "High-Performance", "Material": "High-Quality Aluminum" }
-            },
-            "drg-ccd-c53-fork": {
-                id: "drg-ccd-c53-fork", 
-                name: "CCD C53 Fork", 
-                price: 17000, 
-                image: "images/parts/CCD-C53-fork.webp", 
-                category: "sym-drg-suspension", 
-                mainCategory: "sym-drg", 
-                brand: "CCD", 
-                dateAdded: "2024-06-07",
-                shortDescription: "CCD's C53 fork, fully adjustable, providing excellent control",
-                fullDescription: "<p>CCD's C53 fork is fully adjustable, providing excellent control. It's suitable for both racing and mountain road riding.</p>",
-                specifications: { "Compatible Models": "SYM DRG Series", "Performance": "High-Performance", "Material": "High-Quality Aluminum" }
-            },
-            // MMBCU系?
-            "mmbcu-brembo-caliper": { 
-                id: "mmbcu-brembo-caliper", 
-                name: "Brembo MMBCU Caliper", 
-                price: 7800, 
-                image: "images/parts/mmbcu-caliper-brembo.jpg", 
-                category: "sym-mmbcu-brake", 
-                mainCategory: "sym-mmbcu", 
-                brand: "Brembo", 
-                dateAdded: "2024-03-01",
-                shortDescription: "Brembo's high-performance caliper, made in Italy, providing superior performance",
-                fullDescription: "<p>Brembo's high-performance caliper is made in Italy, providing superior performance. It's suitable for both racing and mountain road riding.</p>",
-                specifications: { "Compatible Models": "SYM MMBCU", "Performance": "High-Performance", "Material": "Aerospace Grade Aluminum" }
-            },
-            "mmbcu-savage-bull-arx-fork": {
-                id: "mmbcu-savage-bull-arx-fork", 
-                name: "Savage Bull ARX Fork", 
-                price: 12000, 
-                image: "images/parts/savage-bull-arx-fork.webp", 
-                category: "sym-mmbcu-suspension", 
-                mainCategory: "sym-mmbcu", 
-                brand: "Savage Bull", 
-                dateAdded: "2024-06-11",
-                shortDescription: "Savage Bull's ARX fork, fully adjustable, providing excellent control",
-                fullDescription: "<p>Savage Bull's ARX fork is fully adjustable, providing excellent control. It's suitable for both racing and mountain road riding.</p>",
-                specifications: { "Compatible Models": "MMBCU Series", "Performance": "High-Performance", "Material": "High-Quality Aluminum" }
-            },
-            // 戰系?
-            "cygnus-yss-rear-shock": { 
-                id: "cygnus-yss-rear-shock", 
-                name: "YSS G-Series Rear Shock", 
-                price: 8500, 
-                image: "images/parts/cygnus-yss-shock.jpg", 
-                category: "yamaha-cygnus-suspension", 
-                mainCategory: "yamaha-cygnus", 
-                brand: "YSS", 
-                dateAdded: "2024-01-15",
-                shortDescription: "YSS G-Series rear shock, providing stable and comfortable ride",
-                fullDescription: "<p>YSS G-Series rear shock is designed to provide a stable and comfortable ride. It's suitable for both racing and mountain road riding.</p>",
-                specifications: { "Compatible Models": "YAMAHA CYGNUS GRYPHUS", "Material": "High-Quality Rubber", "Damping": "Adjustable" }
-            },
-            // FORCE系?
-            "force-smax-malossi-variator": { 
-                id: "force-smax-malossi-variator", 
-                name: "Malossi Variator", 
-                price: 5500, 
-                image: "images/parts/placeholder-product.png", 
-                category: "yamaha-force-smax-power", 
-                mainCategory: "yamaha-force-smax", 
-                brand: "Malossi", 
-                dateAdded: "2024-03-12",
-                shortDescription: "Malossi's variator, made in Italy, providing high performance and durability",
-                fullDescription: "<p>Malossi's variator is made in Italy, providing high performance and durability. It's suitable for both racing and mountain road riding.</p>",
-                specifications: { "Compatible Models": "YAMAHA FORCE1.0/SMAX", "Performance": "High-Performance", "Durability": "High" }
-            },
-            // KRV系?
-            "krv-nws-svr-exhaust": {
-                id: "krv-nws-svr-exhaust", 
-                name: "SVR Exhaust", 
-                price: 15000, 
-                image: "images/parts/SVR-exhaust.webp", 
-                category: "kymco-krv-power", 
-                mainCategory: "kymco-krv", 
-                brand: "?", 
-                dateAdded: "2024-06-16",
-                shortDescription: "SVR exhaust, providing high-quality sound",
-                fullDescription: "<p>SVR exhaust is made from high-quality materials, providing high-quality sound. It's suitable for both racing and mountain road riding.</p>",
-                specifications: { "Compatible Models": "KYMCO KRV", "Performance": "High-Performance", "Material": "High-Quality Stainless Steel" }
-            },
-            // 從?翔?業網站添?新?
             "baphomet-exhaust-bracket": { 
                 id: "baphomet-exhaust-bracket", 
-                name: "Baphomet Exhaust Bracket", 
+                name: "巴風特排氣管吊架", 
                 price: 2200, 
-                image: "images/parts/placeholder-product.png", 
-                category: "sym-jet-appearance", 
+                image: "images/parts/牛王SVR排氣管.webp", 
+                images: [
+                    "images/parts/牛王SVR排氣管.webp"
+                ],
+                category: "exhaust", 
                 mainCategory: "sym-jet", 
-                brand: "Baphomet", 
+                brand: "巴風特", 
                 dateAdded: "2024-06-20",
-                shortDescription: "Baphomet's exhaust bracket, providing high-quality sound",
-                fullDescription: "<p>Baphomet's exhaust bracket is made from high-quality materials, providing high-quality sound. It's suitable for both racing and mountain road riding.</p>",
-                specifications: { "Compatible Models": "SYM JET Series", "Material": "High-Quality Stainless Steel" }
+                shortDescription: "巴風特排氣管吊架，提供更穩固的支撐和優質音效",
+                fullDescription: "<p>巴風特排氣管吊架採用高品質材料製造，不僅提供穩固的支撐，更能優化排氣音效。適合各種騎乘場合使用。</p>",
+                specifications: { "適用車型": "SYM JET系列", "材質": "高品質不鏽鋼", "重量": "0.5kg" }
             },
-            "koso-chest-cover": { 
-                id: "koso-chest-cover", 
-                name: "KOSO Air Scoop", 
-                price: 1600, 
-                image: "images/parts/placeholder-product.png", 
-                category: "sym-jet-appearance", 
+            "simota-carbon-mirror": { 
+                id: "simota-carbon-mirror", 
+                name: "SIMOTA碳纖維後照鏡", 
+                price: 8000, 
+                image: "images/parts/mirrors.svg", 
+                images: [
+                    "images/parts/mirrors.svg"
+                ],
+                category: "appearance", 
                 mainCategory: "sym-jet", 
-                brand: "KOSO", 
-                dateAdded: "2024-06-19",
-                shortDescription: "KOSO's air scoop, providing better airflow and improved performance",
-                fullDescription: "<p>KOSO's air scoop is designed to provide better airflow and improved performance. It's easy to install and looks great.</p>",
-                specifications: { "Compatible Models": "SYM JET Series", "Material": "High-Quality Plastic", "Function": "Airflow Improvement" }
-            },
-            "koso-dragon-turn-signal": { 
-                id: "koso-dragon-turn-signal", 
-                name: "KOSO Dragon Turn Signal", 
-                price: 6500, 
-                image: "images/parts/placeholder-product.png", 
-                category: "sym-jet-appearance", 
-                mainCategory: "sym-jet", 
-                brand: "KOSO", 
-                dateAdded: "2024-06-18",
-                shortDescription: "KOSO's dragon turn signal, providing better visibility",
-                fullDescription: "<p>KOSO's dragon turn signal is designed to provide better visibility. It's easy to install and looks great.</p>",
-                specifications: { "Compatible Models": "SYM JET Series", "Material": "High-Quality Plastic", "Function": "Visibility Improvement" }
-            },
-            "skuny-headlight-armor": { 
-                id: "skuny-headlight-armor", 
-                name: "SKUNY Headlight Armor", 
-                price: 990, 
-                image: "images/parts/placeholder-product.png", 
-                category: "sym-jet-appearance", 
-                mainCategory: "sym-jet", 
-                brand: "SKUNY", 
-                dateAdded: "2024-06-17",
-                shortDescription: "SKUNY's headlight armor, providing better protection",
-                fullDescription: "<p>SKUNY's headlight armor is designed to provide better protection. It's easy to install and looks great.</p>",
-                specifications: { "Compatible Models": "SYM JET Series", "Material": "High-Quality Plastic", "Function": "Protection" }
+                brand: "SIMOTA", 
+                dateAdded: "2024-04-15",
+                shortDescription: "SIMOTA碳纖維後照鏡，輕量化設計提升視覺質感",
+                fullDescription: "<p>SIMOTA碳纖維後照鏡採用真碳纖維材質，不僅重量輕，更具備優異的視覺效果。符合法規標準，提供清晰的後方視野。</p>",
+                specifications: { "適用車型": "SYM JET/DRG系列", "材質": "真碳纖維", "重量": "200g/對", "認證": "DOT認證" }
             },
             "masa-floating-disc": { 
                 id: "masa-floating-disc", 
-                name: "MASA Floating Disc", 
+                name: "MASA浮動碟盤", 
                 price: 2888, 
-                image: "images/parts/placeholder-product.png", 
-                category: "sym-jet-brake", 
+                image: "images/parts/FAR黑金碟盤.webp", 
+                images: [
+                    "images/parts/FAR黑金碟盤.webp",
+                    "images/parts/FAR黑金碟盤2.webp"
+                ],
+                category: "brakes", 
                 mainCategory: "sym-jet", 
                 brand: "MASA", 
-                dateAdded: "2024-06-16",
-                shortDescription: "MASA's floating disc, providing better performance",
-                fullDescription: "<p>MASA's floating disc is designed to provide better performance. It's easy to install and looks great.</p>",
-                specifications: { "Compatible Models": "SYM JET Series", "Material": "High-Quality Steel", "Function": "Performance Improvement" }
+                dateAdded: "2024-03-10",
+                shortDescription: "MASA浮動碟盤，提升制動效能和散熱性能",
+                fullDescription: "<p>MASA浮動碟盤採用浮動式設計，能有效減少熱變形，提升制動穩定性。高品質鋼材製造，耐用性佳。</p>",
+                specifications: { "適用車型": "SYM JET系列", "材質": "高碳鋼", "直徑": "260mm", "厚度": "4mm" }
             },
-            "ghost-factory-radiator-cover": { 
-                id: "ghost-factory-radiator-cover", 
-                name: "Ghost Factory Radiator Cover", 
-                price: 1380, 
-                image: "images/parts/placeholder-product.png", 
-                category: "sym-jet-appearance", 
-                mainCategory: "sym-jet", 
-                brand: "Ghost Factory", 
-                dateAdded: "2024-06-15",
-                shortDescription: "Ghost Factory's radiator cover, protecting the radiator from damage",
-                fullDescription: "<p>Ghost Factory's radiator cover is made from high-quality materials, protecting the radiator from damage. It's easy to install and looks great.</p>",
-                specifications: { "Compatible Models": "SYM JET Series", "Material": "High-Quality Plastic", "Function": "Protection" }
-            },
-            "ld2-taillight": { 
-                id: "ld2-taillight", 
-                name: "LD2 Tail Light", 
-                price: 3800, 
-                image: "images/parts/placeholder-product.png", 
-                category: "sym-jet-appearance", 
-                mainCategory: "sym-jet", 
-                brand: "LD2", 
-                dateAdded: "2024-06-14",
-                shortDescription: "LD2's tail light, providing better visibility",
-                fullDescription: "<p>LD2's tail light is made from high-quality materials, providing better visibility. It's easy to install and looks great.</p>",
-                specifications: { "Compatible Models": "SYM JET Series", "Material": "High-Quality Plastic", "Function": "Visibility Improvement" }
-            },
-            "koso-dragon-taillight": { 
-                id: "koso-dragon-taillight", 
-                name: "KOSO Dragon Tail Light", 
-                price: 6500, 
-                image: "images/parts/placeholder-product.png", 
-                category: "sym-jet-appearance", 
+            "koso-chest-cover": { 
+                id: "koso-chest-cover", 
+                name: "KOSO導風胸蓋", 
+                price: 1600, 
+                image: "images/parts/KOSO導風胸蓋.webp", 
+                images: [
+                    "images/parts/KOSO導風胸蓋.webp",
+                    "images/parts/KOSO導風胸蓋2.webp",
+                    "images/parts/KOSO導風胸蓋3.webp"
+                ],
+                category: "appearance", 
                 mainCategory: "sym-jet", 
                 brand: "KOSO", 
-                dateAdded: "2024-06-13",
-                shortDescription: "KOSO's dragon tail light, with a unique design, LED?",
-                fullDescription: "<p>KOSO's dragon tail light is designed with a unique design, with LED? It's easy to install and looks great.</p>",
-                specifications: { "Compatible Models": "SYM JET Series", "Material": "High-Quality Plastic", "Function": "Visibility Improvement" }
+                dateAdded: "2024-02-28",
+                shortDescription: "KOSO導風胸蓋，優化氣流並提升外觀質感",
+                fullDescription: "<p>KOSO導風胸蓋設計精良，不僅能優化引擎散熱氣流，更提升整體外觀質感。安裝簡易，品質可靠。</p>",
+                specifications: { "適用車型": "SYM JET系列", "材質": "高品質ABS塑料", "功能": "導風散熱" }
             },
-            "gowork-short-license-bracket": { 
-                id: "gowork-short-license-bracket", 
-                name: "GOWORK License Bracket", 
-                price: 3300, 
-                image: "images/parts/placeholder-product.png", 
-                category: "sym-jet-appearance", 
+            "koso-dragon-turn-signal": { 
+                id: "koso-dragon-turn-signal", 
+                name: "KOSO龍紋序列式方向燈", 
+                price: 6500, 
+                image: "images/parts/KOSO龍紋序列式方向燈.webp", 
+                images: [
+                    "images/parts/KOSO龍紋序列式方向燈.webp",
+                    "images/parts/KOSO龍紋序列式方向燈2.webp",
+                    "images/parts/KOSO龍紋序列式方向燈3.webp"
+                ],
+                category: "electronics", 
                 mainCategory: "sym-jet", 
-                brand: "GOWORK", 
-                dateAdded: "2024-06-12",
-                shortDescription: "GOWORK's license bracket, providing better organization",
-                fullDescription: "<p>GOWORK's license bracket is designed to provide better organization. It's easy to install and looks great.</p>",
-                specifications: { "Compatible Models": "SYM JET Series", "Material": "High-Quality Plastic", "Function": "Organization" }
+                brand: "KOSO", 
+                dateAdded: "2024-06-18",
+                shortDescription: "KOSO龍紋序列式方向燈，時尚LED設計提升安全性",
+                fullDescription: "<p>KOSO龍紋序列式方向燈採用LED序列式設計，不僅外觀時尚，更能提升夜間騎乘安全性。通過車安認證。</p><p><strong>特色功能：</strong><br>• 序列式LED動畫<br>• 龍紋圖案設計<br>• 提升能見度<br>• 簡易安裝<br>• 高品質材料</p>",
+                specifications: { 
+                    "適用車型": "SYM JET系列、YAMAHA FORCE系列", 
+                    "燈源": "LED",
+                    "功率": "12V",
+                    "認證": "車安認證"
+                }
             },
-            "jstc-license-relocator": { 
-                id: "jstc-license-relocator", 
-                name: "JSTC License Relocator", 
-                price: 2480, 
-                image: "images/parts/placeholder-product.png", 
-                category: "sym-jet-appearance", 
+            "skuny-headlight-armor": { 
+                id: "skuny-headlight-armor", 
+                name: "SKUNY大燈護甲", 
+                price: 990, 
+                image: "images/parts/REYS水箱護罩.webp", 
+                images: [
+                    "images/parts/REYS水箱護罩.webp",
+                    "images/parts/REYS水箱護罩2.webp",
+                    "images/parts/REYS水箱護罩3.webp"
+                ],
+                category: "appearance", 
                 mainCategory: "sym-jet", 
-                brand: "JSTC", 
-                dateAdded: "2024-06-11",
-                shortDescription: "JSTC's license relocator, providing better organization",
-                fullDescription: "<p>JSTC's license relocator is designed to provide better organization. It's easy to install and looks great.</p>",
-                specifications: { "Compatible Models": "SYM JET Series", "Material": "High-Quality Plastic", "Function": "Organization" }
+                brand: "SKUNY", 
+                dateAdded: "2024-06-17",
+                shortDescription: "SKUNY大燈護甲，保護大燈免受損傷",
+                fullDescription: "<p>SKUNY大燈護甲採用高韌性材料製造，能有效保護大燈免受碎石撞擊。透明設計不影響照明效果。</p>",
+                specifications: { "適用車型": "SYM JET系列", "材質": "高韌性聚碳酸酯", "透光率": "95%以上" }
             },
-            "jstc-flame-inner-fender": { 
-                id: "jstc-flame-inner-fender", 
-                name: "JSTC Flame Inner Fender", 
-                price: 4200, 
-                image: "images/parts/placeholder-product.png", 
-                category: "sym-jet-appearance", 
+            "apexx-gt-heat-shield": { 
+                id: "apexx-gt-heat-shield", 
+                name: "APEXX GT防燙蓋", 
+                price: 980, 
+                image: "images/parts/APEXX媚眼.webp", 
+                images: [
+                    "images/parts/APEXX媚眼.webp",
+                    "images/parts/APEXX媚眼2.webp",
+                    "images/parts/APEXX媚眼3.webp"
+                ],
+                category: "exhaust", 
                 mainCategory: "sym-jet", 
-                brand: "JSTC", 
+                brand: "APEXX", 
+                dateAdded: "2024-01-20",
+                shortDescription: "APEXX GT系列排氣防燙蓋，有效降低燙傷風險",
+                fullDescription: "<p>APEXX GT系列防燙蓋採用耐高溫材料製造，有效降低排氣管燙傷風險。造型美觀，安裝簡易。</p>",
+                specifications: { "適用車型": "SYM JET系列", "材質": "耐高溫塑料", "耐溫": "200°C" }
+            },
+            // YAMAHA BWS系列
+            "bws-power-kit": { 
+                id: "bws-power-kit", 
+                name: "BWS動力系統升級套件", 
+                price: 15800, 
+                image: "images/parts/ARACER SPORTD.webp", 
+                images: [
+                    "images/parts/ARACER SPORTD.webp",
+                    "images/parts/ARACER SPORTD2.webp",
+                    "images/parts/ARACER SPORTD3.webp",
+                    "images/parts/ARACER SPORTD4.webp"
+                ],
+                category: "engine", 
+                mainCategory: "yamaha-bws", 
+                brand: "ARACER", 
+                dateAdded: "2024-06-01",
+                shortDescription: "BWS專用動力升級套件，提升馬力和扭力輸出",
+                fullDescription: "<p>ARACER為BWS系列開發的專用動力套件，包含ECU調校、進氣系統優化等，能有效提升15-20%動力輸出。</p>",
+                specifications: { 
+                    "適用車型": "YAMAHA BWS系列", 
+                    "馬力提升": "15-20%", 
+                    "扭力提升": "10-15%", 
+                    "保固": "六個月" 
+                }
+            },
+            // KYMCO系列
+            "racing-thunder-power-kit": { 
+                id: "racing-thunder-power-kit", 
+                name: "雷霆動力系統升級", 
+                price: 16500, 
+                image: "images/parts/ARACER SPORTD.webp", 
+                images: [
+                    "images/parts/ARACER SPORTD.webp",
+                    "images/parts/ARACER SPORTD2.webp",
+                    "images/parts/ARACER SPORTD3.webp",
+                    "images/parts/ARACER SPORTD4.webp"
+                ],
+                category: "engine", 
+                mainCategory: "kymco-racing", 
+                brand: "ARACER", 
+                dateAdded: "2024-04-20",
+                shortDescription: "雷霆專用動力升級，釋放引擎潛能",
+                fullDescription: "<p>ARACER專為雷霆系列開發的動力升級套件，透過ECU重新調校和進氣系統優化，大幅提升動力表現。</p>",
+                specifications: { 
+                    "適用車型": "KYMCO雷霆125/150", 
+                    "馬力提升": "18-25%", 
+                    "扭力提升": "12-18%", 
+                    "油耗改善": "5-8%" 
+                }
+            },
+            // KYMCO KRV系列
+            "krv-power-upgrade": { 
+                id: "krv-power-upgrade", 
+                name: "KRV動力升級套件", 
+                price: 17200, 
+                image: "images/parts/ARACER SPORTD.webp", 
+                images: [
+                    "images/parts/ARACER SPORTD.webp",
+                    "images/parts/ARACER SPORTD2.webp",
+                    "images/parts/ARACER SPORTD3.webp",
+                    "images/parts/ARACER SPORTD4.webp"
+                ],
+                category: "engine", 
+                mainCategory: "kymco-krv", 
+                brand: "ARACER", 
+                dateAdded: "2024-06-15",
+                shortDescription: "KRV專用動力升級套件，提升整體性能表現",
+                fullDescription: "<p>ARACER為KRV系列開發的專用動力套件，透過ECU調校和進氣系統優化，顯著提升動力輸出。</p>",
+                specifications: { 
+                    "適用車型": "KYMCO KRV 180", 
+                    "馬力提升": "20-25%", 
+                    "扭力提升": "15-20%", 
+                    "保固": "六個月" 
+                }
+            },
+            // SYM 黑曼巴MMBCU系列
+            "mmbcu-suspension-kit": { 
+                id: "mmbcu-suspension-kit", 
+                name: "黑曼巴避震升級套件", 
+                price: 22800, 
+                image: "images/parts/野蠻公牛ARX經典版預載可調前叉.webp", 
+                images: [
+                    "images/parts/野蠻公牛ARX經典版預載可調前叉.webp",
+                    "images/parts/野蠻公牛ARX經典版預載可調前叉2.webp",
+                    "images/parts/野蠻公牛ARX經典版預載可調前叉3.webp",
+                    "images/parts/野蠻公牛ARX經典版預載可調前叉4.webp",
+                    "images/parts/野蠻公牛ARX經典版預載可調前叉5.webp"
+                ],
+                category: "suspension", 
+                mainCategory: "sym-mmbcu", 
+                brand: "怪獸工廠", 
                 dateAdded: "2024-06-10",
-                shortDescription: "JSTC's flame inner fender, providing better protection",
-                fullDescription: "<p>JSTC's flame inner fender is designed to provide better protection. It's easy to install and looks great.</p>",
-                specifications: { "Compatible Models": "SYM JET Series", "Material": "High-Quality Plastic", "Function": "Protection" }
+                shortDescription: "黑曼巴專用避震套件，極致操控體驗",
+                fullDescription: "<p>怪獸工廠為黑曼巴MMBCU量身打造的高性能避震套件，提供賽道級的操控表現。</p>",
+                specifications: { 
+                    "適用車型": "SYM 黑曼巴MMBCU 125", 
+                    "材質": "航太級鋁合金", 
+                    "調整功能": "預載/阻尼可調" 
+                }
             },
-            "limit-fuel-cap": { 
-                id: "limit-fuel-cap", 
-                name: "LIMIT Fuel Cap", 
-                price: 700, 
-                image: "images/parts/placeholder-product.png", 
-                category: "sym-jet-appearance", 
-                mainCategory: "sym-jet", 
-                brand: "LIMIT", 
-                dateAdded: "2024-06-09",
-                shortDescription: "LIMIT's fuel cap, providing better convenience",
-                fullDescription: "<p>LIMIT's fuel cap is designed to provide better convenience. It's easy to install and looks great.</p>",
-                specifications: { "Compatible Models": "SYM JET Series", "Material": "High-Quality Plastic", "Function": "Convenience" }
+            // YAMAHA 勁戰系列
+            "cygnus-exhaust-system": { 
+                id: "cygnus-exhaust-system", 
+                name: "勁戰競技排氣管", 
+                price: 8800, 
+                image: "images/parts/牛王SVR排氣管.webp", 
+                images: [
+                    "images/parts/牛王SVR排氣管.webp",
+                    "images/parts/牛王SVR排氣管2.webp",
+                    "images/parts/牛王SVR排氣管3.webp"
+                ],
+                category: "exhaust", 
+                mainCategory: "yamaha-cygnus", 
+                brand: "SKUNY", 
+                dateAdded: "2024-05-20",
+                shortDescription: "勁戰專用競技排氣管，提升動力與音效",
+                fullDescription: "<p>SKUNY為勁戰系列設計的競技排氣管，不僅提升動力輸出，更帶來迷人的排氣音效。</p>",
+                specifications: { 
+                    "適用車型": "YAMAHA 勁戰125/150", 
+                    "材質": "不鏽鋼", 
+                    "重量": "2.8kg", 
+                    "音量": "95dB" 
+                }
             },
-            "monster-factory-zr-shock": { 
-                id: "monster-factory-zr-shock", 
-                name: "Monster Factory ZR Rear Shock", 
-                price: 12800, 
-                image: "images/parts/placeholder-product.png", 
-                category: "sym-jet-suspension", 
-                mainCategory: "sym-jet", 
-                brand: "Monster Factory", 
-                dateAdded: "2024-06-08",
-                shortDescription: "Monster Factory's ZR rear shock, fully adjustable, providing superior control and comfort",
-                fullDescription: "<p>Monster Factory's ZR rear shock is fully adjustable, providing superior control and comfort. It's suitable for both racing and mountain road riding.</p>",
-                specifications: { "Compatible Models": "SYM JET Series", "Material": "Aerospace Grade Aluminum", "Warranty": "One Year Factory Warranty" }
-            },
-            "ajmb-aero-kit": { 
-                id: "ajmb-aero-kit", 
-                name: "AJMB Aero Kit", 
-                price: 4200, 
-                image: "images/parts/placeholder-product.png", 
-                category: "sym-jet-appearance", 
-                mainCategory: "sym-jet", 
-                brand: "AJMB", 
-                dateAdded: "2024-06-07",
-                shortDescription: "AJMB's aero kit, providing better airflow and improved performance",
-                fullDescription: "<p>AJMB's aero kit is designed to provide better airflow and improved performance. It's easy to install and looks great.</p>",
-                specifications: { "Compatible Models": "SYM JET Series", "Material": "High-Quality Plastic", "Function": "Airflow Improvement" }
-            },
-            "reys-coolant-cap": { 
-                id: "reys-coolant-cap", 
-                name: "REYS Coolant Cap", 
-                price: 580, 
-                image: "images/parts/placeholder-product.png", 
-                category: "sym-jet-appearance", 
-                mainCategory: "sym-jet", 
-                brand: "REYS", 
-                dateAdded: "2024-06-06",
-                shortDescription: "REYS's coolant cap, providing better convenience",
-                fullDescription: "<p>REYS's coolant cap is designed to provide better convenience. It's easy to install and looks great.</p>",
-                specifications: { "Compatible Models": "SYM JET Series", "Material": "High-Quality Plastic", "Function": "Convenience" }
+            // AUGUR系列
+            "augur-brake-upgrade": { 
+                id: "augur-brake-upgrade", 
+                name: "AUGUR煞車升級套件", 
+                price: 12500, 
+                image: "images/parts/ANC72大對四卡鉗.webp", 
+                images: [
+                    "images/parts/ANC72大對四卡鉗.webp",
+                    "images/parts/ANC72大對四卡鉗2.webp",
+                    "images/parts/ANC72大對四卡鉗3.webp"
+                ],
+                category: "brakes", 
+                mainCategory: "augur", 
+                brand: "MASA", 
+                dateAdded: "2024-04-25",
+                shortDescription: "AUGUR專用煞車升級套件，極致制動性能",
+                fullDescription: "<p>MASA為AUGUR系列開發的專業煞車套件，提供卓越的制動力和散熱效果。</p>",
+                specifications: { 
+                    "適用車型": "AUGUR系列", 
+                    "材質": "高碳鋼碟盤", 
+                    "來令片": "高性能複合材料" 
+                }
             }
+        };
+
+        // Category display names
+        const categoryDisplayNames = {
+            "sym-jet": "SYM JET Series",
+            "yamaha-bws": "YAMAHA BWS Series", 
+            "yamaha-cygnus": "YAMAHA 勁戰系列",
+            "kymco-racing": "KYMCO雷霆系列",
+            "kymco-krv": "KYMCO KRV系列",
+            "sym-mmbcu": "SYM 黑曼巴MMBCU系列",
+            "augur": "AUGUR系列",
+            "suspension": "避震懸吊系統",
+            "exhaust": "排氣系統", 
+            "appearance": "外觀改裝",
+            "electronics": "電子設備",
+            "brakes": "煞車制動系統",
+            "engine": "引擎動力系統"
         };
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -1714,9 +1057,15 @@
                 
                 // 更新產品資訊
                 updateProductDisplay(product);
+                
+                // 初始化圖片畫廊
+                initImageGallery(product);
+                
+                // 初始化圖片縮放功能
+                initImageZoom();
             } else {
                 // 顯示未找到產品
-                document.title = "產品未找到 - MotoWeb";
+                document.title = "Product Not Found - MotoWeb";
                 productDetailContent.style.display = 'none';
                 productAdditionalContent.style.display = 'none';
                 productNotFoundDiv.style.display = 'block';
@@ -1726,7 +1075,7 @@
                     breadcrumbContainer.innerHTML = [
                         '<li><a href="index.html">Home</a></li>',
                         '<li><a href="products.html">Products</a></li>',
-                        '<li>產品未找到</li>'
+                        '<li>Product Not Found</li>'
                     ].join('');
                 }
             }
@@ -1737,20 +1086,20 @@
         });
         
         function updateProductDisplay(product) {
-            // 更新產品圖片
+            // Update product image
             const productImage = document.getElementById('product-image');
             if (productImage) {
                 productImage.src = product.image || 'images/parts/placeholder-product.png';
                 productImage.alt = product.name;
             }
             
-            // 更新產品名稱
+            // Update product name
             const productName = document.getElementById('product-name');
             if (productName) {
                 productName.textContent = product.name;
             }
             
-            // 更新品牌資訊
+            // Update brand information
             const productBrand = document.getElementById('product-brand');
             const productBrandLink = document.getElementById('product-brand-link');
             if (productBrand) {
@@ -1760,24 +1109,24 @@
                 productBrandLink.href = `products.html?brand=${encodeURIComponent(product.brand)}`;
             }
             
-            // 更新價格
+            // Update price
             const productPrice = document.getElementById('product-price');
             if (productPrice) {
                 productPrice.textContent = `NT$${product.price.toLocaleString()}`;
             }
             
-            // 更新描述
+            // Update descriptions
             const shortDesc = document.getElementById('product-short-description');
             if (shortDesc) {
-                shortDesc.innerHTML = product.shortDescription || '<p>此產品暫無簡介</p>';
+                shortDesc.innerHTML = product.shortDescription || '<p>No product description available</p>';
             }
             
             const fullDesc = document.getElementById('product-full-description');
             if (fullDesc) {
-                fullDesc.innerHTML = product.fullDescription || '<p>此產品暫無詳細說明</p>';
+                fullDesc.innerHTML = product.fullDescription || '<p>No detailed description available</p>';
             }
             
-            // 更新規格
+            // Update specifications
             const specs = document.getElementById('product-specifications');
             if (specs) {
                 const specsList = specs.querySelector('ul');
@@ -1788,16 +1137,26 @@
                 }
             }
             
-            // 設置購物車按鈕
+            // Setup shopping cart button
             const addToCartBtn = document.getElementById('add-to-cart-btn');
             if (addToCartBtn) {
                 addToCartBtn.onclick = function() {
                     const quantity = document.getElementById('quantity').value;
-                    alert(`已將 ${quantity} 個"${product.name}" 加入購物車（模擬功能）`);
+                    
+                    // Add visual feedback
+                    addToCartBtn.innerHTML = '<i class="fas fa-check"></i> Added!';
+                    addToCartBtn.style.background = 'linear-gradient(45deg, var(--success-color), var(--success-color))';
+                    
+                    setTimeout(() => {
+                        addToCartBtn.innerHTML = '<i class="fas fa-shopping-cart"></i> Add to Cart';
+                        addToCartBtn.style.background = 'linear-gradient(45deg, var(--primary-color), var(--accent-color))';
+                    }, 2000);
+                    
+                    alert(`Added ${quantity} x "${product.name}" to cart successfully!`);
                 };
             }
             
-            // 更新麵包屑
+            // Update breadcrumbs
             const breadcrumbContainer = document.getElementById('breadcrumb-container');
             if (breadcrumbContainer) {
                 const breadcrumbs = ['<li><a href="index.html">Home</a></li>'];
@@ -1813,6 +1172,54 @@
                 
                 breadcrumbs.push(`<li>${product.name}</li>`);
                 breadcrumbContainer.innerHTML = breadcrumbs.join('');
+            }
+        }
+
+        function initImageGallery(product) {
+            const gallery = document.getElementById('image-gallery');
+            const mainImage = document.getElementById('product-image');
+            
+            if (product.images && product.images.length > 1 && gallery) {
+                gallery.innerHTML = '';
+                product.images.forEach((imageSrc, index) => {
+                    const thumb = document.createElement('img');
+                    thumb.src = imageSrc;
+                    thumb.alt = `${product.name} - Image ${index + 1}`;
+                    thumb.className = 'gallery-thumb' + (index === 0 ? ' active' : '');
+                    thumb.onclick = () => {
+                        mainImage.src = imageSrc;
+                        document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
+                        thumb.classList.add('active');
+                    };
+                    gallery.appendChild(thumb);
+                });
+            }
+        }
+
+        function initImageZoom() {
+            const mainImage = document.getElementById('product-image');
+            const zoomOverlay = document.getElementById('zoom-overlay');
+            const zoomImage = document.getElementById('zoom-image');
+            const zoomClose = document.getElementById('zoom-close');
+            
+            mainImage.onclick = () => {
+                zoomImage.src = mainImage.src;
+                zoomOverlay.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            };
+            
+            zoomClose.onclick = closeZoom;
+            zoomOverlay.onclick = (e) => {
+                if (e.target === zoomOverlay) closeZoom();
+            };
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeZoom();
+            });
+            
+            function closeZoom() {
+                zoomOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
             }
         }
     </script>

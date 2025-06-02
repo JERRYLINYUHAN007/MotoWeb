@@ -757,25 +757,26 @@ body {
 }
 
 main {
-    min-height: calc(100vh - 80px);
+    margin-top: 60px;
+    min-height: 100vh;
 }
 
 /* 針對沒有main-container的頁面，確保正確的上邊距 */
 body > main:not(.main-container) {
-    margin-top: 80px;
+    margin-top: 60px;
 }
 
 /* 針對有main-container的頁面，避免重複的上邊距 */
 .main-container {
-    margin-top: 80px;
+    margin-top: 60px;
     min-height: 100vh;
 }
 
 /* 確保所有容器的一致性 */
 .container {
-    max-width: 1400px;
+    max-width: 1050px;
     margin: 0 auto;
-    padding: 0 5%;
+    padding: 0 3.75%;
 }
 
 /* 統一的文字樣式 */
@@ -785,9 +786,17 @@ h1, h2, h3, h4, h5, h6 {
     line-height: 1.2;
 }
 
+h1 { font-size: 2.25rem; }
+h2 { font-size: 1.88rem; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.13rem; }
+h5 { font-size: 0.94rem; }
+h6 { font-size: 0.75rem; }
+
 p {
     color: var(--metallic-silver);
     line-height: 1.6;
+    font-size: 1rem;
 }
 
 /* 統一的連結樣式 */
@@ -1151,45 +1160,45 @@ pre code {
 /* 響應式改進 */
 @media (max-width: 1200px) {
     .container {
-        padding: 0 3%;
+        padding: 0 2.25%;
     }
 }
 
 @media (max-width: 768px) {
     .container {
-        padding: 0 4%;
+        padding: 0 3%;
     }
     
-    h1 { font-size: 2rem; }
-    h2 { font-size: 1.8rem; }
-    h3 { font-size: 1.5rem; }
-    h4 { font-size: 1.3rem; }
+    h1 { font-size: 1.5rem; }
+    h2 { font-size: 1.35rem; }
+    h3 { font-size: 1.125rem; }
+    h4 { font-size: 0.975rem; }
     
     .btn {
-        padding: 0.8rem 1.5rem;
-        font-size: 0.9rem;
+        padding: 0.6rem 1.125rem;
+        font-size: 0.675rem;
     }
     
     .pagination {
         flex-wrap: wrap;
-        gap: 0.3rem;
+        gap: 0.225rem;
     }
     
     .pagination button,
     .pagination a {
-        padding: 0.6rem 1rem;
-        font-size: 0.9rem;
+        padding: 0.45rem 0.75rem;
+        font-size: 0.675rem;
     }
 }
 
 @media (max-width: 480px) {
     .container {
-        padding: 0 5%;
+        padding: 0 3.75%;
     }
     
-    h1 { font-size: 1.8rem; }
-    h2 { font-size: 1.5rem; }
-    h3 { font-size: 1.3rem; }
+    h1 { font-size: 1.35rem; }
+    h2 { font-size: 1.125rem; }
+    h3 { font-size: 0.975rem; }
     
     .btn {
         width: 100%;
@@ -1197,8 +1206,8 @@ pre code {
     }
     
     .tag, .badge {
-        font-size: 0.7rem;
-        padding: 0.3rem 0.6rem;
+        font-size: 0.525rem;
+        padding: 0.225rem 0.45rem;
     }
 }
 

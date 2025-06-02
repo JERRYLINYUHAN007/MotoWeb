@@ -3,27 +3,27 @@
 
 /* Global Variables */
 :root {
-  /* Typography */
+  /* Typography - 調整為75%大小 */
   --font-primary: 'Noto Sans TC', sans-serif;
-  --font-size-base: 16px;
+  --font-size-base: 12px; /* 從16px調整為12px (75%) */
   --line-height-base: 1.5;
   
-  /* Spacing */
-  --spacing-xs: 0.25rem;
-  --spacing-sm: 0.5rem;
-  --spacing-md: 1rem;
-  --spacing-lg: 1.5rem;
-  --spacing-xl: 2rem;
+  /* Spacing - 調整為75%大小 */
+  --spacing-xs: 0.19rem; /* 0.25 * 0.75 */
+  --spacing-sm: 0.38rem; /* 0.5 * 0.75 */
+  --spacing-md: 0.75rem; /* 1 * 0.75 */
+  --spacing-lg: 1.13rem; /* 1.5 * 0.75 */
+  --spacing-xl: 1.5rem;  /* 2 * 0.75 */
   
   /* Border */
-  --border-radius-sm: 4px;
-  --border-radius-md: 8px;
-  --border-radius-lg: 12px;
+  --border-radius-sm: 3px; /* 4px * 0.75 */
+  --border-radius-md: 6px; /* 8px * 0.75 */
+  --border-radius-lg: 9px; /* 12px * 0.75 */
   
   /* Shadow */
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-sm: 0 1.5px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 3px 4.5px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 7.5px 11.25px rgba(0, 0, 0, 0.1);
 
   /* 功能性顏色 (保留，但使用我們的主要顏色) */
   --success-color: #2ecc71;
@@ -52,22 +52,31 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  font-size: 1.2rem; /* 增加基礎字體大小以補償 */
 }
 
 /* Global Styles - 確保內容不被固定導航欄遮擋 */
 main {
-  margin-top: 80px;
+  margin-top: 60px; /* 從80px調整為60px (75%) */
 }
 
-/* Typography */
+/* Typography - 調整標題大小 */
 h1, h2, h3, h4, h5, h6 {
   margin-bottom: var(--spacing-md);
   font-weight: 700;
   line-height: 1.2;
 }
 
+h1 { font-size: 2.25rem; } /* 3rem * 0.75 */
+h2 { font-size: 1.88rem; } /* 2.5rem * 0.75 */
+h3 { font-size: 1.5rem; }  /* 2rem * 0.75 */
+h4 { font-size: 1.13rem; } /* 1.5rem * 0.75 */
+h5 { font-size: 0.94rem; } /* 1.25rem * 0.75 */
+h6 { font-size: 0.75rem; } /* 1rem * 0.75 */
+
 p {
   margin-bottom: var(--spacing-md);
+  font-size: 1rem; /* 標準段落字體 */
 }
 
 /* Links */
@@ -81,20 +90,20 @@ a:hover {
   color: var(--link-hover-color);
 }
 
-/* Buttons */
+/* Buttons - 調整按鈕大小 */
 .btn {
   display: inline-block;
-  padding: 1rem 2rem;
-  border-radius: 30px;
+  padding: 0.75rem 1.5rem; /* 從1rem 2rem調整 */
+  border-radius: 23px; /* 從30px調整 */
   font-weight: 600;
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
   border: 2px solid transparent;
   text-decoration: none;
-  font-size: 1rem;
+  font-size: 0.9rem; /* 從1rem調整 */
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.38px; /* 從0.5px調整 */
   position: relative;
   overflow: hidden;
 }
@@ -199,7 +208,7 @@ a:hover {
 /* Utilities */
 .container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 900px; /* 從1200px調整為900px (75%) */
   margin: 0 auto;
   padding: 0 var(--spacing-md);
 }
@@ -243,12 +252,12 @@ a:hover {
   }
 }
 
-/* Navigation */
+/* Navigation - 調整導航欄高度 */
 .navbar {
   background: var(--navbar-bg);
   backdrop-filter: blur(20px);
   box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.8),
+    0 6px 24px rgba(0, 0, 0, 0.8), /* 從8px 32px調整 */
     0 1px 0 rgba(0, 212, 255, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
   position: fixed;
@@ -256,7 +265,7 @@ a:hover {
   left: 0;
   right: 0;
   z-index: 1000;
-  height: 80px;
+  height: 60px; /* 從80px調整為60px (75%) */
   border-bottom: 2px solid var(--primary-color);
   display: flex;
   align-items: center;
@@ -275,7 +284,7 @@ a:hover {
 }
 
 .logo-img {
-  height: 40px;
+  height: 30px; /* 從40px調整為30px (75%) */
   width: auto;
 }
 
@@ -289,10 +298,11 @@ a:hover {
 .nav-links a:not(.btn) {
   color: white;
   font-weight: 500;
-  padding: 0.5rem 1rem;
+  padding: 0.38rem 0.75rem; /* 從0.5rem 1rem調整 */
   text-decoration: none;
   transition: all 0.3s ease;
   position: relative;
+  font-size: 0.9rem; /* 調整字體大小 */
 }
 
 .nav-links a:not(.btn):hover,
