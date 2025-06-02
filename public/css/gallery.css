@@ -190,14 +190,6 @@
     transform: translateY(-3px);
 }
 
-/* 主要頁面樣式 */
-.gallery-page {
-    background: var(--secondary-color) !important;
-    min-height: 100vh !important;
-    display: flex !important;
-    flex-direction: column !important;
-}
-
 /* 主內容容器 */
 .main-container {
     flex: 1 !important;
@@ -2034,29 +2026,4 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-}
-
-/* 確保頁腳正確顯示在畫廊頁面 */
-.gallery-page .footer {
-    margin-top: auto !important;
-    position: relative !important;
-    width: 100% !important;
-    clear: both !important;
-    display: block !important;
-}
-
-/* 返回頂部按鈕 */
-.gallery-page .back-to-top {
-    position: fixed !important;
-    bottom: 2rem !important;
-    right: 2rem !important;
-    z-index: 1000 !important;
-}
-
-/* 響應式設計 */
-@media (max-width: 768px) {
-    .gallery-page .back-to-top {
-        bottom: 1rem !important;
-        right: 1rem !important;
-    }
 }
