@@ -2043,13 +2043,6 @@
     position: relative !important;
     z-index: 100 !important;
     width: 100% !important;
-    background: var(--footer-bg) !important;
-    color: var(--footer-text) !important;
-    padding: var(--spacing-xl) 0 !important;
-    border-top: 2px solid var(--primary-color) !important;
-    box-shadow: 
-        0 -8px 32px rgba(0, 0, 0, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
     clear: both !important;
     display: block !important;
 }
