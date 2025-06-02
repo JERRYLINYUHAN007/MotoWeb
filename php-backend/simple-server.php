@@ -21,7 +21,8 @@ function logRequest($data) {
         'timestamp' => date('Y-m-d H:i:s'),
         'data' => $data
     ];
-    file_put_contents('request_log.json', json_encode($log_entry, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) . "\n", FILE_APPEND | LOCK_EX);
+    // 改為 JSONL 格式：每行一個完整的 JSON 物件
+    file_put_contents('request_log.jsonl', json_encode($log_entry, JSON_UNESCAPED_UNICODE) . "\n", FILE_APPEND | LOCK_EX);
 }
 
 // 處理 CORS 預檢請求
@@ -71,18 +72,15 @@ if ($path === '/api/php/status' && $request_method === 'GET') {
     
 } elseif ($path === '/api/php/logs' && $request_method === 'GET') {
     // 新增：查看處理日誌
-    if (file_exists('request_log.json')) {
-        $logs = file_get_contents('request_log.json');
-        $log_entries = array_filter(explode("\n", $logs));
-        $parsed_logs = array_map(function($entry) {
-            return json_decode($entry, true);
-        }, array_slice($log_entries, -10)); // 顯示最近 10 筆
+    if (file_exists('request_log.jsonl')) {
+        $logs = file('request_log.jsonl', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        $parsed_logs = array_map('json_decode', array_slice($logs, -10)); // 顯示最近 10 筆
         
         echo json_encode([
             'status' => 'success',
             'message' => 'Recent request logs',
-            'count' => count($log_entries),
-            'recent_logs' => array_filter($parsed_logs)
+            'count' => count($logs),
+            'recent_logs' => $parsed_logs
         ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     } else {
         echo json_encode(['status' => 'error', 'message' => 'No logs found']);
