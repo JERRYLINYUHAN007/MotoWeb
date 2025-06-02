@@ -966,3 +966,668 @@
 }
 
 /* 使用統一的搜尋欄樣式 - 移除重複定義 */
+
+/* 模態框基礎樣式 */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 10000;
+    backdrop-filter: blur(8px);
+    animation: modalFadeIn 0.3s ease-out;
+}
+
+.modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
+    border-radius: 20px;
+    max-width: 90%;
+    max-height: 90%;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.5),
+        0 0 40px rgba(0, 212, 255, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border: 2px solid var(--primary-color);
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: var(--metallic-silver);
+    font-size: 1.5rem;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+
+.modal-close:hover {
+    background: var(--danger-color);
+    color: white;
+    transform: scale(1.1);
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* 活動詳情模態框 */
+.event-modal-content {
+    max-width: 1200px;
+    width: 95%;
+    padding: 0;
+}
+
+.event-details {
+    color: white;
+}
+
+.event-header {
+    position: relative;
+    overflow: hidden;
+}
+
+.event-banner {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 20px 20px 0 0;
+}
+
+.event-badges {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.event-badge-large {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.event-badge-large.workshop { background: linear-gradient(45deg, #6366f1, #8b5cf6); }
+.event-badge-large.meetup { background: linear-gradient(45deg, #06b6d4, #0ea5e9); }
+.event-badge-large.competition { background: linear-gradient(45deg, #f59e0b, #f97316); }
+.event-badge-large.seminar { background: linear-gradient(45deg, #10b981, #059669); }
+.event-badge-large.exhibition { background: linear-gradient(45deg, #ec4899, #be185d); }
+
+.event-body {
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+}
+
+.event-main {
+    min-width: 0;
+}
+
+.event-title {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(45deg, white, var(--primary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.event-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: var(--dark-surface);
+    border-radius: 15px;
+    border: 1px solid var(--carbon-gray);
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.meta-item i {
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    width: 20px;
+    flex-shrink: 0;
+}
+
+.meta-label {
+    font-size: 0.9rem;
+    color: var(--metallic-silver);
+    display: block;
+}
+
+.meta-value {
+    font-weight: 600;
+    color: white;
+    font-size: 1rem;
+}
+
+.event-tabs {
+    display: flex;
+    border-bottom: 2px solid var(--carbon-gray);
+    margin-bottom: 2rem;
+    overflow-x: auto;
+}
+
+.event-tab {
+    padding: 1rem 1.5rem;
+    background: none;
+    border: none;
+    color: var(--metallic-silver);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    font-weight: 500;
+    position: relative;
+}
+
+.event-tab:hover {
+    color: var(--primary-color);
+}
+
+.event-tab.active {
+    color: var(--primary-color);
+}
+
+.event-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--primary-color);
+}
+
+.event-tab-content {
+    display: none;
+    line-height: 1.8;
+}
+
+.event-tab-content.active {
+    display: block;
+}
+
+.event-description {
+    font-size: 1.1rem;
+    color: var(--metallic-silver);
+    margin-bottom: 2rem;
+}
+
+.event-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--carbon-gray);
+}
+
+.event-sidebar {
+    min-width: 0;
+}
+
+.registration-card,
+.organizer-card {
+    background: var(--dark-surface);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border: 1px solid var(--carbon-gray);
+}
+
+.registration-card h3,
+.organizer-card h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.registration-status {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.registration-status.open {
+    background: var(--success-color);
+    color: white;
+}
+
+.registration-status.closing {
+    background: var(--warning-color);
+    color: white;
+}
+
+.registration-status.closed {
+    background: var(--danger-color);
+    color: white;
+}
+
+.price-info {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.price-info.free {
+    color: var(--success-color);
+}
+
+.spots-progress {
+    background: var(--carbon-gray);
+    height: 8px;
+    border-radius: 4px;
+    margin-top: 0.5rem;
+    overflow: hidden;
+}
+
+.spots-bar {
+    height: 100%;
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+    transition: width 0.3s ease;
+}
+
+.organizer-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.organizer-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--carbon-gray);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.organizer-name {
+    font-weight: 600;
+    color: white;
+}
+
+/* 報名模態框 */
+.registration-modal-content {
+    max-width: 600px;
+    width: 95%;
+    padding: 2rem;
+}
+
+.registration-modal-content h2 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    font-size: 2rem;
+}
+
+.registration-modal-content p {
+    color: var(--metallic-silver);
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+/* 創建活動模態框 */
+.create-event-modal-content {
+    max-width: 800px;
+    width: 95%;
+    padding: 2rem;
+}
+
+.create-event-modal-content h2 {
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+    font-size: 2rem;
+}
+
+/* 表單樣式 */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.form-group label {
+    display: block;
+    color: white;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid var(--carbon-gray);
+    border-radius: 10px;
+    background: var(--dark-surface);
+    color: white;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: var(--metallic-silver);
+    opacity: 0.8;
+}
+
+.form-group select option {
+    background: var(--dark-surface);
+    color: white;
+}
+
+.checkbox-label {
+    display: flex !important;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: auto !important;
+    margin-right: 0.5rem;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--carbon-gray);
+}
+
+/* 圖片上傳 */
+.image-upload {
+    border: 2px dashed var(--carbon-gray);
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: var(--dark-surface);
+}
+
+.image-upload:hover,
+.image-upload.drag-over {
+    border-color: var(--primary-color);
+    background: rgba(0, 212, 255, 0.1);
+}
+
+.upload-placeholder {
+    color: var(--metallic-silver);
+}
+
+.upload-placeholder i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+.upload-placeholder p {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+/* 票種選擇 */
+.ticket-option {
+    border: 2px solid var(--carbon-gray);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: var(--dark-surface);
+}
+
+.ticket-option:hover {
+    border-color: var(--primary-color);
+}
+
+.ticket-option.selected {
+    border-color: var(--primary-color);
+    background: rgba(0, 212, 255, 0.1);
+}
+
+.ticket-option.sold-out {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.ticket-option input[type="radio"] {
+    margin-right: 1rem;
+}
+
+/* 成功模態框 */
+.success-modal-content {
+    max-width: 500px;
+    width: 95%;
+    padding: 3rem 2rem;
+    text-align: center;
+}
+
+.success-icon {
+    margin-bottom: 2rem;
+}
+
+.success-icon i {
+    font-size: 4rem;
+    color: var(--success-color);
+    animation: neonGlow 2s ease-in-out infinite;
+}
+
+.success-modal-content h2 {
+    color: var(--success-color);
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
+.success-modal-content p {
+    color: var(--metallic-silver);
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+/* 分頁樣式 */
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+}
+
+.pagination {
+    display: flex;
+    list-style: none;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+}
+
+.page-item {
+    display: flex;
+}
+
+.page-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    color: var(--metallic-silver);
+    background: var(--dark-surface);
+    border: 1px solid var(--carbon-gray);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    min-width: 44px;
+    height: 44px;
+}
+
+.page-link:hover {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    background: rgba(0, 212, 255, 0.1);
+}
+
+.page-item.active .page-link {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.page-item.disabled .page-link {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* 響應式設計 - 模態框 */
+@media (max-width: 1024px) {
+    .event-body {
+        grid-template-columns: 1fr;
+    }
+    
+    .event-sidebar {
+        order: -1;
+    }
+    
+    .registration-card,
+    .organizer-card {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        align-items: start;
+    }
+}
+
+@media (max-width: 768px) {
+    .modal-content {
+        margin: 1rem;
+        max-width: calc(100% - 2rem);
+        max-height: calc(100% - 2rem);
+    }
+    
+    .event-modal-content,
+    .registration-modal-content,
+    .create-event-modal-content {
+        padding: 1.5rem;
+    }
+    
+    .event-title {
+        font-size: 2rem;
+    }
+    
+    .event-meta {
+        grid-template-columns: 1fr;
+    }
+    
+    .event-tabs {
+        overflow-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    
+    .event-tabs::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .event-actions {
+        flex-direction: column;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-actions {
+        flex-direction: column-reverse;
+    }
+    
+    .registration-card,
+    .organizer-card {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .event-banner {
+        height: 200px;
+    }
+    
+    .event-title {
+        font-size: 1.5rem;
+    }
+    
+    .create-event-modal-content h2,
+    .registration-modal-content h2 {
+        font-size: 1.5rem;
+    }
+    
+    .pagination {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
