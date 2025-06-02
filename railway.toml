@@ -1,0 +1,23 @@
+[build]
+cmd = "npm install"
+
+[deploy]
+startCommand = "npm start"
+
+[[services]]
+name = "motoweb-main"
+source = "."
+
+[services.variables]
+NODE_ENV = "production"
+PORT = "${{ PORT }}"
+
+[[services]]
+name = "motoweb-php"
+source = "./php-backend"
+
+[services.build]
+buildCommand = "composer install --no-dev --optimize-autoloader"
+
+[services.deploy]
+startCommand = "php -S 0.0.0.0:$PORT -t public index.php" 

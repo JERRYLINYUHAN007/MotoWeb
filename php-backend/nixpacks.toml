@@ -1,0 +1,11 @@
+[phases.setup]
+nixPkgs = ['php81', 'php81Packages.composer']
+
+[phases.install]
+cmds = ['composer install --no-dev --optimize-autoloader']
+
+[phases.build]
+cmds = ['php artisan config:cache || true', 'php artisan route:cache || true']
+
+[start]
+cmd = 'php -S 0.0.0.0:$PORT index.php' 
