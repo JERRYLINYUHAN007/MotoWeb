@@ -600,4 +600,24 @@ body.login-page {
 
 .login-form.loading .login-submit:hover {
     background-color: var(--secondary-color);
+}
+
+/* 密碼預覽功能修正 */
+input[type="text"]#password,
+input[type="password"]#password {
+    font-family: inherit !important;
+    letter-spacing: normal !important;
+    -webkit-text-security: none !important;
+}
+
+/* 當密碼欄位切換為文字模式時，確保字符正常顯示 */
+input[type="text"]#password {
+    font-family: inherit !important;
+    letter-spacing: 0.5px !important;
+}
+
+/* 隱藏瀏覽器內建的密碼顯示按鈕 */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-webkit-password-toggle-button {
+    display: none !important;
 } 

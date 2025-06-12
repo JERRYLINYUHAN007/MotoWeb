@@ -294,15 +294,17 @@ function initPasswordToggle() {
     if (!togglePasswordButton || !passwordInput) return;
 
     togglePasswordButton.addEventListener('click', function() {
-        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-        passwordInput.setAttribute('type', type);
+        // 使用 getAttribute 和 setAttribute 確保正確切換
+        const currentType = passwordInput.getAttribute('type');
+        const newType = currentType === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', newType);
         
         // Enhanced eye icon animation
         const icon = this.querySelector('i');
         icon.style.transform = 'scale(0.8)';
         
         setTimeout(() => {
-            if (type === 'text') {
+            if (newType === 'text') {
                 icon.classList.remove('fa-eye');
                 icon.classList.add('fa-eye-slash');
                 this.setAttribute('aria-label', 'Hide password');

@@ -928,7 +928,6 @@
 
             // Initialize form enhancements
             initFormFocusEffects();
-            initPasswordToggle();
             initFormValidation();
             initSocialLogin();
         }
@@ -948,25 +947,7 @@
             });
         }
 
-        function initPasswordToggle() {
-            const toggleBtn = document.querySelector('.toggle-password');
-            const passwordInput = document.getElementById('password');
-            
-            if (toggleBtn && passwordInput) {
-                toggleBtn.addEventListener('click', function() {
-                    const type = passwordInput.type === 'password' ? 'text' : 'password';
-                    passwordInput.type = type;
-                    
-                    const icon = this.querySelector('i');
-                    icon.classList.toggle('fa-eye');
-                    icon.classList.toggle('fa-eye-slash');
-                    
-                    this.setAttribute('aria-label', 
-                        type === 'password' ? 'Show password' : 'Hide password'
-                    );
-                });
-            }
-        }
+
 
         function initFormValidation() {
             const form = document.getElementById('loginForm');
