@@ -898,10 +898,423 @@ async function applyFilters() {
     }
 }
 
+/**
+ * Initialize gallery item click events
+ */
+function initGalleryItemEvents() {
+    console.log('Initializing gallery item click events');
+    
+    // Use event delegation to handle gallery item clicks
+    document.addEventListener('click', function(e) {
+        const galleryItem = e.target.closest('.gallery-item');
+        
+        if (galleryItem) {
+            e.preventDefault();
+            console.log('Gallery item clicked:', galleryItem);
+            
+            // Extract data from the gallery item
+            const itemData = extractGalleryItemData(galleryItem);
+            
+            if (itemData) {
+                openGalleryItemModal(itemData);
+            }
+        }
+    });
+    
+    // Initialize modal close events
+    initModalCloseEvents();
+}
+
+/**
+ * Extract data from gallery item element
+ */
+function extractGalleryItemData(galleryItem) {
+    try {
+        const img = galleryItem.querySelector('.item-image img');
+        const title = galleryItem.querySelector('.item-title');
+        const description = galleryItem.querySelector('.item-description');
+        const author = galleryItem.querySelector('.item-author span');
+        const authorAvatar = galleryItem.querySelector('.author-avatar');
+        const stats = galleryItem.querySelectorAll('.stat-item');
+        
+        return {
+            title: title ? title.textContent.trim() : 'Untitled',
+            description: description ? description.textContent.trim() : 'No description available',
+            image: img ? img.src : '',
+            author: {
+                name: author ? author.textContent.replace('by ', '').trim() : 'Unknown',
+                avatar: authorAvatar ? authorAvatar.src : '/images/default-avatar.svg'
+            },
+            stats: {
+                likes: stats[0] ? stats[0].textContent.trim() : '0',
+                views: stats[1] ? stats[1].textContent.trim() : '0',
+                comments: stats[2] ? stats[2].textContent.trim() : '0'
+            },
+            category: galleryItem.dataset.category || 'general',
+            brand: galleryItem.dataset.brand || '',
+            style: galleryItem.dataset.style || ''
+        };
+    } catch (error) {
+        console.error('Error extracting gallery item data:', error);
+        return null;
+    }
+}
+
+/**
+ * Open gallery item modal with data
+ */
+function openGalleryItemModal(itemData) {
+    console.log('Opening gallery item modal with data:', itemData);
+    
+    const modal = document.getElementById('imagePreview');
+    
+    if (!modal) {
+        console.error('Image preview modal not found!');
+        return;
+    }
+    
+    // Update modal structure if needed
+    updateModalStructure(modal);
+    
+    // Fill modal content
+    const previewImage = modal.querySelector('#previewImage');
+    const previewTitle = modal.querySelector('.preview-title');
+    const previewDescription = modal.querySelector('.preview-description');
+    const authorAvatar = modal.querySelector('.author-avatar');
+    const authorName = modal.querySelector('.author-name');
+    const likesCount = modal.querySelector('#likesCount');
+    const commentsCount = modal.querySelector('#commentsCount');
+    
+    if (previewImage) {
+        previewImage.src = itemData.image;
+        previewImage.alt = itemData.title;
+    }
+    if (previewTitle) previewTitle.textContent = itemData.title;
+    if (previewDescription) previewDescription.textContent = itemData.description;
+    if (authorAvatar) {
+        authorAvatar.src = itemData.author.avatar;
+        authorAvatar.alt = itemData.author.name;
+        authorAvatar.onerror = function() {
+            this.src = '/images/default-avatar.svg';
+        };
+    }
+    if (authorName) authorName.textContent = itemData.author.name;
+    if (likesCount) likesCount.textContent = itemData.stats.likes;
+    if (commentsCount) commentsCount.textContent = itemData.stats.comments;
+    
+    // Set post date (mock data for now)
+    const postDate = modal.querySelector('.post-date');
+    if (postDate) postDate.textContent = 'Posted today';
+    
+    // Create tags display
+    const previewTags = modal.querySelector('.preview-tags');
+    if (previewTags) {
+        const tags = [];
+        if (itemData.category) tags.push(itemData.category);
+        if (itemData.brand) tags.push(itemData.brand);
+        if (itemData.style) tags.push(itemData.style);
+        
+        previewTags.innerHTML = tags.map(tag => 
+            `<span class="tag">${tag}</span>`
+        ).join('');
+    }
+    
+    // Initialize modal interactive elements
+    initModalInteractions(modal, itemData);
+    
+    // Show modal
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+    
+    console.log('Gallery item modal opened successfully');
+}
+
+/**
+ * Initialize modal close events
+ */
+function initModalCloseEvents() {
+    const modal = document.getElementById('imagePreview');
+    
+    if (!modal) return;
+    
+    // Close button
+    const closeBtn = modal.querySelector('.close-preview');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function() {
+            closeGalleryModal();
+        });
+    }
+    
+    // Click outside modal to close
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeGalleryModal();
+        }
+    });
+    
+    // ESC key to close
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.style.display === 'block') {
+            closeGalleryModal();
+        }
+    });
+    
+    // Initialize share modal close events
+    const shareModal = document.getElementById('shareModal');
+    if (shareModal) {
+        const closeShareBtn = shareModal.querySelector('.close-share');
+        if (closeShareBtn) {
+            closeShareBtn.addEventListener('click', function() {
+                shareModal.style.display = 'none';
+            });
+        }
+        
+        shareModal.addEventListener('click', function(e) {
+            if (e.target === shareModal) {
+                shareModal.style.display = 'none';
+            }
+        });
+        
+        // Copy link functionality
+        const copyBtn = shareModal.querySelector('#copyLink');
+        if (copyBtn) {
+            copyBtn.addEventListener('click', function() {
+                const shareLink = shareModal.querySelector('#shareLink');
+                if (shareLink) {
+                    shareLink.select();
+                    document.execCommand('copy');
+                    this.textContent = '已複製！';
+                    setTimeout(() => {
+                        this.textContent = 'Copy Link';
+                    }, 2000);
+                }
+            });
+        }
+    }
+}
+
+/**
+ * Initialize modal interactions (like, comment, share)
+ */
+function initModalInteractions(modal, itemData) {
+    // Like button functionality
+    const likeBtn = modal.querySelector('#likeBtn');
+    if (likeBtn) {
+        likeBtn.onclick = function() {
+            const heartIcon = this.querySelector('i');
+            const likeCount = this.querySelector('#likesCount');
+            
+            if (heartIcon.classList.contains('far')) {
+                // Like the post
+                heartIcon.classList.remove('far');
+                heartIcon.classList.add('fas');
+                heartIcon.style.color = '#ff6b6b';
+                
+                let currentLikes = parseInt(likeCount.textContent) || 0;
+                likeCount.textContent = currentLikes + 1;
+                
+                console.log('Post liked');
+            } else {
+                // Unlike the post
+                heartIcon.classList.remove('fas');
+                heartIcon.classList.add('far');
+                heartIcon.style.color = '';
+                
+                let currentLikes = parseInt(likeCount.textContent) || 0;
+                likeCount.textContent = Math.max(0, currentLikes - 1);
+                
+                console.log('Post unliked');
+            }
+        };
+    }
+    
+    // Comment button functionality
+    const commentBtn = modal.querySelector('#commentBtn');
+    if (commentBtn) {
+        commentBtn.onclick = function() {
+            const commentsSection = modal.querySelector('#commentsSection');
+            if (commentsSection) {
+                commentsSection.scrollIntoView({ behavior: 'smooth' });
+                
+                // Create a simple comment input if not exists
+                let commentInput = commentsSection.querySelector('.comment-input');
+                if (!commentInput) {
+                    const commentInputHtml = `
+                        <div class="comment-input" style="margin-top: 1rem; padding: 1rem; background: var(--dark-surface); border-radius: 8px;">
+                            <textarea placeholder="寫下你的留言..." style="width: 100%; background: var(--mid-surface); border: 1px solid var(--carbon-gray); border-radius: 4px; padding: 0.5rem; color: white; resize: vertical; min-height: 80px;"></textarea>
+                            <div style="margin-top: 0.5rem; text-align: right;">
+                                <button class="btn btn-primary btn-small" onclick="submitComment(this)">發送留言</button>
+                            </div>
+                        </div>
+                    `;
+                    commentsSection.insertAdjacentHTML('beforeend', commentInputHtml);
+                }
+            }
+            console.log('Comment button clicked');
+        };
+    }
+    
+    // Share button functionality
+    const shareBtn = modal.querySelector('#shareBtn');
+    if (shareBtn) {
+        shareBtn.onclick = function() {
+            // Create share modal or use existing share functionality
+            const shareModal = document.getElementById('shareModal');
+            if (shareModal) {
+                // Update share link with current post data
+                const shareLink = shareModal.querySelector('#shareLink');
+                if (shareLink) {
+                    shareLink.value = `${window.location.origin}/gallery?post=${encodeURIComponent(itemData.title)}`;
+                }
+                
+                shareModal.style.display = 'block';
+                console.log('Share modal opened');
+            } else {
+                // Fallback: copy to clipboard
+                const shareUrl = `${window.location.origin}/gallery?post=${encodeURIComponent(itemData.title)}`;
+                navigator.clipboard.writeText(shareUrl).then(() => {
+                    alert('分享連結已複製到剪貼板！');
+                }).catch(() => {
+                    alert('無法複製連結，請手動複製：' + shareUrl);
+                });
+            }
+        };
+    }
+}
+
+/**
+ * Submit comment function
+ */
+function submitComment(button) {
+    const commentInput = button.closest('.comment-input').querySelector('textarea');
+    const commentText = commentInput.value.trim();
+    
+    if (!commentText) {
+        alert('請輸入留言內容');
+        return;
+    }
+    
+    // Check if user is logged in
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    if (!isLoggedIn) {
+        alert('請先登入才能留言');
+        return;
+    }
+    
+    // Create comment element
+    const commentHtml = `
+        <div class="comment-item" style="padding: 1rem; background: var(--mid-surface); border-radius: 8px; margin-bottom: 1rem;">
+            <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                <img src="/images/default-avatar.svg" alt="User" style="width: 32px; height: 32px; border-radius: 50%; margin-right: 0.5rem;">
+                <div>
+                    <span style="color: white; font-weight: 500;">當前用戶</span>
+                    <span style="color: var(--metallic-silver); font-size: 0.8rem; margin-left: 0.5rem;">剛剛</span>
+                </div>
+            </div>
+            <p style="color: var(--metallic-silver); margin: 0;">${commentText}</p>
+        </div>
+    `;
+    
+    // Add comment to comments list
+    const commentsList = button.closest('#commentsSection').querySelector('.comments-list');
+    if (commentsList) {
+        commentsList.insertAdjacentHTML('afterbegin', commentHtml);
+    }
+    
+    // Clear input
+    commentInput.value = '';
+    
+    // Update comment count
+    const commentsCount = document.querySelector('#commentsCount');
+    if (commentsCount) {
+        let currentCount = parseInt(commentsCount.textContent) || 0;
+        commentsCount.textContent = currentCount + 1;
+    }
+    
+    console.log('Comment submitted:', commentText);
+}
+
+/**
+ * Update modal structure for new layout
+ */
+function updateModalStructure(modal) {
+    const previewMain = modal.querySelector('.preview-main');
+    
+    if (!previewMain) return;
+    
+    // Check if we already have the new structure
+    if (previewMain.querySelector('.preview-image-section')) return;
+    
+    // Get existing elements
+    const previewImage = modal.querySelector('#previewImage');
+    const previewInfo = modal.querySelector('.preview-info');
+    
+    if (!previewImage || !previewInfo) return;
+    
+    // Create new structure
+    const imageSection = document.createElement('div');
+    imageSection.className = 'preview-image-section';
+    imageSection.appendChild(previewImage);
+    
+    const infoSection = document.createElement('div');
+    infoSection.className = 'preview-info-section';
+    
+    // Create info wrapper
+    const infoWrapper = document.createElement('div');
+    infoWrapper.className = 'preview-info';
+    
+    // Create header section
+    const headerSection = document.createElement('div');
+    headerSection.className = 'preview-header';
+    
+    // Create content body section
+    const contentBody = document.createElement('div');
+    contentBody.className = 'preview-content-body';
+    
+    // Move existing content to appropriate sections
+    const title = previewInfo.querySelector('.preview-title');
+    const authorInfo = previewInfo.querySelector('.author-info') || previewInfo.querySelector('.preview-meta');
+    const description = previewInfo.querySelector('.preview-description');
+    const tags = previewInfo.querySelector('.preview-tags');
+    const stats = previewInfo.querySelector('.preview-stats');
+    
+    if (title) headerSection.appendChild(title);
+    if (authorInfo) headerSection.appendChild(authorInfo);
+    if (description) contentBody.appendChild(description);
+    if (tags) contentBody.appendChild(tags);
+    
+    infoWrapper.appendChild(headerSection);
+    infoWrapper.appendChild(contentBody);
+    if (stats) infoWrapper.appendChild(stats);
+    
+    infoSection.appendChild(infoWrapper);
+    
+    // Clear and rebuild preview-main
+    previewMain.innerHTML = '';
+    previewMain.appendChild(imageSection);
+    previewMain.appendChild(infoSection);
+}
+
+/**
+ * Close gallery modal
+ */
+function closeGalleryModal() {
+    const modal = document.getElementById('imagePreview');
+    
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+        console.log('Gallery modal closed');
+    }
+}
+
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded, starting gallery page initialization');
     initGalleryPage();
+    
+    // Initialize gallery item click events
+    initGalleryItemEvents();
     
     // Additional safety check to ensure upload button events are properly bound
     setTimeout(() => {
