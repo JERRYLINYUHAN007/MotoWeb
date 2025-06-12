@@ -1,3 +1,4 @@
+/* Code Function: FINAL PROJECT MotoWeb      Date: 02/06/2025, created by: JERRY */
 /**
  * 配置文件 - 環境變數與系統設定
  * 用於在不使用.env文件的情況下管理環境變數

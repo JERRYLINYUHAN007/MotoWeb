@@ -1,3 +1,4 @@
+/* Code Function: FINAL PROJECT MotoWeb      Date: 02/06/2025, created by: JERRY */
 /**
  * MotoWeb Showcase Page Functionality
  * Handles modification showcase display, filtering, and interactions

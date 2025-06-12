@@ -1,3 +1,4 @@
+/* Code Function: FINAL PROJECT MotoWeb      Date: 02/06/2025, created by: JERRY */
 /**
  * MotoWeb Registration Page Functionality
  * Handles form validation, password strength checking, and actual registration API connection

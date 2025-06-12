@@ -1,3 +1,4 @@
+/* Code Function: FINAL PROJECT MotoWeb      Date: 02/06/2025, created by: JERRY */
 // API 基礎 URL
 const API_BASE_URL = '/api';
 

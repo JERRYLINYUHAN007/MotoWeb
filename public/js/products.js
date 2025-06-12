@@ -1,3 +1,4 @@
+/* Code Function: FINAL PROJECT MotoWeb      Date: 02/06/2025, created by: JERRY */
 // 產品頁面JavaScript - 從API獲取產品資料
 let products = [];
 let allProducts = [];

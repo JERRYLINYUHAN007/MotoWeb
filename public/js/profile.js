@@ -1,3 +1,4 @@
+/* Code Function: FINAL PROJECT MotoWeb      Date: 02/06/2025, created by: JERRY */
 /**
  * profile.js
  * Handles various interaction functions on the profile page

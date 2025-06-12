@@ -1,3 +1,4 @@
+/* Code Function: FINAL PROJECT MotoWeb      Date: 02/06/2025, created by: JERRY */
 /**
  * Image Slider Functionality
  * Provides responsive, touch-supported image slider functionality

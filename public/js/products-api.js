@@ -1,3 +1,4 @@
+/* Code Function: FINAL PROJECT MotoWeb      Date: 02/06/2025, created by: JERRY */
 // 產品 API 處理和搜尋功能
 class ProductsAPI {
     constructor() {

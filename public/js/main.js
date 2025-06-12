@@ -1,3 +1,4 @@
+/* Code Function: FINAL PROJECT MotoWeb      Date: 02/06/2025, created by: JERRY */
 /**
  * MotoWeb Main JavaScript Functions
  * Handles navigation, scroll effects, dynamic content loading, etc.

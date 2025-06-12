@@ -1,3 +1,4 @@
+/* Code Function: FINAL PROJECT MotoWeb      Date: 02/06/2025, created by: JERRY */
 document.addEventListener('DOMContentLoaded', function() {
     // 全局變量
     let currentModel = 'all';

@@ -1,3 +1,4 @@
+<!-- Code Function: FINAL PROJECT MotoWeb      Date: 02/06/2025, created by: JERRY -->
 # MotoWeb 翻譯對照表
 
 ## 導航選單

@@ -1,3 +1,4 @@
+/* Code Function: FINAL PROJECT MotoWeb      Date: 02/06/2025, created by: JERRY */
 /**
  * Settings Page Functionality and Interactions
  * Now using MongoDB API instead of mock data

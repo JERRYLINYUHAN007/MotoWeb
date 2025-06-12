@@ -1,3 +1,4 @@
+/* Code Function: FINAL PROJECT MotoWeb      Date: 02/06/2025, created by: JERRY */
 /**
  * Authentication State Management - Unified handling of user login/logout states
  * This file is responsible for managing authentication states and UI updates across all pages

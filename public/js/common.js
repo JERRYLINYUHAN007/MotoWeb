@@ -1,3 +1,4 @@
+/* Code Function: FINAL PROJECT MotoWeb      Date: 02/06/2025, created by: JERRY */
 // Insert navigation bar (only for pages without a navbar)
 function insertNavbar() {
     // Check if page already has a navbar, if so, skip insertion

@@ -1,3 +1,4 @@
+/* Code Function: FINAL PROJECT MotoWeb      Date: 02/06/2025, created by: JERRY */
 // 渲染活動網格
 function renderEventsGrid(events) {
     const eventsGrid = document.getElementById('eventsGrid');
