@@ -1,10 +1,18 @@
 /**
  * Settings Page Functionality and Interactions
+ * Now using MongoDB API instead of mock data
  */
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Check authentication first
+    if (!isUserLoggedIn()) {
+        window.location.href = '/login.html';
+        return;
+    }
+    
     // Initialize all functions
     initSettingsNavigation();
+    loadUserSettings();
     initAccountForm();
     initPasswordForm();
     initNotificationSettings();
@@ -26,6 +34,139 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 100);
     }
 });
+
+/**
+ * Check if user is logged in
+ */
+function isUserLoggedIn() {
+    return localStorage.getItem('isLoggedIn') === 'true' && localStorage.getItem('token');
+}
+
+/**
+ * Load user settings from MongoDB API
+ */
+async function loadUserSettings() {
+    try {
+        const userData = await fetchUserProfile();
+        populateSettingsForm(userData);
+    } catch (error) {
+        console.error('Error loading user settings:', error);
+        showNotification('Failed to load user settings', 'error');
+        
+        // Fallback to localStorage data
+        populateWithLocalStorageData();
+    }
+}
+
+/**
+ * Fetch user profile from MongoDB API
+ */
+async function fetchUserProfile() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        throw new Error('No authentication token');
+    }
+    
+    const response = await fetch('/api/profile', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    
+    if (!response.ok) {
+        if (response.status === 401) {
+            // Token expired, redirect to login
+            localStorage.clear();
+            window.location.href = '/login.html';
+            return;
+        }
+        throw new Error('Failed to fetch profile');
+    }
+    
+    return await response.json();
+}
+
+/**
+ * Populate settings form with user data
+ */
+function populateSettingsForm(userData) {
+    // Account Settings
+    const displayNameInput = document.getElementById('displayName');
+    if (displayNameInput) {
+        displayNameInput.value = userData.profile?.displayName || userData.username || '';
+    }
+    
+    const emailInput = document.getElementById('email');
+    if (emailInput) {
+        emailInput.value = userData.email || '';
+    }
+    
+    const bioInput = document.getElementById('bio');
+    if (bioInput) {
+        bioInput.value = userData.profile?.bio || '';
+    }
+    
+    const locationInput = document.getElementById('location');
+    if (locationInput) {
+        locationInput.value = userData.profile?.location || '';
+    }
+    
+    // Privacy Settings
+    const publicProfileCheckbox = document.getElementById('publicProfile');
+    if (publicProfileCheckbox) {
+        publicProfileCheckbox.checked = userData.profile?.privacy?.publicProfile !== false;
+    }
+    
+    const showEmailCheckbox = document.getElementById('showEmail');
+    if (showEmailCheckbox) {
+        showEmailCheckbox.checked = userData.profile?.privacy?.showEmail === true;
+    }
+    
+    const showLocationCheckbox = document.getElementById('showLocation');
+    if (showLocationCheckbox) {
+        showLocationCheckbox.checked = userData.profile?.privacy?.showLocation !== false;
+    }
+    
+    // Notification Settings (use defaults if not set)
+    const emailNotificationsCheckbox = document.getElementById('emailNotifications');
+    if (emailNotificationsCheckbox) {
+        emailNotificationsCheckbox.checked = userData.preferences?.emailNotifications !== false;
+    }
+    
+    const commentNotificationsCheckbox = document.getElementById('commentNotifications');
+    if (commentNotificationsCheckbox) {
+        commentNotificationsCheckbox.checked = userData.preferences?.commentNotifications !== false;
+    }
+    
+    const likeNotificationsCheckbox = document.getElementById('likeNotifications');
+    if (likeNotificationsCheckbox) {
+        likeNotificationsCheckbox.checked = userData.preferences?.likeNotifications !== false;
+    }
+    
+    const eventNotificationsCheckbox = document.getElementById('eventNotifications');
+    if (eventNotificationsCheckbox) {
+        eventNotificationsCheckbox.checked = userData.preferences?.eventNotifications !== false;
+    }
+}
+
+/**
+ * Fallback to localStorage data if API fails
+ */
+function populateWithLocalStorageData() {
+    const username = localStorage.getItem('username') || '';
+    const email = localStorage.getItem('userEmail') || '';
+    
+    const displayNameInput = document.getElementById('displayName');
+    if (displayNameInput) {
+        displayNameInput.value = username;
+    }
+    
+    const emailInput = document.getElementById('email');
+    if (emailInput) {
+        emailInput.value = email;
+    }
+}
 
 /**
  * Initialize settings navigation
@@ -75,18 +216,80 @@ function initAccountForm() {
     const form = document.getElementById('profileSettingsForm');
     if (!form) return;
     
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', async function(e) {
         e.preventDefault();
         
         const formData = new FormData(this);
-        const data = Object.fromEntries(formData.entries());
+        const data = {
+            profile: {
+                displayName: formData.get('displayName'),
+                bio: formData.get('bio'),
+                location: formData.get('location')
+            }
+        };
         
-        // Simulate API request
-        console.log('Update account information:', data);
+        // If email changed, include it in the update
+        const emailInput = document.getElementById('email');
+        const originalEmail = localStorage.getItem('userEmail');
+        if (emailInput && emailInput.value !== originalEmail) {
+            data.email = emailInput.value;
+        }
         
-        // Show success message
-        showNotification('Profile updated successfully', 'success');
+        try {
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Saving...';
+            
+            // Update profile via API
+            await updateProfileData(data);
+            
+            // Update localStorage if email changed
+            if (data.email) {
+                localStorage.setItem('userEmail', data.email);
+            }
+            
+            // Show success message
+            showNotification('Profile updated successfully', 'success');
+            
+        } catch (error) {
+            console.error('Update account error:', error);
+            showNotification(error.message || 'Failed to update profile', 'error');
+            
+        } finally {
+            // Restore button state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Save Changes';
+        }
     });
+}
+
+/**
+ * Update profile data via API
+ */
+async function updateProfileData(userData) {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        throw new Error('No authentication token');
+    }
+    
+    const response = await fetch('/api/profile', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(userData)
+    });
+    
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to update profile');
+    }
+    
+    return await response.json();
 }
 
 /**
@@ -96,7 +299,7 @@ function initPasswordForm() {
     const form = document.getElementById('passwordSettingsForm');
     if (!form) return;
     
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', async function(e) {
         e.preventDefault();
         
         const formData = new FormData(this);
@@ -121,15 +324,62 @@ function initPasswordForm() {
             return;
         }
         
-        // Simulate API request
-        console.log('Update password');
-        
-        // Clear form
-        this.reset();
-        
-        // Show success message
-        showNotification('Password updated successfully', 'success');
+        try {
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Changing...';
+            
+            // Update password via API
+            await updatePassword(currentPassword, newPassword);
+            
+            // Clear form
+            this.reset();
+            
+            // Show success message
+            showNotification('Password updated successfully', 'success');
+            
+        } catch (error) {
+            console.error('Update password error:', error);
+            showNotification(error.message || 'Failed to update password', 'error');
+            
+        } finally {
+            // Restore button state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Change Password';
+        }
     });
+}
+
+/**
+ * Update password via API
+ */
+async function updatePassword(currentPassword, newPassword) {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        throw new Error('No authentication token');
+    }
+    
+    const response = await fetch('/api/change-password', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            currentPassword,
+            newPassword
+        })
+    });
+    
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to update password');
+    }
+    
+    return await response.json();
 }
 
 /**
@@ -139,17 +389,40 @@ function initNotificationSettings() {
     const form = document.getElementById('notificationSettingsForm');
     if (!form) return;
     
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', async function(e) {
         e.preventDefault();
         
         const formData = new FormData(this);
-        const settings = Object.fromEntries(formData.entries());
+        const preferences = {
+            emailNotifications: formData.has('emailNotifications'),
+            commentNotifications: formData.has('commentNotifications'),
+            likeNotifications: formData.has('likeNotifications'),
+            eventNotifications: formData.has('eventNotifications')
+        };
         
-        // Simulate API request
-        console.log('Update notification settings:', settings);
-        
-        // Show success message
-        showNotification('Notification settings updated', 'success');
+        try {
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Saving...';
+            
+            // Update preferences via API
+            await updateProfileData({ preferences });
+            
+            // Show success message
+            showNotification('Notification settings updated', 'success');
+            
+        } catch (error) {
+            console.error('Update notification settings error:', error);
+            showNotification(error.message || 'Failed to update notification settings', 'error');
+            
+        } finally {
+            // Restore button state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+        }
     });
 }
 
@@ -160,17 +433,39 @@ function initPrivacySettings() {
     const form = document.getElementById('privacySettingsForm');
     if (!form) return;
     
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', async function(e) {
         e.preventDefault();
         
         const formData = new FormData(this);
-        const settings = Object.fromEntries(formData.entries());
+        const privacy = {
+            publicProfile: formData.has('publicProfile'),
+            showEmail: formData.has('showEmail'),
+            showLocation: formData.has('showLocation')
+        };
         
-        // Simulate API request
-        console.log('Update privacy settings:', settings);
-        
-        // Show success message
-        showNotification('Privacy settings updated', 'success');
+        try {
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Saving...';
+            
+            // Update privacy settings via API
+            await updateProfileData({ profile: { privacy } });
+            
+            // Show success message
+            showNotification('Privacy settings updated', 'success');
+            
+        } catch (error) {
+            console.error('Update privacy settings error:', error);
+            showNotification(error.message || 'Failed to update privacy settings', 'error');
+            
+        } finally {
+            // Restore button state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+        }
     });
 }
 

@@ -1218,6 +1218,48 @@ app.post('/api/profile/cover', authenticate, upload.single('cover'), async (req,
   }
 });
 
+// 更改密碼 API
+app.put('/api/change-password', authenticate, async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({ error: 'Current password and new password are required' });
+    }
+    
+    // 獲取用戶當前的密碼
+    const user = await db.collection('users').findOne({ _id: req.user._id });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    
+    // 驗證當前密碼
+    const isCurrentPasswordValid = await bcrypt.compare(currentPassword, user.password);
+    if (!isCurrentPasswordValid) {
+      return res.status(400).json({ error: 'Current password is incorrect' });
+    }
+    
+    // 密碼複雜度檢查
+    if (newPassword.length < 8) {
+      return res.status(400).json({ error: 'New password must be at least 8 characters' });
+    }
+    
+    // 加密新密碼
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+    
+    // 更新密碼
+    await db.collection('users').updateOne(
+      { _id: req.user._id },
+      { $set: { password: hashedNewPassword } }
+    );
+    
+    res.json({ message: 'Password updated successfully' });
+  } catch (error) {
+    console.error('Error changing password:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 // 改裝案例 API
 app.get('/api/showcase', async (req, res) => {
   try {

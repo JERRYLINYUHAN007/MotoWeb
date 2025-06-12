@@ -1,6 +1,7 @@
 /**
  * profile.js
  * Handles various interaction functions on the profile page
+ * Now using MongoDB API instead of mock data
  */
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -85,33 +86,67 @@ function initEditProfileModal() {
     
     // Form submission handling
     if (profileForm) {
-        profileForm.addEventListener('submit', function(e) {
+        profileForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
             // Get form data
             const formData = new FormData(this);
             const userData = {
-                displayName: formData.get('displayName'),
-                bio: formData.get('bio'),
-                location: formData.get('location'),
-                privacy: {
-                    showEmail: formData.get('showEmail') === 'on',
-                    showLocation: formData.get('showLocation') === 'on',
-                    publicProfile: formData.get('publicProfile') === 'on'
+                profile: {
+                    bio: formData.get('bio'),
+                    location: formData.get('location'),
+                    displayName: formData.get('displayName'),
+                    privacy: {
+                        showEmail: formData.get('showEmail') === 'on',
+                        showLocation: formData.get('showLocation') === 'on',
+                        publicProfile: formData.get('publicProfile') === 'on'
+                    }
                 }
             };
             
-            // Update profile display on page
-            updateProfileDisplay(userData);
-            
-            // Simulate API request to save data
-            console.log('Saved profile data:', userData);
-            
-            // Show success notification and close modal
-            showNotification('Profile updated successfully', 'success');
-            closeEditModal();
+            try {
+                // Update profile via API
+                await updateProfileData(userData);
+                
+                // Update profile display on page
+                updateProfileDisplay(userData.profile);
+                
+                // Show success notification and close modal
+                showNotification('個人資料更新成功', 'success');
+                closeEditModal();
+                
+            } catch (error) {
+                console.error('Profile update error:', error);
+                showNotification('更新失敗，請稍後再試', 'error');
+            }
         });
     }
+}
+
+/**
+ * Update profile data via API
+ */
+async function updateProfileData(userData) {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        throw new Error('No authentication token');
+    }
+    
+    const response = await fetch('/api/profile', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(userData)
+    });
+    
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to update profile');
+    }
+    
+    return await response.json();
 }
 
 /**
@@ -162,10 +197,9 @@ function showNotification(message, type = 'info') {
 }
 
 /**
- * Load user profile data
+ * Load user profile data from MongoDB API
  */
-function loadUserProfile() {
-    // Get current user from localStorage
+async function loadUserProfile() {
     const currentUser = getCurrentUser();
     const isLoggedIn = isUserLoggedIn();
     
@@ -178,511 +212,344 @@ function loadUserProfile() {
         return;
     }
     
-    // Get user data based on current logged in user
-    const userData = getUserData(currentUser.username);
+    try {
+        // Get user data from MongoDB API
+        const userData = await fetchUserProfile();
+        
+        // Fill basic profile info
+        fillProfileInfo(userData);
+        
+        // Fill additional content (stats, activities, etc.)
+        fillProfileContent(userData);
+        
+        // Populate edit form with current data
+        populateEditForm(userData);
+        
+    } catch (error) {
+        console.error('Error loading profile:', error);
+        
+        // If API fails, show error message
+        showNotification('載入個人資料失敗，請重新整理頁面', 'error');
+        
+        // Fill with basic info from localStorage as fallback
+        fillBasicInfoFromLocalStorage();
+    }
+}
 
-    // Fill basic profile info
-    document.getElementById('profileUsername').firstChild.textContent = userData.username;
-    document.getElementById('userBio').textContent = userData.bio;
-    document.getElementById('memberSince').textContent = userData.memberSince;
-    document.getElementById('userLocation').textContent = userData.location;
-    document.getElementById('userEmail').textContent = userData.email;
+/**
+ * Fetch user profile from MongoDB API
+ */
+async function fetchUserProfile() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        throw new Error('No authentication token');
+    }
     
-    // Fill stats
-    document.getElementById('bikeCount').textContent = userData.stats.bikes;
-    document.getElementById('modCount').textContent = userData.stats.mods;
-    document.getElementById('photoCount').textContent = userData.stats.photos;
-    document.getElementById('postCount').textContent = userData.stats.posts;
+    const response = await fetch('/api/profile', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    
+    if (!response.ok) {
+        if (response.status === 401) {
+            // Token expired, redirect to login
+            localStorage.clear();
+            window.location.href = '/login.html';
+            return;
+        }
+        throw new Error('Failed to fetch profile');
+    }
+    
+    return await response.json();
+}
 
+/**
+ * Fill profile info from user data
+ */
+function fillProfileInfo(userData) {
+    // Basic info
+    const usernameElement = document.getElementById('profileUsername');
+    if (usernameElement && usernameElement.firstChild) {
+        usernameElement.firstChild.textContent = userData.username || '用戶';
+    }
+    
+    const bioElement = document.getElementById('userBio');
+    if (bioElement) {
+        bioElement.textContent = userData.profile?.bio || 'This user has not set up a personal bio yet...';
+    }
+    
+    const memberSinceElement = document.getElementById('memberSince');
+    if (memberSinceElement) {
+        const joinDate = new Date(userData.createdAt || userData.profile?.joinDate);
+        memberSinceElement.textContent = formatDate(joinDate);
+    }
+    
+    const locationElement = document.getElementById('userLocation');
+    if (locationElement) {
+        locationElement.textContent = userData.profile?.location || 'Location not set';
+    }
+    
+    const emailElement = document.getElementById('userEmail');
+    if (emailElement) {
+        // Show email based on privacy settings
+        if (userData.profile?.privacy?.showEmail !== false) {
+            emailElement.textContent = userData.email || '';
+        } else {
+            emailElement.textContent = 'Private';
+        }
+    }
+}
+
+/**
+ * Fill profile content (stats, activities, etc.)
+ */
+function fillProfileContent(userData) {
+    // Fill stats (default to 0 for now, can be enhanced later)
+    const stats = userData.profile?.stats || { bikes: 0, mods: 0, photos: 0, posts: 0 };
+    
+    document.getElementById('bikeCount').textContent = stats.bikes || 0;
+    document.getElementById('modCount').textContent = stats.mods || 0;
+    document.getElementById('photoCount').textContent = stats.photos || 0;
+    document.getElementById('postCount').textContent = stats.posts || 0;
+    
     // Fill tags
     const tagsContainer = document.getElementById('userTags');
-    tagsContainer.innerHTML = userData.tags.map(tag => 
+    const tags = userData.profile?.interests || ['Motorcycle Enthusiast', 'Beginner'];
+    tagsContainer.innerHTML = tags.map(tag => 
         `<span class="tag">${tag}</span>`
     ).join('');
-
+    
     // Fill recent activities
     const activityList = document.getElementById('activityList');
-    activityList.innerHTML = userData.activities.map(activity => 
+    const joinDate = formatDate(new Date(userData.createdAt || Date.now()));
+    const activities = userData.profile?.activities || [
+        `Joined MotoWeb community - ${joinDate}`,
+        'Started exploring motorcycle modification world - ' + joinDate,
+        'Welcome to MotoWeb! - ' + joinDate
+    ];
+    
+    activityList.innerHTML = activities.map(activity => 
         `<li>${activity}</li>`
     ).join('');
-
+    
     // Fill achievements
     const achievementsList = document.getElementById('achievementsList');
-    achievementsList.innerHTML = userData.achievements.map(achievement => `
+    const achievements = userData.profile?.achievements || [
+        {
+            icon: 'fa-user-plus',
+            title: 'New Member',
+            description: 'Welcome to MotoWeb community'
+        },
+        {
+            icon: 'fa-star',
+            title: 'Explorer',
+            description: 'Started your motorcycle modification journey'
+        }
+    ];
+    
+    achievementsList.innerHTML = achievements.map(achievement => `
         <div class="achievement">
             <i class="fas ${achievement.icon}" style="color: var(--primary-color); font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
             <h4 style="color: var(--primary-color); margin-bottom: 0.5rem;">${achievement.title}</h4>
             <p style="color: var(--metallic-silver); font-size: 0.9rem;">${achievement.description}</p>
         </div>
     `).join('');
+    
+    // Fill empty states for bikes, posts, photos, likes
+    fillEmptyStates();
+}
 
-    // Fill bikes grid
+/**
+ * Fill empty states for content tabs
+ */
+function fillEmptyStates() {
+    // Bikes grid
     const bikesGrid = document.getElementById('bikesGrid');
-    const addBikeCard = bikesGrid.querySelector('.add-bike-card');
-    const bikeCards = userData.bikes.map(bike => `
-        <div class="bike-card" style="
-            background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
-            border-radius: var(--border-radius-md);
-            border: 1px solid var(--carbon-gray);
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-        ">
-            <div style="margin-bottom: 1rem;">
-                <div style="
-                    height: 120px;
-                    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-                    border-radius: var(--border-radius-sm);
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    color: white;
-                    font-size: 1.5rem;
-                    margin-bottom: 1rem;
-                ">
-                    <i class="fas fa-motorcycle"></i>
-                </div>
-                <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">${bike.name}</h3>
-                <p style="color: var(--metallic-silver); margin-bottom: 0.5rem;">Year: ${bike.year}</p>
-                <p style="color: var(--metallic-silver);">${bike.mods}</p>
-            </div>
-            <div style="display: flex; gap: 0.5rem;">
-                <button class="btn btn-secondary" style="flex: 1; font-size: 0.9rem;">Edit</button>
-                <button class="btn btn-primary" style="flex: 1; font-size: 0.9rem;">View Details</button>
-            </div>
-        </div>
-    `).join('');
-    
-    // Insert bike cards before the add button
-    if (addBikeCard) {
-    addBikeCard.insertAdjacentHTML('beforebegin', bikeCards);
-    }
-
-    // Fill posts list
-    const postsList = document.getElementById('postsList');
-    postsList.innerHTML = userData.posts.map(post => `
-        <div class="post-item" style="
-            background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
-            border-radius: var(--border-radius-md);
-            border: 1px solid var(--carbon-gray);
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            transition: all 0.3s ease;
-        ">
-            <div class="post-header" style="margin-bottom: 1rem;">
-                <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">${post.title}</h3>
-                <p class="post-date" style="color: var(--metallic-silver); font-size: 0.9rem;">${post.date}</p>
-            </div>
-            <div class="post-content" style="color: var(--text-color); margin-bottom: 1rem; line-height: 1.6;">
-                ${post.excerpt}
-            </div>
-            <div class="post-stats" style="
-                display: flex;
-                gap: 1rem;
-                margin-bottom: 1rem;
-                color: var(--metallic-silver);
-                font-size: 0.9rem;
-            ">
-                <span><i class="fas fa-comment" style="color: var(--primary-color); margin-right: 0.5rem;"></i>${post.comments} comments</span>
-                <span><i class="fas fa-heart" style="color: var(--primary-color); margin-right: 0.5rem;"></i>${post.likes} likes</span>
-            </div>
-            <div style="display: flex; gap: 0.5rem;">
-                <button class="btn btn-secondary preview-btn" data-post-id="${post.title}" style="flex: 1; font-size: 0.9rem;">Preview</button>
-                <button class="btn btn-primary" style="flex: 1; font-size: 0.9rem;">View Full Post</button>
-            </div>
-        </div>
-    `).join('');
-
-    // Fill photos grid
-    const photosGrid = document.getElementById('photosGrid');
-    const addPhotoCard = photosGrid.querySelector('.add-photo-card');
-    
-    // Create photo cards and insert before the add button
-    const photoCards = userData.photos.map(photo => `
-        <div class="photo-card" style="
-            background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
-            border-radius: var(--border-radius-md);
-            border: 1px solid var(--carbon-gray);
-            transition: all 0.3s ease;
-            overflow: hidden;
-        ">
-            <div style="
-                height: 200px;
-                background: url('${photo.thumbnail}') center/cover;
-                position: relative;
-            ">
-                <div style="
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    right: 0;
-                    background: linear-gradient(transparent, rgba(0,0,0,0.8));
-                    padding: 1rem;
-                    color: white;
-                ">
-                    <h4 style="margin: 0 0 0.5rem 0; font-size: 0.9rem;">${photo.title}</h4>
-                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem;">
-                        <span style="color: var(--metallic-silver);">${photo.uploadDate}</span>
-                        <span style="color: var(--primary-color);"><i class="fas fa-heart"></i> ${photo.likes}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `).join('');
-    
-    if (addPhotoCard) {
-        addPhotoCard.insertAdjacentHTML('beforebegin', photoCards);
-    }
-
-    // Fill likes grid
-    const likesGrid = document.getElementById('likesGrid');
-    
-    // Create liked items cards
-    const likedItemsHTML = userData.likedItems.map(item => `
-        <div class="liked-item-card" style="
-            background: linear-gradient(145deg, var(--mid-surface), var(--dark-surface));
-            border-radius: var(--border-radius-md);
-            border: 1px solid var(--carbon-gray);
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-        ">
-            <div style="margin-bottom: 1rem;">
-                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-                    <i class="fas ${item.type === 'modification' ? 'fa-wrench' : item.type === 'discussion' ? 'fa-comments' : 'fa-camera'}" style="color: var(--primary-color);"></i>
-                    <span style="color: var(--metallic-silver); font-size: 0.9rem; text-transform: capitalize;">${item.type}</span>
-                </div>
-                <h4 style="color: var(--primary-color); margin-bottom: 0.5rem; font-size: 1.1rem;">${item.title}</h4>
-                <p style="color: var(--metallic-silver); margin-bottom: 1rem; font-size: 0.9rem;">by ${item.author} • ${item.date}</p>
-            </div>
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="color: var(--primary-color); font-size: 0.9rem;">
-                    <i class="fas fa-heart"></i> ${item.likes} likes
-                </span>
-                <button class="btn btn-secondary" style="font-size: 0.8rem; padding: 0.5rem 1rem;">View</button>
-            </div>
-        </div>
-    `).join('');
-    
-    likesGrid.innerHTML = likedItemsHTML;
-
-    // Fill form with user data
-    document.getElementById('displayName').value = userData.username;
-    document.getElementById('bio').value = userData.bio;
-    document.getElementById('location').value = userData.location;
-}
-
-/**
- * Get user data based on username
- */
-function getUserData(username) {
-    // Define different user profiles
-    const userProfiles = {
-        'admin': {
-            username: 'admin',
-            bio: 'System Administrator - Managing MotoWeb community platform with extensive experience in motorcycle technology and system administration.',
-            memberSince: '2024-01-01',
-            location: 'System HQ',
-            email: 'admin@motoweb.com',
-            stats: {
-                bikes: 5,
-                mods: 50,
-                photos: 100,
-                posts: 25
-            },
-            tags: ['System Admin', 'All Categories', 'Platform Management', 'Technical Support', 'Community Moderation'],
-            activities: [
-                'System maintenance and updates - 2024-06-25',
-                'Reviewed community guidelines - 2024-06-24',
-                'Added new product categories - 2024-06-23',
-                'Moderated community discussions - 2024-06-22',
-                'Updated platform security features - 2024-06-21'
-            ],
-            achievements: [
-                {
-                    icon: 'fa-crown',
-                    title: 'Platform Administrator',
-                    description: 'System administrator and community manager'
-                },
-                {
-                    icon: 'fa-shield-alt',
-                    title: 'Security Expert',
-                    description: 'Ensures platform security and user safety'
-                },
-                {
-                    icon: 'fa-users-cog',
-                    title: 'Community Manager',
-                    description: 'Manages and supports the riding community'
-                }
-            ],
-            bikes: [
-                {
-                    name: 'BMW S1000RR',
-                    year: '2024',
-                    mods: '15 modifications'
-                },
-                {
-                    name: 'Ducati Panigale V4',
-                    year: '2023',
-                    mods: '12 modifications'
-                },
-                {
-                    name: 'Kawasaki Ninja ZX-10R',
-                    year: '2024',
-                    mods: '10 modifications'
-                }
-            ],
-            posts: [
-                {
-                    title: 'Community Guidelines Update',
-                    date: '2024-06-25',
-                    excerpt: 'Important updates to our community posting guidelines and moderation policies...',
-                    comments: 15,
-                    likes: 45
-                },
-                {
-                    title: 'New Features Release Notes',
-                    date: '2024-06-20',
-                    excerpt: 'Exciting new features have been added to improve your MotoWeb experience...',
-                    comments: 22,
-                    likes: 67
-                }
-            ],
-            photos: [
-                {
-                    id: 1,
-                    title: 'BMW S1000RR - Track Configuration',
-                    thumbnail: 'https://via.placeholder.com/300x200/333/fff?text=BMW+S1000RR',
-                    uploadDate: '2024-06-25',
-                    likes: 89
-                },
-                {
-                    id: 2,
-                    title: 'Ducati Panigale V4 - Street Setup',
-                    thumbnail: 'https://via.placeholder.com/300x200/333/fff?text=Ducati+V4',
-                    uploadDate: '2024-06-23',
-                    likes: 76
-                },
-                {
-                    id: 3,
-                    title: 'Platform Features Overview',
-                    thumbnail: 'https://via.placeholder.com/300x200/333/fff?text=Platform+Guide',
-                    uploadDate: '2024-06-20',
-                    likes: 54
-                }
-            ],
-            likedItems: [
-                {
-                    type: 'modification',
-                    title: 'Advanced ECU Tuning Guide',
-                    author: 'TechMaster',
-                    likes: 156,
-                    date: '2024-06-24'
-                },
-                {
-                    type: 'discussion',
-                    title: 'Best Practices for Track Days',
-                    author: 'RaceProRider',
-                    likes: 234,
-                    date: '2024-06-22'
-                },
-                {
-                    type: 'photo',
-                    title: 'Stunning Sunset Ride Photography',
-                    author: 'PhotoRider',
-                    likes: 189,
-                    date: '2024-06-21'
-                }
-            ]
-        },
-        'JohnRider': {
-            username: 'JohnRider',
-            bio: 'Passionate motorcycle enthusiast with 5+ years of modification experience. Love sharing knowledge and helping fellow riders.',
-            memberSince: '2024-01-15',
-            location: 'Taipei City',
-            email: 'john.rider@email.com',
-            stats: {
-                bikes: 2,
-                mods: 15,
-                photos: 24,
-                posts: 8
-            },
-            tags: ['Sport Bikes', 'Performance', 'LED Lighting', 'Suspension', 'Exhaust'],
-            activities: [
-                'Added new Monster Factory Z2 PRO Fork - 2024-06-20',
-                'Posted photos of JET modification - 2024-06-18', 
-                'Shared brake system upgrade experience - 2024-06-15',
-                'Liked KOSO LED Tail Light review - 2024-06-12',
-                'Commented on suspension setup guide - 2024-06-10'
-            ],
-            achievements: [
-                {
-                    icon: 'fa-wrench',
-                    title: 'Modification Master',
-                    description: 'Completed 10+ modifications'
-                },
-                {
-                    icon: 'fa-users', 
-                    title: 'Community Contributor',
-                    description: 'Made 50+ helpful comments'
-                },
-                {
-                    icon: 'fa-camera',
-                    title: 'Photo Enthusiast', 
-                    description: 'Shared 20+ photos'
-                }
-            ],
-            bikes: [
-                {
-                    name: 'SYM JET SL 125',
-                    year: '2023',
-                    mods: '8 modifications'
-                },
-                {
-                    name: 'YAMAHA FORCE 2.0',
-                    year: '2024', 
-                    mods: '7 modifications'
-                }
-            ],
-            posts: [
-                {
-                    title: 'Monster Factory Z2 PRO Fork Review',
-                    date: '2024-06-21',
-                    excerpt: 'After installing the new fork, the handling has improved significantly...',
-                    comments: 8,
-                    likes: 25
-                },
-                {
-                    title: 'LED Tail Light Installation Guide', 
-                    date: '2024-06-16',
-                    excerpt: 'Step-by-step guide for installing the KOSO LED tail light...',
-                    comments: 12,
-                    likes: 34
-                }
-            ],
-            photos: [
-                {
-                    id: 1,
-                    title: 'SYM JET SL 125 - LED Lighting Setup',
-                    thumbnail: 'https://via.placeholder.com/300x200/333/fff?text=LED+Lights',
-                    uploadDate: '2024-06-20',
-                    likes: 15
-                },
-                {
-                    id: 2,
-                    title: 'YAMAHA FORCE Exhaust Upgrade',
-                    thumbnail: 'https://via.placeholder.com/300x200/333/fff?text=Exhaust',
-                    uploadDate: '2024-06-18',
-                    likes: 23
-                },
-                {
-                    id: 3,
-                    title: 'Monster Factory Z2 PRO Installation',
-                    thumbnail: 'https://via.placeholder.com/300x200/333/fff?text=Fork+Upgrade',
-                    uploadDate: '2024-06-15',
-                    likes: 31
-                }
-            ],
-            likedItems: [
-                {
-                    type: 'modification',
-                    title: 'KOSO LED Tail Light Review',
-                    author: 'TechRider99',
-                    likes: 45,
-                    date: '2024-06-19'
-                },
-                {
-                    type: 'discussion',
-                    title: 'Best Exhaust Systems for Sport Bikes',
-                    author: 'BikeExpert',
-                    likes: 67,
-                    date: '2024-06-17'
-                },
-                {
-                    type: 'photo',
-                    title: 'Honda CBR1000RR Track Build',
-                    author: 'SpeedDemon',
-                    likes: 89,
-                    date: '2024-06-15'
-                }
-            ]
+    if (bikesGrid) {
+        const addBikeCard = bikesGrid.querySelector('.add-bike-card');
+        if (addBikeCard) {
+            addBikeCard.innerHTML = `
+                <button class="add-btn">
+                    <i class="fas fa-plus"></i>
+                    <span>新增機車</span>
+                </button>
+            `;
         }
-    };
+    }
     
-    // Return user data or default to JohnRider if user not found
-    return userProfiles[username] || userProfiles['JohnRider'];
+    // Posts list
+    const postsList = document.getElementById('postsList');
+    if (postsList) {
+        postsList.innerHTML = '<p style="text-align: center; color: var(--metallic-silver); padding: 2rem;">尚未發表任何文章</p>';
+    }
+    
+    // Photos grid
+    const photosGrid = document.getElementById('photosGrid');
+    if (photosGrid) {
+        const addPhotoCard = photosGrid.querySelector('.add-photo-card');
+        if (addPhotoCard) {
+            addPhotoCard.innerHTML = `
+                <button class="add-btn">
+                    <i class="fas fa-plus"></i>
+                    <span>新增照片</span>
+                </button>
+            `;
+        }
+    }
+    
+    // Likes grid
+    const likesGrid = document.getElementById('likesGrid');
+    if (likesGrid) {
+        likesGrid.innerHTML = '<p style="text-align: center; color: var(--metallic-silver); padding: 2rem;">尚未按讚任何內容</p>';
+    }
 }
 
 /**
- * Update profile display
+ * Populate edit form with current user data
  */
-function updateProfileDisplay(userData) {
-    // Update username
+function populateEditForm(userData) {
+    const displayNameInput = document.getElementById('displayName');
+    if (displayNameInput) {
+        displayNameInput.value = userData.profile?.displayName || userData.username || '';
+    }
+    
+    const bioInput = document.getElementById('bio');
+    if (bioInput) {
+        bioInput.value = userData.profile?.bio || '';
+    }
+    
+    const locationInput = document.getElementById('location');
+    if (locationInput) {
+        locationInput.value = userData.profile?.location || '';
+    }
+    
+    // Privacy settings
+    const showEmailCheckbox = document.getElementById('showEmail');
+    if (showEmailCheckbox) {
+        showEmailCheckbox.checked = userData.profile?.privacy?.showEmail !== false;
+    }
+    
+    const showLocationCheckbox = document.getElementById('showLocation');
+    if (showLocationCheckbox) {
+        showLocationCheckbox.checked = userData.profile?.privacy?.showLocation !== false;
+    }
+    
+    const publicProfileCheckbox = document.getElementById('publicProfile');
+    if (publicProfileCheckbox) {
+        publicProfileCheckbox.checked = userData.profile?.privacy?.publicProfile !== false;
+    }
+}
+
+/**
+ * Fill basic info from localStorage as fallback
+ */
+function fillBasicInfoFromLocalStorage() {
+    const username = localStorage.getItem('username') || '用戶';
+    const email = localStorage.getItem('userEmail') || '';
+    
     const usernameElement = document.getElementById('profileUsername');
     if (usernameElement && usernameElement.firstChild) {
-        usernameElement.firstChild.textContent = userData.displayName;
+        usernameElement.firstChild.textContent = username;
     }
     
-    // Update bio
+    const emailElement = document.getElementById('userEmail');
+    if (emailElement) {
+        emailElement.textContent = email;
+    }
+    
     const bioElement = document.getElementById('userBio');
     if (bioElement) {
-        bioElement.textContent = userData.bio;
+        bioElement.textContent = '歡迎來到 MotoWeb！請編輯您的個人資料來介紹自己。';
     }
     
-    // Update location
     const locationElement = document.getElementById('userLocation');
     if (locationElement) {
-        locationElement.textContent = userData.location;
+        locationElement.textContent = '請設定您的所在位置';
     }
+    
+    const memberSinceElement = document.getElementById('memberSince');
+    if (memberSinceElement) {
+        memberSinceElement.textContent = '最近';
+    }
+    
+    // Fill with default values
+    fillEmptyStates();
+}
+
+/**
+ * Update profile display after successful edit
+ */
+function updateProfileDisplay(profileData) {
+    if (profileData.bio) {
+        const bioElement = document.getElementById('userBio');
+        if (bioElement) {
+            bioElement.textContent = profileData.bio;
+        }
+    }
+    
+    if (profileData.location) {
+        const locationElement = document.getElementById('userLocation');
+        if (locationElement) {
+            locationElement.textContent = profileData.location;
+        }
+    }
+    
+    if (profileData.displayName) {
+        const usernameElement = document.getElementById('profileUsername');
+        if (usernameElement && usernameElement.firstChild) {
+            usernameElement.firstChild.textContent = profileData.displayName;
+        }
+    }
+}
+
+/**
+ * Format date for display
+ */
+function formatDate(date) {
+    return date.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+    });
+}
+
+/**
+ * Get current user from auth state
+ */
+function getCurrentUser() {
+    return {
+        username: localStorage.getItem('username'),
+        email: localStorage.getItem('userEmail'),
+        id: localStorage.getItem('userId')
+    };
+}
+
+/**
+ * Check if user is logged in
+ */
+function isUserLoggedIn() {
+    return localStorage.getItem('isLoggedIn') === 'true' && localStorage.getItem('token');
 }
 
 /**
  * Initialize post preview functionality
  */
 function initPostPreview() {
-    // Handle preview buttons using event delegation
+    // Add event listeners for preview buttons
     document.addEventListener('click', function(e) {
         if (e.target.classList.contains('preview-btn')) {
-            e.preventDefault();
-            
-            const postTitle = e.target.getAttribute('data-post-id');
-            const modal = document.getElementById('postPreviewModal');
-            
-            if (modal) {
-                // Fill modal with mock data
-                document.getElementById('previewPostTitle').textContent = postTitle;
-                document.getElementById('previewPostDate').textContent = '2024-06-21';
-                document.getElementById('previewPostCategory').textContent = 'Modification Experience';
-                document.getElementById('previewPostContent').innerHTML = 'This is a preview of the post content...';
-                document.getElementById('previewCommentCount').textContent = '8';
-                document.getElementById('previewLikeCount').textContent = '25';
-                document.getElementById('previewViewCount').textContent = '156';
-                
-                // Show modal
-                modal.style.display = 'flex';
-                document.body.style.overflow = 'hidden';
-            }
+            const postId = e.target.getAttribute('data-post-id');
+            showPostPreview(postId);
         }
     });
-    
-    // Close preview modal
-    const closePreviewBtns = document.querySelectorAll('#closePreviewModal, #closePreview');
-    closePreviewBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const modal = document.getElementById('postPreviewModal');
-            if (modal) {
-                modal.style.display = 'none';
-                document.body.style.overflow = '';
-            }
-        });
-    });
-    
-    // Close modal by clicking background
-    const previewModal = document.getElementById('postPreviewModal');
-    if (previewModal) {
-        previewModal.addEventListener('click', function(e) {
-            if (e.target === previewModal) {
-                previewModal.style.display = 'none';
-                document.body.style.overflow = '';
-            }
-        });
-    }
+}
+
+/**
+ * Show post preview modal
+ */
+function showPostPreview(postId) {
+    // This can be implemented later when we have actual posts
+    showNotification('文章預覽功能開發中', 'info');
 } 

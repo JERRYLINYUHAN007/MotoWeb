@@ -155,17 +155,48 @@ async function initializeAdminUser(db) {
       password: hashedPassword,
       role: 'admin',
       profile: {
-        displayName: '系統管理員',
-        bio: 'MotoMod 系統管理員',
+        displayName: 'System Administrator',
+        bio: 'System Administrator - Managing MotoWeb community platform with extensive experience in motorcycle technology and system administration.',
         avatar: '/images/default-avatar.svg',
-        location: '台灣',
+        location: 'System Headquarters',
         joinDate: new Date(),
+        interests: ['System Admin', 'All Categories', 'Platform Management', 'Technical Support', 'Community Moderation'],
+        privacy: {
+          showEmail: true,
+          showLocation: true,
+          publicProfile: true
+        },
         stats: {
-          posts: 0,
+          bikes: 5,
+          mods: 50,
+          photos: 100,
+          posts: 25,
           followers: 0,
           following: 0,
           likes: 0
-        }
+        },
+        activities: [
+          'System maintenance and updates - ' + new Date().toLocaleDateString('en-US'),
+          'Reviewed community guidelines - ' + new Date().toLocaleDateString('en-US'),
+          'Added new product categories - ' + new Date().toLocaleDateString('en-US')
+        ],
+        achievements: [
+          {
+            icon: 'fa-crown',
+            title: 'Platform Administrator',
+            description: 'System administrator and community manager'
+          },
+          {
+            icon: 'fa-shield-alt',
+            title: 'Security Expert',
+            description: 'Ensures platform security and user safety'
+          },
+          {
+            icon: 'fa-users-cog',
+            title: 'Community Manager',
+            description: 'Manages and supports the riding community'
+          }
+        ]
       },
       preferences: {
         notifications: true,
@@ -225,22 +256,53 @@ async function initializeSampleUsers(db) {
   
   const sampleUsers = [
     {
-      username: 'user',
-      email: 'user@motoweb.com',
+      username: 'JohnRider',
+      email: 'john.rider@email.com',
       password: hashedPassword,
       role: 'user',
       profile: {
-        displayName: '測試用戶',
-        bio: '摩托車改裝愛好者',
+        displayName: 'JohnRider',
+        bio: '熱愛機車改裝的騎士，擁有5年以上的改裝經驗。喜歡分享知識並幫助其他騎士。',
         avatar: '/images/default-avatar.svg',
-        location: '台北',
+        location: '台北市',
         joinDate: new Date(),
+        interests: ['運動型機車', '性能改裝', 'LED燈光', '避震系統', '排氣管'],
+        privacy: {
+          showEmail: true,
+          showLocation: true,
+          publicProfile: true
+        },
         stats: {
-          posts: 0,
+          bikes: 2,
+          mods: 15,
+          photos: 24,
+          posts: 8,
           followers: 0,
           following: 0,
           likes: 0
-        }
+        },
+        activities: [
+          '新增怪獸工廠 Z2 PRO 前叉 - ' + new Date().toLocaleDateString('zh-TW'),
+          '發布 JET 改裝照片 - ' + new Date().toLocaleDateString('zh-TW'),
+          '分享煞車系統升級經驗 - ' + new Date().toLocaleDateString('zh-TW')
+        ],
+        achievements: [
+          {
+            icon: 'fa-wrench',
+            title: '改裝大師',
+            description: '完成10+項改裝'
+          },
+          {
+            icon: 'fa-users',
+            title: '社群貢獻者',
+            description: '發表50+條有用評論'
+          },
+          {
+            icon: 'fa-camera',
+            title: '攝影愛好者',
+            description: '分享20+張照片'
+          }
+        ]
       },
       preferences: {
         notifications: true,

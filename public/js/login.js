@@ -433,6 +433,11 @@ function initFormSubmission() {
                 localStorage.setItem('userEmail', userData.email);
                 localStorage.setItem('userId', userData.id);
                 
+                // Set registration date if not already set (for existing users)
+                if (!localStorage.getItem('registrationDate')) {
+                    localStorage.setItem('registrationDate', new Date().toISOString().split('T')[0]);
+                }
+                
                 if (userData.token) {
                     localStorage.setItem('token', userData.token);
                 }

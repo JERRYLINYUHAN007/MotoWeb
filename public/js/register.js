@@ -197,6 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     localStorage.setItem('username', data.user.username);
                     localStorage.setItem('userEmail', data.user.email);
                     localStorage.setItem('userId', data.user.id);
+                    localStorage.setItem('registrationDate', new Date().toISOString().split('T')[0]);
                     
                     // Use auth-state.js to set authentication state
                     if (typeof window.authState !== 'undefined' && window.authState.setAuthState) {
