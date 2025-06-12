@@ -392,7 +392,7 @@ function handleLogout() {
         // Clear authentication data
         localStorage.removeItem('isLoggedIn');
         localStorage.removeItem('username');
-        localStorage.removeItem('userToken');
+        localStorage.removeItem('token');
         localStorage.removeItem('userRole');
         
         // Update UI
@@ -420,7 +420,7 @@ function setAuthState(userData) {
     try {
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('username', userData.username || 'User');
-        if (userData.token) localStorage.setItem('userToken', userData.token);
+        if (userData.token) localStorage.setItem('token', userData.token);
         if (userData.role) localStorage.setItem('userRole', userData.role);
         
         updateAuthUI();
@@ -445,7 +445,7 @@ function getCurrentUser() {
     
     return {
         username: localStorage.getItem('username'),
-        token: localStorage.getItem('userToken'),
+        token: localStorage.getItem('token'),
         role: localStorage.getItem('userRole')
     };
 }

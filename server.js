@@ -88,10 +88,25 @@ const authenticate = async (req, res, next) => {
     if (!token) {
       return res.status(401).json({ error: 'No authentication token provided' });
     }
+
+    // Check if it's a demo token
+    if (token.startsWith('demo_token_')) {
+      // For demo tokens, create a demo user
+      req.user = {
+        _id: 'demo_user_id',
+        username: 'Demo User',
+        email: 'demo@motoweb.com',
+        role: 'user',
+        profile: {
+          avatar: '/images/default-avatar.svg'
+        }
+      };
+      return next();
+    }
     
     const decoded = jwt.verify(token, JWT_SECRET);
     
-    const user = await db.collection('users').findOne({ _id: ObjectId(decoded.userId) });
+    const user = await db.collection('users').findOne({ _id: new ObjectId(decoded.userId) });
     
     if (!user) {
       return res.status(401).json({ error: 'User does not exist' });
@@ -101,11 +116,13 @@ const authenticate = async (req, res, next) => {
       _id: user._id,
       username: user.username,
       email: user.email,
-      role: user.role
+      role: user.role,
+      profile: user.profile
     };
     
     next();
   } catch (error) {
+    console.error('Authentication error:', error.message);
     res.status(401).json({ error: 'Invalid authentication token' });
   }
 };
@@ -938,9 +955,28 @@ app.post('/api/register', async (req, res) => {
 app.post('/api/login', async (req, res) => {
   try {
     const { username, password } = req.body;
+    const clientIP = req.ip || req.connection.remoteAddress || req.headers['x-forwarded-for'];
     
     if (!username || !password) {
       return res.status(400).json({ error: 'Username and password are required' });
+    }
+
+    // Check login attempts for this IP address
+    const loginAttemptKey = `login_attempts_${clientIP}`;
+    let loginAttempt = await db.collection('login_attempts').findOne({ 
+      key: loginAttemptKey 
+    });
+
+    const now = new Date();
+    
+    // Check if account is currently locked
+    if (loginAttempt && loginAttempt.lockedUntil && loginAttempt.lockedUntil > now) {
+      const remainingTime = Math.ceil((loginAttempt.lockedUntil - now) / 1000 / 60); // minutes
+      return res.status(429).json({ 
+        error: 'Too many failed login attempts. Please try again later.',
+        lockedUntil: loginAttempt.lockedUntil,
+        remainingMinutes: remainingTime
+      });
     }
     
     const user = await db.collection('users').findOne({
@@ -951,14 +987,19 @@ app.post('/api/login', async (req, res) => {
     });
     
     if (!user) {
+      await recordFailedLogin(clientIP, db);
       return res.status(401).json({ error: 'Invalid username or password' });
     }
     
     const isPasswordValid = await bcrypt.compare(password, user.password);
     
     if (!isPasswordValid) {
+      await recordFailedLogin(clientIP, db);
       return res.status(401).json({ error: 'Invalid username or password' });
     }
+
+    // Reset login attempts on successful login
+    await db.collection('login_attempts').deleteOne({ key: loginAttemptKey });
     
     const token = jwt.sign(
       { userId: user._id },
@@ -978,6 +1019,100 @@ app.post('/api/login', async (req, res) => {
     });
   } catch (error) {
     console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Helper function to record failed login attempts
+async function recordFailedLogin(clientIP, db) {
+  const loginAttemptKey = `login_attempts_${clientIP}`;
+  const now = new Date();
+  
+  let loginAttempt = await db.collection('login_attempts').findOne({ 
+    key: loginAttemptKey 
+  });
+
+  if (!loginAttempt) {
+    // First failed attempt
+    await db.collection('login_attempts').insertOne({
+      key: loginAttemptKey,
+      attempts: 1,
+      firstAttempt: now,
+      lastAttempt: now
+    });
+  } else {
+    // Reset attempts if it's been more than 24 hours since first attempt
+    const hoursSinceFirst = (now - loginAttempt.firstAttempt) / 1000 / 60 / 60;
+    
+    if (hoursSinceFirst > 24) {
+      await db.collection('login_attempts').updateOne(
+        { key: loginAttemptKey },
+        { 
+          $set: { 
+            attempts: 1, 
+            firstAttempt: now, 
+            lastAttempt: now,
+            lockedUntil: null
+          } 
+        }
+      );
+    } else {
+      const newAttempts = loginAttempt.attempts + 1;
+      let lockedUntil = null;
+      
+      // Lock account based on number of attempts
+      if (newAttempts >= 5) {
+        if (newAttempts === 5) {
+          // First lock: 1 minute
+          lockedUntil = new Date(now.getTime() + 1 * 60 * 1000);
+        } else {
+          // Subsequent locks: 5 minutes
+          lockedUntil = new Date(now.getTime() + 5 * 60 * 1000);
+        }
+      }
+      
+      await db.collection('login_attempts').updateOne(
+        { key: loginAttemptKey },
+        { 
+          $set: { 
+            attempts: newAttempts, 
+            lastAttempt: now,
+            lockedUntil: lockedUntil
+          } 
+        }
+      );
+    }
+  }
+}
+
+// Check login status (for lockdown)
+app.get('/api/login-status', async (req, res) => {
+  try {
+    const clientIP = req.ip || req.connection.remoteAddress || req.headers['x-forwarded-for'];
+    const loginAttemptKey = `login_attempts_${clientIP}`;
+    
+    const loginAttempt = await db.collection('login_attempts').findOne({ 
+      key: loginAttemptKey 
+    });
+
+    const now = new Date();
+    
+    if (loginAttempt && loginAttempt.lockedUntil && loginAttempt.lockedUntil > now) {
+      const remainingTime = Math.ceil((loginAttempt.lockedUntil - now) / 1000 / 60);
+      return res.json({
+        locked: true,
+        lockedUntil: loginAttempt.lockedUntil,
+        remainingMinutes: remainingTime,
+        attempts: loginAttempt.attempts
+      });
+    }
+    
+    res.json({
+      locked: false,
+      attempts: loginAttempt ? loginAttempt.attempts : 0
+    });
+  } catch (error) {
+    console.error('Error checking login status:', error);
     res.status(500).json({ error: 'Server error' });
   }
 });
@@ -1117,7 +1252,7 @@ app.get('/api/showcase', async (req, res) => {
 app.get('/api/showcase/:id', async (req, res) => {
   try {
     const showcase = await db.collection('showcases').findOne({
-      _id: ObjectId(req.params.id)
+      _id: new ObjectId(req.params.id)
     });
     
     if (!showcase) {
@@ -1170,7 +1305,7 @@ app.post('/api/showcase/:id/like', authenticate, async (req, res) => {
     // 檢查用戶是否已經點讚
     const liked = await db.collection('likes').findOne({
       userId: req.user._id,
-      showcaseId: ObjectId(showcaseId),
+      showcaseId: new ObjectId(showcaseId),
       type: 'showcase'
     });
     
@@ -1181,14 +1316,14 @@ app.post('/api/showcase/:id/like', authenticate, async (req, res) => {
     // 添加點讚記錄
     await db.collection('likes').insertOne({
       userId: req.user._id,
-      showcaseId: ObjectId(showcaseId),
+      showcaseId: new ObjectId(showcaseId),
       type: 'showcase',
       createdAt: new Date()
     });
     
     // 更新點讚計數
     await db.collection('showcases').updateOne(
-      { _id: ObjectId(showcaseId) },
+      { _id: new ObjectId(showcaseId) },
       { $inc: { likes: 1 } }
     );
     
@@ -1215,7 +1350,7 @@ app.post('/api/showcase/:id/comment', authenticate, async (req, res) => {
     };
     
     await db.collection('showcases').updateOne(
-      { _id: ObjectId(req.params.id) },
+      { _id: new ObjectId(req.params.id) },
       { 
         $push: { comments: comment },
         $inc: { commentCount: 1 }
@@ -1354,6 +1489,94 @@ app.get('/api/posts/:id', async (req, res) => {
     res.json(post);
   } catch (error) {
     console.error('獲取文章詳情時出錯:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// 添加留言到文章
+app.post('/api/posts/:id/comment', authenticate, async (req, res) => {
+  try {
+    const { content } = req.body;
+    const { ObjectId } = require('mongodb');
+    
+    if (!content || content.trim() === '') {
+      return res.status(400).json({ error: 'Comment content cannot be empty' });
+    }
+    
+    if (!ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ error: '無效的文章ID' });
+    }
+    
+    const comment = {
+      _id: new ObjectId(),
+      author: req.user.username,
+      authorId: req.user._id,
+      avatar: req.user.profile?.avatar || '/images/default-avatar.svg',
+      content: content.trim(),
+      createdAt: new Date()
+    };
+    
+    await db.collection('posts').updateOne(
+      { _id: new ObjectId(req.params.id) },
+      { 
+        $push: { comments: comment },
+        $inc: { commentCount: 1 }
+      }
+    );
+    
+    res.json({
+      message: 'Comment posted successfully',
+      comment
+    });
+  } catch (error) {
+    console.error('Error posting comment:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// 切換文章點讚狀態
+app.post('/api/posts/:id/like', authenticate, async (req, res) => {
+  try {
+    const { ObjectId } = require('mongodb');
+    
+    if (!ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ error: '無效的文章ID' });
+    }
+    
+    const postId = new ObjectId(req.params.id);
+    const userId = req.user._id;
+    
+    // Check if user already liked this post
+    const existingLike = await db.collection('likes').findOne({
+      postId,
+      userId
+    });
+    
+    if (existingLike) {
+      // Unlike the post
+      await db.collection('likes').deleteOne({ postId, userId });
+      await db.collection('posts').updateOne(
+        { _id: postId },
+        { $inc: { likes: -1 } }
+      );
+      
+      res.json({ message: 'Post unliked', liked: false });
+    } else {
+      // Like the post
+      await db.collection('likes').insertOne({
+        postId,
+        userId,
+        createdAt: new Date()
+      });
+      await db.collection('posts').updateOne(
+        { _id: postId },
+        { $inc: { likes: 1 } }
+      );
+      
+      res.json({ message: 'Post liked', liked: true });
+    }
+  } catch (error) {
+    console.error('Error liking post:', error);
     res.status(500).json({ error: 'Server error' });
   }
 });
@@ -1843,12 +2066,12 @@ app.get('/api/gallery/:id', async (req, res) => {
     
     // 增加瀏覽次數
     await db.collection('galleries').updateOne(
-      { _id: ObjectId(id) },
+      { _id: new ObjectId(id) },
       { $inc: { 'stats.views': 1 } }
     );
     
     // 獲取作品詳情
-    const item = await db.collection('galleries').findOne({ _id: ObjectId(id) });
+    const item = await db.collection('galleries').findOne({ _id: new ObjectId(id) });
     
     if (!item) {
       return res.status(404).json({ error: '作品不存在' });
@@ -1871,7 +2094,7 @@ app.post('/api/gallery/:id/like', authenticate, async (req, res) => {
       return res.status(400).json({ error: '無效的作品 ID' });
     }
     
-    const item = await db.collection('galleries').findOne({ _id: ObjectId(id) });
+    const item = await db.collection('galleries').findOne({ _id: new ObjectId(id) });
     
     if (!item) {
       return res.status(404).json({ error: '作品不存在' });
@@ -1900,12 +2123,12 @@ app.post('/api/gallery/:id/like', authenticate, async (req, res) => {
     }
     
     await db.collection('galleries').updateOne(
-      { _id: ObjectId(id) },
+      { _id: new ObjectId(id) },
       updateOperation
     );
     
     // 獲取更新後的點讚數
-    const updatedItem = await db.collection('galleries').findOne({ _id: ObjectId(id) });
+    const updatedItem = await db.collection('galleries').findOne({ _id: new ObjectId(id) });
     
     res.json({
       message,
@@ -1932,7 +2155,7 @@ app.post('/api/gallery/:id/comment', authenticate, async (req, res) => {
       return res.status(400).json({ error: '評論內容不能為空' });
     }
     
-    const item = await db.collection('galleries').findOne({ _id: ObjectId(id) });
+    const item = await db.collection('galleries').findOne({ _id: new ObjectId(id) });
     
     if (!item) {
       return res.status(404).json({ error: '作品不存在' });
@@ -1952,7 +2175,7 @@ app.post('/api/gallery/:id/comment', authenticate, async (req, res) => {
     
     // 添加評論並增加評論數
     await db.collection('galleries').updateOne(
-      { _id: ObjectId(id) },
+      { _id: new ObjectId(id) },
       {
         $push: { comments: newComment },
         $inc: { 'stats.comments': 1 }
@@ -2521,7 +2744,7 @@ app.get('/api/garage', authenticate, async (req, res) => {
 app.delete('/api/garage/:id', authenticate, async (req, res) => {
   try {
     const result = await db.collection('bikes').deleteOne({
-      _id: ObjectId(req.params.id),
+      _id: new ObjectId(req.params.id),
       userId: req.user._id
     });
     
@@ -2548,7 +2771,7 @@ app.put('/api/garage/:id', authenticate, upload.single('image'), async (req, res
     
     // 取得當前車輛資料
     const currentBike = await db.collection('bikes').findOne({
-      _id: ObjectId(req.params.id),
+      _id: new ObjectId(req.params.id),
       userId: req.user._id
     });
     
@@ -2578,14 +2801,14 @@ app.put('/api/garage/:id', authenticate, upload.single('image'), async (req, res
     // 如果設置為主要車輛，先將所有其他車輛設為非主要
     if (updateData.isMainBike) {
       await db.collection('bikes').updateMany(
-        { userId: req.user._id, _id: { $ne: ObjectId(req.params.id) } },
+        { userId: req.user._id, _id: { $ne: new ObjectId(req.params.id) } },
         { $set: { isMainBike: false } }
       );
     }
     
     // 更新數據庫
     await db.collection('bikes').updateOne(
-      { _id: ObjectId(req.params.id), userId: req.user._id },
+      { _id: new ObjectId(req.params.id), userId: req.user._id },
       { $set: updateData }
     );
     
@@ -2614,7 +2837,7 @@ app.post('/api/garage/:id/modifications', authenticate, upload.single('image'), 
     
     // 取得當前車輛資料
     const bike = await db.collection('bikes').findOne({
-      _id: ObjectId(req.params.id),
+      _id: new ObjectId(req.params.id),
       userId: req.user._id
     });
     
@@ -2642,7 +2865,7 @@ app.post('/api/garage/:id/modifications', authenticate, upload.single('image'), 
     
     // 更新數據庫
     await db.collection('bikes').updateOne(
-      { _id: ObjectId(req.params.id), userId: req.user._id },
+      { _id: new ObjectId(req.params.id), userId: req.user._id },
       { 
         $push: { modifications: modification },
         $set: { updatedAt: new Date() }
@@ -3081,3 +3304,15 @@ startServer();
 
 // Export the app for Vercel
 module.exports = app;
+
+// Test authentication endpoint
+app.get('/api/test-auth', authenticate, (req, res) => {
+  res.json({
+    message: 'Authentication successful',
+    user: {
+      username: req.user.username,
+      email: req.user.email,
+      id: req.user._id
+    }
+  });
+});

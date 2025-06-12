@@ -398,6 +398,15 @@ function initFormSubmission() {
                     };
                     
                     loginSuccess = true;
+                } else if (response.status === 429) {
+                    // Handle rate limiting
+                    const errorData = await response.json();
+                    if (errorData.lockedUntil) {
+                        showLoginLockdown(errorData.lockedUntil, errorData.remainingMinutes);
+                        return; // Exit early, don't try demo login
+                    } else {
+                        throw new Error(errorData.error || 'Too many attempts');
+                    }
                 } else {
                     const errorData = await response.json();
                     throw new Error(errorData.error || 'Backend login failed');
@@ -475,15 +484,18 @@ function initFormSubmission() {
             }
             
         } finally {
-            // Restore button state with animation
+            // Restore button state with animation (unless locked)
             loginForm.classList.remove('form-loading');
             
-            setTimeout(() => {
-                submitButton.disabled = false;
-                submitButton.innerHTML = originalButtonText;
-                submitButton.style.transform = '';
-                submitButton.style.background = '';
-            }, 300);
+            // Only restore button if not locked
+            if (!loginForm.classList.contains('form-locked')) {
+                setTimeout(() => {
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = originalButtonText;
+                    submitButton.style.transform = '';
+                    submitButton.style.background = '';
+                }, 300);
+            }
         }
     });
 }
@@ -723,6 +735,179 @@ function showNotification(message, type = 'info') {
     }, 4000);
 }
 
+/**
+ * Show login lockdown with countdown timer
+ */
+function showLoginLockdown(lockedUntil, initialMinutes) {
+    const loginForm = document.getElementById('loginForm');
+    const submitButton = loginForm.querySelector('button[type="submit"]');
+    
+    // Disable the form
+    loginForm.classList.add('form-locked');
+    submitButton.disabled = true;
+    
+    // Create lockdown overlay
+    let lockdownOverlay = document.querySelector('.lockdown-overlay');
+    if (!lockdownOverlay) {
+        lockdownOverlay = document.createElement('div');
+        lockdownOverlay.className = 'lockdown-overlay';
+        loginForm.appendChild(lockdownOverlay);
+    }
+    
+    // Calculate end time
+    const endTime = new Date(lockedUntil).getTime();
+    
+    // Update countdown display
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = endTime - now;
+        
+        if (distance < 0) {
+            // Lockdown expired
+            clearInterval(countdownInterval);
+            removeLockdown();
+            return;
+        }
+        
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+        lockdownOverlay.innerHTML = `
+            <div class="lockdown-content">
+                <i class="fas fa-lock" style="font-size: 48px; color: #ff4444; margin-bottom: 16px;"></i>
+                <h3 style="margin: 0 0 12px 0; color: #ff4444;">Login Suspended</h3>
+                <p style="margin: 0 0 16px 0; color: #666;">Too many failed attempts. Please try again later</p>
+                <div class="countdown-timer">
+                    <span class="countdown-time">${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}</span>
+                </div>
+                <p style="font-size: 12px; color: #999; margin-top: 12px;">Time Remaining</p>
+            </div>
+        `;
+    }
+    
+    // Initial display
+    updateCountdown();
+    
+    // Start countdown interval
+    const countdownInterval = setInterval(updateCountdown, 1000);
+    
+    // Store interval ID for cleanup
+    lockdownOverlay.dataset.intervalId = countdownInterval;
+    
+    // Show notification
+    const lockoutMinutes = Math.ceil((endTime - new Date().getTime()) / 1000 / 60);
+    showNotification(`Login suspended for ${lockoutMinutes} minute${lockoutMinutes > 1 ? 's' : ''} due to too many failed attempts`, 'error');
+}
+
+/**
+ * Remove login lockdown
+ */
+function removeLockdown() {
+    const loginForm = document.getElementById('loginForm');
+    const submitButton = loginForm.querySelector('button[type="submit"]');
+    const lockdownOverlay = document.querySelector('.lockdown-overlay');
+    
+    // Re-enable the form
+    loginForm.classList.remove('form-locked');
+    submitButton.disabled = false;
+    
+    // Remove overlay
+    if (lockdownOverlay) {
+        // Clear interval if exists
+        const intervalId = lockdownOverlay.dataset.intervalId;
+        if (intervalId) {
+            clearInterval(parseInt(intervalId));
+        }
+        
+        lockdownOverlay.style.opacity = '0';
+        setTimeout(() => {
+            if (lockdownOverlay.parentNode) {
+                lockdownOverlay.parentNode.removeChild(lockdownOverlay);
+            }
+        }, 300);
+    }
+    
+    showNotification('You can now try logging in again', 'success');
+}
+
+// Add lockdown styles
+document.addEventListener('DOMContentLoaded', function() {
+    const style = document.createElement('style');
+    style.textContent = `
+        .form-locked {
+            position: relative;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+        
+        .lockdown-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            border-radius: 16px;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+        
+        .lockdown-content {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .countdown-timer {
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            display: inline-block;
+            margin: 8px 0;
+            box-shadow: 0 4px 12px rgba(255, 68, 68, 0.3);
+        }
+        
+        .countdown-time {
+            font-family: 'Courier New', monospace;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .countdown-timer {
+            animation: pulse 2s infinite;
+        }
+    `;
+    document.head.appendChild(style);
+});
+
+// Check login status on page load
+async function checkLoginStatus() {
+    try {
+        const response = await fetch('/api/login-status');
+        if (response.ok) {
+            const data = await response.json();
+            if (data.locked) {
+                showLoginLockdown(data.lockedUntil, data.remainingMinutes);
+            } else if (data.attempts > 0) {
+                showNotification(`Warning: You have attempted to login ${data.attempts} time${data.attempts > 1 ? 's' : ''}. ${5 - data.attempts} more failed attempts will suspend login.`, 'warning');
+            }
+        }
+    } catch (error) {
+        console.log('Unable to check login status (possibly offline mode)');
+    }
+}
+
 // Check if already logged in
 document.addEventListener('DOMContentLoaded', function() {
     const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
@@ -737,5 +922,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.location.href = 'index.html';
             }, 500);
         }, 1000);
+    } else {
+        // Check if login is locked
+        checkLoginStatus();
     }
 }); 

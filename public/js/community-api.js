@@ -115,4 +115,59 @@ class CommunityAPI {
             throw error;
         }
     }
+
+    // 添加留言
+    async addComment(postId, content) {
+        try {
+            const token = localStorage.getItem('token');
+            
+            if (!token) {
+                throw new Error('請先登錄再留言');
+            }
+            
+            const response = await fetch(`${this.baseURL}/posts/${postId}/comment`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ content })
+            });
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || '添加留言失敗');
+            }
+            
+            return await response.json();
+        } catch (error) {
+            console.error('添加留言失敗:', error);
+            throw error;
+        }
+    }
+
+    // 點讚/取消點讚
+    async toggleLike(postId) {
+        try {
+            const token = localStorage.getItem('token');
+            
+            const response = await fetch(`${this.baseURL}/posts/${postId}/like`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token ? `Bearer ${token}` : ''
+                }
+            });
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || '點讚失敗');
+            }
+            
+            return await response.json();
+        } catch (error) {
+            console.error('點讚失敗:', error);
+            throw error;
+        }
+    }
 } 
