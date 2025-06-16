@@ -113,12 +113,12 @@ function initEditProfileModal() {
                 updateProfileDisplay(userData.profile);
                 
                 // Show success notification and close modal
-                showNotification('個人資料更新成功', 'success');
+                showNotification('Profile updated successfully', 'success');
                 closeEditModal();
                 
             } catch (error) {
                 console.error('Profile update error:', error);
-                showNotification('更新失敗，請稍後再試', 'error');
+                showNotification('Update failed, please try again later', 'error');
             }
         });
     }
@@ -230,7 +230,7 @@ async function loadUserProfile() {
         console.error('Error loading profile:', error);
         
         // If API fails, show error message
-        showNotification('載入個人資料失敗，請重新整理頁面', 'error');
+        showNotification('Failed to load profile, please refresh the page', 'error');
         
         // Fill with basic info from localStorage as fallback
         fillBasicInfoFromLocalStorage();
@@ -273,7 +273,7 @@ function fillProfileInfo(userData) {
     // Basic info
     const usernameElement = document.getElementById('profileUsername');
     if (usernameElement && usernameElement.firstChild) {
-        usernameElement.firstChild.textContent = userData.username || '用戶';
+        usernameElement.firstChild.textContent = userData.username || 'User';
     }
     
     const bioElement = document.getElementById('userBio');
@@ -374,7 +374,7 @@ function fillEmptyStates() {
             addBikeCard.innerHTML = `
                 <button class="add-btn">
                     <i class="fas fa-plus"></i>
-                    <span>新增機車</span>
+                    <span>Add New Bike</span>
                 </button>
             `;
         }
@@ -383,7 +383,7 @@ function fillEmptyStates() {
     // Posts list
     const postsList = document.getElementById('postsList');
     if (postsList) {
-        postsList.innerHTML = '<p style="text-align: center; color: var(--metallic-silver); padding: 2rem;">尚未發表任何文章</p>';
+        postsList.innerHTML = '<p style="text-align: center; color: var(--metallic-silver); padding: 2rem;">No posts published yet</p>';
     }
     
     // Photos grid
@@ -394,7 +394,7 @@ function fillEmptyStates() {
             addPhotoCard.innerHTML = `
                 <button class="add-btn">
                     <i class="fas fa-plus"></i>
-                    <span>新增照片</span>
+                    <span>Add New Photo</span>
                 </button>
             `;
         }
@@ -403,7 +403,7 @@ function fillEmptyStates() {
     // Likes grid
     const likesGrid = document.getElementById('likesGrid');
     if (likesGrid) {
-        likesGrid.innerHTML = '<p style="text-align: center; color: var(--metallic-silver); padding: 2rem;">尚未按讚任何內容</p>';
+        likesGrid.innerHTML = '<p style="text-align: center; color: var(--metallic-silver); padding: 2rem;">No liked items yet</p>';
     }
 }
 
@@ -447,7 +447,7 @@ function populateEditForm(userData) {
  * Fill basic info from localStorage as fallback
  */
 function fillBasicInfoFromLocalStorage() {
-    const username = localStorage.getItem('username') || '用戶';
+    const username = localStorage.getItem('username') || 'User';
     const email = localStorage.getItem('userEmail') || '';
     
     const usernameElement = document.getElementById('profileUsername');
@@ -462,17 +462,17 @@ function fillBasicInfoFromLocalStorage() {
     
     const bioElement = document.getElementById('userBio');
     if (bioElement) {
-        bioElement.textContent = '歡迎來到 MotoWeb！請編輯您的個人資料來介紹自己。';
+        bioElement.textContent = 'Welcome to MotoWeb! Please edit your profile to introduce yourself.';
     }
     
     const locationElement = document.getElementById('userLocation');
     if (locationElement) {
-        locationElement.textContent = '請設定您的所在位置';
+        locationElement.textContent = 'Please set your location';
     }
     
     const memberSinceElement = document.getElementById('memberSince');
     if (memberSinceElement) {
-        memberSinceElement.textContent = '最近';
+        memberSinceElement.textContent = 'Recently';
     }
     
     // Fill with default values
@@ -552,5 +552,5 @@ function initPostPreview() {
  */
 function showPostPreview(postId) {
     // This can be implemented later when we have actual posts
-    showNotification('文章預覽功能開發中', 'info');
+    showNotification('Post preview feature coming soon', 'info');
 } 
